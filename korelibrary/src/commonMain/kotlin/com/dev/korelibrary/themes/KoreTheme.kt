@@ -1,4 +1,4 @@
-package com.dev.korelibrary.theme
+package com.dev.korelibrary.themes
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -13,12 +13,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
-import com.dev.korelibrary.src.Components.Themes.Ripple.koreRipple
-import com.dev.korelibrary.theme.KoreDefaults.defaultDarkColorScheme
-import com.dev.korelibrary.theme.KoreDefaults.defaultLightColorScheme
-import com.dev.korelibrary.theme.KoreDefaults.defaultShapes
-import com.dev.korelibrary.theme.KoreDefaults.defaultSizes
-import com.dev.korelibrary.theme.KoreDefaults.defaultTypography
+import com.dev.korelibrary.themes.KoreDefaults.defaultDarkColorScheme
+import com.dev.korelibrary.themes.KoreDefaults.defaultLightColorScheme
+import com.dev.korelibrary.themes.KoreDefaults.defaultShapes
+import com.dev.korelibrary.themes.KoreDefaults.defaultSizes
+import com.dev.korelibrary.themes.ripple.koreRipple
 
 @Immutable
 data class KoreColors(
@@ -199,11 +198,9 @@ val LocalContentColor = staticCompositionLocalOf { defaultLightColorScheme.onBac
 fun KoreTheme(
     isDark: Boolean = isSystemInDarkTheme(),
     typography: KoreTypography = KoreDefaults.defaultTypography,
-    shapes: KoreShapes = KoreDefaults.defaultShapes,
+    shapes: KoreShapes = defaultShapes,
     content: @Composable () -> Unit
 ) {
-
-
 
     val colorScheme = if (isDark) defaultDarkColorScheme else defaultLightColorScheme
     val rippleIndication = remember(colorScheme) {

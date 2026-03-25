@@ -1,7 +1,6 @@
-package com.dev.korelibrary.theme
+package com.dev.korelibrary.themes.typography
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import kore.korelibrary.generated.resources.Res

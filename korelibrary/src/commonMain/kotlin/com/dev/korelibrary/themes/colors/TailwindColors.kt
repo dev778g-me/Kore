@@ -1,4 +1,4 @@
-package com.dev.korelibrary.theme.colors
+package com.dev.korelibrary.themes.colors
 
 
 import androidx.compose.ui.graphics.Color

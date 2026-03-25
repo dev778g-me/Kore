@@ -1,4 +1,4 @@
-package com.dev.korelibrary.src.Components.Themes.Ripple
+package com.dev.korelibrary.themes.ripple
 
 
 
@@ -21,6 +21,7 @@ import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.unit.Dp
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.math.sqrt
 
 
 // ok do trying to implement a ripple effect only using the foundation of jetpack compose
@@ -148,7 +149,7 @@ private class FoundationRippleNode(
         } else {
             val dx = maxOf(touchPosition.x, size.width - touchPosition.x)
             val dy = maxOf(touchPosition.y, size.height - touchPosition.y)
-            kotlin.math.sqrt(dx * dx + dy * dy) * 1.1f
+            sqrt(dx * dx + dy * dy) * 1.1f
         }
 
 

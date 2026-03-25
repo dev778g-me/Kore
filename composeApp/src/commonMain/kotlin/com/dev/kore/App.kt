@@ -1,24 +1,14 @@
 package com.dev.kore
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.dev.korelibrary.theme.KoreTheme
-import com.dev.korelibrary.theme.googleSansFlex
-import kore.composeapp.generated.resources.compose_multiplatform
-import kore.korelibrary.generated.resources.Res
-import org.jetbrains.compose.resources.painterResource
+import com.dev.korelibrary.themes.KoreTheme
 
 @Composable
 @Preview
@@ -27,7 +17,7 @@ fun App() {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
+            verticalArrangement = Arrangement.Center
         ){
             Text(
               //  fontFamily = googleSansFlex(),
