@@ -13,21 +13,18 @@ import com.dev.korelibrary.themes.typography.googleSansFlex
 import io.jadu.nivi.presentation.utils.squircleShape.SquircleShape
 
 object KoreDefaults{
-    val defaultLightColorScheme = KoreColors(
-        // background and background variant
-        background = RadixColors.Gray.Light.step5,
+    val defaultLightColorScheme = KoreColorScheme(
+        background = RadixColors.Gray.Light.step4,
         onBackGround = RadixColors.Gray.Light.step12,
-
         backGroundVariant = RadixColors.Gray.Light.step7,
         onBackGroundVariant = RadixColors.Gray.Light.step10,
-        accent = RadixColors.Blue.Light.step4,
-        // disabled colors
-        disabled = RadixColors.Gray.Light.step6,
+        accent = RadixColors.Blue.Light.step3,
+
+        disabled = RadixColors.Gray.Light.step5,
         onDisabled = RadixColors.Gray.Light.step8,
 
-        // primary colors
         primary = RadixColors.Blue.Light.step9,
-        onPrimary = RadixColors.Blue.Light.step2,
+        onPrimary = RadixColors.Blue.Light.step1,
 
         primaryContainer = RadixColors.Blue.Light.step6,
         onPrimaryContainer = RadixColors.Blue.Light.step10,
@@ -45,16 +42,16 @@ object KoreDefaults{
         // error colors
         error = RadixColors.Red.Light.step9,
         onError = RadixColors.Red.Light.step3,
-        transParentColor = Color.Companion.Transparent,
+        transparent = Color.Companion.Transparent,
 
-        surface = RadixColors.Gray.Light.step4,
+        surface = RadixColors.Gray.Light.step3,
         onSurface = RadixColors.Gray.Light.step11,
-        surfaceBright = RadixColors.Gray.Light.step2,
+        surfaceBright = RadixColors.Gray.Light.step1,
         onSurfaceBright = RadixColors.Gray.Light.step12
     )
 
 
-    val defaultDarkColorScheme = KoreColors(
+    val defaultDarkColorScheme = KoreColorScheme(
         // background and background variant
         background = RadixColors.Gray.Dark.step1,
         onBackGround = RadixColors.Gray.Dark.step12,
@@ -86,7 +83,7 @@ object KoreDefaults{
         // error colors
         error = RadixColors.Red.Dark.step9,
         onError = RadixColors.Red.Dark.step12,
-        transParentColor = Color.Companion.Transparent,
+        transparent = Color.Transparent,
         surface = RadixColors.Gray.Dark.step2,
         onSurface = RadixColors.Gray.Dark.step11,
 
