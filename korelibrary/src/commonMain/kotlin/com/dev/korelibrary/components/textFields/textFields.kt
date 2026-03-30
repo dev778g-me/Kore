@@ -63,7 +63,7 @@ internal fun BaseTextField(
 ) {
     val textFieldInteractionSource = remember { MutableInteractionSource() }
     val isFocused by textFieldInteractionSource.collectIsFocusedAsState()
-    val shouldShow = value.isNotEmpty() && isFocused
+    val shouldShow = value.isEmpty()
 
     val backGroundColor by animateColorAsState(
         targetValue = textFieldColors.containerColor(
@@ -100,7 +100,7 @@ internal fun BaseTextField(
     ) {
 
 
-        Column { ->
+        Column { 
             label?.let {
                CompositionLocalProvider(
                    values = arrayOf(
@@ -121,13 +121,14 @@ internal fun BaseTextField(
                         minHeight = TextFieldDefaults.minimumTextFieldHeight,
                         minWidth = TextFieldDefaults.minimumTextFieldWidth
                     )
+                    .clip(
+                        shape = shape
+                    )
                     .background(
                         shape = shape,
                         color = backGroundColor
                     )
-                    .clip(
-                        shape = shape
-                    )
+
                     .border(
                         color = borderColor,
                         width = width,
@@ -219,7 +220,7 @@ fun DecorationBox(
             )
             .height(IntrinsicSize.Min)
             .width(IntrinsicSize.Max)
-            .wrapContentWidth()
+
     ) {
         if (leadingIcon != null) {
             Box(
@@ -253,7 +254,7 @@ fun DecorationBox(
             )
         ) {
 
-            if (!shouldShowPlaceholder && placeholder != null) {
+            if (shouldShowPlaceholder && placeholder != null) {
                 placeholder()
 
             }
