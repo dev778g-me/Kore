@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
-import org.gradle.kotlin.dsl.project
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -39,7 +37,7 @@ kotlin {
             implementation(project(":korelibrary"))
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
-            implementation(libs.compose.material3)
+            implementation(libs.phosphoricon.compose)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)

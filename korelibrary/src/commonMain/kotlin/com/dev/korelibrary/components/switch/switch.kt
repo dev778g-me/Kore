@@ -147,7 +147,7 @@ object SwitchDefaults{
         disabledCheckedThumbColor: Color = KoreTheme.colorScheme.onDisabled,
         disabledUncheckedThumbColor: Color = KoreTheme.colorScheme.onDisabled,
         uncheckedBorderColor: Color = KoreTheme.colorScheme.onPrimary,
-        checkedBorderColor: Color = KoreTheme.colorScheme.transParentColor
+        checkedBorderColor: Color = KoreTheme.colorScheme.transparent
     ) = SwitchColors(
         checkedTrackColor = checkedTrackColor,
         unCheckedTrackColor = unCheckedTrackColor,

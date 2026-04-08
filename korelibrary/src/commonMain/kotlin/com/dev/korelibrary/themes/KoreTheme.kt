@@ -1,11 +1,11 @@
 package com.dev.korelibrary.themes
 
+import androidx.compose.foundation.IndicationNodeFactory
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -20,42 +20,31 @@ import com.dev.korelibrary.themes.KoreDefaults.defaultSizes
 import com.dev.korelibrary.themes.ripple.koreRipple
 
 @Immutable
-data class KoreColors(
-    // background
+data class KoreColorScheme(
     val background: Color,
     val onBackGround: Color,
     val backGroundVariant: Color,
     val onBackGroundVariant: Color,
-
-    // surface
     val surface: Color,
     val onSurface: Color,
     val surfaceBright: Color,
     val onSurfaceBright: Color,
-
-    // primary
     val primary: Color,
     val onPrimary: Color,
     val primaryContainer: Color,
     val onPrimaryContainer: Color,
-
-    // secondary
     val secondary: Color,
     val onSecondary: Color,
     val secondaryContainer: Color,
     val onSecondaryContainer: Color,
-
-    // semantic
+    val accent: Color,
     val success: Color,
     val onSuccess: Color,
     val error: Color,
     val onError: Color,
-
-    // misc
-    val accent: Color,
     val disabled: Color,
     val onDisabled: Color,
-    val transParentColor: Color,
+    val transparent: Color,
 )
 
 @Immutable
@@ -194,27 +183,46 @@ val LocalTextStyle = staticCompositionLocalOf { KoreTypography().titleSmall }
 
 val LocalContentColor = staticCompositionLocalOf { defaultLightColorScheme.onBackGround }
 
+
+
+
+@Composable
+fun AppTheme(
+    typography: KoreTypography = KoreDefaults.defaultTypography,
+    shapes: KoreShapes = KoreDefaults.defaultShapes,
+    darkTheme : Boolean = isSystemInDarkTheme(),
+    content:  @Composable () -> Unit
+){
+    val colorScheme = if(darkTheme) {defaultDarkColorScheme} else {defaultLightColorScheme}
+
+    KoreTheme(
+        colorScheme = colorScheme,
+        shapes = shapes,
+        typography = typography
+    ) {
+        content()
+    }
+}
+
+
+
+
 @Composable
 fun KoreTheme(
-    isDark: Boolean = isSystemInDarkTheme(),
     typography: KoreTypography = KoreDefaults.defaultTypography,
-    shapes: KoreShapes = defaultShapes,
+    shapes: KoreShapes = KoreDefaults.defaultShapes,
+    colorScheme : KoreColorScheme= KoreDefaults.defaultLightColorScheme,
+    ripple : IndicationNodeFactory = koreRipple(colorScheme.onBackGround),
     content: @Composable () -> Unit
 ) {
 
-    val colorScheme = if (isDark) defaultDarkColorScheme else defaultLightColorScheme
-    val rippleIndication = remember(colorScheme) {
-        koreRipple(
-            color = colorScheme.onBackGround
-        )
-    }
 
     CompositionLocalProvider(
         LocalKoreColorScheme provides colorScheme,
         LocalContentColor provides colorScheme.onBackGround,
         LocalKoreTypography provides typography,
         LocalTextStyle provides typography.titleSmall,
-        LocalIndication provides rippleIndication,
+        LocalIndication provides ripple,
         LocalKoreShapes provides shapes,
         LocalKoreSizes provides defaultSizes,
         content = content
@@ -226,7 +234,7 @@ fun KoreTheme(
 
 
 object KoreTheme {
-    val colorScheme : KoreColors
+    val colorScheme : KoreColorScheme
         @Composable get() = LocalKoreColorScheme.current
 
     val typography : KoreTypography

@@ -14,20 +14,20 @@ import io.jadu.nivi.presentation.utils.squircleShape.SquircleShape
 
 object KoreDefaults{
     val defaultLightColorScheme = KoreColorScheme(
-        background = RadixColors.Gray.Light.step4,
-        onBackGround = RadixColors.Gray.Light.step12,
-        backGroundVariant = RadixColors.Gray.Light.step7,
-        onBackGroundVariant = RadixColors.Gray.Light.step10,
-        accent = RadixColors.Blue.Light.step3,
+        background = RadixColors.Gray.light.step4,
+        onBackGround = RadixColors.Gray.light.step12,
+        backGroundVariant = RadixColors.Gray.light.step7,
+        onBackGroundVariant = RadixColors.Gray.light.step10,
+        accent = RadixColors.Blue.light.step3,
 
-        disabled = RadixColors.Gray.Light.step5,
-        onDisabled = RadixColors.Gray.Light.step8,
+        disabled = RadixColors.Gray.light.step5,
+        onDisabled = RadixColors.Gray.light.step8,
 
-        primary = RadixColors.Blue.Light.step9,
-        onPrimary = RadixColors.Blue.Light.step1,
+        primary = RadixColors.Blue.light.step9,
+        onPrimary = RadixColors.Blue.light.step1,
 
-        primaryContainer = RadixColors.Blue.Light.step6,
-        onPrimaryContainer = RadixColors.Blue.Light.step10,
+        primaryContainer = RadixColors.Blue.light.step6,
+        onPrimaryContainer = RadixColors.Blue.light.step10,
 
         secondary = TailwindColors.Sky500,
         onSecondary = TailwindColors.Sky100,
@@ -36,39 +36,39 @@ object KoreDefaults{
 
 
         // success colors
-        success = RadixColors.Green.Light.step9,
-        onSuccess = RadixColors.Green.Light.step3,
+        success = RadixColors.Green.light.step9,
+        onSuccess = RadixColors.Green.light.step3,
 
         // error colors
-        error = RadixColors.Red.Light.step9,
-        onError = RadixColors.Red.Light.step3,
+        error = RadixColors.Red.light.step9,
+        onError = RadixColors.Red.light.step3,
         transparent = Color.Companion.Transparent,
 
-        surface = RadixColors.Gray.Light.step3,
-        onSurface = RadixColors.Gray.Light.step11,
-        surfaceBright = RadixColors.Gray.Light.step1,
-        onSurfaceBright = RadixColors.Gray.Light.step12
+        surface = RadixColors.Gray.light.step3,
+        onSurface = RadixColors.Gray.light.step11,
+        surfaceBright = RadixColors.Gray.light.step1,
+        onSurfaceBright = RadixColors.Gray.light.step12
     )
 
 
     val defaultDarkColorScheme = KoreColorScheme(
         // background and background variant
-        background = RadixColors.Gray.Dark.step1,
-        onBackGround = RadixColors.Gray.Dark.step12,
+        background = RadixColors.Gray.dark.step1,
+        onBackGround = RadixColors.Gray.dark.step12,
 
-        backGroundVariant = RadixColors.Gray.Dark.step5,
-        onBackGroundVariant = RadixColors.Gray.Dark.step11,
-        accent = RadixColors.Blue.Dark.step1,
+        backGroundVariant = RadixColors.Gray.dark.step5,
+        onBackGroundVariant = RadixColors.Gray.dark.step11,
+        accent = RadixColors.Blue.dark.step1,
         // disabled colors
-        disabled = RadixColors.Gray.Dark.step3,
-        onDisabled = RadixColors.Gray.Dark.step8,
+        disabled = RadixColors.Gray.dark.step3,
+        onDisabled = RadixColors.Gray.dark.step8,
 
         // primary colors
-        primary = RadixColors.Blue.Dark.step9,
-        onPrimary = RadixColors.Blue.Dark.step12,
+        primary = RadixColors.Blue.dark.step9,
+        onPrimary = RadixColors.Blue.dark.step12,
 
-        primaryContainer = RadixColors.Blue.Dark.step3,
-        onPrimaryContainer = RadixColors.Blue.Dark.step10,
+        primaryContainer = RadixColors.Blue.dark.step3,
+        onPrimaryContainer = RadixColors.Blue.dark.step10,
 
         secondary = TailwindColors.Sky600,
         onSecondary = TailwindColors.Sky900,
@@ -77,18 +77,18 @@ object KoreDefaults{
 
 
         // success colors
-        success = RadixColors.Green.Dark.step9,
-        onSuccess = RadixColors.Green.Dark.step12,
+        success = RadixColors.Green.dark.step9,
+        onSuccess = RadixColors.Green.dark.step12,
 
         // error colors
-        error = RadixColors.Red.Dark.step9,
-        onError = RadixColors.Red.Dark.step12,
+        error = RadixColors.Red.dark.step9,
+        onError = RadixColors.Red.dark.step12,
         transparent = Color.Transparent,
-        surface = RadixColors.Gray.Dark.step2,
-        onSurface = RadixColors.Gray.Dark.step11,
+        surface = RadixColors.Gray.dark.step2,
+        onSurface = RadixColors.Gray.dark.step11,
 
-        surfaceBright = RadixColors.Gray.Dark.step3,
-        onSurfaceBright = RadixColors.Gray.Dark.step12
+        surfaceBright = RadixColors.Gray.dark.step3,
+        onSurfaceBright = RadixColors.Gray.dark.step12
     )
 
 
