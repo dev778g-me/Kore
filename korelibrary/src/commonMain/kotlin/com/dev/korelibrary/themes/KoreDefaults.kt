@@ -29,19 +29,19 @@ object KoreDefaults{
         primaryContainer = RadixColors.Blue.light.step6,
         onPrimaryContainer = RadixColors.Blue.light.step10,
 
-        secondary = TailwindColors.Sky500,
-        onSecondary = TailwindColors.Sky100,
-        secondaryContainer = TailwindColors.Sky300,
-        onSecondaryContainer = TailwindColors.Sky900,
+        complementary = RadixColors.Orange.light.step9,
+        onComplementary = RadixColors.Orange.light.step1,
+        complementaryContainer = RadixColors.Orange.light.step6,
+        onComplementaryContainer = RadixColors.Orange.light.step10,
 
 
         // success colors
         success = RadixColors.Green.light.step9,
-        onSuccess = RadixColors.Green.light.step3,
+        onSuccess = RadixColors.Green.light.step2,
 
         // error colors
         error = RadixColors.Red.light.step9,
-        onError = RadixColors.Red.light.step3,
+        onError = RadixColors.Red.light.step2,
         transparent = Color.Companion.Transparent,
 
         surface = RadixColors.Gray.light.step3,
@@ -70,10 +70,10 @@ object KoreDefaults{
         primaryContainer = RadixColors.Blue.dark.step3,
         onPrimaryContainer = RadixColors.Blue.dark.step10,
 
-        secondary = TailwindColors.Sky600,
-        onSecondary = TailwindColors.Sky900,
-        secondaryContainer = TailwindColors.Sky700,
-        onSecondaryContainer = TailwindColors.Blue700,
+        complementary = RadixColors.Orange.dark.step9,
+        onComplementary = RadixColors.Orange.dark.step12,
+        complementaryContainer = RadixColors.Orange.dark.step3,
+        onComplementaryContainer = RadixColors.Orange.dark.step10,
 
 
         // success colors
