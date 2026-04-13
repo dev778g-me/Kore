@@ -8,7 +8,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dev.korelibrary.themes.colors.RadixColors
-import com.dev.korelibrary.themes.colors.TailwindColors
 import com.dev.korelibrary.themes.typography.googleSansFlex
 import io.jadu.nivi.presentation.utils.squircleShape.SquircleShape
 
@@ -99,21 +98,21 @@ object KoreDefaults{
        return KoreTypography(
            displayLarge = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 57.sp,
                lineHeight = 64.sp,
                letterSpacing = (-0.25).sp
            ),
            displayMedium = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 45.sp,
                lineHeight = 52.sp,
                letterSpacing = 0.sp
            ),
            displaySmall = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 36.sp,
                lineHeight = 44.sp,
                letterSpacing = 0.sp
@@ -122,21 +121,21 @@ object KoreDefaults{
 
            headingLarge = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 32.sp,
                lineHeight = 40.sp,
                letterSpacing = 0.sp
            ),
            headingMedium = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 28.sp,
                lineHeight = 36.sp,
                letterSpacing = 0.sp
            ),
            headingSmall = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 24.sp,
                lineHeight = 32.sp,
                letterSpacing = 0.sp
@@ -145,21 +144,21 @@ object KoreDefaults{
 
            titleLarge = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 22.sp,
                lineHeight = 28.sp,
                letterSpacing = 0.sp
            ),
            titleMedium = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Medium,
+               fontWeight = FontWeight.Medium,
                fontSize = 16.sp,
                lineHeight = 24.sp,
                letterSpacing = 0.15.sp
            ),
            titleSmall = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Medium,
+               fontWeight = FontWeight.Medium,
                fontSize = 14.sp,
                lineHeight = 20.sp,
                letterSpacing = 0.1.sp
@@ -168,21 +167,21 @@ object KoreDefaults{
 
            bodyLarge = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 16.sp,
                lineHeight = 24.sp,
                letterSpacing = 0.5.sp
            ),
            bodyMedium = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 14.sp,
                lineHeight = 20.sp,
                letterSpacing = 0.25.sp
            ),
            bodySmall = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Normal,
+               fontWeight = FontWeight.Normal,
                fontSize = 12.sp,
                lineHeight = 16.sp,
                letterSpacing = 0.4.sp
@@ -191,21 +190,21 @@ object KoreDefaults{
 
            labelLarge = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Medium,
+               fontWeight = FontWeight.Medium,
                fontSize = 14.sp,
                lineHeight = 20.sp,
                letterSpacing = 0.1.sp
            ),
            labelMedium = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Medium,
+               fontWeight = FontWeight.Medium,
                fontSize = 12.sp,
                lineHeight = 16.sp,
                letterSpacing = 0.5.sp
            ),
            labelSmall = TextStyle(
                fontFamily = fontFamily,
-               fontWeight = FontWeight.Companion.Medium,
+               fontWeight = FontWeight.Medium,
                fontSize = 11.sp,
                lineHeight = 16.sp,
                letterSpacing = 0.5.sp
@@ -224,10 +223,10 @@ object KoreDefaults{
 
     val defaultSquircleShapes = KoreShapes(
         extraLarge = SquircleShape(34.dp),
-        large = io.jadu.nivi.presentation.utils.squircleShape.SquircleShape(24.dp),
-        medium = io.jadu.nivi.presentation.utils.squircleShape.SquircleShape(16.dp),
-        normal = io.jadu.nivi.presentation.utils.squircleShape.SquircleShape(12.dp),
-        small = io.jadu.nivi.presentation.utils.squircleShape.SquircleShape(8.dp)
+        large = SquircleShape(24.dp),
+        medium =SquircleShape(16.dp),
+        normal = SquircleShape(12.dp),
+        small = SquircleShape(8.dp)
     )
 
     val defaultSizes = KoreSizes(
