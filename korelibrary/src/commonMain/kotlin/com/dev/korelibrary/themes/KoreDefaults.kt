@@ -214,28 +214,28 @@ object KoreDefaults{
 
 
     val defaultShapes = KoreShapes(
-        extraLarge = RoundedCornerShape(34.dp),
-        large = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
-        medium = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
-        normal = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
-        small = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+        xl = RoundedCornerShape(34.dp),
+        lg = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
+        md = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+        sm = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
+        xs = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
     )
 
     val defaultSquircleShapes = KoreShapes(
-        extraLarge = SquircleShape(34.dp),
-        large = SquircleShape(24.dp),
-        medium =SquircleShape(16.dp),
-        normal = SquircleShape(12.dp),
-        small = SquircleShape(8.dp)
+        xl = SquircleShape(34.dp),
+        lg = SquircleShape(24.dp),
+        md =SquircleShape(16.dp),
+        sm = SquircleShape(12.dp),
+        xs = SquircleShape(8.dp)
     )
 
     val defaultSizes = KoreSizes(
-        extraLarge = 34.dp,
-        large = 24.dp,
-        medium = 16.dp,
-        normal = 12.dp,
-        small = 8.dp,
-        extraSmall = 4.dp
+        xl = 34.dp,
+        lg = 24.dp,
+        md = 16.dp,
+        sm = 12.dp,
+        xs = 8.dp,
+        xxs = 4.dp
     )
 
 
