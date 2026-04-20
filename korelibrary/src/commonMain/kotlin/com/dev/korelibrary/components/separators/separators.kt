@@ -10,7 +10,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
@@ -20,9 +19,8 @@ fun HorizontalSeparator(
     modifier: Modifier = Modifier,
     thickness : Dp= SeparatorDefaults.defaultSeparatorThickness,
     separatorCap: StrokeCap = SeparatorDefaults.defaultSeparatorCap,
-    color : Color= KoreTheme.colorScheme.backGroundVariant
+    color: Color = SeparatorDefaults.defaultSeparatorColor
 ) {
-    val density = LocalDensity.current
     Canvas(
         modifier = modifier
             .fillMaxWidth()
@@ -31,9 +29,7 @@ fun HorizontalSeparator(
         drawLine(
             cap = separatorCap,
             color = color,
-            strokeWidth = with(density) {
-                thickness.toPx()
-            },
+            strokeWidth = thickness.toPx(),
             start = Offset(x = 0f, y = thickness.toPx()/2),
             end = Offset(x = size.width, y = thickness.toPx()/2)
         )
@@ -42,13 +38,13 @@ fun HorizontalSeparator(
 
 // gradient
 @Composable
-fun HorizontalGradientSeparator(
+fun HorizontalSeparator(
     modifier: Modifier = Modifier,
     thickness : Dp= SeparatorDefaults.defaultSeparatorThickness,
     separatorCap: StrokeCap = SeparatorDefaults.defaultSeparatorCap,
-    brush: Brush= SeparatorDefaults.defaultBrush,
+    brush: Brush,
 ) {
-    val density = LocalDensity.current
+
     Canvas(
         modifier = modifier
             .fillMaxWidth()
@@ -57,9 +53,7 @@ fun HorizontalGradientSeparator(
         drawLine(
             cap = separatorCap,
             brush = brush,
-            strokeWidth = with(density) {
-                thickness.toPx()
-            },
+            strokeWidth = thickness.toPx(),
             start = Offset(x = 0f, y = thickness.toPx()/2),
             end = Offset(x = size.width, y = thickness.toPx()/2)
         )
@@ -72,7 +66,7 @@ fun VerticalSeparator(
     modifier: Modifier = Modifier,
     thickness: Dp = SeparatorDefaults.defaultSeparatorThickness,
     separatorCap: StrokeCap = SeparatorDefaults.defaultSeparatorCap,
-    color: Color = KoreTheme.colorScheme.backGroundVariant
+    color: Color = SeparatorDefaults.defaultSeparatorColor
 ) {
     Canvas(modifier = modifier.fillMaxHeight().width(thickness)) {
         drawLine(
@@ -87,11 +81,11 @@ fun VerticalSeparator(
 
 // gradient Variant
 @Composable
-fun VerticalGradientSeparator(
+fun VerticalSeparator(
     modifier: Modifier = Modifier,
     thickness: Dp = SeparatorDefaults.defaultSeparatorThickness,
     separatorCap: StrokeCap = SeparatorDefaults.defaultSeparatorCap,
-    brush: Brush= SeparatorDefaults.defaultBrush,
+    brush: Brush,
 ) {
     Canvas(modifier = modifier.fillMaxHeight().width(thickness)) {
         drawLine(
@@ -113,21 +107,12 @@ object SeparatorDefaults{
 
     val defaultSeparatorCap : StrokeCap = StrokeCap.Round
 
-    @Composable
-    fun defaultSeparatorColor(
-        separatorColor: Color = KoreTheme.colorScheme.backGroundVariant
-    ) = SeparatorColors(
-        separatorColor = separatorColor
-    )
+
+    val defaultSeparatorColor : Color
+        @Composable get() = KoreTheme.colorScheme.backGroundVariant
 
 
-    val defaultBrush: Brush = Brush.linearGradient(
-        colors = listOf(Color.Red, Color.Blue)
-    )
 
 
 }
 
-data class SeparatorColors(
-    val separatorColor: Color
-)
