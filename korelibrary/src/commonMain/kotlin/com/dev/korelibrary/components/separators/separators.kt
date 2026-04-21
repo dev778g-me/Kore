@@ -14,6 +14,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
 
+
+
+/**
+ * A horizontal line that is used to separate content
+ *
+ * @param modifier the [Modifier] applied to the layout
+ * @param thickness the thickness of the separator in [Dp]
+ * @param separatorCap the treatment of the end of line [StrokeCap]
+ * @param color the color of the separator [Color]
+ * */
+
 @Composable
 fun HorizontalSeparator(
     modifier: Modifier = Modifier,
@@ -36,7 +47,14 @@ fun HorizontalSeparator(
     }
 }
 
-// gradient
+/**
+ * A horizontal line that is used to separate content
+ *
+ * @param modifier the [Modifier] applied to the layout
+ * @param thickness the thickness of the separator in [Dp]
+ * @param separatorCap the treatment of the end of line [StrokeCap]
+ * @param brush the gradient color of the separator [Brush]
+ * */
 @Composable
 fun HorizontalSeparator(
     modifier: Modifier = Modifier,
@@ -60,7 +78,14 @@ fun HorizontalSeparator(
     }
 }
 
-
+/**
+ * A vertical line that is used to separate content
+ *
+ * @param modifier the [Modifier] applied to the layout
+ * @param thickness the thickness of the separator in [Dp]
+ * @param separatorCap the treatment of the end of line [StrokeCap]
+ * @param color the color of the separator [Color]
+ * */
 @Composable
 fun VerticalSeparator(
     modifier: Modifier = Modifier,
@@ -79,7 +104,14 @@ fun VerticalSeparator(
     }
 }
 
-// gradient Variant
+/**
+ * A horizontal line that is used to separate content
+ *
+ * @param modifier the [Modifier] applied to the layout
+ * @param thickness the thickness of the separator in [Dp]
+ * @param separatorCap the treatment of the end of line [StrokeCap]
+ * @param brush the gradient color of the separator [Brush]
+ * */
 @Composable
 fun VerticalSeparator(
     modifier: Modifier = Modifier,
