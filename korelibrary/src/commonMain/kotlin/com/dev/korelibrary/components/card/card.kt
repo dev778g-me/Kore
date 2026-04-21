@@ -13,19 +13,25 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalContentColor
 
+/**
+ * @author
 
+ */
 
 @Composable
 fun Card(
     modifier: Modifier = Modifier,
     shape: Shape = CardDefaults.defaultCardShape,
     colors: CardColors = CardDefaults.defaultCardColors(),
+    elevation: Dp = CardDefaults.defaultCardElevation,
     contentPaddingValues: PaddingValues = CardDefaults.defaultCardContentPaddingValues,
     content: @Composable ColumnScope. () -> Unit
 ) {
@@ -33,6 +39,7 @@ fun Card(
         modifier = modifier,
         shape = shape,
         colors = colors,
+        elevation = elevation,
         contentPaddingValues = contentPaddingValues
     ) {
         content()
@@ -46,6 +53,7 @@ fun OutlinedCard(
     shape: Shape = CardDefaults.defaultCardShape,
     colors: CardColors = CardDefaults.defaultOutlinedCardColors(),
     borderStroke: BorderStroke = CardDefaults.defaultOutlinedBorderStroke,
+    elevation: Dp = CardDefaults.defaultCardElevation,
     contentPaddingValues: PaddingValues = CardDefaults.defaultCardContentPaddingValues,
     content: @Composable ColumnScope. () -> Unit
 ) {
@@ -54,6 +62,7 @@ fun OutlinedCard(
         shape = shape,
         colors = colors,
         borderStroke = borderStroke,
+        elevation = elevation,
         contentPaddingValues = contentPaddingValues
     ) {
         content()
@@ -62,21 +71,24 @@ fun OutlinedCard(
 
 
 @Composable
-fun BaseCard(
+internal fun BaseCard(
     modifier: Modifier = Modifier,
     shape: Shape,
     colors: CardColors,
     borderStroke: BorderStroke? = null,
+    elevation: Dp = CardDefaults.defaultCardElevation,
     contentPaddingValues: PaddingValues,
     content: @Composable ColumnScope. () -> Unit
 ) {
     Box(
         modifier = modifier
+            .shadow(elevation = elevation, clip = true, shape = shape)
+            .clip(shape = shape)
             .background(
                 color = colors.containerColor,
                 shape = shape
             )
-            .clip(shape = shape)
+
             .then(if (borderStroke != null) Modifier.border(borderStroke, shape) else Modifier)
             .padding(
                 contentPaddingValues
@@ -94,10 +106,10 @@ fun BaseCard(
 object CardDefaults {
 
     val defaultCardShape: Shape
-        @Composable get() = KoreTheme.shapes.medium
+        @Composable get() = KoreTheme.shapes.md
 
     val defaultCardContentPaddingValues: PaddingValues
-        @Composable get() = PaddingValues(KoreTheme.sizes.medium)
+        @Composable get() = PaddingValues(KoreTheme.sizes.md)
 
 
     val defaultOutlinedBorderStroke: BorderStroke
@@ -105,6 +117,8 @@ object CardDefaults {
             width = 2.dp,
             color = KoreTheme.colorScheme.backGroundVariant,
         )
+
+    val defaultCardElevation: Dp = 0.dp
 
     @Composable
     fun defaultCardColors(
