@@ -1,4 +1,4 @@
-package io.jadu.nivi.presentation.utils.squircleShape
+package com.dev.korelibrary.themes.shapes
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size

@@ -26,6 +26,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.dev.korelibrary.themes.shapes.CornerSmoothing
+import com.dev.korelibrary.themes.shapes.SquircleBasedShape
+import com.dev.korelibrary.themes.shapes.createSquircleShapeOutline
 
 /**
  *
@@ -161,7 +164,7 @@ fun SquircleShape(
 
 /**
  *
- *  Creates a [SquircleBasedShape].
+ *  Creates a [com.dev.korelibrary.themes.shapes.SquircleBasedShape].
  *
  *  @param topStartCorner The top start corner radius defined as [CornerSize].
  *  @param topEndCorner The top end corner radius defined as [CornerSize].

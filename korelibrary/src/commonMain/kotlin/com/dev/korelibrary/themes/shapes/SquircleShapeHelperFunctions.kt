@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.jadu.nivi.presentation.utils.squircleShape
+package com.dev.korelibrary.themes.shapes
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.geometry.Size
@@ -28,7 +28,6 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.unit.LayoutDirection
 
 /**
- * Creates an outline for a [SquircleShape], considering corner radii, smoothing, and layout direction.
  *
  * @param size The overall size of the shape as a [Size] object.
  * @param topStart The radius of the top-start corner in pixels. In left-to-right layouts, this corresponds to the top-left corner.
