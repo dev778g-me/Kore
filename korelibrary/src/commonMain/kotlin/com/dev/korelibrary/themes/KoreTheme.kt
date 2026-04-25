@@ -33,11 +33,10 @@ data class KoreColorScheme(
     val onPrimary: Color,
     val primaryContainer: Color,
     val onPrimaryContainer: Color,
-    val secondary: Color,
-    val onSecondary: Color,
-    val secondaryContainer: Color,
-    val onSecondaryContainer: Color,
-    val accent: Color,
+    val complementary: Color,
+    val onComplementary: Color,
+    val complementaryContainer: Color,
+    val onComplementaryContainer: Color,
     val success: Color,
     val onSuccess: Color,
     val error: Color,
@@ -49,91 +48,91 @@ data class KoreColorScheme(
 
 @Immutable
 data class KoreTypography(
-    val displayLarge: TextStyle = TextStyle(
+    val display1: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 57.sp,
         lineHeight    = 64.sp,
         letterSpacing = (-0.25).sp
     ),
-    val displayMedium: TextStyle = TextStyle(
+    val display2: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 45.sp,
         lineHeight    = 52.sp,
         letterSpacing = 0.sp
     ),
-    val displaySmall: TextStyle = TextStyle(
+    val display3: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 36.sp,
         lineHeight    = 44.sp,
         letterSpacing = 0.sp
     ),
-    val headingLarge: TextStyle = TextStyle(
+    val heading1: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 32.sp,
         lineHeight    = 40.sp,
         letterSpacing = 0.sp
     ),
-    val headingMedium: TextStyle = TextStyle(
+    val heading2: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 28.sp,
         lineHeight    = 36.sp,
         letterSpacing = 0.sp
     ),
-    val headingSmall: TextStyle = TextStyle(
+    val heading3: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 24.sp,
         lineHeight    = 32.sp,
         letterSpacing = 0.sp
     ),
-    val titleLarge: TextStyle = TextStyle(
+    val title1: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 22.sp,
         lineHeight    = 28.sp,
         letterSpacing = 0.sp
     ),
-    val titleMedium: TextStyle = TextStyle(
+    val title2: TextStyle = TextStyle(
         fontWeight    = FontWeight.Medium,
         fontSize      = 16.sp,
         lineHeight    = 24.sp,
         letterSpacing = 0.15.sp
     ),
-    val titleSmall: TextStyle = TextStyle(
+    val title3: TextStyle = TextStyle(
         fontWeight    = FontWeight.Medium,
         fontSize      = 14.sp,
         lineHeight    = 20.sp,
         letterSpacing = 0.1.sp
     ),
-    val bodyLarge: TextStyle = TextStyle(
+    val body1: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 16.sp,
         lineHeight    = 24.sp,
         letterSpacing = 0.5.sp
     ),
-    val bodyMedium: TextStyle = TextStyle(
+    val body2: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 14.sp,
         lineHeight    = 20.sp,
         letterSpacing = 0.25.sp
     ),
-    val bodySmall: TextStyle = TextStyle(
+    val body3: TextStyle = TextStyle(
         fontWeight    = FontWeight.Normal,
         fontSize      = 12.sp,
         lineHeight    = 16.sp,
         letterSpacing = 0.4.sp
     ),
-    val labelLarge: TextStyle = TextStyle(
+    val label1: TextStyle = TextStyle(
         fontWeight    = FontWeight.Medium,
         fontSize      = 14.sp,
         lineHeight    = 20.sp,
         letterSpacing = 0.1.sp
     ),
-    val labelMedium: TextStyle = TextStyle(
+    val label2: TextStyle = TextStyle(
         fontWeight    = FontWeight.Medium,
         fontSize      = 12.sp,
         lineHeight    = 16.sp,
         letterSpacing = 0.5.sp
     ),
-    val labelSmall: TextStyle = TextStyle(
+    val label3: TextStyle = TextStyle(
         fontWeight    = FontWeight.Medium,
         fontSize      = 11.sp,
         lineHeight    = 16.sp,
@@ -143,21 +142,21 @@ data class KoreTypography(
 
 @Immutable
 data class KoreShapes(
-    val extraLarge: Shape,
-    val large: Shape,
-    val medium: Shape,
-    val normal: Shape,
-    val small: Shape
+    val xl: Shape,
+    val lg: Shape,
+    val md: Shape,
+    val sm: Shape,
+    val xs: Shape
 )
 
 @Immutable
 data class KoreSizes(
-    val extraLarge : Dp,
-    val large : Dp,
-    val medium : Dp,
-    val normal : Dp,
-    val small : Dp,
-    val extraSmall : Dp
+    val xl : Dp,
+    val lg : Dp,
+    val md : Dp,
+    val sm : Dp,
+    val xs : Dp,
+    val xxs : Dp
 )
 
 val LocalKoreColorScheme = staticCompositionLocalOf {
@@ -178,7 +177,7 @@ val LocalKoreSizes = staticCompositionLocalOf {
     defaultSizes
 }
 
-val LocalTextStyle = staticCompositionLocalOf { KoreTypography().titleSmall }
+val LocalTextStyle = staticCompositionLocalOf { KoreTypography().title3 }
 
 
 val LocalContentColor = staticCompositionLocalOf { defaultLightColorScheme.onBackGround }
@@ -187,7 +186,7 @@ val LocalContentColor = staticCompositionLocalOf { defaultLightColorScheme.onBac
 
 
 @Composable
-fun AppTheme(
+fun DefaultKoreTheme(
     typography: KoreTypography = KoreDefaults.defaultTypography,
     shapes: KoreShapes = KoreDefaults.defaultShapes,
     darkTheme : Boolean = isSystemInDarkTheme(),
@@ -202,6 +201,7 @@ fun AppTheme(
     ) {
         content()
     }
+
 }
 
 
@@ -210,8 +210,9 @@ fun AppTheme(
 @Composable
 fun KoreTheme(
     typography: KoreTypography = KoreDefaults.defaultTypography,
-    shapes: KoreShapes = KoreDefaults.defaultShapes,
-    colorScheme : KoreColorScheme= KoreDefaults.defaultLightColorScheme,
+    sizes: KoreSizes = defaultSizes,
+    shapes: KoreShapes = defaultShapes,
+    colorScheme : KoreColorScheme= defaultLightColorScheme,
     ripple : IndicationNodeFactory = koreRipple(colorScheme.onBackGround),
     content: @Composable () -> Unit
 ) {
@@ -221,10 +222,10 @@ fun KoreTheme(
         LocalKoreColorScheme provides colorScheme,
         LocalContentColor provides colorScheme.onBackGround,
         LocalKoreTypography provides typography,
-        LocalTextStyle provides typography.titleSmall,
+        LocalTextStyle provides typography.title3,
         LocalIndication provides ripple,
         LocalKoreShapes provides shapes,
-        LocalKoreSizes provides defaultSizes,
+        LocalKoreSizes provides sizes,
         content = content
     )
 
