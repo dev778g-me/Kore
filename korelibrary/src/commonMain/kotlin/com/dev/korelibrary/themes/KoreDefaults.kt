@@ -9,15 +9,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dev.korelibrary.themes.colors.RadixColors
 import com.dev.korelibrary.themes.typography.googleSansFlex
-import io.jadu.nivi.presentation.utils.squircleShape.SquircleShape
+import com.dev.korelibrary.themes.shapes.SquircleShape
 
+/**
+ * this defines all the default values for kore design system
+ * @property defaultLightColorScheme the default lightColorScheme for kore Design System [KoreColorScheme]
+ * @property defaultDarkColorScheme the default darkColorScheme for kore Design System [KoreColorScheme]
+ * @property defaultTypography the default Typography for Kore Design System [KoreTypography]
+ * @property defaultShapes the default Shapes for the Kore Design System [KoreShapes]
+ * @property defaultSquircleShapes the default Squircle shapes for the Kore Design System [KoreShapes]
+ * @property defaultSizes the default sizes for Kore Design System [KoreSizes]
+ *
+ */
 object KoreDefaults{
     val defaultLightColorScheme = KoreColorScheme(
         background = RadixColors.Gray.light.step4,
         onBackGround = RadixColors.Gray.light.step12,
         backGroundVariant = RadixColors.Gray.light.step7,
         onBackGroundVariant = RadixColors.Gray.light.step10,
-        accent = RadixColors.Blue.light.step3,
 
         disabled = RadixColors.Gray.light.step5,
         onDisabled = RadixColors.Gray.light.step8,
@@ -41,7 +50,7 @@ object KoreDefaults{
         // error colors
         error = RadixColors.Red.light.step9,
         onError = RadixColors.Red.light.step2,
-        transparent = Color.Companion.Transparent,
+        transparent = Color.Transparent,
 
         surface = RadixColors.Gray.light.step3,
         onSurface = RadixColors.Gray.light.step11,
@@ -57,7 +66,7 @@ object KoreDefaults{
 
         backGroundVariant = RadixColors.Gray.dark.step5,
         onBackGroundVariant = RadixColors.Gray.dark.step11,
-        accent = RadixColors.Blue.dark.step1,
+
         // disabled colors
         disabled = RadixColors.Gray.dark.step3,
         onDisabled = RadixColors.Gray.dark.step8,
@@ -96,21 +105,21 @@ object KoreDefaults{
          val fontFamily = googleSansFlex()
 
        return KoreTypography(
-           displayLarge = TextStyle(
+           display1 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 57.sp,
                lineHeight = 64.sp,
                letterSpacing = (-0.25).sp
            ),
-           displayMedium = TextStyle(
+           display2 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 45.sp,
                lineHeight = 52.sp,
                letterSpacing = 0.sp
            ),
-           displaySmall = TextStyle(
+           display3 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 36.sp,
@@ -119,21 +128,21 @@ object KoreDefaults{
            ),
 
 
-           headingLarge = TextStyle(
+           heading1 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 32.sp,
                lineHeight = 40.sp,
                letterSpacing = 0.sp
            ),
-           headingMedium = TextStyle(
+           heading2 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 28.sp,
                lineHeight = 36.sp,
                letterSpacing = 0.sp
            ),
-           headingSmall = TextStyle(
+           heading3 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 24.sp,
@@ -142,21 +151,21 @@ object KoreDefaults{
            ),
 
 
-           titleLarge = TextStyle(
+           title1 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 22.sp,
                lineHeight = 28.sp,
                letterSpacing = 0.sp
            ),
-           titleMedium = TextStyle(
+           title2 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Medium,
                fontSize = 16.sp,
                lineHeight = 24.sp,
                letterSpacing = 0.15.sp
            ),
-           titleSmall = TextStyle(
+           title3 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Medium,
                fontSize = 14.sp,
@@ -165,21 +174,21 @@ object KoreDefaults{
            ),
 
 
-           bodyLarge = TextStyle(
+           body1 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 16.sp,
                lineHeight = 24.sp,
                letterSpacing = 0.5.sp
            ),
-           bodyMedium = TextStyle(
+           body2 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 14.sp,
                lineHeight = 20.sp,
                letterSpacing = 0.25.sp
            ),
-           bodySmall = TextStyle(
+           body3 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Normal,
                fontSize = 12.sp,
@@ -188,21 +197,21 @@ object KoreDefaults{
            ),
 
 
-           labelLarge = TextStyle(
+           label1 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Medium,
                fontSize = 14.sp,
                lineHeight = 20.sp,
                letterSpacing = 0.1.sp
            ),
-           labelMedium = TextStyle(
+           label2 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Medium,
                fontSize = 12.sp,
                lineHeight = 16.sp,
                letterSpacing = 0.5.sp
            ),
-           labelSmall = TextStyle(
+           label3 = TextStyle(
                fontFamily = fontFamily,
                fontWeight = FontWeight.Medium,
                fontSize = 11.sp,
@@ -215,10 +224,10 @@ object KoreDefaults{
 
     val defaultShapes = KoreShapes(
         xl = RoundedCornerShape(34.dp),
-        lg = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
-        md = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
-        sm = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
-        xs = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+        lg = RoundedCornerShape(24.dp),
+        md = RoundedCornerShape(16.dp),
+        sm = RoundedCornerShape(12.dp),
+        xs = RoundedCornerShape(8.dp)
     )
 
     val defaultSquircleShapes = KoreShapes(
@@ -237,6 +246,7 @@ object KoreDefaults{
         xs = 8.dp,
         xxs = 4.dp
     )
+
 
 
 }

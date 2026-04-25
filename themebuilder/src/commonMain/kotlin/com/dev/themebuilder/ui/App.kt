@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import com.dev.korelibrary.themes.AppTheme
 import com.dev.themebuilder.ui.theme.BuilderTheme
 import com.dev.themebuilder.ui.view.screens.HomeScreen
 

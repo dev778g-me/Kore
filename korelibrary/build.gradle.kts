@@ -62,6 +62,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation("androidx.graphics:graphics-shapes:1.1.0")
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.compose.ui)
                 implementation(libs.compose.components.resources)

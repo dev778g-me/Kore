@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -91,7 +90,7 @@ internal fun BaseTextField(
     )
 
     CompositionLocalProvider(
-        LocalTextStyle provides KoreTheme.typography.titleSmall,
+        LocalTextStyle provides KoreTheme.typography.title3,
         LocalContentColor provides textFieldColors.contentColor(
             enabled = enabled,
             error = isError,
@@ -104,7 +103,7 @@ internal fun BaseTextField(
             label?.let {
                CompositionLocalProvider(
                    values = arrayOf(
-                       LocalTextStyle provides KoreTheme.typography.titleMedium,
+                       LocalTextStyle provides KoreTheme.typography.title2,
                        LocalContentColor provides KoreTheme.colorScheme.onBackGround
                    )
                ) {
@@ -177,7 +176,7 @@ internal fun BaseTextField(
                ){
                    CompositionLocalProvider(
                        values = arrayOf(
-                           LocalTextStyle provides KoreTheme.typography.labelSmall,
+                           LocalTextStyle provides KoreTheme.typography.label3,
                            LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant
                        )
                    ) {
@@ -259,7 +258,7 @@ fun DecorationBox(
 
             }
             CompositionLocalProvider(
-                value = LocalTextStyle provides KoreTheme.typography.labelSmall
+                value = LocalTextStyle provides KoreTheme.typography.label3
             ) {
                 innerTextField()
             }
