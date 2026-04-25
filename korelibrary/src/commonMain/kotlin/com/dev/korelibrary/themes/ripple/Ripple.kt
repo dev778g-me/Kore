@@ -8,6 +8,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.IndicationNodeFactory
+import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.runtime.Stable
@@ -66,6 +67,18 @@ private class FoundationRippleNode(
             interactionSource.interactions.collect { interaction ->
 
                 when (interaction) {
+
+
+                    is HoverInteraction.Enter -> {
+                        animatedRadiusPercent.snapTo(1f)
+                        animatedAlpha.snapTo(0.12f)
+                    }
+
+                    is HoverInteraction.Exit ->{
+                        animatedAlpha.snapTo(0f)
+                        animatedRadiusPercent.snapTo(0f)
+                    }
+
 
 
                     is PressInteraction.Press -> {

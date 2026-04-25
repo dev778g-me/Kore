@@ -31,32 +31,41 @@ import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalContentColor
 import com.dev.korelibrary.themes.LocalTextStyle
 
-
+/**
+ * An Accordion is a vertically stacked header that when clicked expand or collapsed to show expanded content
+ * @param expanded the [Boolean] state that defines the expanded state of the accordion
+ * @param onExpand the callback that gets invoked when accordion is clicked [Unit]
+ * @param modifier the [Modifier] that is applied to the Accordion
+ * @param header the header of the Accordion [Composable]
+ * @param expandedContent the expandedContent of the Accordion [Composable]
+ * @param trailingIcon the trailing content of the Accordion [Composable]
+ * @param leadingIcon the leading content of the Accordion [Composable]
+ * @param separator the [Boolean] value that let's show or hide the HorizontalSeparator
+ * @param enterTransition the enterTransition of the expandedContent [EnterTransition]
+ * @param exitTransition the exitTransition of the expandedContent [ExitTransition]
+ * @param leadingIconAlignment the vertical alignment of the leadingIcon
+ * @param headerContentPaddingValues the paddingValues of the header [PaddingValues]
+ * @param expandedContentPaddingValues the paddingValues of the expandedContent [PaddingValues]
+ */
 @Composable
 fun Accordion(
     expanded: Boolean,
     onExpand: () -> Unit,
     modifier: Modifier = Modifier,
-
     header: @Composable () -> Unit,
     expandedContent: @Composable () -> Unit,
-
-    icon: @Composable () -> Unit,
+    trailingIcon: @Composable () -> Unit,
     leadingIcon: (@Composable () -> Unit)? = null,
-
     separator: Boolean = true,
-
     enterTransition: EnterTransition = AccordionDefaults.defaultExpandedContentEnterTransition,
     exitTransition: ExitTransition = AccordionDefaults.defaultExpandedContentExitTransition,
-
     leadingIconAlignment: Alignment.Vertical = AccordionDefaults.defaultLeadingIconAlignment,
-
     headerContentPaddingValues: PaddingValues = AccordionDefaults.defaultHeaderContentPadding,
     expandedContentPaddingValues: PaddingValues = AccordionDefaults.defaultExpandedContentPadding
 ) {
 
     val bottomPadding by animateDpAsState(
-        targetValue = if (expanded) 8.dp else 0.dp
+        targetValue = if (expanded) 8.dp else 4.dp
     )
     Box(
         modifier = modifier.defaultMinSize(
@@ -72,7 +81,7 @@ fun Accordion(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(KoreTheme.shapes.small)
+                    .clip(KoreTheme.shapes.xs)
                     .clickable(
                         onClick = {
                             onExpand.invoke()
@@ -100,7 +109,7 @@ fun Accordion(
                     header()
                 }
 
-                icon()
+                trailingIcon()
             }
 
 
@@ -112,7 +121,7 @@ fun Accordion(
             ) {
                 CompositionLocalProvider(
                     values = arrayOf(
-                        LocalTextStyle provides KoreTheme.typography.bodySmall,
+                        LocalTextStyle provides KoreTheme.typography.body3,
                         LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant
                     )
                 ) {
@@ -132,9 +141,15 @@ fun Accordion(
 }
 
 
-
-
-
+/**
+ * AccordionDefaults is the default values for all the Accordion Composables
+ * @property defaultAccordionWidth the minimum width for the Accordion
+ * @property defaultExpandedContentPadding the default expandedContent padding [PaddingValues]
+ * @property defaultHeaderContentPadding the default headerContent padding [PaddingValues]
+ * @property defaultLeadingIconAlignment the default Alignment of the leadingIcon [Alignment.Vertical]
+ * @property defaultExpandedContentEnterTransition the default enterTransition of the expandedContent [EnterTransition]
+ * @property defaultExpandedContentExitTransition the default exitTransition of the expandedContent [ExitTransition]
+ */
 
 
 object AccordionDefaults{
