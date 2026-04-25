@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.defaultMinSize
@@ -17,7 +16,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
@@ -27,18 +25,31 @@ import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalTextStyle
 
+/**
+ * AppBar is the header component at the top of the screen that provides navigation & actions
+ * @param title the title of the appbar [Composable]
+ * @param modifier the [Modifier] applied to the appbar
+ * @param navigationIcon the navigation icon of the appbar [Composable]
+ * @param navigationIconAlignment the alignment of the navigation icon [Alignment.Vertical]
+ * @param appBarAction the actions of the appbar [Composable]
+ * @param appBarAlignment the alignment of the appbar actions [Alignment.Vertical]
+ * @param windowInsets the window insets of the appbar [WindowInsets]
+ * @param contentPadding the content padding of the appbar [PaddingValues]
+ * @param minimumAppBarHeight the minimum height of the appbar [Dp]
+ * @param elevation the elevation of the appbar [Dp]
+ */
 @Composable
 fun Appbar(
+    title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = AppBarDefaults.defaultTopAppBarPadding,
-    minimumAppBarHeight: Dp = AppBarDefaults.defaultAppBarMinimumHeight,
-    windowInsets: WindowInsets = WindowInsets.statusBars,
-    elevation: Dp = AppBarDefaults.defaultAppBarElevation,
     navigationIcon: (@Composable () -> Unit)? = null,
     navigationIconAlignment: Alignment.Vertical = Alignment.CenterVertically,
     appBarAction: (@Composable RowScope.() -> Unit)? = null,
     appBarAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    title: @Composable () -> Unit,
+    windowInsets: WindowInsets = WindowInsets.statusBars,
+    contentPadding: PaddingValues = AppBarDefaults.defaultTopAppBarPadding,
+    minimumAppBarHeight: Dp = AppBarDefaults.defaultAppBarMinimumHeight,
+    elevation: Dp = AppBarDefaults.defaultAppBarElevation
 ) {
 
     val layoutDirection = LocalLayoutDirection.current
@@ -56,31 +67,31 @@ fun Appbar(
     Layout(
         modifier = modifier
             .shadow(elevation = elevation)
-            .defaultMinSize(
-                minHeight = minimumAppBarHeight
-            )
             .background(color = KoreTheme.colorScheme.background)
-            .windowInsetsPadding(insets = windowInsets),
+            .windowInsetsPadding(insets = windowInsets)
+            .defaultMinSize(minHeight = minimumAppBarHeight),
         content = {
             Box(
                 modifier = Modifier.layoutId(AppbarContents.Title)
             ){
                 CompositionLocalProvider(
-                    value = LocalTextStyle provides KoreTheme.typography.titleLarge
+                    value = LocalTextStyle provides KoreTheme.typography.title1
                 ) {
                     title()
                 }
             }
             navigationIcon?.let {
                 Box(
-                    modifier = Modifier.layoutId(AppbarContents.NavigationIcons)
+                    modifier = Modifier.layoutId(AppbarContents.NavigationIcons),
+
                 ){
                     it()
                 }
             }
             appBarAction?.let {
                   Row(
-                      modifier = Modifier.layoutId(AppbarContents.AppBarActions)
+                      modifier = Modifier.layoutId(AppbarContents.AppBarActions),
+                      verticalAlignment = appBarAlignment
                   ) {
                       it()
                   }
@@ -171,7 +182,7 @@ object AppBarDefaults {
 
     val defaultAppBarElevation : Dp = 4.dp
 
-    val defaultAppBarMinimumHeight : Dp = 56.dp
+    val defaultAppBarMinimumHeight : Dp = 72.dp
 
     val defaultTopAppBarPadding: PaddingValues = PaddingValues(
         horizontal = 12.dp,

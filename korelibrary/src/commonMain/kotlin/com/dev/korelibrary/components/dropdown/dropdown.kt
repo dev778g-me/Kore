@@ -7,10 +7,14 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -22,6 +26,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -45,7 +52,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalContentColor
+import com.dev.korelibrary.utilities.modifiers.shimmer
 
+
+/**
+ * A Dropdown Menu presents a list of actions,options or items in a temporary surface
+ * they provide access to various feature and functionalities of the app
+ * @param expanded the state that defines the visibility of the dropdown menu [Boolean]
+ * @param onDismissRequest the callback invoked when the user requests to dismiss the dropdown menu [Unit]
+ * @param modifier the [Modifier] applied to Dropdown
+ * @param offset the offset of the dropdown  [DpOffset]
+ * @param shape the shape of the DropDown [Shape]
+ * @param scrollState the Scroll state of the DropDown [ScrollState]
+ * @param
+ */
 @Composable
 fun DropDown(
     expanded: Boolean,
@@ -53,7 +73,10 @@ fun DropDown(
     modifier: Modifier = Modifier,
     offset: DpOffset = DpOffset.Zero,
     shape: Shape = DropdownDefaults.defaultDropDownShape,
+    scrollState: ScrollState = rememberScrollState(),
+    borderStroke: BorderStroke? = null,
     containerColor: Color = DropdownDefaults.defaultContainerColor,
+    itemSpacing: Dp = DropdownDefaults.defaultDropDownMargin,
     contentPaddingValues: PaddingValues = DropdownDefaults.defaultDropDownContainerPaddingValues,
     animationSpec: DropDownAnimationSpec = DropdownDefaults.defaultDropDownAnimationSpec(),
     content: @Composable ColumnScope.() -> Unit
@@ -85,6 +108,8 @@ fun DropDown(
                 modifier = modifier,
                 transformOriginState =transformOriginState ,
                 shape = shape,
+                scrollState = scrollState,
+                borderStroke = borderStroke,
                 contentPaddingValues = contentPaddingValues,
                 containerColor =containerColor,
                 animationSpec = animationSpec,
@@ -97,13 +122,14 @@ fun DropDown(
 
 @Composable
 fun DropDownItem(
+    modifier: Modifier = Modifier,
     title: @Composable () -> Unit,
     onClick: () -> Unit,
     leading: @Composable (() -> Unit)? = null,
     trailing: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,
-    shape: Shape = KoreTheme.shapes.normal,
-   colors: DropDownItemColors = DropdownDefaults.defaultDropDownItemColors(),
+    shape: Shape = KoreTheme.shapes.sm,
+    colors: DropDownItemColors = DropdownDefaults.defaultDropDownItemColors(),
     paddingValues: DropDownMenuItemPaddingValues = DropdownDefaults.defaultDropDownMenuItemPaddingValues(),
     interactionSource: MutableInteractionSource? = null,
 ) {
@@ -120,8 +146,8 @@ fun DropDownItem(
     Row(
         modifier = Modifier.fillMaxWidth()
             .sizeIn(
-                minWidth = DropdownDefaults.defaultDropDownMenuItemMinWidth,
-                maxWidth = DropdownDefaults.defaultDropDownMenuItemMaxWidth
+                minWidth = 112.dp,
+                maxWidth = 200.dp
             )
             .clip(shape)
             .background(color = containerColor, shape = shape)
@@ -174,7 +200,11 @@ internal fun DropDownContent(
     modifier: Modifier = Modifier,
     expandedState: MutableTransitionState<Boolean>,
     transformOriginState : MutableState<TransformOrigin>,
+    scrollState: ScrollState,
     contentPaddingValues: PaddingValues,
+    borderStroke: BorderStroke? = null,
+    itemSpacing: Dp = DropdownDefaults.defaultDropDownItemSpacing,
+    itemSize: DropDownItemSize = DropdownDefaults.defaultDropDownItemSize,
     shape: Shape = DropdownDefaults.defaultDropDownShape,
     containerColor: Color = DropdownDefaults.defaultContainerColor,
     animationSpec: DropDownAnimationSpec,
@@ -211,6 +241,8 @@ internal fun DropDownContent(
     val isInspecting = LocalInspectionMode.current
     Column(
         modifier = modifier
+            .widthIn(min = itemSize.minWidth, max = itemSize.maxWidth)
+            .verticalScroll(scrollState)
             .graphicsLayer{
                 scaleX =
                     if (!isInspecting) scale
@@ -222,9 +254,12 @@ internal fun DropDownContent(
                     if (!isInspecting) alpha
                     else if (expandedState.targetState) animationSpec.expandedAlphaTarget else animationSpec.closedAlphaTarget
                 transformOrigin = transformOriginState.value
+
             }
+
             .clip(shape = shape)
             .background(color = containerColor, shape = shape)
+            .border(2.dp, shape = shape, color = KoreTheme.colorScheme.backGroundVariant)
             .padding(contentPaddingValues)
             .width(IntrinsicSize.Max),
         content = content
@@ -248,10 +283,21 @@ object DropdownDefaults{
 
 
     val defaultDropDownShape : Shape
-        @Composable get() = KoreTheme.shapes.medium
+        @Composable get() = KoreTheme.shapes.md
 
     val defaultContainerColor : Color
         @Composable get() = KoreTheme.colorScheme.surface
+
+
+    val defaultDropDownItemSpacing : Dp
+        @Composable get() = KoreTheme.sizes.xxs
+
+
+    val defaultDropDownItemSize = DropDownItemSize(
+        maxWidth = 280.dp,
+        minWidth = 112.dp
+    )
+
 
 
     val defaultDropDownContainerPaddingValues : PaddingValues = PaddingValues(8.dp)
@@ -263,9 +309,7 @@ object DropdownDefaults{
     val defaultMinTrailingSize : Dp = 24.dp
 
 
-    val defaultDropDownMenuItemMinWidth = 100.dp
 
-    val defaultDropDownMenuItemMaxWidth = 200.dp
 
 
     fun defaultDropDownAnimationSpec(
@@ -324,6 +368,12 @@ data class DropDownMenuItemPaddingValues(
     val containerPadding: PaddingValues,
     val leadingPaddingValues: PaddingValues,
     val trailingPaddingValues: PaddingValues
+)
+
+@Immutable
+data class DropDownItemSize(
+    val maxWidth : Dp,
+    val minWidth : Dp
 )
 
 

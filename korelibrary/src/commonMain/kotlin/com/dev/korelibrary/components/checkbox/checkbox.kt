@@ -1,4 +1,4 @@
-package com.dev.korelibrary.src.Components.CheakBox
+package com.dev.korelibrary.components.checkbox
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -33,9 +33,20 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
 
+/**
+ * A CheckBox is an input control that allows user to select one or more options.
+ * @param modifier the [Modifier] applied to CheckBox
+ * @param checked the current checked state of the CheckBox [Boolean]
+ * @param onCheckChange the callback invoked when the CheckBox is checked or unchecked
+ * @param enabled the enabled state of the CheckBox [Boolean]
+ * @param shape the shape of the CheckBox [Shape]
+ * @param colors the colors of the CheckBox [CheckBoxColors]
+ * @param interactionSource the [MutableInteractionSource] representing the stream of [Interaction]s
+ */
 
 @Composable
 fun CheckBox(
@@ -44,6 +55,7 @@ fun CheckBox(
     onCheckChange : (Boolean) -> Unit,
     enabled: Boolean = true,
     shape: Shape = CheckBoxDefaults.defaultCheckBoxShape,
+    borderWidth : Dp = CheckBoxDefaults.defaultCheckBoxBorderWidth,
     colors: CheckBoxColors = CheckBoxDefaults.defaultCheckBoxColors(),
     interactionSource: MutableInteractionSource ? = null,
 ) {
@@ -86,7 +98,7 @@ fun CheckBox(
                 shape =shape
             )
             .border(
-                width = 2.dp,
+                width = borderWidth,
                 color = borderColor,
                 shape = shape
             ),
@@ -151,11 +163,15 @@ fun CheckBox(
 }
 
 
-
-
-
-
-
+/**
+ * CheckBoxDefaults defines the default values for checkBox
+ * @property defaultCheckBoxSize the default size of the CheckBox [Dp]
+ * @property defaultCheckSize the default size of the CheckMark [Dp]
+ * @property defaultCheckBoxShape the default shape of the CheckBox [Shape]
+ * @property defaultCheckBoxBorderWidth the default borderWidth of the CheckBox [Dp]
+ * @property defaultCheckPaddingValues the default paddingValues of the CheckMark [PaddingValues]
+ * @property defaultCheckBoxColors the default colors of the CheckBox [CheckBoxColors]
+ */
 
 object CheckBoxDefaults{
     val defaultCheckBoxSize = 24.dp
@@ -165,7 +181,9 @@ object CheckBoxDefaults{
 
 
     val defaultCheckBoxShape : Shape
-        @Composable get() = KoreTheme.shapes.small
+        @Composable get() = KoreTheme.shapes.xs
+
+    val defaultCheckBoxBorderWidth : Dp = 2.dp
 
 
     val defaultCheckPaddingValues : PaddingValues = PaddingValues(
@@ -238,6 +256,9 @@ private fun CheckBoxColors.checkColor(
 }
 
 
+/**
+ * defines all the colors for the checkBox
+ */
 @Immutable
 data class CheckBoxColors(
     val checkedContainerColor : Color,

@@ -1,4 +1,4 @@
-package com.dev.korelibrary.src.Components.Badges
+package com.dev.korelibrary.components.badge
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -10,14 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.src.Components.Badges.BadgeDefaults.containerColor
-import com.dev.korelibrary.src.Components.Badges.BadgeDefaults.contentColor
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalContentColor
 import com.dev.korelibrary.themes.LocalTextStyle
@@ -38,23 +37,21 @@ internal fun BaseBadge(
     CompositionLocalProvider(
         values = arrayOf(
             LocalContentColor provides badgeColors.contentColor(enabled = enabled),
-            LocalTextStyle provides KoreTheme.typography.labelMedium
+            LocalTextStyle provides KoreTheme.typography.label2
         )
     ) {
-        Box(
-            modifier = modifier
-                .background(
-                    shape = shape, color = badgeColors.containerColor(enabled = enabled)
-                )
-                .then(
-                    if (border != null) Modifier.border(
-                        border = border,
-                        shape = shape
-                    ) else Modifier
-                )
-        ) {
+
             Row(
-                modifier = Modifier.padding(
+                modifier = modifier
+                    .background(
+                        shape = shape, color = badgeColors.containerColor(enabled = enabled)
+                    )
+                    .then(
+                        if (border != null) Modifier.border(
+                            border = border,
+                            shape = shape
+                        ) else Modifier
+                    ).padding(
                    badgeSizes.containerPadding
                 )
                 ,verticalAlignment = Alignment.CenterVertically
@@ -62,6 +59,7 @@ internal fun BaseBadge(
               leadingIcon?.let {
                   Box(
                       modifier = Modifier
+                          .padding(badgeSizes.leadingIconPadding)
                           .size(badgeSizes.leadingIconSize)
                   ){
                       leadingIcon()
@@ -69,7 +67,7 @@ internal fun BaseBadge(
               }
 
                 Box(
-                    modifier = modifier.padding(
+                    modifier = Modifier.padding(
                      badgeSizes.contentPadding
                     )
                 ){
@@ -79,6 +77,7 @@ internal fun BaseBadge(
                 trailingIcon?.let {
                     Box(
                         modifier = Modifier
+                            .padding(badgeSizes.trailingIconPadding)
                             .size(badgeSizes.trailingIconSize)
                     ) {
                         trailingIcon()
@@ -87,18 +86,25 @@ internal fun BaseBadge(
             }
         }
     }
-}
 
 
 
-
-// primary chip will be used for the primary actions
-
+/**
+ * PrimaryBadge is a badge composable designed to highlight primary action or status indicator
+ * @param content the main composable content to be displayed within the badge
+ * @param modifier is the [Modifier] applied to the badge
+ * @param shape the shape of the primary badge [Shape]
+ * @param badgeSizes the content sizes and padding values for the PrimaryBadge [BadgeSizes]
+ * @param leadingIcon an optional [Composable] appearing before the main content
+ * @param trailingIcon an optional [Composable] appearing after the main content
+ * @param enabled the visual state of the PrimaryBadge [Boolean]
+ * @param badgeColors the colors of the PrimaryBadge [BadgeColors]
+ */
 @Composable
 fun PrimaryBadge(
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = KoreTheme.shapes.large,
+    shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
@@ -117,12 +123,22 @@ fun PrimaryBadge(
     )
 }
 
-
+/**
+ * SuccessBadge is a badge composable designed to highlight success action or status indicator
+ * @param content the main composable content to be displayed within the SuccessBadge
+ * @param modifier is the [Modifier] applied to the badge
+ * @param shape the shape of the SuccessBadge [Shape]
+ * @param badgeSizes the content sizes and padding values for the SuccessBadge [BadgeSizes]
+ * @param leadingIcon an optional [Composable] appearing before the main content
+ * @param trailingIcon an optional [Composable] appearing after the main content
+ * @param enabled the visual state of the SuccessBadge [Boolean]
+ * @param badgeColors the colors of the SuccessBadge [BadgeColors]
+ */
 @Composable
 fun SuccessBadge(
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = KoreTheme.shapes.large,
+    shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
@@ -141,12 +157,22 @@ fun SuccessBadge(
     )
 }
 
-
+/**
+ * ErrorBadge is a badge composable designed to highlight success action or status indicator
+ * @param content the main composable content to be displayed within the ErrorBadge
+ * @param modifier is the [Modifier] applied to the badge
+ * @param shape the shape of the ErrorBadge [Shape]
+ * @param badgeSizes the content sizes and padding values for the ErrorBadge [BadgeSizes]
+ * @param leadingIcon an optional [Composable] appearing before the main content
+ * @param trailingIcon an optional [Composable] appearing after the main content
+ * @param enabled the visual state of the ErrorBadge [Boolean]
+ * @param badgeColors the colors of the ErrorBadge [BadgeColors]
+ */
 @Composable
 fun ErrorBadge(
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = KoreTheme.shapes.large,
+    shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
@@ -165,11 +191,23 @@ fun ErrorBadge(
     )
 }
 
+
+/**
+ * SecondaryBadge is a badge composable designed to highlight success action or status indicator
+ * @param content the main composable content to be displayed within the SecondaryBadge
+ * @param modifier is the [Modifier] applied to the badge
+ * @param shape the shape of the SecondaryBadge [Shape]
+ * @param badgeSizes the content sizes and padding values for the SecondaryBadge [BadgeSizes]
+ * @param leadingIcon an optional [Composable] appearing before the main content
+ * @param trailingIcon an optional [Composable] appearing after the main content
+ * @param enabled the visual state of the SecondaryBadge [Boolean]
+ * @param badgeColors the colors of the SecondaryBadge [BadgeColors]
+ */
 @Composable
 fun SecondaryBadge(
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = KoreTheme.shapes.large,
+    shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
@@ -188,11 +226,24 @@ fun SecondaryBadge(
     )
 }
 
+
+
+/**
+ * OutlinedBadge is a badge composable designed to highlight success action or status indicator
+ * @param content the main composable content to be displayed within the OutlinedBadge
+ * @param modifier is the [Modifier] applied to the badge
+ * @param shape the shape of the OutlinedBadge [Shape]
+ * @param badgeSizes the content sizes and padding values for the OutlinedBadge [BadgeSizes]
+ * @param leadingIcon an optional [Composable] appearing before the main content
+ * @param trailingIcon an optional [Composable] appearing after the main content
+ * @param enabled the visual state of the OutlinedBadge [Boolean]
+ * @param badgeColors the colors of the OutlinedBadge [BadgeColors]
+ */
 @Composable
 fun OutlinedBadge(
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = KoreTheme.shapes.large,
+    shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
@@ -206,7 +257,7 @@ fun OutlinedBadge(
         badgeSizes = badgeSizes,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
-        border = androidx.compose.foundation.BorderStroke(
+        border = BorderStroke(
             width = 1.dp,
             color = if (enabled) badgeColors.contentColor else badgeColors.disabledContentColor
         ),
@@ -216,12 +267,27 @@ fun OutlinedBadge(
 }
 
 
-
-
-
-
+/**
+ * BadgeDefaults is the defaults values for all badge Composables
+ * @property defaultBadgeSize is the default the content sizes and padding values [BadgeSizes]
+ * @property primaryBadgeColors is the default colors for the PrimaryBadge [BadgeColors]
+ * @property secondaryBadgeColors is the default colors for the SecondaryBadge [BadgeColors]
+ * @property outlinedBadgeColor is the default colors for the OutlinedBadge [BadgeColors]
+ * @property successBadgeColors is the default colors for the SuccessBadge [BadgeColors]
+ * @property errorBadgeColors is the default colors for the ErrorBadge [BadgeColors]
+ */
 object BadgeDefaults {
 
+    /**
+     * creates a [BadgeSizes] configuration that defines the sizing and padding values for badge
+     *
+     * @param leadingIconSize the default size(height & width) of the leading icon slot [Dp]
+     * @param leadingIconPadding the defaultPaddingValue of the leading icon slot [PaddingValues]
+     * @param trailingIconSize the default size(height & width) of the trailing icon slot [Dp]
+     * @param trailingIconPadding the defaultPaddingValue of the trailing icon slot [PaddingValues]
+     * @param contentPadding is the defaultPaddingValue of the main content slot [PaddingValues]
+     * @param  containerPadding the defaultPaddingValue of the  whole Badge container [PaddingValues]
+     */
   @Composable
   fun defaultBadgeSize (
       leadingIconSize: Dp = defaultLeadingIconSize,
@@ -240,7 +306,10 @@ object BadgeDefaults {
       containerPadding = containerPadding
   )
 
-
+    /**
+     * creates a [BadgeColors] [Composable] fun to define the colors for the PrimaryBadge
+     * @param containerColor the container
+     */
     @Composable
     fun primaryBadgeColors(
         containerColor: Color = KoreTheme.colorScheme.primary,
@@ -347,37 +416,22 @@ object BadgeDefaults {
         disabledTrailingContentColor = disabledTrailingContentColor
     )
 
-   // the default size for the chip
 
-
-
-
-
-    val horizontalContentPadding = PaddingValues(
+    private val horizontalContentPadding = PaddingValues(
         horizontal = 4.dp
     )
-    val defaultLeadingIconSize = 18.dp
+    private val defaultLeadingIconSize = 18.dp
 
-    val defaultTrailingIconSize = 18.dp
+   private val defaultTrailingIconSize = 18.dp
 
-
-    internal fun BadgeColors.contentColor (
-       enabled : Boolean
-    ) : Color{
-       return if (enabled) contentColor else disabledContentColor
-    }
-
-
-    internal fun BadgeColors.containerColor(
-        enabled: Boolean
-    ) : Color{
-        return if (enabled) containerColor else disabledContainerColor
-    }
 
 
 }
 
-
+/**
+ * defines the colors of the badge
+ */
+@Immutable
 data class BadgeColors(
     val containerColor: Color,
     val contentColor: Color,
@@ -388,7 +442,23 @@ data class BadgeColors(
     val trailingContentColor : Color,
     val disabledTrailingContentColor : Color
 )
+internal fun BadgeColors.contentColor(
+    enabled: Boolean
+): Color {
+    return if (enabled) contentColor else disabledContentColor
+}
 
+
+internal fun BadgeColors.containerColor(
+    enabled: Boolean
+): Color {
+    return if (enabled) containerColor else disabledContainerColor
+}
+
+/**
+ * defines badge sizes and padding
+ */
+@Immutable
 data class BadgeSizes(
     val leadingIconSize : Dp = Dp.Unspecified,
     val leadingIconPadding : PaddingValues,

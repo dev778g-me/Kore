@@ -22,7 +22,13 @@ import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalContentColor
 
 /**
- * @author
+ * A container that groups related and action together
+ * @param modifier the [Modifier] applied on the Card
+ * @param shape the shape of the Card [Shape]
+ * @param colors the colors of the Card [CardColors]
+ * @param elevation the elevation of the Card [Dp]
+ * @param contentPaddingValues the padding values of the contents inside the Card [PaddingValues]
+ * @param content the content of the Card [Composable] [ColumnScope]
 
  */
 
@@ -46,7 +52,14 @@ fun Card(
     }
 }
 
-
+/**
+ * A container with border that groups related contents and action together
+ * @param modifier the [Modifier] applied on the OutlinedCard
+ * @param shape the shape of the OutlinedCard [Shape]
+ * @param elevation the elevation of the OutlinedCard [Dp]
+ * @param contentPaddingValues the paddingValues of the content inside the OutlinedCard [PaddingValues]
+ * @param content the content of the OutlinedCard [Composable] [ColumnScope]
+ */
 @Composable
 fun OutlinedCard(
     modifier: Modifier = Modifier,
@@ -103,6 +116,16 @@ internal fun BaseCard(
 }
 
 
+/**
+ * CardDefaults is the object that defines the defaultValues for the Card Composable
+ * @property defaultCardShape the default shape of the Card [Shape]
+ * @property defaultCardContentPaddingValues the default paddingValues of the Card [PaddingValues]
+ * @property defaultOutlinedBorderStroke the default borderStroke of the OutlinedCard [BorderStroke]
+ * @property defaultCardElevation the default elevation of the Card [Dp]
+ * @property defaultCardColors the default colors of the Card [CardColors]
+ * @property defaultOutlinedCardColors the default colors of the OutlinedCard [CardColors]
+ */
+
 object CardDefaults {
 
     val defaultCardShape: Shape
@@ -141,7 +164,9 @@ object CardDefaults {
 
 }
 
-
+/**
+ * CardColors defines the colors of the Card
+ */
 @Immutable
 data class CardColors(
     val containerColor: Color,
