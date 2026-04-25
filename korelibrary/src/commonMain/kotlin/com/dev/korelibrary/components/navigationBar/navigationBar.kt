@@ -1,4 +1,4 @@
-package com.dev.korelibrary.components
+package com.dev.korelibrary.components.navigationBar
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.LocalIndication
@@ -37,6 +37,13 @@ import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalContentColor
 
+/**
+ * NavigationBar is bottom navigation that provides access to top-level destinations.
+ * @param modifier the [Modifier] applied to NavigationBar
+ * @param containerColor the background color of the NavigationBar [Color]
+ * @param contentPadding the padding values of the NavigationBar [PaddingValues]
+ * @param content the content of the NavigationBar [Composable]
+ */
 @Composable
 fun NavigationBar(
     modifier: Modifier = Modifier,
@@ -58,7 +65,20 @@ fun NavigationBar(
     }
 }
 
-
+/**
+ * NavigationBarItem is an individual item within a [NavigationBar]
+ * @param selected the boolean state which decides item selected nature [Boolean]
+ * @param onClick the callback to be invoked when this item is clicked
+ * @param icon the icon of the item [Composable]
+ * @param label the label of the item [Composable]
+ * @param modifier the [Modifier] applied on the item
+ * @param enabled the boolean state which decides item enabled nature [Boolean]
+ * @param indicatorShape the shape of the indicator [Shape]
+ * @param iconLabelSpacing the spacing between icon and label [Dp]
+ * @param colors the colors of the item. Use [NavigationBarDefaults.defaultNavigationBarColors] to change colors
+ * @param interactionSource the interaction source of the item [MutableInteractionSource]
+ *
+ */
 @Composable
 fun RowScope.NavigationBarItem(
     selected: Boolean,
@@ -67,10 +87,11 @@ fun RowScope.NavigationBarItem(
     label: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    iconLabelSpacing: Dp = NavigationBarDefaults.defaultIconLabelSpacing,
     indicatorShape: Shape = NavigationBarDefaults.defaultNavigationItemShape,
-    colors: NavigationBarColor = NavigationBarDefaults.defaultNavigationBarColors(),
+    iconLabelSpacing: Dp = NavigationBarDefaults.defaultIconLabelSpacing,
+    colors: NavigationBarItemColor = NavigationBarDefaults.defaultNavigationBarColors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+
 ) {
 
    val iconColor by animateColorAsState(
@@ -127,12 +148,17 @@ fun RowScope.NavigationBarItem(
 }
 
 
-
-
+/**
+ * NavigationBarDefaults defines default values for NavigationBar
+ * @property defaultNavigationItemShape the default shape of the navigation item [Shape]
+ * @property defaultNavigationBarPaddingValues the default padding values of the navigation bar [PaddingValues]
+ * @property defaultIconLabelSpacing the default spacing between icon and label [Dp]
+ * @property defaultNavigationBarColors the default colors of the navigation bar [NavigationBarItemColor]
+ */
 object NavigationBarDefaults{
 
     val defaultNavigationItemShape : Shape
-     @Composable get() =  KoreTheme.shapes.medium
+     @Composable get() =  KoreTheme.shapes.md
 
     val defaultNavigationBarPaddingValues : PaddingValues = PaddingValues(
         horizontal = 12.dp,
@@ -149,7 +175,7 @@ object NavigationBarDefaults{
         selectedLabelColor: Color= KoreTheme.colorScheme.primary,
         disabledIconColor : Color= KoreTheme.colorScheme.onDisabled,
         disabledLabelColor :Color= KoreTheme.colorScheme.onDisabled,
-    ) = NavigationBarColor(
+    ) = NavigationBarItemColor(
         unSelectedIconColor = unSelectedIconColor,
         selectedIconColor =selectedIconColor,
         unSelectedLabelColor = unSelectedLabelColor,
@@ -160,9 +186,11 @@ object NavigationBarDefaults{
 
 }
 
-
+/**
+ * defines all the colors for navigationbar item
+ */
 @Immutable
-data class NavigationBarColor(
+data class NavigationBarItemColor(
     val unSelectedIconColor: Color,
     val selectedIconColor: Color,
     val unSelectedLabelColor: Color,
@@ -172,7 +200,7 @@ data class NavigationBarColor(
 )
 
 
-private fun NavigationBarColor.iconColor(
+private fun NavigationBarItemColor.iconColor(
     enabled : Boolean,
     isSelected: Boolean
 ) : Color{
@@ -182,7 +210,7 @@ private fun NavigationBarColor.iconColor(
 }
 
 
-private fun NavigationBarColor.labelColor(
+private fun NavigationBarItemColor.labelColor(
     enabled: Boolean,
     isSelected: Boolean
 ): Color{

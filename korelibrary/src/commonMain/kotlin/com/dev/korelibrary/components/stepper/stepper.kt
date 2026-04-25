@@ -25,19 +25,34 @@ import com.dev.korelibrary.components.separators.VerticalSeparator
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalTextStyle
 
+/**
+ * horizontal layout component that groups a decrement button, a central label, and an increment button.
+ * Use a `Stepper` when users need to make small, precise adjustments to a continuous or discrete
+ * @param label The central content displaying the current value, usually a `Text` composable.
+ * @param decrementButton The interactive component placed on the leading side, used to decrease the value.
+ * @param incrementIcon The interactive component placed on the trailing side, used to increase the value.
+ * @param modifier The [Modifier] applied to the stepper's outer container.
+ * @param separator If true, displays a vertical divider between the buttons and the central label.
+ * @param shape The geometric clipping shape of the stepper's outer container.
+ * @param containerColor The background color of the stepper container.
+ * @param border An optional border drawn around the outside of the stepper container.
+ * @param minLabelWidth The minimum width allocated for the [label]. Setting this prevents the buttons from shifting positions horizontally when the label text changes size (e.g., changing from "9" to "10").
+ * @param labelPaddingValues The padding applied immediately around the [label] content.
+ * @param separatorPaddingValues The vertical padding applied to the separators, controlling how close the divider lines get to the top and bottom edges of the container.
+ */
 @Composable
 fun Stepper(
-    modifier: Modifier = Modifier,
-    separator: Boolean = true,
-    containerColor: Color = StepperDefaults.defaultContainerColor,
-    border: BorderStroke? = null,
-    shape: Shape = StepperDefaults.defaultStepperShape,
-    minLabelWidth: Dp = StepperDefaults.minimumLabelWidth,
-    labelPaddingValues: PaddingValues = StepperDefaults.defaultLabelPaddingValues,
-    separatorPaddingValues: PaddingValues = StepperDefaults.defaultSeparatorPaddingValues,
+    label: @Composable () -> Unit,
     decrementButton: @Composable () -> Unit,
     incrementIcon: @Composable () -> Unit,
-    label: @Composable () -> Unit
+    modifier: Modifier = Modifier,
+    separator: Boolean = true,
+    shape: Shape = StepperDefaults.defaultStepperShape,
+    containerColor: Color = StepperDefaults.defaultContainerColor,
+    border: BorderStroke? = null,
+    minLabelWidth: Dp = StepperDefaults.minimumLabelWidth,
+    labelPaddingValues: PaddingValues = StepperDefaults.defaultLabelPaddingValues,
+    separatorPaddingValues: PaddingValues = StepperDefaults.defaultSeparatorPaddingValues
     ){
     Row (
         modifier = modifier
@@ -60,7 +75,7 @@ fun Stepper(
             )
         }
         CompositionLocalProvider(
-            value = LocalTextStyle provides KoreTheme.typography.titleSmall
+            value = LocalTextStyle provides KoreTheme.typography.title3
         ){
             Box(
                 modifier = Modifier
@@ -84,6 +99,14 @@ fun Stepper(
 }
 
 
+/**
+ * StepperDefaults defines all the default values for [Stepper]
+ * @property minimumLabelWidth the minimum width allocated for the label [Dp]
+ * @property defaultSeparatorPaddingValues the vertical padding applied to the separators
+ * @property defaultLabelPaddingValues the padding values of the label [PaddingValues]
+ * @property defaultContainerColor the default background color of the container [Color]
+ * @property defaultStepperShape the default shape of the stepper
+ */
 object StepperDefaults{
     val minimumLabelWidth = 38.dp
 

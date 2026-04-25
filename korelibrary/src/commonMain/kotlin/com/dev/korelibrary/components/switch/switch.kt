@@ -1,9 +1,17 @@
-package com.dev.korelibrary.src.Components.Switchs
+package com.dev.korelibrary.components.switch
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -21,43 +30,61 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.src.Components.Switchs.SwitchDefaults.thumbColor
-import com.dev.korelibrary.src.Components.Switchs.SwitchDefaults.trackColor
 import com.dev.korelibrary.themes.KoreTheme
+import com.dev.korelibrary.themes.LocalContentColor
 
-
+/**
+ * Switch allows users to toggle state of a single item on or off
+ * @param checked the [Boolean] state that controls either switch is checked or not
+ * @param onCheckChange the callback that is called when the checked state changes
+ * @param modifier the [Modifier] applied to the switch
+ * @param enabled controls the enabled state of the switch if false the user will not able to interact with the switch
+ * @param checkThumbContent the content of the thumb when the switch is checked .
+ * @param unCheckedThumbContent the content of the thumb when the switch is unchecked.
+ * @param trackShape the shape of the switch Container [Shape]
+ * @param thumbSize the shape of the switch thumb [Shape]
+ * @param switchTrackWidth the width of the switch container [Dp]
+ * @param switchTrackHeight the height of the switch container. [Dp]
+ * @param thumbPadding the padding of the thumb from the switch container [Dp]
+ * @param switchColors the colors of the switch. Use [SwitchDefaults.defaultSwitchColors] to change the colors.
+ * @param interactionSource the interaction source of the switch.
+ */
 @Composable
 fun Switch(
-    checked : Boolean,
+    checked: Boolean,
+    onCheckChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
-    onCheckChange : ((Boolean) -> Unit)?,
-    thumbContent : @Composable (() -> Unit)? = null,
-    enabled : Boolean = true,
-    interactionSource: MutableInteractionSource? = null,
+    enabled: Boolean = true,
+    checkThumbContent: @Composable (() -> Unit)? = null,
+    unCheckedThumbContent: @Composable (() -> Unit)? = null,
+    transitionSpec:  AnimatedContentTransitionScope<Boolean>.() -> ContentTransform = SwitchDefaults.defaultTransitionSpec,
+    trackShape: Shape = SwitchDefaults.defaultTrackShape,
+    thumbShape: Shape = SwitchDefaults.defaultThumbShape,
+    thumbSize: Dp = SwitchDefaults.defaultSwitchSize,
+    switchTrackWidth: Dp = SwitchDefaults.defaultSwitchTrackWidth,
+    switchTrackHeight: Dp = SwitchDefaults.defaultSwitchHeight,
+    thumbPadding: Dp = SwitchDefaults.thumbPadding,
     switchColors: SwitchColors = SwitchDefaults.defaultSwitchColors(),
-    switchHeight : Dp = SwitchDefaults.defaultSwitchHeight,
-    switchWidth : Dp = SwitchDefaults.defaultSwitchTrackWidth,
-    thumbPadding : Dp = SwitchDefaults.thumbPadding,
+    interactionSource: MutableInteractionSource? = null,
 ) {
 
     val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
 
     val density = LocalDensity.current
     val maxOffset = with(density) {
-        (switchWidth - 24.dp - thumbPadding).toPx()
+        (switchTrackWidth - thumbSize - thumbPadding).toPx()
     }
 
     val targetOffset = with(density) {
-        when {
-            checked -> maxOffset
-            !checked -> thumbPadding.toPx()
-            else -> 89.dp.toPx()
-        }
+        if (checked) maxOffset else thumbPadding.toPx()
     }
     val thumbOffset by animateFloatAsState(targetOffset, spring(stiffness = Spring.StiffnessMedium))
     val trackColor by animateColorAsState(
@@ -76,7 +103,7 @@ fun Switch(
 
 
     val thumbScale by animateFloatAsState(
-        targetValue = if (checked)1.2f else 0.9f
+        targetValue = if (checked)1.1f else 0.9f
     )
 
 
@@ -85,7 +112,7 @@ fun Switch(
             value = checked,
             enabled = enabled,
             role = Role.Switch,
-            interactionSource = interactionSource,
+            interactionSource = resolvedInteractionSource,
             indication = LocalIndication.current,
             onValueChange = onCheckChange
         )
@@ -93,49 +120,83 @@ fun Switch(
 
     Box(
         modifier = modifier
-            .size(switchWidth, switchHeight)
-            .clip(CircleShape)
-            .background(trackColor)
-            .then(toggle)
+            .semantics{
+                role = Role.Switch
+            }
+            .size(switchTrackWidth, switchTrackHeight)
+            .clip(trackShape)
+            .background(trackColor, trackShape)
+            .then(toggle),
+        contentAlignment = Alignment.Center
     ){
+
         Box(
             modifier = Modifier
                 .offset(
                     x = with(density) { thumbOffset.toDp() }
                 )
                 .align(Alignment.CenterStart)
-                .size(24.dp)
+                .size(thumbSize)
                 .graphicsLayer {
                     scaleX = thumbScale
                     scaleY = thumbScale
-                }.background(thumbColor, CircleShape)
-                .clip(CircleShape).then(toggle)
-                .padding(4.dp),
+                }
+                .clip(thumbShape)
+                .background(thumbColor, thumbShape)
+                .padding(thumbPadding),
 
             contentAlignment = Alignment.Center
         ) {
-            thumbContent?.let {
-                thumbContent()
+            checkThumbContent?.let {
+                val contentColor by animateColorAsState(
+                    targetValue = if (checked) KoreTheme.colorScheme.onBackGround else KoreTheme.colorScheme.backGroundVariant
+                )
+                CompositionLocalProvider(
+                    LocalContentColor provides contentColor
+                ) {
+                    AnimatedContent(
+                        targetState = checked,
+                        transitionSpec = transitionSpec
+                    ) {
+                        if (it) {
+                            checkThumbContent()
+                        } else {
+                            unCheckedThumbContent?.invoke()
+                        }
+                    }
+                }
             }
         }
+
     }
 }
 
 
-
-
-
-
-
-
-
-
+/**
+ * SwitchDefaults defines all the default values for [Switch]
+ * @property defaultSwitchSize the default size of the switch [Dp]
+ * @property defaultSwitchTrackWidth the default width of the switch container [Dp]
+ * @property defaultSwitchHeight the default height of the switch container [Dp]
+ * @property thumbPadding the padding of the switch(thumb) from the switch container [Dp]
+ * @property defaultTransitionSpec the default transition spec between switching unchecked & checked Content
+ * @property defaultThumbShape the default shape of the switch container [Shape]
+ * @property defaultTrackShape the default shape of the switch thumb [Shape]
+ * @property defaultSwitchColors the default colors of the switch
+ */
 object SwitchDefaults{
+
+    val defaultSwitchSize : Dp = 24.dp
     val defaultSwitchTrackWidth = 52.dp
     val  defaultSwitchHeight = 32.dp
     val thumbPadding = 4.dp
 
+    val defaultTransitionSpec: AnimatedContentTransitionScope<Boolean>.() -> ContentTransform = {
+        (scaleIn() + fadeIn()) togetherWith (scaleOut() + fadeOut())
+    }
 
+    val defaultTrackShape : Shape = CircleShape
+
+    val defaultThumbShape : Shape = CircleShape
     @Composable
     fun defaultSwitchColors(
         checkedTrackColor: Color = KoreTheme.colorScheme.primary,
@@ -162,29 +223,32 @@ object SwitchDefaults{
     )
 
 
-  internal fun SwitchColors.trackColor(
-        enabled: Boolean,
-        checked: Boolean
-    ) : Color{
-    return    if (enabled) if (checked) this.checkedTrackColor else this.unCheckedTrackColor
-        else if (checked) this.disabledCheckedTrackColor else this.disabledUncheckedTrackColor
 
-    }
-
-
-    internal fun SwitchColors.thumbColor(
-        checked: Boolean,
-        enabled: Boolean
-    ): Color {
-        return if (enabled) if (checked) this.checkedThumbColor else this.unCheckedThumbColor
-        else if (checked) this.disabledCheckedThumbColor else this.disabledUncheckedThumbColor
-    }
 
 
 
 }
+private fun SwitchColors.trackColor(
+    enabled: Boolean,
+    checked: Boolean
+) : Color{
+    return    if (enabled) if (checked) this.checkedTrackColor else this.unCheckedTrackColor
+    else if (checked) this.disabledCheckedTrackColor else this.disabledUncheckedTrackColor
+
+}
 
 
+private fun SwitchColors.thumbColor(
+    checked: Boolean,
+    enabled: Boolean
+): Color {
+    return if (enabled) if (checked) this.checkedThumbColor else this.unCheckedThumbColor
+    else if (checked) this.disabledCheckedThumbColor else this.disabledUncheckedThumbColor
+}
+
+/**
+ * Defines all the colors of the Switch
+ */
 @Immutable
 data class SwitchColors(
     val checkedTrackColor : Color,
