@@ -16,7 +16,7 @@ dependencyResolutionManagement {
 ```
 
 #### Add to Android 
-```
+```kotlin
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -59,7 +59,7 @@ dependencies {
 }
 ```
 #### Add to Compose Multiplatform
-``` 
+``` kotlin
 // dummy ai genn
 plugins {
     kotlin("multiplatform")
