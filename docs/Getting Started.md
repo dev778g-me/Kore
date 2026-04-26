@@ -1,3 +1,3 @@
 # Getting Started 
 
-<p>This is getting started guide for Kore this </p>
+<p>This guide is for getting started with <br></p>
