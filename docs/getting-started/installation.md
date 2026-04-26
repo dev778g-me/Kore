@@ -1,4 +1,4 @@
-###### Learn how to install and use Kore in a project 
+<h4>Learn how to install and use Kore in a project<h4>
 
 ## Add to Compose Multiplatform
 
@@ -7,7 +7,7 @@ Kore is distributed via <a href="https://central.sonatype.com/">Maven Central</a
 
 To make sure you have maven central check your `settings.gradle.kts` file.<br>
 
-```
+```kotlin
 dependencyResolutionManagement {
     repositories {
         mavenCentral() // <- add this line 
