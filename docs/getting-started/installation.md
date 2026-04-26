@@ -1,4 +1,4 @@
-<h4>Learn how to install and use Kore in a project<h4>
+<h6>Learn how to install and use Kore in a project<h6>
 
 ## Add to Compose Multiplatform
 
