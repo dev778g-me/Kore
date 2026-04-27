@@ -1,0 +1,9 @@
+//[korelibrary](../../index.md)/[com.dev.korelibrary.components.dropdown](index.md)/[DropDownItem](-drop-down-item.md)
+
+# DropDownItem
+
+[common]\
+
+@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
+
+fun [DropDownItem](-drop-down-item.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, title: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), onClick: () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), leading: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html)? = null, trailing: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html)? = null, enabled: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true, shape: [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html) = KoreTheme.shapes.sm, colors: [DropDownItemColors](-drop-down-item-colors/index.md) = DropdownDefaults.defaultDropDownItemColors(), paddingValues: [DropDownMenuItemPaddingValues](-drop-down-menu-item-padding-values/index.md) = DropdownDefaults.defaultDropDownMenuItemPaddingValues(), interactionSource: [MutableInteractionSource](https://developer.android.com/reference/kotlin/androidx/compose/foundation/interaction/MutableInteractionSource.html)? = null)

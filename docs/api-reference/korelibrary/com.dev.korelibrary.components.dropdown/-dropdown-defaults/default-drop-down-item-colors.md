@@ -1,0 +1,9 @@
+//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.dropdown](../index.md)/[DropdownDefaults](index.md)/[defaultDropDownItemColors](default-drop-down-item-colors.md)
+
+# defaultDropDownItemColors
+
+[common]\
+
+@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
+
+fun [defaultDropDownItemColors](default-drop-down-item-colors.md)(containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.surface, contentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGround, leadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGround, trailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGround, disabledContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.surface, disabledContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, disabledLeadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, disabledTrailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled): [DropDownItemColors](../-drop-down-item-colors/index.md)

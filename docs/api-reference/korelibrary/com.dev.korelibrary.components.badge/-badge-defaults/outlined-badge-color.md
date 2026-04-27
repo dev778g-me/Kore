@@ -1,0 +1,9 @@
+//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.badge](../index.md)/[BadgeDefaults](index.md)/[outlinedBadgeColor](outlined-badge-color.md)
+
+# outlinedBadgeColor
+
+[common]\
+
+@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
+
+fun [outlinedBadgeColor](outlined-badge-color.md)(containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.transparent, contentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.primary, disabledContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.disabled, disabledContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, leadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGroundVariant, disabledLeadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, trailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGroundVariant, disabledTrailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled): [BadgeColors](../-badge-colors/index.md)

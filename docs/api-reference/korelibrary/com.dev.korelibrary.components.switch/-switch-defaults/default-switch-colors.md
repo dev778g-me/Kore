@@ -1,0 +1,9 @@
+//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.switch](../index.md)/[SwitchDefaults](index.md)/[defaultSwitchColors](default-switch-colors.md)
+
+# defaultSwitchColors
+
+[common]\
+
+@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
+
+fun [defaultSwitchColors](default-switch-colors.md)(checkedTrackColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.primary, unCheckedTrackColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.backGroundVariant, disabledCheckedTrackColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.disabled, disabledUncheckedTrackColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.disabled, checkedThumbColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onPrimary, unCheckedThumbColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGroundVariant, disabledCheckedThumbColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, disabledUncheckedThumbColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, uncheckedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onPrimary, checkedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.transparent): [SwitchColors](../-switch-colors/index.md)

@@ -1,0 +1,13 @@
+//[korelibrary](../../index.md)/[com.dev.korelibrary.utilities.modifiers](index.md)
+
+# Package-level declarations
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [minimumInteractiveComponentSize](minimum-interactive-component-size.md) | [common]<br>fun [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html).[minimumInteractiveComponentSize](minimum-interactive-component-size.md)(): [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) |
+| [noRippleClickable](no-ripple-clickable.md) | [common]<br>fun [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html).[noRippleClickable](no-ripple-clickable.md)(onClick: () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), enabled: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true, interactionSource: [MutableInteractionSource](https://developer.android.com/reference/kotlin/androidx/compose/foundation/interaction/MutableInteractionSource.html)? = null): [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) |
+| [scaleClickable](scale-clickable.md) | [common]<br>fun [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html).[scaleClickable](scale-clickable.md)(pressedScale: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.95f, onClick: () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), interactionSource: [MutableInteractionSource](https://developer.android.com/reference/kotlin/androidx/compose/foundation/interaction/MutableInteractionSource.html)? = null): [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) |
+| [shimmer](shimmer.md) | [common]<br>fun [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html).[shimmer](shimmer.md)(colors: [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html)&gt;? = null, shape: [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html)? = null): [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) |
+| [toHexString](to-hex-string.md) | [common]<br>fun [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html).[toHexString](to-hex-string.md)(): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html) |

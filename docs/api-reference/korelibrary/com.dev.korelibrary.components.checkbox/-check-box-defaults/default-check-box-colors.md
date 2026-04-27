@@ -1,0 +1,9 @@
+//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.checkbox](../index.md)/[CheckBoxDefaults](index.md)/[defaultCheckBoxColors](default-check-box-colors.md)
+
+# defaultCheckBoxColors
+
+[common]\
+
+@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
+
+fun [defaultCheckBoxColors](default-check-box-colors.md)(checkedContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.primary, uncheckedContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.background, checkedCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onPrimary, uncheckedCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.transparent, checkedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.transparent, uncheckedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.primary, disabledContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.transparent, disabledCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, disabledBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.disabled): [CheckBoxColors](../-check-box-colors/index.md)

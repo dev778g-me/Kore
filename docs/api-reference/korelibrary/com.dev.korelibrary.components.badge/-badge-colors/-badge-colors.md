@@ -1,0 +1,6 @@
+//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.badge](../index.md)/[BadgeColors](index.md)/[BadgeColors](-badge-colors.md)
+
+# BadgeColors
+
+[common]\
+constructor(containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), contentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), leadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledLeadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), trailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledTrailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html))

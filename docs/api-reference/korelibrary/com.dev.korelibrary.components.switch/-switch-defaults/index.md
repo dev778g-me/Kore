@@ -1,0 +1,26 @@
+//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.switch](../index.md)/[SwitchDefaults](index.md)
+
+# SwitchDefaults
+
+[common]\
+object [SwitchDefaults](index.md)
+
+SwitchDefaults defines all the default values for [Switch](../-switch.md)
+
+## Properties
+
+| Name | Summary |
+|---|---|
+| [defaultSwitchHeight](default-switch-height.md) | [common]<br>val [defaultSwitchHeight](default-switch-height.md): [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html)<br>the default height of the switch container [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) |
+| [defaultSwitchSize](default-switch-size.md) | [common]<br>val [defaultSwitchSize](default-switch-size.md): [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html)<br>the default size of the switch [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) |
+| [defaultSwitchTrackWidth](default-switch-track-width.md) | [common]<br>val [defaultSwitchTrackWidth](default-switch-track-width.md): [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html)<br>the default width of the switch container [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) |
+| [defaultThumbShape](default-thumb-shape.md) | [common]<br>val [defaultThumbShape](default-thumb-shape.md): [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html)<br>the default shape of the switch container [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html) |
+| [defaultTrackShape](default-track-shape.md) | [common]<br>val [defaultTrackShape](default-track-shape.md): [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html)<br>the default shape of the switch thumb [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html) |
+| [defaultTransitionSpec](default-transition-spec.md) | [common]<br>val [defaultTransitionSpec](default-transition-spec.md): [AnimatedContentTransitionScope](https://developer.android.com/reference/kotlin/androidx/compose/animation/AnimatedContentTransitionScope.html)&lt;[Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)&gt;.() -&gt; [ContentTransform](https://developer.android.com/reference/kotlin/androidx/compose/animation/ContentTransform.html)<br>the default transition spec between switching unchecked & checked Content |
+| [thumbPadding](thumb-padding.md) | [common]<br>val [thumbPadding](thumb-padding.md): [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html)<br>the padding of the switch(thumb) from the switch container [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) |
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [defaultSwitchColors](default-switch-colors.md) | [common]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [defaultSwitchColors](default-switch-colors.md)(checkedTrackColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.primary, unCheckedTrackColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.backGroundVariant, disabledCheckedTrackColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.disabled, disabledUncheckedTrackColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.disabled, checkedThumbColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onPrimary, unCheckedThumbColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGroundVariant, disabledCheckedThumbColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, disabledUncheckedThumbColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled, uncheckedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onPrimary, checkedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.transparent): [SwitchColors](../-switch-colors/index.md) |

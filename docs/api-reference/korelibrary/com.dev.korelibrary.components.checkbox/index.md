@@ -1,0 +1,16 @@
+//[korelibrary](../../index.md)/[com.dev.korelibrary.components.checkbox](index.md)
+
+# Package-level declarations
+
+## Types
+
+| Name | Summary |
+|---|---|
+| [CheckBoxColors](-check-box-colors/index.md) | [common]<br>@[Immutable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable.html)<br>data class [CheckBoxColors](-check-box-colors/index.md)(val checkedContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val uncheckedContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val checkedCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val uncheckedCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val checkedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val uncheckedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val disabledContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val disabledCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val disabledBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html))<br>defines all the colors for the checkBox |
+| [CheckBoxDefaults](-check-box-defaults/index.md) | [common]<br>object [CheckBoxDefaults](-check-box-defaults/index.md)<br>CheckBoxDefaults defines the default values for checkBox |
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [CheckBox](-check-box.md) | [common]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [CheckBox](-check-box.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, checked: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html), onCheckChange: ([Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)) -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), enabled: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true, shape: [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html) = CheckBoxDefaults.defaultCheckBoxShape, borderWidth: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = CheckBoxDefaults.defaultCheckBoxBorderWidth, colors: [CheckBoxColors](-check-box-colors/index.md) = CheckBoxDefaults.defaultCheckBoxColors(), interactionSource: [MutableInteractionSource](https://developer.android.com/reference/kotlin/androidx/compose/foundation/interaction/MutableInteractionSource.html)? = null)<br>A CheckBox is an input control that allows user to select one or more options. |

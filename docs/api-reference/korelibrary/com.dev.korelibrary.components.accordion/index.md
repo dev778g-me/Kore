@@ -1,0 +1,15 @@
+//[korelibrary](../../index.md)/[com.dev.korelibrary.components.accordion](index.md)
+
+# Package-level declarations
+
+## Types
+
+| Name | Summary |
+|---|---|
+| [AccordionDefaults](-accordion-defaults/index.md) | [common]<br>object [AccordionDefaults](-accordion-defaults/index.md)<br>AccordionDefaults is the default values for all the Accordion Composables |
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [Accordion](-accordion.md) | [common]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [Accordion](-accordion.md)(expanded: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html), onExpand: () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, header: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), expandedContent: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), trailingIcon: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), leadingIcon: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html)? = null, separator: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true, enterTransition: [EnterTransition](https://developer.android.com/reference/kotlin/androidx/compose/animation/EnterTransition.html) = AccordionDefaults.defaultExpandedContentEnterTransition, exitTransition: [ExitTransition](https://developer.android.com/reference/kotlin/androidx/compose/animation/ExitTransition.html) = AccordionDefaults.defaultExpandedContentExitTransition, leadingIconAlignment: [Alignment.Vertical](https://developer.android.com/reference/kotlin/androidx/compose/ui/Alignment.Vertical.html) = AccordionDefaults.defaultLeadingIconAlignment, headerContentPaddingValues: [PaddingValues](https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/PaddingValues.html) = AccordionDefaults.defaultHeaderContentPadding, expandedContentPaddingValues: [PaddingValues](https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/PaddingValues.html) = AccordionDefaults.defaultExpandedContentPadding)<br>An Accordion is a vertically stacked header that when clicked expand or collapsed to show expanded content |
