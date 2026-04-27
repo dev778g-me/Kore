@@ -29,7 +29,7 @@ import com.dev.korelibrary.components.buttons.GhostIconButton
 import com.dev.korelibrary.components.icon.Icon
 import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.scaffold.Scaffold
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.components.progress.LinearProgressIndicator
 import com.dev.korelibrary.components.progress.ProgressIndicatorDefaults
 import com.dev.korelibrary.components.separators.HorizontalSeparator

@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.components.accordion.Accordion
 import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import icons.PhIcons
 import icons.regular.CaretDown
 @Composable

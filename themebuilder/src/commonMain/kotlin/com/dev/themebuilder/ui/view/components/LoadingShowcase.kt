@@ -19,7 +19,7 @@ import com.dev.korelibrary.components.buttons.PrimaryButton
 import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.listItem.ListTile
 import com.dev.korelibrary.components.loadingIndicator.CircularLoadingIndicator
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.utilities.modifiers.shimmer
 

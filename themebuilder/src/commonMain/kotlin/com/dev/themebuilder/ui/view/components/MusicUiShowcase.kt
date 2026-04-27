@@ -16,7 +16,7 @@ import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.card.CardDefaults
 import com.dev.korelibrary.components.listItem.ListTile
 import com.dev.korelibrary.components.slider.Slider
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
 import kore.themebuilder.generated.resources.Res
 import kore.themebuilder.generated.resources.far

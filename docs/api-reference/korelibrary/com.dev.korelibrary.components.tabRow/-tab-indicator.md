@@ -6,7 +6,7 @@
 
 @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-fun [TabIndicator](-tab-indicator.md)(tabPosition: [TabPosition](-tab-position/index.md), modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, indicatorColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), shape: [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html))
+fun [TabIndicator](-tab-indicator.md)(tabPosition: [TabPosition](-tab-position/index.md),<br>&nbsp;&nbsp;&nbsp;&nbsp;modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier,<br>&nbsp;&nbsp;&nbsp;&nbsp;indicatorColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;shape: [Shape](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Shape.html))
 
 Tab indicator is a composable that represents current selected tab visually
 

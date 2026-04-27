@@ -1,4 +1,4 @@
-package com.dev.korelibrary.components
+package com.dev.korelibrary.components.text
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable

@@ -25,7 +25,7 @@ import com.dev.korelibrary.components.separators.HorizontalSeparator
 import com.dev.korelibrary.components.buttons.PrimaryButton
 import com.dev.korelibrary.components.buttons.SecondaryButton
 import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.src.Components.TextFields.OutlinedTextField
 import com.dev.korelibrary.themes.KoreTheme
 import icons.PhIcons

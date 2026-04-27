@@ -6,7 +6,7 @@
 
 @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-fun [LinearLoadingIndicator](-linear-loading-indicator.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, thickness: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = LoadingIndicatorDefaults.defaultLinearLoadingIndicatorStrokeWidth, cap: [StrokeCap](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/StrokeCap.html) = LoadingIndicatorDefaults.defaultStrokeCap, colors: [LoadingIndicatorColors](-loading-indicator-colors/index.md) = LoadingIndicatorDefaults.linearLoadingIndictorColors())
+fun [LinearLoadingIndicator](-linear-loading-indicator.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier,<br>&nbsp;&nbsp;&nbsp;&nbsp;thickness: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = LoadingIndicatorDefaults.defaultLinearLoadingIndicatorStrokeWidth,<br>&nbsp;&nbsp;&nbsp;&nbsp;cap: [StrokeCap](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/StrokeCap.html) = LoadingIndicatorDefaults.defaultStrokeCap,<br>&nbsp;&nbsp;&nbsp;&nbsp;colors: [LoadingIndicatorColors](-loading-indicator-colors/index.md) = LoadingIndicatorDefaults.linearLoadingIndictorColors())
 
 A visual indicator that represents an ongoing task with an unspecified wait time . uses a horizontal line to signal the user that the app is working.
 

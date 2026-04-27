@@ -22,7 +22,7 @@ import com.dev.korelibrary.components.dropdown.DropDownItem
 import com.dev.korelibrary.components.listItem.ListTile
 import com.dev.korelibrary.components.badge.ErrorBadge
 import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.utilities.extensions.color
 import com.dev.themebuilder.ui.model.Sizes

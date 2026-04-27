@@ -17,7 +17,7 @@ import com.dev.korelibrary.components.card.CardDefaults
 import com.dev.korelibrary.components.icon.Icon
 import com.dev.korelibrary.components.listItem.ListTile
 import com.dev.korelibrary.components.radio.RadioButton
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
 import icons.PhIcons
 import icons.bold.GlobeBold

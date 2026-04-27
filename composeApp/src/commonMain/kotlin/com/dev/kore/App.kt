@@ -36,7 +36,7 @@ import com.dev.korelibrary.components.icon.Icon
 import com.dev.korelibrary.components.listItem.ListTile
 import com.dev.korelibrary.components.scaffold.Scaffold
 import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.components.buttons.ButtonDefaults
 import com.dev.korelibrary.components.buttons.PrimaryIconButton
 import com.dev.korelibrary.components.buttons.SecondaryButton

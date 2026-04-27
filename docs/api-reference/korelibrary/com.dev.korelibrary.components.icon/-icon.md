@@ -6,7 +6,7 @@
 
 @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-fun [Icon](-icon.md)(imageVector: [ImageVector](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/vector/ImageVector.html), contentDescription: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)?, tint: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = LocalContentColor.current, modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier)
+fun [Icon](-icon.md)(imageVector: [ImageVector](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/vector/ImageVector.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;contentDescription: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)?,<br>&nbsp;&nbsp;&nbsp;&nbsp;tint: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = LocalContentColor.current,<br>&nbsp;&nbsp;&nbsp;&nbsp;modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier)
 
 icon is a composable that let's you display an icon
 

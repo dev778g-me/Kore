@@ -3,7 +3,7 @@
 # squircleShapePath
 
 [common]\
-fun [squircleShapePath](squircle-shape-path.md)(size: [Size](https://developer.android.com/reference/kotlin/androidx/compose/ui/geometry/Size.html), topLeftCorner: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html), topRightCorner: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html), bottomLeftCorner: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html), bottomRightCorner: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html), cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.72f): [Path](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Path.html)
+fun [squircleShapePath](squircle-shape-path.md)(size: [Size](https://developer.android.com/reference/kotlin/androidx/compose/ui/geometry/Size.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;topLeftCorner: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;topRightCorner: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;bottomLeftCorner: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;bottomRightCorner: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.72f): [Path](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Path.html)
 
 The path used for drawing a Squircle shape.
 

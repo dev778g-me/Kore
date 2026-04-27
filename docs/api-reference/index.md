@@ -6,7 +6,6 @@
 
 | Name |
 |---|
-| [com.dev.korelibrary.components](korelibrary/com.dev.korelibrary.components/index.md) |
 | [com.dev.korelibrary.components.accordion](korelibrary/com.dev.korelibrary.components.accordion/index.md) |
 | [com.dev.korelibrary.components.appbar](korelibrary/com.dev.korelibrary.components.appbar/index.md) |
 | [com.dev.korelibrary.components.avatar](korelibrary/com.dev.korelibrary.components.avatar/index.md) |
@@ -30,6 +29,7 @@
 | [com.dev.korelibrary.components.stepper](korelibrary/com.dev.korelibrary.components.stepper/index.md) |
 | [com.dev.korelibrary.components.switch](korelibrary/com.dev.korelibrary.components.switch/index.md) |
 | [com.dev.korelibrary.components.tabRow](korelibrary/com.dev.korelibrary.components.tabRow/index.md) |
+| [com.dev.korelibrary.components.text](korelibrary/com.dev.korelibrary.components.text/index.md) |
 | [com.dev.korelibrary.src.Components.TextFields](korelibrary/com.dev.korelibrary.src.Components.TextFields/index.md) |
 | [com.dev.korelibrary.themes](korelibrary/com.dev.korelibrary.themes/index.md) |
 | [com.dev.korelibrary.themes.colors](korelibrary/com.dev.korelibrary.themes.colors/index.md) |

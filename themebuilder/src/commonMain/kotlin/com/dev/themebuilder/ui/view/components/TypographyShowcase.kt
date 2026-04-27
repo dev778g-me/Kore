@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.card.CardDefaults
 import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.utilities.extensions.color
 

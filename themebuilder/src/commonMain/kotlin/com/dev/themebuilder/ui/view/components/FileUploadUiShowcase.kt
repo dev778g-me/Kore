@@ -13,7 +13,7 @@ import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.loadingIndicator.LinearLoadingIndicator
 import com.dev.korelibrary.components.progress.LinearProgressIndicator
 import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
 import kotlinx.coroutines.delay
 

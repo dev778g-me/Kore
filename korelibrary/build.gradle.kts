@@ -1,6 +1,6 @@
 import org.jetbrains.dokka.gradle.formats.DokkaFormatPlugin
 import org.jetbrains.dokka.gradle.internal.InternalDokkaGradlePluginApi
-
+import java.io.File
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
@@ -128,4 +128,33 @@ kotlin {
 compose.resources {
     publicResClass = true
     generateResClass = always
+}
+
+// 1. Calculate the path OUTSIDE the execution block so Gradle's cache doesn't panic
+val markdownDocsDir = layout.buildDirectory.dir("dokka/markdown")
+
+// A standalone task that safely formats your Markdown after Dokka finishes
+tasks.register("formatDokkaMarkdown") {
+    dependsOn("dokkaGenerate")
+
+    val docsPath = layout.buildDirectory.dir("dokka/markdown").get().asFile.absolutePath
+
+    doLast {
+        val dir = File(docsPath)
+        if (dir.exists()) {
+            dir.walkTopDown().filter { it.extension == "md" }.forEach { file ->
+                val lines = file.readLines()
+                val cleanedLines = lines.map { line ->
+                    // Target ONLY the lines that contain the actual function signature
+                    if (line.trim().startsWith("fun ") || line.contains("fun [") || line.contains("fun <")) {
+                        // Break every parameter onto a new line with an indent
+                        line.replace(", ", ",<br>&nbsp;&nbsp;&nbsp;&nbsp;")
+                    } else {
+                        line // Leave normal text descriptions completely alone
+                    }
+                }
+                file.writeText(cleanedLines.joinToString("\n"))
+            }
+        }
+    }
 }

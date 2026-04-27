@@ -37,7 +37,7 @@ import com.dev.korelibrary.components.tabRow.Tab
 import com.dev.korelibrary.components.tabRow.ScrollableTabRow
 import com.dev.korelibrary.components.badge.SuccessBadge
 import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.Text
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
 
 @Composable

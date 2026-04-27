@@ -3,7 +3,7 @@
 # SquircleShape
 
 [common]\
-fun [SquircleShape](-squircle-shape.md)(percent: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 100, cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
+fun [SquircleShape](-squircle-shape.md)(percent: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 100,<br>&nbsp;&nbsp;&nbsp;&nbsp;cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
 
 Creates a [SquircleShape](-squircle-shape.md) with corner radius percent defined as [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) value.
 
@@ -17,7 +17,7 @@ common
 | cornerSmoothing | (0.55f - rounded corner shape, 1f - fully pronounced squircle). |
 
 [common]\
-fun [SquircleShape](-squircle-shape.md)(radius: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html), cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
+fun [SquircleShape](-squircle-shape.md)(radius: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
 
 Creates a [SquircleShape](-squircle-shape.md) with corner radius defined as [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) value.
 
@@ -31,7 +31,7 @@ common
 | cornerSmoothing | (0.55f - rounded corner shape, 1f - fully pronounced squircle). |
 
 [common]\
-fun [SquircleShape](-squircle-shape.md)(radius: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html), cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
+fun [SquircleShape](-squircle-shape.md)(radius: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html),<br>&nbsp;&nbsp;&nbsp;&nbsp;cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
 
 Creates a [SquircleShape](-squircle-shape.md) with corner radius in pixels defined as [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) value.
 
@@ -45,7 +45,7 @@ common
 | cornerSmoothing | (0.55f - rounded corner shape, 1f - fully pronounced squircle). |
 
 [common]\
-fun [SquircleShape](-squircle-shape.md)(topStart: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 0, topEnd: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 0, bottomStart: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 0, bottomEnd: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 0, cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
+fun [SquircleShape](-squircle-shape.md)(topStart: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;topEnd: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;bottomStart: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;bottomEnd: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
 
 Creates a [SquircleShape](-squircle-shape.md) with corners percent defined as [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) values.
 
@@ -62,7 +62,7 @@ common
 | cornerSmoothing | (0.55f - rounded corner shape, 1f - fully pronounced squircle). |
 
 [common]\
-fun [SquircleShape](-squircle-shape.md)(topStart: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = 0.dp, topEnd: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = 0.dp, bottomStart: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = 0.dp, bottomEnd: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = 0.dp, cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
+fun [SquircleShape](-squircle-shape.md)(topStart: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = 0.dp,<br>&nbsp;&nbsp;&nbsp;&nbsp;topEnd: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = 0.dp,<br>&nbsp;&nbsp;&nbsp;&nbsp;bottomStart: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = 0.dp,<br>&nbsp;&nbsp;&nbsp;&nbsp;bottomEnd: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = 0.dp,<br>&nbsp;&nbsp;&nbsp;&nbsp;cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
 
 Creates a [SquircleShape](-squircle-shape.md) with corners defined as [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) values.
 
@@ -79,7 +79,7 @@ common
 | cornerSmoothing | (0.55f - rounded corner shape, 1f - fully pronounced squircle). |
 
 [common]\
-fun [SquircleShape](-squircle-shape.md)(topStart: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f, topEnd: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f, bottomStart: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f, bottomEnd: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f, cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
+fun [SquircleShape](-squircle-shape.md)(topStart: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f,<br>&nbsp;&nbsp;&nbsp;&nbsp;topEnd: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f,<br>&nbsp;&nbsp;&nbsp;&nbsp;bottomStart: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f,<br>&nbsp;&nbsp;&nbsp;&nbsp;bottomEnd: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f,<br>&nbsp;&nbsp;&nbsp;&nbsp;cornerSmoothing: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = CornerSmoothing.Small): [SquircleShape](-squircle-shape/index.md)
 
 Creates a [SquircleShape](-squircle-shape.md) with pixel corners defined as [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) values.
 

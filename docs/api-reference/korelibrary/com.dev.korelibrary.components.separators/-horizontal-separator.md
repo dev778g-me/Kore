@@ -6,7 +6,7 @@
 
 @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-fun [HorizontalSeparator](-horizontal-separator.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, thickness: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = SeparatorDefaults.defaultSeparatorThickness, separatorCap: [StrokeCap](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/StrokeCap.html) = SeparatorDefaults.defaultSeparatorCap, color: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = SeparatorDefaults.defaultSeparatorColor)
+fun [HorizontalSeparator](-horizontal-separator.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier,<br>&nbsp;&nbsp;&nbsp;&nbsp;thickness: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = SeparatorDefaults.defaultSeparatorThickness,<br>&nbsp;&nbsp;&nbsp;&nbsp;separatorCap: [StrokeCap](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/StrokeCap.html) = SeparatorDefaults.defaultSeparatorCap,<br>&nbsp;&nbsp;&nbsp;&nbsp;color: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = SeparatorDefaults.defaultSeparatorColor)
 
 A horizontal line that is used to separate content
 
@@ -25,7 +25,7 @@ common
 
 @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-fun [HorizontalSeparator](-horizontal-separator.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, thickness: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = SeparatorDefaults.defaultSeparatorThickness, separatorCap: [StrokeCap](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/StrokeCap.html) = SeparatorDefaults.defaultSeparatorCap, brush: [Brush](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Brush.html))
+fun [HorizontalSeparator](-horizontal-separator.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier,<br>&nbsp;&nbsp;&nbsp;&nbsp;thickness: [Dp](https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp.html) = SeparatorDefaults.defaultSeparatorThickness,<br>&nbsp;&nbsp;&nbsp;&nbsp;separatorCap: [StrokeCap](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/StrokeCap.html) = SeparatorDefaults.defaultSeparatorCap,<br>&nbsp;&nbsp;&nbsp;&nbsp;brush: [Brush](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Brush.html))
 
 A horizontal line that is used to separate content
 
