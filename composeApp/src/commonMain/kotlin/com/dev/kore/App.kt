@@ -113,16 +113,13 @@ fun App() {
                  },
                  expandedContent = {
                      Text(
-                         "Two hearts pump blood to the gills, while the third pumps it to the " +
-                                 "rest of the body. Their blood is blue because it uses copper-based " +
-                                 "hemocyanin instead of iron-based hemoglobin. Also — they can unscrew " +
-                                 "jars. We should be worried."
+                         "Two hearts pump blood to the gills, while the third pumps it to the rest of the body."
                      )
                  },
                  trailingIcon = {
                      Icon(
-                         imageVector = if (showAccordion) PhIcons.Bold.CaretUpBold else PhIcons.Bold.CaretDownBold,
-                         contentDescription = ""
+                         imageVector = PhIcons.Bold.CaretDownBold,
+                         contentDescription = "idk"
                      )
                  }
              )
