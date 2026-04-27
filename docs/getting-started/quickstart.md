@@ -1,5 +1,5 @@
-# QuickStart 
-Quickstart guide for using kore 
+# QuickStart
+Quickstart guide for using kore
 
 <p>
 Make sure you have installed kore library into your project
@@ -8,24 +8,17 @@ Make sure you have installed kore library into your project
 implementation("com.dev778g-me:korelibrary:1.0.0 alpha")
 ```
 
-download and install kore companion app or web app.<br>
+Download and install the Kore companion app or web app.<br>
+<img src="quickstart_images/companion_app.png" alt="companion app" width="100%">
 
-<img src="quickstart_images/companion_app.png" alt="companion app">
+Although Kore comes with default themes <a>KoreDefaults</a>, you can customize it with the Kore Companion app <a>ThemeBuilder</a>.<br>
+From the companion app you can choose color schemes for both dark and light mode, shapes, and sizes — then hit export and you get your `theme.kt` file.<br>
+<img src="quickstart_images/customize.png" alt="Customizing" width="100%">
 
-Although the kore comes with default themes <a>KoreDefaults</a> you can customize it with the help of Kore Companion app <a>ThemeBuilder</a>.<br>
+Replace your project's `theme.kt` file (which comes by default with <a>Material Theme</a>) or add this file to your project.
+<img src="quickstart_images/export.png" alt="export theme" width="100%">
 
-From companion app you can choose colorschemes for both dark and light mode , shapes , sizes for your app and click on the export button and wollah you have your `theme.kt` file.<br>
+Wrap your main content with `AppTheme` (you can rename it in `theme.kt`) and you're all set — start building!
 
-<img src="quickstart_images/customize.png" alt="Customizing">
-
-
-Replace your project `theme.kt` file which comes by default by <a>Material Theme</a> or add this file to your project. 
-
-<img src="quickstart_images/export.png" alt="export theme">
-
-
-Wrap your main content with `Apptheme` (you can rename it in the `theme.kt` file) and now you are done you can further customize or start building your app.
-
-<i>Happy building 😻 </i>
-
+<i>Happy building 😻</i>
 </p>
