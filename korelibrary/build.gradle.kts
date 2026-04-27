@@ -1,11 +1,32 @@
+import org.jetbrains.dokka.gradle.formats.DokkaFormatPlugin
+import org.jetbrains.dokka.gradle.internal.InternalDokkaGradlePluginApi
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.composeCompiler)
-
+    id("org.jetbrains.dokka") version "2.2.0"
 }
+
+@OptIn(InternalDokkaGradlePluginApi::class)
+abstract class DokkaMarkdownPlugin : DokkaFormatPlugin(formatName = "markdown") {
+    override fun DokkaFormatPlugin.DokkaFormatPluginContext.configure() {
+        project.dependencies {
+            // Sets up current project generation
+            dokkaPlugin(dokka("gfm-plugin"))
+
+            // Sets up multi-project generation
+            formatDependencies.dokkaPublicationPluginClasspathApiOnly.dependencies.addLater(
+                dokka("gfm-template-processing-plugin")
+            )
+        }
+    }
+}
+apply<DokkaMarkdownPlugin>()
+// Applies the plug
+
 
 kotlin {
 

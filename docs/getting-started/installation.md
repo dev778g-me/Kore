@@ -1,4 +1,4 @@
-<h6>Learn how to install and use Kore in a project<h6>
+Learn how to install and use Kore in a project
 
 ## Add to Compose Multiplatform
 
@@ -8,15 +8,18 @@ Kore is distributed via <a href="https://central.sonatype.com/">Maven Central</a
 To make sure you have maven central check your `settings.gradle.kts` file.<br>
 
 ```kotlin
+
 dependencyResolutionManagement {
     repositories {
         mavenCentral() // <- add this line 
     }
 }
+
 ```
 
 #### Add to Android 
 ```kotlin
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -57,9 +60,11 @@ dependencies {
     // Kore (dummy dependency)
     implementation("com.kore:kore:0.1.0")
 }
+
 ```
 #### Add to Compose Multiplatform
 ``` kotlin
+
 // dummy ai genn
 plugins {
     kotlin("multiplatform")
@@ -114,6 +119,7 @@ android {
         minSdk = 24
     }
 }
+
 ```
 
 and then sync the project.
