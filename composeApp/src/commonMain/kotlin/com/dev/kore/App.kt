@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dev.kore.theme.AppTheme
+import com.dev.korelibrary.components.accordion.Accordion
 import com.dev.korelibrary.components.navigationBar.NavigationBar
 import com.dev.korelibrary.components.navigationBar.NavigationBarItem
 import com.dev.korelibrary.components.appbar.Appbar
@@ -44,11 +45,12 @@ import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.progress.LinearProgressIndicator
 import com.dev.korelibrary.components.progress.ProgressIndicatorDefaults
 import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.switch.Switch
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.utilities.extensions.bold
 import com.dev.korelibrary.utilities.extensions.color
 import icons.PhIcons
+import icons.bold.CaretDownBold
+import icons.bold.CaretUpBold
 import icons.bold.CheckBold
 import icons.bold.NutBold
 import icons.bold.PersonBold
@@ -73,29 +75,55 @@ fun App() {
     AppTheme {
       Scaffold {
          Column(
-             modifier = Modifier.fillMaxSize(),
+             modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
              verticalArrangement = Arrangement.Center,
              horizontalAlignment = Alignment.CenterHorizontally
          ) {
-             var sliderState by remember { mutableStateOf(false) }
 
+             var showAccordion by remember { mutableStateOf(false) }
+             var showAccordion1 by remember { mutableStateOf(false) }
 
-             Switch(
-                 checkThumbContent = {
-                     Icon(
-                         imageVector = PhIcons.Bold.CheckBold,
-                         contentDescription = ""
+             Accordion(
+                 expanded = showAccordion1,
+                 onExpand = {
+                     showAccordion1 = !showAccordion1
+                 },
+                 header = {
+                     Text("Did you know Voyager 1 is in interstellar space?")
+                 },
+                 expandedContent = {
+                     Text(
+                         "Launched in 1977, Voyager 1 is now over 23 billion km from Earth — the farthest human-made object ever. It still sends data back home at160 bits per second. Your Wi-Fi is embarrassed."
                      )
                  },
-                 unCheckedThumbContent = {
+                 trailingIcon = {
                      Icon(
-                         imageVector = PhIcons.Bold.PlusBold,
+                         imageVector = if (showAccordion1) PhIcons.Bold.CaretUpBold else PhIcons.Bold.CaretDownBold,
                          contentDescription = ""
                      )
+                 }
+             )
+             Accordion(
+                 expanded = showAccordion,
+                 onExpand = {
+                     showAccordion = !showAccordion
                  },
-                 checked = sliderState,
-                 onCheckChange = {
-                     sliderState = it
+                 header = {
+                     Text("Octopuses have three hearts and blue blood")
+                 },
+                 expandedContent = {
+                     Text(
+                         "Two hearts pump blood to the gills, while the third pumps it to the " +
+                                 "rest of the body. Their blood is blue because it uses copper-based " +
+                                 "hemocyanin instead of iron-based hemoglobin. Also — they can unscrew " +
+                                 "jars. We should be worried."
+                     )
+                 },
+                 trailingIcon = {
+                     Icon(
+                         imageVector = if (showAccordion) PhIcons.Bold.CaretUpBold else PhIcons.Bold.CaretDownBold,
+                         contentDescription = ""
+                     )
                  }
              )
 

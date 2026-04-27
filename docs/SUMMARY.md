@@ -6,6 +6,7 @@
 * [Quickstart](getting-started/quickstart.md)]
 
 ## Components 
-* [Components](components/overview.md)
+* [Overview](components/overview.md)
+* [Accordion](components/accordion.md))
 
 
