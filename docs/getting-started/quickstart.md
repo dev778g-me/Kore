@@ -1,27 +1,25 @@
 # QuickStart
-Quickstart guide for using kore
 
-<p>
-Make sure you have installed kore library into your project
+Quickstart guide for using Kore.
+
+Make sure you have installed the Kore library into your project:
 
 ```kotlin
 implementation("com.dev778g-me:korelibrary:1.0.0 alpha")
 ```
 
-Download and install the Kore companion app or web app.<br>
+Download and install the Kore companion app or web app.
 
-<img src="quickstart_images/companion_app.png" alt="companion app" width="1914">
+<figure><img src="quickstart_images/companion_app.png" alt="companion app"><figcaption></figcaption></figure>
 
-Although Kore comes with default themes <a>KoreDefaults</a>, you can customize it with the Kore Companion app <a>ThemeBuilder</a>.<br>
-From the companion app you can choose color schemes for both dark and light mode, shapes, and sizes — then hit export and you get your `theme.kt` file.<br>
+Although Kore comes with default themes `KoreDefaults`, you can customize it using the Kore Companion app **ThemeBuilder**. From there, choose color schemes for dark and light mode, shapes, and sizes — then hit export and you get your `theme.kt` file.
 
-<img src="quickstart_images/customize.png" alt="Customizing" width="1920">
+<figure><img src="quickstart_images/customize.png" alt="Customizing"><figcaption></figcaption></figure>
 
-Replace your project's `theme.kt` file (which comes by default with <a>Material Theme</a>) or add this file to your project.<br>
+Replace your project's `theme.kt` (which comes by default with Material Theme) or add this file directly to your project.
 
-<img src="quickstart_images/export.png" alt="export theme" width="1920">
+<figure><img src="quickstart_images/export.png" alt="export theme"><figcaption></figcaption></figure>
 
-Wrap your main content with `AppTheme` (you can rename it in `theme.kt`) and you're all set — start building!
+Wrap your main content with `AppTheme` (renameable inside `theme.kt`) and you're all set.
 
-<i>Happy building 😻</i>
-</p>
+*Happy building 😻*
