@@ -22,4 +22,13 @@ Replace your project's `theme.kt` (which comes by default with Material Theme) o
 
 Wrap your main content with `AppTheme` (renameable inside `theme.kt`) and you're all set.
 
+{% columns %}
+{% column %}
+<figure><img src="quickstart_images/material_theme_wrapper.png" alt="Material Theme"></figure>
+{% endcolumn %}
+{% column %}
+<figure><img src="quickstart_images/apptheme_wrapper.png" alt="App Theme"></figure>
+{% endcolumn %}
+{% endcolumns %}
+
 *Happy building 😻*
