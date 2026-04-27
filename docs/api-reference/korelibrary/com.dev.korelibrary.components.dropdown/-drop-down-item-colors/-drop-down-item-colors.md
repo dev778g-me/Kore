@@ -1,6 +1,0 @@
-//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.dropdown](../index.md)/[DropDownItemColors](index.md)/[DropDownItemColors](-drop-down-item-colors.md)
-
-# DropDownItemColors
-
-[common]\
-constructor(containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), contentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), leadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), trailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledLeadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledTrailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html))

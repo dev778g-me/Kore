@@ -1,9 +1,0 @@
-//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.badge](../index.md)/[BadgeDefaults](index.md)/[secondaryBadgeColors](secondary-badge-colors.md)
-
-# secondaryBadgeColors
-
-[common]\
-
-@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
-
-fun [secondaryBadgeColors](secondary-badge-colors.md)(containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.primaryContainer,<br>&nbsp;&nbsp;&nbsp;&nbsp;contentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onPrimaryContainer,<br>&nbsp;&nbsp;&nbsp;&nbsp;disabledContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.disabled,<br>&nbsp;&nbsp;&nbsp;&nbsp;disabledContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled,<br>&nbsp;&nbsp;&nbsp;&nbsp;leadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGroundVariant,<br>&nbsp;&nbsp;&nbsp;&nbsp;disabledLeadingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled,<br>&nbsp;&nbsp;&nbsp;&nbsp;trailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onBackGroundVariant,<br>&nbsp;&nbsp;&nbsp;&nbsp;disabledTrailingContentColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) = KoreTheme.colorScheme.onDisabled): [BadgeColors](../-badge-colors/index.md)

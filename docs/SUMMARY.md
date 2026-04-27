@@ -12,5 +12,3 @@
 
 
 
-## Api Reference
-*[index](api-reference/index.md)]

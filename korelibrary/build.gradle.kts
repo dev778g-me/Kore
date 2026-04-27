@@ -10,22 +10,7 @@ plugins {
     id("org.jetbrains.dokka") version "2.2.0"
 }
 
-@OptIn(InternalDokkaGradlePluginApi::class)
-abstract class DokkaMarkdownPlugin : DokkaFormatPlugin(formatName = "markdown") {
-    override fun DokkaFormatPlugin.DokkaFormatPluginContext.configure() {
-        project.dependencies {
-            // Sets up current project generation
-            dokkaPlugin(dokka("gfm-plugin"))
 
-            // Sets up multi-project generation
-            formatDependencies.dokkaPublicationPluginClasspathApiOnly.dependencies.addLater(
-                dokka("gfm-template-processing-plugin")
-            )
-        }
-    }
-}
-apply<DokkaMarkdownPlugin>()
-// Applies the plug
 
 
 kotlin {
@@ -83,7 +68,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation("androidx.graphics:graphics-shapes:1.1.0")
+                implementation(libs.androidx.graphics.shapes)
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.compose.ui)
                 implementation(libs.compose.components.resources)
@@ -130,31 +115,3 @@ compose.resources {
     generateResClass = always
 }
 
-// 1. Calculate the path OUTSIDE the execution block so Gradle's cache doesn't panic
-val markdownDocsDir = layout.buildDirectory.dir("dokka/markdown")
-
-// A standalone task that safely formats your Markdown after Dokka finishes
-tasks.register("formatDokkaMarkdown") {
-    dependsOn("dokkaGenerate")
-
-    val docsPath = layout.buildDirectory.dir("dokka/markdown").get().asFile.absolutePath
-
-    doLast {
-        val dir = File(docsPath)
-        if (dir.exists()) {
-            dir.walkTopDown().filter { it.extension == "md" }.forEach { file ->
-                val lines = file.readLines()
-                val cleanedLines = lines.map { line ->
-                    // Target ONLY the lines that contain the actual function signature
-                    if (line.trim().startsWith("fun ") || line.contains("fun [") || line.contains("fun <")) {
-                        // Break every parameter onto a new line with an indent
-                        line.replace(", ", ",<br>&nbsp;&nbsp;&nbsp;&nbsp;")
-                    } else {
-                        line // Leave normal text descriptions completely alone
-                    }
-                }
-                file.writeText(cleanedLines.joinToString("\n"))
-            }
-        }
-    }
-}

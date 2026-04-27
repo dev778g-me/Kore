@@ -1,6 +1,0 @@
-//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.dropdown](../index.md)/[DropdownDefaults](index.md)/[defaultDropDownAnimationSpec](default-drop-down-animation-spec.md)
-
-# defaultDropDownAnimationSpec
-
-[common]\
-fun [defaultDropDownAnimationSpec](default-drop-down-animation-spec.md)(inTransitionDuration: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 200,<br>&nbsp;&nbsp;&nbsp;&nbsp;outTransitionDuration: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 100,<br>&nbsp;&nbsp;&nbsp;&nbsp;expandedScaleTarget: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 1.0f,<br>&nbsp;&nbsp;&nbsp;&nbsp;closedScaleTarget: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.8f,<br>&nbsp;&nbsp;&nbsp;&nbsp;expandedAlphaTarget: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 1.0f,<br>&nbsp;&nbsp;&nbsp;&nbsp;closedAlphaTarget: [Float](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html) = 0.0f): [DropDownAnimationSpec](../-drop-down-animation-spec/index.md)

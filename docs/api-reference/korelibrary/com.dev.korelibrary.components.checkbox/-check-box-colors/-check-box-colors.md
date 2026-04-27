@@ -1,6 +1,0 @@
-//[korelibrary](../../../index.md)/[com.dev.korelibrary.components.checkbox](../index.md)/[CheckBoxColors](index.md)/[CheckBoxColors](-check-box-colors.md)
-
-# CheckBoxColors
-
-[common]\
-constructor(checkedContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), uncheckedContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), checkedCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), uncheckedCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), checkedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), uncheckedBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledContainerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledCheckColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), disabledBorderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html))
