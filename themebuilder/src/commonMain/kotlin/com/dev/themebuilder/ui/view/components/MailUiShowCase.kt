@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.listItem.ListTile
+import com.dev.korelibrary.components.listtile.ListTile
 import com.dev.korelibrary.components.separators.HorizontalSeparator
 import com.dev.korelibrary.components.badge.PrimaryBadge
 import com.dev.korelibrary.components.text.Text

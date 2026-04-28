@@ -1,4 +1,4 @@
-package com.dev.korelibrary.components.listItem
+package com.dev.korelibrary.components.listtile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,7 +25,8 @@ import com.dev.korelibrary.themes.LocalTextStyle
 
 
 /**
- * ListTile is a composable that lets you display a list item,
+ * A list tile is a single row in a list that shows one piece of information or one option.
+ * It usually includes a label (text) and sometimes an icon or action, and all items look similar so they’re easy to scan and use.
  * @param title the title of the list Item [Composable]
  * @param modifier the [Modifier] applied to the list item
  * @param onClick called when user clicks the tile. if null the tile will not be interactable and will not have ripple effects

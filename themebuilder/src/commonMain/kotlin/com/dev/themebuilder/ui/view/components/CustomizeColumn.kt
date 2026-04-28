@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dev.korelibrary.components.dropdown.DropDown
 import com.dev.korelibrary.components.dropdown.DropDownItem
-import com.dev.korelibrary.components.listItem.ListTile
+import com.dev.korelibrary.components.listtile.ListTile
 import com.dev.korelibrary.components.badge.ErrorBadge
 import com.dev.korelibrary.components.stack.VerticalStack
 import com.dev.korelibrary.components.text.Text

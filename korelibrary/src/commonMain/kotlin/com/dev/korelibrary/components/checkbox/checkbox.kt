@@ -44,7 +44,7 @@ import com.dev.korelibrary.themes.KoreTheme
  * @param onCheckChange the callback invoked when the CheckBox is checked or unchecked
  * @param enabled the enabled state of the CheckBox [Boolean]
  * @param shape the shape of the CheckBox [Shape]
- * @param colors the colors of the CheckBox [CheckBoxColors]
+ * @param colors the colors of the CheckBox [CheckBoxColors].Use [CheckBoxDefaults.defaultCheckBoxColors]
  * @param interactionSource the [MutableInteractionSource] representing the stream of [Interaction]s
  */
 
@@ -117,9 +117,6 @@ fun CheckBox(
             enter = scaleIn(),
             exit = scaleOut()
         ){
-
-
-
             Canvas(
                 modifier = Modifier
                     .size(CheckBoxDefaults.defaultCheckSize)

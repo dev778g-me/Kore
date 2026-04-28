@@ -54,7 +54,7 @@ import com.dev.korelibrary.components.navigationBar.NavigationBar
 import com.dev.korelibrary.components.navigationBar.NavigationBarItem
 import com.dev.korelibrary.components.buttons.PrimaryIconButton
 import com.dev.korelibrary.components.buttons.SecondaryButton
-import com.dev.korelibrary.components.listItem.ListTile
+import com.dev.korelibrary.components.listtile.ListTile
 import icons.bold.AndroidLogoBold
 import icons.bold.NutBold
 import icons.filled.CookingPotFill

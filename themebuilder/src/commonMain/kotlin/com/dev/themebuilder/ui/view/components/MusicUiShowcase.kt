@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.card.CardDefaults
-import com.dev.korelibrary.components.listItem.ListTile
+import com.dev.korelibrary.components.listtile.ListTile
 import com.dev.korelibrary.components.slider.Slider
 import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
