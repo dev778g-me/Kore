@@ -6,7 +6,7 @@ The button's content (label) expresses what action will occur when the user inte
 
 <figure><img src="showcases/buttonShowcase/button_showcase.png" alt="All Button example image "><figcaption></figcaption></figure>
 
-For more detailed guidance, see [Mobbin](https://mobbin.com).
+For deeper reference, check out [Mobbin](https://mobbin.com/glossary/button) guide on Badges.
 
 ---
 
@@ -127,10 +127,6 @@ A medium-emphasis action with a visible border. Useful for secondary actions tha
 ```kotlin
 OutlinedButton(
     onClick = { /* Delete action */ },
-    border = BorderStroke(width = 2.dp, color = Color.Red),
-    colors = ButtonDefaults.outlinedButtonColors(
-        contentColor = Color.Red
-    )
 ) {
     Text("Delete Permanently")
 }
