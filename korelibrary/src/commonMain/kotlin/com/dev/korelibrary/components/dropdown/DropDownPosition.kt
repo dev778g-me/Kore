@@ -15,30 +15,6 @@ import androidx.compose.ui.window.PopupPositionProvider
 import kotlin.math.max
 import kotlin.math.min
 
-
-/*
-possibilities
-*[Vertical positions]
-> top to bottom - menu top align to composable (anchor)
-> bottom to top  - menu bottom align to composable (anchor)
-> center to top  - menu center align to top
-
-*[Horizontal positions]
->
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
 @Stable
 internal object DropDownPosition {
 

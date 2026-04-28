@@ -46,6 +46,9 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -74,9 +77,9 @@ fun DropDown(
     offset: DpOffset = DpOffset.Zero,
     shape: Shape = DropdownDefaults.defaultDropDownShape,
     scrollState: ScrollState = rememberScrollState(),
-    borderStroke: BorderStroke? = null,
+    borderStroke: BorderStroke? =  BorderStroke(width = 2.dp,color = KoreTheme.colorScheme.backGroundVariant),
     containerColor: Color = DropdownDefaults.defaultContainerColor,
-    itemSpacing: Dp = DropdownDefaults.defaultDropDownMargin,
+    itemSpacing: Dp = DropdownDefaults.defaultDropDownItemSpacing,
     contentPaddingValues: PaddingValues = DropdownDefaults.defaultDropDownContainerPaddingValues,
     animationSpec: DropDownAnimationSpec = DropdownDefaults.defaultDropDownAnimationSpec(),
     content: @Composable ColumnScope.() -> Unit
@@ -110,6 +113,7 @@ fun DropDown(
                 shape = shape,
                 scrollState = scrollState,
                 borderStroke = borderStroke,
+                itemSpacing = itemSpacing,
                 contentPaddingValues = contentPaddingValues,
                 containerColor =containerColor,
                 animationSpec = animationSpec,
@@ -144,11 +148,7 @@ fun DropDownItem(
 
     val trailingContentColor by animateColorAsState(targetValue = colors.trailingContentColor(enabled = enabled))
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .sizeIn(
-                minWidth = 112.dp,
-                maxWidth = 200.dp
-            )
+        modifier = modifier.fillMaxWidth()
             .clip(shape)
             .background(color = containerColor, shape = shape)
             .clickable(
@@ -202,10 +202,10 @@ internal fun DropDownContent(
     transformOriginState : MutableState<TransformOrigin>,
     scrollState: ScrollState,
     contentPaddingValues: PaddingValues,
-    borderStroke: BorderStroke? = null,
-    itemSpacing: Dp = DropdownDefaults.defaultDropDownItemSpacing,
+    itemSpacing: Dp ,
     itemSize: DropDownItemSize = DropdownDefaults.defaultDropDownItemSize,
     shape: Shape = DropdownDefaults.defaultDropDownShape,
+    borderStroke: BorderStroke? ,
     containerColor: Color = DropdownDefaults.defaultContainerColor,
     animationSpec: DropDownAnimationSpec,
     content: @Composable ColumnScope.() -> Unit
@@ -241,6 +241,9 @@ internal fun DropDownContent(
     val isInspecting = LocalInspectionMode.current
     Column(
         modifier = modifier
+            .semantics{
+                role = Role.DropdownList
+            }
             .widthIn(min = itemSize.minWidth, max = itemSize.maxWidth)
             .verticalScroll(scrollState)
             .graphicsLayer{
@@ -259,9 +262,10 @@ internal fun DropDownContent(
 
             .clip(shape = shape)
             .background(color = containerColor, shape = shape)
-            .border(2.dp, shape = shape, color = KoreTheme.colorScheme.backGroundVariant)
+            .then(if (borderStroke != null) Modifier.border(borderStroke, shape = shape)else Modifier)
             .padding(contentPaddingValues)
             .width(IntrinsicSize.Max),
+        verticalArrangement = Arrangement.spacedBy(itemSpacing),
         content = content
     )
 
@@ -291,6 +295,7 @@ object DropdownDefaults{
 
     val defaultDropDownItemSpacing : Dp
         @Composable get() = KoreTheme.sizes.xxs
+
 
 
     val defaultDropDownItemSize = DropDownItemSize(
