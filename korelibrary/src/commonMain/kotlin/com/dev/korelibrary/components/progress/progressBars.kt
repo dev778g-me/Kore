@@ -28,13 +28,18 @@ import com.dev.korelibrary.themes.KoreTheme
 @Composable
 fun LinearProgressIndicator(
     progress : Float,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
     modifier: Modifier = Modifier,
     thickness : Dp = ProgressIndicatorDefaults.defaultProgressBarThickness,
     cap : StrokeCap = ProgressIndicatorDefaults.defaultProgressBarCap,
     colors: ProgressIndicatorColors = ProgressIndicatorDefaults.barProgressColors(),
 ) {
 
-    val resolvedProgress = progress.coerceIn( 0f ..1f)
+    val resolvedProgress = progress.coerceIn(valueRange)
+
+    // normalize to 0f..1f
+    val fraction = (resolvedProgress - valueRange.start) /
+            (valueRange.endInclusive - valueRange.start)
 
 
 
@@ -61,7 +66,7 @@ fun LinearProgressIndicator(
             start = Offset(x = inset, y =  yCenter),
             end = Offset(x = endX, y = yCenter)
         )
-        val progressWidth =( drawableWidth * resolvedProgress) + inset
+        val progressWidth =( drawableWidth * fraction) + inset
 
         if (resolvedProgress >0){
 
@@ -90,6 +95,7 @@ fun LinearProgressIndicator(
 @Composable
 fun CircularProgressIndicator(
     progress: Float,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
     modifier: Modifier = Modifier,
     thickness: Dp = ProgressIndicatorDefaults.defaultCircularBarThickness,
     size : Dp = ProgressIndicatorDefaults.defaultCircularProgressBarSize,
@@ -98,7 +104,12 @@ fun CircularProgressIndicator(
 ){
 
 
-    val coercedProgress = (progress /100f).coerceIn(0f..1f)
+    val resolvedProgress = progress.coerceIn(valueRange)
+
+
+    val fraction = (resolvedProgress - valueRange.start) /
+            (valueRange.endInclusive - valueRange.start)
+
     Canvas(
         modifier = modifier
             .size(size)
@@ -116,7 +127,7 @@ fun CircularProgressIndicator(
           color = colors.progressColor,
           style = Stroke(width = strokeWidthPx, cap = cap),
           startAngle =  -90f,
-          sweepAngle = coercedProgress * 360f,
+          sweepAngle = fraction * 360f,
           useCenter = false
       )
     }
