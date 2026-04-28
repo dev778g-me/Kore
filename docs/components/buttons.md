@@ -52,7 +52,11 @@ The button exposes several parameters to customize its appearance and behavior.
 
 ---
 
-### With Icon and Text
+
+## With Icon and Text
+
+<figure><img src="showcases/buttonShowcase/button_with_icon.png" alt="Primary Button with icon example image "><figcaption></figcaption></figure>
+
 
 ```kotlin
 PrimaryButton(
@@ -67,9 +71,12 @@ PrimaryButton(
 }
 ```
 
----
+### Custom Shape Padding and Colors
 
-### Custom Shape and Colors
+You can override the default shape to be perfectly round or drastically change the padding and colors.
+
+<figure><img src="showcases/buttonShowcase/customized_button.png" alt="Customized button"><figcaption></figcaption></figure>
+
 
 ```kotlin
 PrimaryButton(
@@ -147,42 +154,3 @@ GhostButton(
 ```
 
 ---
-
-## With Icon and Text 
-
-<figure><img src="showcases/buttonShowcase/button_with_icon.png" alt="Primary Button with icon example image "><figcaption></figcaption></figure>
-
-
-```kotlin
-PrimaryButton(
-    onClick = { /* Do something */ }
-) {
-    Icon(
-        imageVector = PhIcons.Bold.Plus,
-        contentDescription = null,
-        modifier = Modifier.padding(end = 8.dp)
-    )
-    Text("Add New Item")
-}
-```
-
-### Custom Shape Padding and Colors
-
-You can override the default shape to be perfectly round or drastically change the padding and colors.
-
-<figure><img src="showcases/buttonShowcase/customized_button.png" alt="Customized button"><figcaption></figcaption></figure>
-
-
-```kotlin
-PrimaryButton(
-    onClick = { /* Confirm action */ },
-    shape = CircleShape,
-    contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
-    colors = ButtonDefaults.primaryButtonColors(
-        containerColor = Color.Green,
-        contentColor = Color.White
-    )
-) {
-    Text("Confirm Everything")
-}
-```
