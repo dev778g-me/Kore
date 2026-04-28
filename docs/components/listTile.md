@@ -12,7 +12,7 @@ when to avoid ListTile
 - Complex data
 - Content heavy 
 
-for deeper reference check out [Mobbin]("https://mobbin.com/glossary/stacked-list") guide on ListTile
+for deeper reference check out [Mobbin](https://mobbin.com/glossary/stacked-list) guide on ListTile
 
 ## Basic Example 
 

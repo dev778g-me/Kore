@@ -8,10 +8,10 @@ when to use
 - Secondary Actions 
 
 when not to use 
-- For primary app routing/navigation (use an `Appbar` or `Navigation Bar` instead.
+- For primary app routing/navigation (use an `Appbar` or `Navigation Bar` instead.)
 - Frequently accessed actions 
 
-for deeper reference check out [Mobbin]("https://mobbin.com/glossary/dropdown-menu") guide on Dropdown
+for deeper reference check out [Mobbin](https://mobbin.com/glossary/dropdown-menu) guide on Dropdown
 
 
 ## Basic Example 

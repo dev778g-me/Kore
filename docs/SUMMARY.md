@@ -16,3 +16,5 @@
 * [CheckBox](components/checkbox.md)
 * [DropDown](components/dropdown.md)
 * [ListTile](components/listTile.md)
+* [Loading Indicator](components/loadingIndicator.md)
+* [Progress Indicator](components/progressIndicator.md)
