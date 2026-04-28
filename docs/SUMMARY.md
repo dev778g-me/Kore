@@ -9,3 +9,6 @@
 * [Overview](components/overview.md)
 * [Accordion](components/accordion.md))
 * [Appbar](components/appbar.md)
+* [Badge](components/badge.md)
+* [Buttons](components/buttons.md)
+* [IconButton](components/icon_button.md)
