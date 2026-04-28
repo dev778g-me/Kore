@@ -1,23 +1,23 @@
-# Appbar 
+# Appbar
 
 an Appbar is a top-of-the screen container providing consistent navigation screen titles & core actions.<br>
 it provides a set of actions / tools which are relevant to the user current task or view .
 
-when to use Appbar 
+when to use Appbar
 - simple actions
 - compact content
 - brand recognition (showing logo /name etc)
 
 
 When not to use Appbar
-- primary actions 
-- rarely used actions 
+- primary actions
+- rarely used actions
 - too many actions
 
 
 For deeper reference, check out [Mobbin](https://mobbin.com/glossary/top-navigation-bar) guide on accordions.
 
-<figure><img src="showcases/accordion_showcase.png" alt="Appbar example image "><figcaption></figcaption></figure>
+<figure><img src="showcases/appbar_showcase.png" alt="Appbar example image "><figcaption></figcaption></figure>
 
 
 
@@ -64,8 +64,8 @@ Scaffold(
 ```
 
 
-## Styling 
-appbar exposes several param to customize the component 
+## Styling
+appbar exposes several param to customize the component
 ### Parameters
 
 | Parameter                 | Type                                 | Default                                     | Description                                              |
@@ -124,8 +124,8 @@ You can override the default dimensions to create a taller, more spacious app ba
 
 ```kotlin
 Appbar(
-    title = { 
-        Text(text = "Dashboard", style = MaterialTheme.typography.headlineMedium) 
+    title = {
+        Text(text = "Dashboard", style = MaterialTheme.typography.headlineMedium)
     },
     minimumAppBarHeight = 80.dp,
     contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
@@ -136,4 +136,3 @@ Appbar(
 
 
 ```
-
