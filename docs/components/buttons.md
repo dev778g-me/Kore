@@ -4,6 +4,8 @@ A **Button** is an interactive element that signals the user to take a specific 
 
 The button's content (label) expresses what action will occur when the user interacts with it. There are several types of buttons in Kore based on action importance (e.g., Primary, Secondary, Outlined, Ghost). Each button has a different level of emphasis, representing the intent and importance of the action.
 
+<figure><img src="showcases/buttonShowcase/button_showcase.png" alt="All Button example image "><figcaption></figcaption></figure>
+
 For more detailed guidance, see [Mobbin](https://mobbin.com).
 
 ---
@@ -89,8 +91,6 @@ PrimaryButton(
 
 Kore provides three other Button variants that follow the exact same anatomy as the `PrimaryButton`, differing mostly in their default emphasis and colors.
 
-<figure><img src="showcases/buttonShowcase/button_showcase.png" alt="All Button example image "><figcaption></figcaption></figure>
-
 
 
 ## Secondary Button
@@ -148,7 +148,7 @@ GhostButton(
 
 ---
 
-## With Icon and Text (Reusable Pattern)
+## With Icon and Text 
 
 <figure><img src="showcases/buttonShowcase/button_with_icon.png" alt="Primary Button with icon example image "><figcaption></figcaption></figure>
 
