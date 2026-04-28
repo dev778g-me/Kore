@@ -22,12 +22,13 @@ import com.dev.korelibrary.themes.KoreTheme
 fun VerticalStack(
     modifier: Modifier = Modifier,
     spacing: Dp = KoreTheme.sizes.xs,
+    verticalAlignment: Alignment.Vertical = StackDefaults.defaultVerticalAlignment,
     horizontalAlignment: Alignment.Horizontal = StackDefaults.defaultHorizontalAlignment,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(spacing),
+        verticalArrangement = Arrangement.spacedBy(spacing,verticalAlignment),
         horizontalAlignment = horizontalAlignment,
         content = content
     )
@@ -44,12 +45,13 @@ fun VerticalStack(
 fun HorizontalStack(
     modifier: Modifier = Modifier,
     spacing: Dp = KoreTheme.sizes.xs,
+    horizontalAlignment: Alignment.Horizontal = StackDefaults.defaultHorizontalAlignment,
     verticalAlignment: Alignment.Vertical = StackDefaults.defaultVerticalAlignment,
     content: @Composable RowScope.() -> Unit,
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(spacing),
+        horizontalArrangement = Arrangement.spacedBy(spacing,horizontalAlignment),
         verticalAlignment = verticalAlignment,
         content = content
     )
