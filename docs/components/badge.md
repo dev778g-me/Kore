@@ -64,6 +64,9 @@ The badge exposes several parameters to customize its shape, size, icons, and co
 
 You can easily pass icons into the `leadingIcon` or `trailingIcon` slots to provide more context to the badge's text.
 
+<figure><img src="showcases/badgeShowcase/with_icon_badge.png" alt="badge with icon showcase image"><figcaption></figcaption></figure>
+
+
 ```kotlin
 PrimaryBadge(
     leadingIcon = { 
