@@ -1,0 +1,123 @@
+# Icon Buttons
+
+An IconButton is a compact, interactive element that uses an icon instead of a text label to convey its action. They are ideal for app bars, toolbars, and inline actions where space is limited but the action is easily understood universally.
+
+There are several types of icon buttons in Kore based on action importance: Primary, Secondary, Outlined, and Ghost. Each variant features a minimum touch target size of `48.dp` by default to ensure accessibility.
+
+<figure><img src="showcases/iconButtonShowcase/all_icon_showcase.png" alt="IconButton example image"><figcaption></figcaption></figure>
+
+## Primary Icon Button
+
+The `PrimaryIconButton` is a highly prominent component used for the primary or most important tasks on a screen.
+
+### Basic Example 
+
+| Slot      | Description                                                                  |
+|-----------|------------------------------------------------------------------------------|
+| `content` | The internal element of the button. Typically contains an `Icon` composable. |
+
+
+<figure><img src="showcases/iconButtonShowcase/primary_icon_button.png" alt="Primary ICon Button with icon example image "><figcaption></figcaption></figure>
+
+
+```kotlin
+PrimaryIconButton(
+    onClick = { /* Handle click */ }
+) {
+    Icon(
+        imageVector = PhIcons.Bold.Plus,
+        contentDescription = "Add Item"
+    )
+}
+```
+
+## Styling 
+
+IconButtons expose several parameters to customize their appearance, shape, and interactions.
+
+### Parameters
+
+| Parameter                 | Type                        | Default                                        | Description                                                                                                         |
+|---------------------------|-----------------------------|------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| `onClick`                 | `() -> Unit`                | —                                              | Called when the user clicks the icon button.                                                                        |
+| `modifier`                | `Modifier`                  | `Modifier`                                     | Applied to the root container of the button.                                                                        |
+| `enabled`                 | `Boolean`                   | `true`                                         | Controls the interactive and visual enabled state of the button.                                                    |
+| `shape`                   | `Shape`                     | `CircleShape`                                  | Defines the button's clipping shape (defaults to perfectly round).                                                  |
+| `interactionSource`       | `MutableInteractionSource?` | `null`                                         | Represents the stream of interactions (e.g., pressed, focused).                                                     |
+| `primaryIconButtonColors` | `IconButtonColors`          | `IconButtonDefaults.primaryIconButtonColors()` | The resolved colors used for the background and content in different states. *(Note: Name varies per button type).* |
+| `content`                 | `@Composable () -> Unit`    | —                                              | The main content to display inside the button.                                                                      |
+
+### Custom Shape and Colors
+
+By default, IconButtons use a `CircleShape`, but you can easily override this to create rounded rectangles or squares.
+
+<figure><img src="showcases/iconButtonShowcase/icon_buttonwith_custom_shape_colors.png" alt="IconButton with custom shape and colors example image"><figcaption></figcaption></figure>
+
+
+```kotlin
+ PrimaryIconButton(
+    shape = KoreTheme.shapes.sm,
+    onClick = {},
+    primaryIconButtonColors = IconButtonDefaults.primaryIconButtonColors(
+        iconButtonContainerColor = RadixColors.Orange.dark.step9,
+        iconButtonContentColor = RadixColors.Orange.dark.step12
+    )
+) {
+    Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
+}
+```
+
+## Other Variants
+
+Kore provides three other IconButton variants that follow the exact same anatomy as the `PrimaryIconButton`, differing mostly in their default emphasis and colors.
+
+### Secondary Icon Button
+Used for medium-emphasis actions that shouldn't draw as much attention as the primary action.
+
+<figure><img src="showcases/iconButtonShowcase/secondary_icon_button.png" alt="SecondaryIconButton example image"><figcaption></figcaption></figure>
+
+
+```kotlin
+SecondaryIconButton(
+    onClick = { /* Edit item */ }
+) {
+    Icon(
+        imageVector = PhIcons.Regular.Asterisk,
+        contentDescription = "Edit"
+    )
+}
+```
+
+### Outlined Icon Button
+Also, a medium-emphasis action, but features a customizable `border` parameter. Useful for alternate or secondary actions.
+
+<figure><img src="showcases/iconButtonShowcase/outlined_icon_button.png" alt="OutlinedIconButton example image"><figcaption></figcaption></figure>
+
+
+```kotlin
+OutlinedIconButton(
+    onClick = { /* Delete item */ },
+) {
+    Icon(
+        imageVector = PhIcons.Regular.Asterisk,
+        contentDescription = "Delete"
+    )
+}
+```
+
+### Ghost Icon Button
+A low-emphasis, transparent button used for very low priority or optional actions. It blends into the background until interacted with.
+
+<figure><img src="showcases/iconButtonShowcase/ghostButton.png" alt="GhostIconButton example image"><figcaption></figcaption></figure>
+
+
+```kotlin
+GhostIconButton(
+    onClick = { /* Open menu */ }
+) {
+    Icon(
+        imageVector = PhIcons.Regular.Asterisk,
+        contentDescription = "More Options"
+    )
+}
+```

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -25,45 +27,43 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dev.kore.theme.AppTheme
-import com.dev.korelibrary.components.accordion.Accordion
-import com.dev.korelibrary.components.navigationBar.NavigationBar
-import com.dev.korelibrary.components.navigationBar.NavigationBarItem
 import com.dev.korelibrary.components.appbar.Appbar
-import com.dev.korelibrary.components.badge.ErrorBadge
-import com.dev.korelibrary.components.badge.PrimaryBadge
-import com.dev.korelibrary.components.badge.SecondaryBadge
-import com.dev.korelibrary.components.badge.SuccessBadge
-import com.dev.korelibrary.components.buttons.GhostIconButton
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.listItem.ListTile
-import com.dev.korelibrary.components.scaffold.Scaffold
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.components.buttons.ButtonDefaults
+import com.dev.korelibrary.components.buttons.GhostIconButton
+import com.dev.korelibrary.components.buttons.OutlinedIconButton
 import com.dev.korelibrary.components.buttons.PrimaryIconButton
 import com.dev.korelibrary.components.buttons.SecondaryButton
 import com.dev.korelibrary.components.card.Card
+import com.dev.korelibrary.components.icon.Icon
+import com.dev.korelibrary.components.listItem.ListTile
+import com.dev.korelibrary.components.navigationBar.NavigationBar
+import com.dev.korelibrary.components.navigationBar.NavigationBarItem
 import com.dev.korelibrary.components.progress.LinearProgressIndicator
 import com.dev.korelibrary.components.progress.ProgressIndicatorDefaults
+import com.dev.korelibrary.components.scaffold.Scaffold
 import com.dev.korelibrary.components.separators.HorizontalSeparator
+import com.dev.korelibrary.components.stack.VerticalStack
+import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
+import com.dev.korelibrary.components.*
+import com.dev.korelibrary.components.buttons.IconButtonDefaults
+import com.dev.korelibrary.components.buttons.SecondaryIconButton
+import com.dev.korelibrary.themes.colors.RadixColors
 import com.dev.korelibrary.utilities.extensions.bold
 import com.dev.korelibrary.utilities.extensions.color
 import icons.PhIcons
-import icons.bold.CaretDownBold
-import icons.bold.CaretUpBold
-import icons.bold.CheckBold
 import icons.bold.NutBold
 import icons.bold.PersonBold
-import icons.bold.PlusBold
 import icons.filled.ChartLineUpFill
 import icons.filled.CompassFill
 import icons.filled.CookingPotFill
 import icons.filled.SunFill
+import icons.regular.Asterisk
 import icons.regular.CaretLeft
 import icons.regular.CaretRight
 import icons.regular.DotsThree
@@ -73,10 +73,13 @@ import icons.thin.ChartLineThin
 import icons.thin.CompassThin
 import icons.thin.CookingPotThin
 import icons.thin.SunThin
+import kotlinx.serialization.builtins.ArraySerializer
 
 
 @Composable
-@Preview
+@Preview(
+    uiMode = UI_MODE_NIGHT_YES
+)
 fun App() {
     AppTheme {
       Scaffold(
@@ -112,7 +115,9 @@ fun App() {
           }
       ) {
          Column(
-             modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+             modifier = Modifier.fillMaxSize()
+                 .width(IntrinsicSize.Max)
+                 .padding(horizontal = 16.dp),
              verticalArrangement = Arrangement.Center,
              horizontalAlignment = Alignment.CenterHorizontally
          ) {
@@ -120,34 +125,56 @@ fun App() {
              var showAccordion by remember { mutableStateOf(false) }
              var showAccordion1 by remember { mutableStateOf(false) }
 
-             FlowRow(modifier = Modifier.fillMaxWidth(),
-                 verticalArrangement = Arrangement.spacedBy(8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)){
-                 PrimaryBadge(
-                     content = {
-                         Text("Primary")
-                     }
-                 )
+Spacer(
+    modifier = Modifier.width(12.dp)
+)
+             FlowRow(
+                 modifier = Modifier.fillMaxWidth(),
+                 horizontalArrangement = Arrangement.Center
+             ) {
+                 PrimaryIconButton(
+                     shape = KoreTheme.shapes.sm,
+                     onClick = {},
+                     primaryIconButtonColors = IconButtonDefaults.primaryIconButtonColors(
+                         iconButtonContainerColor = RadixColors.Orange.dark.step9,
+                         iconButtonContentColor = RadixColors.Orange.dark.step12
+                     )
+                 ) {
+                     Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
+                 }
+//                 Spacer(
+//                     modifier = Modifier.width(12.dp)
+//                 )
+//
+//                 SecondaryIconButton(
+//                     onClick = {}
+//                 ){
+//                     Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
+//                 }
+//                 Spacer(
+//                     modifier = Modifier.width(12.dp)
+//                 )
+//
+//
+//
+//
+//                 OutlinedIconButton(
+//                     onClick = {}
+//                 ) {
+//                     Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
+//                 }
+//                 Spacer(
+//                     modifier = Modifier.width(12.dp)
+//                 )
+//
+//                 GhostIconButton(
+//                     onClick = {}
+//                 ){
+//                     Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
+//                 }
+             }}
 
-                 SecondaryBadge(
-                     content = {
-                         Text("Secondary")
-                     }
-                 )
 
-                 ErrorBadge(
-                     content = {
-                         Text("Error")
-                     }
-                 )
-
-                 SuccessBadge(
-                     content = {
-                         Text("Success")
-                     }
-                 )
-             }
-
-         }
       }
     }
 }
