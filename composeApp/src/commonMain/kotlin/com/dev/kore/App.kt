@@ -3,6 +3,7 @@ package com.dev.kore
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +33,10 @@ import com.dev.korelibrary.components.accordion.Accordion
 import com.dev.korelibrary.components.navigationBar.NavigationBar
 import com.dev.korelibrary.components.navigationBar.NavigationBarItem
 import com.dev.korelibrary.components.appbar.Appbar
+import com.dev.korelibrary.components.badge.ErrorBadge
+import com.dev.korelibrary.components.badge.PrimaryBadge
+import com.dev.korelibrary.components.badge.SecondaryBadge
+import com.dev.korelibrary.components.badge.SuccessBadge
 import com.dev.korelibrary.components.buttons.GhostIconButton
 import com.dev.korelibrary.components.icon.Icon
 import com.dev.korelibrary.components.listItem.ListTile
@@ -62,6 +67,7 @@ import icons.filled.SunFill
 import icons.regular.CaretLeft
 import icons.regular.CaretRight
 import icons.regular.DotsThree
+import icons.regular.DotsThreeVertical
 import icons.regular.PencilLine
 import icons.thin.ChartLineThin
 import icons.thin.CompassThin
@@ -73,7 +79,38 @@ import icons.thin.SunThin
 @Preview
 fun App() {
     AppTheme {
-      Scaffold {
+      Scaffold(
+          appBar = {
+              Appbar(
+                  title = {
+                      Text("Kore")
+                  },
+                  navigationIcon = {
+                      GhostIconButton(
+                          onClick = {},
+                          content = {
+                              Icon(
+                                  imageVector = PhIcons.Regular.CaretLeft,
+                                  contentDescription = ""
+                              )
+                          }
+                      )
+                  },
+                  appBarAction = {
+                      GhostIconButton(
+                          onClick = {},
+                          content = {
+                              Icon(
+                                  imageVector = PhIcons.Regular.DotsThreeVertical,
+                                  contentDescription = ""
+                              )
+                          }
+                      )
+                  }
+
+              )
+          }
+      ) {
          Column(
              modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
              verticalArrangement = Arrangement.Center,
@@ -83,46 +120,32 @@ fun App() {
              var showAccordion by remember { mutableStateOf(false) }
              var showAccordion1 by remember { mutableStateOf(false) }
 
-             Accordion(
-                 expanded = showAccordion1,
-                 onExpand = {
-                     showAccordion1 = !showAccordion1
-                 },
-                 header = {
-                     Text("Did you know Voyager 1 is in interstellar space?")
-                 },
-                 expandedContent = {
-                     Text(
-                         "Launched in 1977, Voyager 1 is now over 23 billion km from Earth — the farthest human-made object ever. It still sends data back home at160 bits per second. Your Wi-Fi is embarrassed."
-                     )
-                 },
-                 trailingIcon = {
-                     Icon(
-                         imageVector = if (showAccordion1) PhIcons.Bold.CaretUpBold else PhIcons.Bold.CaretDownBold,
-                         contentDescription = ""
-                     )
-                 }
-             )
-             Accordion(
-                 expanded = showAccordion,
-                 onExpand = {
-                     showAccordion = !showAccordion
-                 },
-                 header = {
-                     Text("Octopuses have three hearts and blue blood")
-                 },
-                 expandedContent = {
-                     Text(
-                         "Two hearts pump blood to the gills, while the third pumps it to the rest of the body."
-                     )
-                 },
-                 trailingIcon = {
-                     Icon(
-                         imageVector = PhIcons.Bold.CaretDownBold,
-                         contentDescription = "idk"
-                     )
-                 }
-             )
+             FlowRow(modifier = Modifier.fillMaxWidth(),
+                 verticalArrangement = Arrangement.spacedBy(8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)){
+                 PrimaryBadge(
+                     content = {
+                         Text("Primary")
+                     }
+                 )
+
+                 SecondaryBadge(
+                     content = {
+                         Text("Secondary")
+                     }
+                 )
+
+                 ErrorBadge(
+                     content = {
+                         Text("Error")
+                     }
+                 )
+
+                 SuccessBadge(
+                     content = {
+                         Text("Success")
+                     }
+                 )
+             }
 
          }
       }
