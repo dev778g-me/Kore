@@ -62,7 +62,7 @@ fun NavigationBar(
             .windowInsetsPadding(insets = WindowInsets.navigationBars)
             .padding(paddingValues = contentPadding),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = horizontalArrangement
     ) {
         content()
     }
