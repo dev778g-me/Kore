@@ -60,7 +60,7 @@ fun Stepper(
             .height(IntrinsicSize.Min)
             .clip(shape)
             .background(color = containerColor, shape = shape)
-            .then(if (border != null) Modifier.border(border) else Modifier),
+            .then(if (border != null) Modifier.border(border,shape) else Modifier),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(KoreTheme.sizes.xxs)
     ){
