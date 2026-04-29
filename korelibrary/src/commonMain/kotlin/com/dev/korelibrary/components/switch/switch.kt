@@ -149,7 +149,7 @@ fun Switch(
         ) {
             checkThumbContent?.let {
                 val contentColor by animateColorAsState(
-                    targetValue = if (checked) KoreTheme.colorScheme.onBackGround else KoreTheme.colorScheme.backGroundVariant
+                    targetValue = switchColors.contentColor(checked = checked, enabled = enabled)
                 )
                 CompositionLocalProvider(
                     LocalContentColor provides contentColor
@@ -208,7 +208,11 @@ object SwitchDefaults{
         disabledCheckedThumbColor: Color = KoreTheme.colorScheme.onDisabled,
         disabledUncheckedThumbColor: Color = KoreTheme.colorScheme.onDisabled,
         uncheckedBorderColor: Color = KoreTheme.colorScheme.onPrimary,
-        checkedBorderColor: Color = KoreTheme.colorScheme.transparent
+        checkedBorderColor: Color = KoreTheme.colorScheme.transparent,
+        checkedContentColor :Color = KoreTheme.colorScheme.background,
+        uncheckedContentColor : Color = KoreTheme.colorScheme.backGroundVariant,
+        disabledCheckedContentColor : Color = KoreTheme.colorScheme.disabled,
+        disabledUncheckedContentColor :Color = KoreTheme.colorScheme.onDisabled,
     ) = SwitchColors(
         checkedTrackColor = checkedTrackColor,
         unCheckedTrackColor = unCheckedTrackColor,
@@ -219,7 +223,11 @@ object SwitchDefaults{
         uncheckedBorderColor = uncheckedBorderColor,
         disabledCheckedThumbColor = disabledCheckedThumbColor,
         disabledUncheckedThumbColor = disabledUncheckedThumbColor,
-        checkedBorderColor = checkedBorderColor
+        checkedBorderColor = checkedBorderColor,
+        checkedContentColor = checkedContentColor,
+        uncheckedContentColor = uncheckedContentColor,
+        disabledCheckedContentColor = disabledCheckedContentColor,
+        disabledUncheckedContentColor = disabledUncheckedContentColor
     )
 
 
@@ -246,6 +254,15 @@ private fun SwitchColors.thumbColor(
     else if (checked) this.disabledCheckedThumbColor else this.disabledUncheckedThumbColor
 }
 
+
+private fun SwitchColors.contentColor(
+    checked: Boolean,
+    enabled: Boolean
+): Color{
+    return  if (enabled) if (checked) checkedContentColor else uncheckedContentColor
+    else if (checked) disabledCheckedContentColor else disabledUncheckedContentColor
+}
+
 /**
  * Defines all the colors of the Switch
  */
@@ -260,5 +277,9 @@ data class SwitchColors(
     val disabledCheckedThumbColor : Color,
     val disabledUncheckedThumbColor : Color,
     val uncheckedBorderColor : Color,
-    val checkedBorderColor : Color
+    val checkedBorderColor : Color,
+    val checkedContentColor : Color,
+    val uncheckedContentColor : Color ,
+    val disabledCheckedContentColor : Color,
+    val disabledUncheckedContentColor : Color,
 )
