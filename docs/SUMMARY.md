@@ -21,3 +21,4 @@
 * [Radio Buttons](components/radio_button.md)
 * [Separators](components/separator.md)
 * [Slider](components/slider.md)
+* [Stack](components/stack.md)
