@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -55,6 +57,8 @@ import com.dev.korelibrary.components.dropdown.DropDown
 import com.dev.korelibrary.components.dropdown.DropDownItem
 import com.dev.korelibrary.components.dropdown.DropdownDefaults
 import com.dev.korelibrary.components.progress.CircularProgressIndicator
+import com.dev.korelibrary.components.radio.RadioButton
+import com.dev.korelibrary.components.radio.RadioButtonDefaults
 import com.dev.korelibrary.components.switch.Switch
 import com.dev.korelibrary.utilities.extensions.bold
 import com.dev.korelibrary.utilities.extensions.color
@@ -169,14 +173,15 @@ fun App() {
              horizontalAlignment = Alignment.CenterHorizontally
          ) {
 
-             CircularProgressIndicator(
-                 progress = 90f,
-                 size = 64.dp,
-                 thickness = 8.dp,
-                 cap = StrokeCap.Square, // Flat, non-rounded edges
-                 colors = ProgressIndicatorDefaults.circularProgressColors(
-                     trackColor = KoreTheme.colorScheme.backGroundVariant,
-                     progressColor = Color.Green // Indicate completion
+             var isSelected by remember { mutableStateOf(true) }
+
+             RadioButton(
+                 selected = isSelected,
+                 onClick = { isSelected = !isSelected },
+                 colors = RadioButtonDefaults.defaultRadioColors(
+                     selectedColor = Color.Green,
+                     unSelectedColor = Color.DarkGray,
+                     disabledSelectedColor = Color.LightGray
                  )
              )
 

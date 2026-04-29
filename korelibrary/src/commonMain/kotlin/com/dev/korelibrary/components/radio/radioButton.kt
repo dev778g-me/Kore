@@ -15,11 +15,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
 
 /**
- * Radio buttons let user select single options from a list of predefined options
+ * Radio Button is an ui component that allows user to select exactly one option from a predefined set of choices.
  * @param selected the [Boolean] value which decides the radio is selected or not
  * @param modifier the [Modifier] applied on radioButton
  * @param onClick the callback invoked when the radio button is clicked
@@ -67,6 +70,9 @@ fun RadioButton(
 
     Canvas(
         modifier = modifier
+            .semantics{
+                role = Role.RadioButton
+            }
             .clip(CircleShape)
             .then(selectableModifier)
             .padding(RadioButtonDefaults.defaultRadioButtonPadding)
