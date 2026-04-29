@@ -18,7 +18,12 @@
 * [ListTile](components/listTile.md)
 * [Loading Indicator](components/loadingIndicator.md)
 * [Progress Indicator](components/progressIndicator.md)
+* [Navigation Bar](components/navigationBar.md)]
 * [Radio Buttons](components/radio_button.md)
 * [Separators](components/separator.md)
 * [Slider](components/slider.md)
 * [Stack](components/stack.md)
+* [Stepper](components/stepper.md)
+* [Switch](components/switch.md)
+* [TabRow](components/tabrow.md)
+* [Textfield](components/textfield.md)
