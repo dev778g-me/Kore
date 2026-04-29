@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -49,17 +50,19 @@ fun NavigationBar(
     modifier: Modifier = Modifier,
     containerColor: Color = KoreTheme.colorScheme.surface,
     contentPadding: PaddingValues = NavigationBarDefaults.defaultNavigationBarPaddingValues,
+    horizontalArrangement: Arrangement.Horizontal = NavigationBarDefaults.defaultContainerHorizontalArrangement,
     content: @Composable RowScope.() -> Unit
 ) {
     Row(
         modifier = modifier
+            .selectableGroup()
             .fillMaxWidth()
             .defaultMinSize(minHeight = 56.dp)
             .background(color = containerColor)
             .windowInsetsPadding(insets = WindowInsets.navigationBars)
             .padding(paddingValues = contentPadding),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         content()
     }
@@ -109,6 +112,13 @@ fun RowScope.NavigationBarItem(
         )
     )
 
+    val indicatorColor by animateColorAsState(
+        targetValue = colors.indicatorColor(
+            enabled = enabled,
+            isSelected = selected
+        )
+    )
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -130,7 +140,8 @@ fun RowScope.NavigationBarItem(
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .clip(shape = indicatorShape )
+                    .clip(shape = indicatorShape)
+                    .background(color = indicatorColor, shape = indicatorShape)
                     .indication(interactionSource, indication = LocalIndication.current) .padding(horizontal = 12.dp, vertical = 2.dp)
             ){
                 icon()
@@ -167,21 +178,29 @@ object NavigationBarDefaults{
 
     val defaultIconLabelSpacing : Dp = 4.dp
 
+    val defaultContainerHorizontalArrangement : Arrangement.Horizontal = Arrangement.SpaceEvenly
+
     @Composable
     fun defaultNavigationBarColors(
         unSelectedIconColor: Color= KoreTheme.colorScheme.onSurface,
         selectedIconColor: Color= KoreTheme.colorScheme.primary,
         unSelectedLabelColor: Color= KoreTheme.colorScheme.onSurface,
         selectedLabelColor: Color= KoreTheme.colorScheme.primary,
+        unSelectedIndicatorColor: Color= Color.Transparent,
+        selectedIndicatorColor:  Color= Color.Transparent,
         disabledIconColor : Color= KoreTheme.colorScheme.onDisabled,
         disabledLabelColor :Color= KoreTheme.colorScheme.onDisabled,
+        disabledIndicatorColor: Color = Color.Transparent
     ) = NavigationBarItemColor(
         unSelectedIconColor = unSelectedIconColor,
         selectedIconColor =selectedIconColor,
         unSelectedLabelColor = unSelectedLabelColor,
         selectedLabelColor= selectedLabelColor,
+        unSelectedIndicatorColor = unSelectedIndicatorColor,
+        selectedIndicatorColor = selectedIndicatorColor,
         disabledIconColor =disabledIconColor,
-        disabledLabelColor = disabledLabelColor
+        disabledLabelColor = disabledLabelColor,
+        disabledIndicatorColor = disabledIndicatorColor
     )
 
 }
@@ -195,8 +214,11 @@ data class NavigationBarItemColor(
     val selectedIconColor: Color,
     val unSelectedLabelColor: Color,
     val selectedLabelColor: Color,
+    val unSelectedIndicatorColor: Color,
+    val selectedIndicatorColor : Color,
     val disabledIconColor : Color,
     val disabledLabelColor :Color,
+    val disabledIndicatorColor : Color
 )
 
 
@@ -207,6 +229,16 @@ private fun NavigationBarItemColor.iconColor(
     return if (!enabled)  disabledIconColor else{
         if (isSelected) selectedIconColor else unSelectedIconColor
  }
+}
+
+
+private fun NavigationBarItemColor.indicatorColor(
+    enabled: Boolean,
+    isSelected: Boolean
+): Color{
+    return if (!enabled) disabledIndicatorColor else {
+        if (isSelected) selectedIndicatorColor else unSelectedIndicatorColor
+    }
 }
 
 
