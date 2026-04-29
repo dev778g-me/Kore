@@ -20,3 +20,4 @@
 * [Progress Indicator](components/progressIndicator.md)
 * [Radio Buttons](components/radio_button.md)
 * [Separators](components/separator.md)
+* [Slider](components/slider.md)
