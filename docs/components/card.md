@@ -2,12 +2,12 @@
 
 A card is a container that groups related content and actions into a visually distinct unit.
 
-When to use card 
+When to use Card : 
 - group related content
 - interactive element
 - collection or grids
 
-When not to use card
+When to avoid  Card :
 - simple or minimal content
 - large or complex layouts
 - repetitive layouts

@@ -3,13 +3,13 @@
 an Appbar is a top-of-the screen container providing consistent navigation screen titles & core actions.<br>
 it provides a set of actions / tools which are relevant to the user current task or view .
 
-when to use Appbar
+when to use Appbar :
 - simple actions
 - compact content
 - brand recognition (showing logo /name etc)
 
 
-When not to use Appbar
+When to avoid Appbar :
 - primary actions
 - rarely used actions
 - too many actions

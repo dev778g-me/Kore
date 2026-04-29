@@ -2,12 +2,12 @@
 
 A Checkbox is an input control that allows users to select one or more options from a set. They are typically used in forms, settings panels, and lists where multiple selections are permitted.
 
-You can use Checkboxes for:
+When to use Checkboxes :
 - Selecting multiple items from a list (e.g., filtering search results)
 - Toggling a specific setting on or off
 - Acknowledging agreements (e.g., "Accept Terms and Conditions")
 
-When not to use Checkboxes:
+When not to avoid Checkboxes:
 - When the user must select exactly *one* option from a mutually exclusive list (use a `RadioButton` instead)
 - For immediate actions that take effect the moment they are toggled (a `Switch` is often better for instant system-level changes)
 

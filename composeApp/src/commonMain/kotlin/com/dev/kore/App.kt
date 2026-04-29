@@ -1,9 +1,9 @@
 package com.dev.kore
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,6 +22,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -35,12 +37,11 @@ import com.dev.kore.theme.AppTheme
 import com.dev.korelibrary.components.appbar.Appbar
 import com.dev.korelibrary.components.buttons.ButtonDefaults
 import com.dev.korelibrary.components.buttons.GhostIconButton
-import com.dev.korelibrary.components.buttons.OutlinedIconButton
 import com.dev.korelibrary.components.buttons.PrimaryIconButton
 import com.dev.korelibrary.components.buttons.SecondaryButton
 import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.listItem.ListTile
+import com.dev.korelibrary.components.listtile.ListTile
 import com.dev.korelibrary.components.navigationBar.NavigationBar
 import com.dev.korelibrary.components.navigationBar.NavigationBarItem
 import com.dev.korelibrary.components.progress.LinearProgressIndicator
@@ -50,10 +51,11 @@ import com.dev.korelibrary.components.separators.HorizontalSeparator
 import com.dev.korelibrary.components.stack.VerticalStack
 import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.components.*
-import com.dev.korelibrary.components.buttons.IconButtonDefaults
-import com.dev.korelibrary.components.buttons.SecondaryIconButton
-import com.dev.korelibrary.themes.colors.RadixColors
+import com.dev.korelibrary.components.dropdown.DropDown
+import com.dev.korelibrary.components.dropdown.DropDownItem
+import com.dev.korelibrary.components.dropdown.DropdownDefaults
+import com.dev.korelibrary.components.progress.CircularProgressIndicator
+import com.dev.korelibrary.components.switch.Switch
 import com.dev.korelibrary.utilities.extensions.bold
 import com.dev.korelibrary.utilities.extensions.color
 import icons.PhIcons
@@ -63,17 +65,23 @@ import icons.filled.ChartLineUpFill
 import icons.filled.CompassFill
 import icons.filled.CookingPotFill
 import icons.filled.SunFill
-import icons.regular.Asterisk
+import icons.regular.Bell
 import icons.regular.CaretLeft
 import icons.regular.CaretRight
 import icons.regular.DotsThree
 import icons.regular.DotsThreeVertical
+import icons.regular.Gear
+import icons.regular.Heart
 import icons.regular.PencilLine
+import icons.regular.Question
+import icons.regular.ShareNetwork
+import icons.regular.SignOut
+import icons.regular.Trash
+import icons.regular.User
 import icons.thin.ChartLineThin
 import icons.thin.CompassThin
 import icons.thin.CookingPotThin
 import icons.thin.SunThin
-import kotlinx.serialization.builtins.ArraySerializer
 
 
 @Composable
@@ -81,6 +89,41 @@ import kotlinx.serialization.builtins.ArraySerializer
     uiMode = UI_MODE_NIGHT_YES
 )
 fun App() {
+
+    val dropItems = listOf(
+        DownItems(
+            label = "Profile",
+            icon = PhIcons.Regular.User,
+            onClick = {}
+        ),
+        DownItems(
+            label = "Settings",
+            icon = PhIcons.Regular.Gear,
+            onClick = {}
+        ),
+        DownItems(
+            label = "Notifications",
+            icon = PhIcons.Regular.Bell,
+            onClick = {}
+        ),
+        DownItems(
+            label = "Favorites",
+            icon = PhIcons.Regular.Heart,
+            onClick = {}
+        ),
+        DownItems(
+            label = "Help & Support",
+            icon = PhIcons.Regular.Question,
+            onClick = {}
+        ),
+        DownItems(
+            label = "Logout",
+            icon = PhIcons.Regular.SignOut,
+            onClick = {}
+        )
+    )
+
+    var expandeed by remember { mutableStateOf(false) }
     AppTheme {
       Scaffold(
           appBar = {
@@ -101,14 +144,19 @@ fun App() {
                   },
                   appBarAction = {
                       GhostIconButton(
-                          onClick = {},
+                          onClick = {
+                              expandeed = true
+                          },
                           content = {
                               Icon(
                                   imageVector = PhIcons.Regular.DotsThreeVertical,
                                   contentDescription = ""
                               )
                           }
+
                       )
+
+
                   }
 
               )
@@ -116,63 +164,23 @@ fun App() {
       ) {
          Column(
              modifier = Modifier.fillMaxSize()
-                 .width(IntrinsicSize.Max)
                  .padding(horizontal = 16.dp),
              verticalArrangement = Arrangement.Center,
              horizontalAlignment = Alignment.CenterHorizontally
          ) {
 
-             var showAccordion by remember { mutableStateOf(false) }
-             var showAccordion1 by remember { mutableStateOf(false) }
+             CircularProgressIndicator(
+                 progress = 90f,
+                 size = 64.dp,
+                 thickness = 8.dp,
+                 cap = StrokeCap.Square, // Flat, non-rounded edges
+                 colors = ProgressIndicatorDefaults.circularProgressColors(
+                     trackColor = KoreTheme.colorScheme.backGroundVariant,
+                     progressColor = Color.Green // Indicate completion
+                 )
+             )
 
-Spacer(
-    modifier = Modifier.width(12.dp)
-)
-             FlowRow(
-                 modifier = Modifier.fillMaxWidth(),
-                 horizontalArrangement = Arrangement.Center
-             ) {
-                 PrimaryIconButton(
-                     shape = KoreTheme.shapes.sm,
-                     onClick = {},
-                     primaryIconButtonColors = IconButtonDefaults.primaryIconButtonColors(
-                         iconButtonContainerColor = RadixColors.Orange.dark.step9,
-                         iconButtonContentColor = RadixColors.Orange.dark.step12
-                     )
-                 ) {
-                     Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
-                 }
-//                 Spacer(
-//                     modifier = Modifier.width(12.dp)
-//                 )
-//
-//                 SecondaryIconButton(
-//                     onClick = {}
-//                 ){
-//                     Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
-//                 }
-//                 Spacer(
-//                     modifier = Modifier.width(12.dp)
-//                 )
-//
-//
-//
-//
-//                 OutlinedIconButton(
-//                     onClick = {}
-//                 ) {
-//                     Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
-//                 }
-//                 Spacer(
-//                     modifier = Modifier.width(12.dp)
-//                 )
-//
-//                 GhostIconButton(
-//                     onClick = {}
-//                 ){
-//                     Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
-//                 }
-             }}
+         }
 
 
       }
@@ -697,4 +705,11 @@ data class BottomNav(
     val label : String,
     val unSelectedIcon : ImageVector,
     val selectedIcon : ImageVector,
+)
+
+
+data class DownItems(
+    val label: String,
+    val icon : ImageVector,
+    val onClick : () -> Unit
 )

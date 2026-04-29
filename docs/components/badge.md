@@ -3,13 +3,13 @@
 badge is a small,non-interactive visual indicator a lot number or label.
 
 
-when to use 
+When to use Badge :
 - status or notification
 - highlighting importance 
 - error or success
 
 
-when not to use 
+When to avoid Badge :
 - too much information
 - critical actions
 

@@ -3,11 +3,11 @@
 A dropdown menu presents a list of actions, options, or links in a temporary surface. They provide navigation options and access to various features and functionalities of the app.
 
 
-when to use 
+when to use DropDown :
 - Multiple options with limited 
 - Secondary Actions 
 
-when not to use 
+when not to avoid DropDown :
 - For primary app routing/navigation (use an `Appbar` or `Navigation Bar` instead.)
 - Frequently accessed actions 
 

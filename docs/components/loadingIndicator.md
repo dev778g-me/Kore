@@ -2,11 +2,11 @@
 
 A Loading Indicator is a visual representation of an ongoing, indeterminate task. It signals to the user that the app is currently processing information, fetching data, or performing a background operation with an unspecified wait time.
 
-When to use 
+When to use Loading Indicator :
 - long tasks 
 - initialization before content is ready.
 
-When to avoid 
+When to avoid Loading Indicator :
 - instant actions
 - synchronous actions
 

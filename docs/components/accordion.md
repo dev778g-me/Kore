@@ -2,12 +2,12 @@
 
 An Accordion is a vertically stacked list of headers that user click to expand or collapse, revealing or hiding content panels. <br>
 
-You can use Accordions in 
+When to use Accordions :
 - FAQ,
 - Product Features
 - Data filtering / Forms 
 
-When not to use Accordion
+When not to avoid Accordion :
 - Minimal Content 
 - frequently accessed content
 - Critical Information 

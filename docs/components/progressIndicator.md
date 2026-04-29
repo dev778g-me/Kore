@@ -2,16 +2,16 @@
 
 A Progress Indicator is a visual representation of a determinate task. Unlike a loading indicator (which spins indefinitely), a progress indicator fills up to show exactly how much of a task has been completed and how much is left.
 
-You can use Progress Indicators for:
+When to use Progress Indicators :
 - Displaying the status of file downloads or uploads.
-- Showing a user's progression through a multi-step form or onboarding flow.
+- Showing a user's progression through a multistep form or onboarding flow.
 - Tracking metrics or goals (e.g., "75% of daily calories consumed").
 
-When not to use Progress Indicators:
+When not to avoid Progress Indicators:
 - For tasks where you do not know the total duration or wait time (use an indeterminate `LoadingIndicator` instead).
 - For instant, synchronous actions.
 
-<figure><img src="showcases/progressindicator_showcase.png" alt="Progress Indicator example image"><figcaption></figcaption></figure>
+for deeper reference check out [Mobbin](https://mobbin.com/glossary/progress-indicator) guide on ListTile
 
 ---
 

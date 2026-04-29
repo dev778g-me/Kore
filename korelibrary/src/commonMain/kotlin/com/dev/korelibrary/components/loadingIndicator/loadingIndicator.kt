@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.progressSemantics
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -41,6 +42,7 @@ import com.dev.korelibrary.themes.KoreTheme
 @Composable
 fun LinearLoadingIndicator(
     modifier: Modifier = Modifier,
+
     thickness: Dp = LoadingIndicatorDefaults.defaultLinearLoadingIndicatorStrokeWidth,
     cap: StrokeCap = LoadingIndicatorDefaults.defaultStrokeCap,
     colors: LoadingIndicatorColors = LoadingIndicatorDefaults.linearLoadingIndictorColors()
@@ -68,7 +70,9 @@ fun LinearLoadingIndicator(
 
 
     Canvas(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .progressSemantics()
+            .fillMaxWidth()
             .height(thickness)
 
     ){
@@ -147,6 +151,7 @@ fun CircularLoadingIndicator(
 
     Canvas(
         modifier = modifier
+            .progressSemantics()
             .size(size)
             .padding(thickness / 2)
             .graphicsLayer {

@@ -3,12 +3,12 @@ A list tile is a single row in a list that shows one piece of information or one
 
 It usually includes a labels (text) and sometimes an icon or action, and all items look similar so they’re easy to scan and use.
 
-when to use ListTile
-- orderered information
+when to use ListTile :
+- ordered information
 - concise information 
 - scannable single column layout 
 
-when to avoid ListTile 
+when to avoid ListTile :
 - Complex data
 - Content heavy 
 
