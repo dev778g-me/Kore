@@ -14,7 +14,6 @@ When not to use Scrollable Tab Rows:
 
 | Slot | Description |
 |---|---|
-| `selectedIndex` | The index of the currently active/selected tab. You must hoist and manage this state. |
 | `tabs` | The composable slot where you declare your individual `Tab` components. |
 
 ## Basic Example

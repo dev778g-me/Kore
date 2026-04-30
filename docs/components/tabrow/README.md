@@ -7,7 +7,6 @@ Tabs organize content into high-level categories and allow users to switch betwe
 
 | Slot | Description |
 |---|---|
-| `selectedIndex` | The index of the currently active/selected tab. You must hoist and manage this state. |
 | `tabs` | The composable slot where you declare your individual `Tab` components. |
 
 ## Basic Example
@@ -108,8 +107,6 @@ The `Tab` is an individual clickable element within a `TabRow`. It handles the l
 
 | Slot | Description |
 |---|---|
-| `isSelected` | Whether this tab is active. You must pass the comparison logic here (e.g., `selectedIndex == index`). |
-| `onClick` | The callback to trigger state changes when the user presses the tab. |
 | `content` | The composable slot where you define the main label (usually a `Text` component). |
 
 ## Styling 
