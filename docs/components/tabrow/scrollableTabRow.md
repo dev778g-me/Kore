@@ -63,7 +63,7 @@ fun CategoryBrowser() {
 
 Scrollable tab row exposes several params to cusomize the tab row .
 
-## Parameters
+### Parameters
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
