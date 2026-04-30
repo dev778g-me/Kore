@@ -2,55 +2,62 @@
 
 Tabs organize content into high-level categories and allow users to switch between different views within the same context. The KoreLibrary implementation provides a `TabRow` container and individual `Tab` items that feature smooth color animations and automatic content tinting.
 
-|Image of a Tab Row UI component with three categories and icons|
 
 ---
+
+| Slot | Description |
+|---|---|
+| `selectedIndex` | The index of the currently active/selected tab. You must hoist and manage this state. |
+| `tabs` | The composable slot where you declare your individual `Tab` components. |
 
 ## Basic Example
 
 Tabs are stateless. You must manage the `selectedIndex` and update it when a Tab is clicked.
 
-```kotlin
+<figure><img src="../showcases/tabShowcase/tabrow.png" alt="Tab example image"><figcaption></figcaption></figure>
+
+
+```
 var selectedIndex by remember { mutableStateOf(0) }
 val categories = listOf("All", "Pending", "Completed")
 
 TabRow(
-selectedIndex = selectedIndex,
-tabs = {
-categories.forEachIndexed { index, title ->
-Tab(
-isSelected = selectedIndex == index,
-onClick = { selectedIndex = index },
-content = { Text(title) }
-)
+    selectedIndex = selectedIndex,
+    tabs = {
+        categories.forEachIndexed { index, title ->
+            Tab(
+                isSelected = selectedIndex == index,
+                onClick = { selectedIndex = index },
+                content = { Text(title) }
+            )
         }
-}
+    }
 )
 ```
 
 ---
 
-## Advanced Example (Icons + Data Class)
+## With Icons + Data Class
 
 The best practice for managing tabs is to use a stateless data class to pair labels and icons together. The component will handle the vertical spacing between the icon and text automatically.
 
-[CODE EXAMPLE]
+<figure><img src="../showcases/tabShowcase/tabrow_with_icons.png" alt="Tab example image"><figcaption></figcaption></figure>
+
+```
 // 1. Define the Tab Data Class
 data class TabCategory(
-val title: String,
-val icon: ImageVector
+    val title: String,
+    val icon: ImageVector
 )
 
 // 2. Use it in your UI
 @Composable
 fun MainScreenTabs() {
-var selectedIndex by remember { mutableStateOf(0) }
-
+    var selectedIndex by remember { mutableStateOf(0) }
+    
     // Using PhIcons.Regular for the icons
     val tabCategories = listOf(
         TabCategory("Home", PhIcons.Regular.House),
-        TabCategory("Messages", PhIcons.Regular.Envelope),
-        TabCategory("Search", PhIcons.Regular.MagnifyingGlass),
         TabCategory("Profile", PhIcons.Regular.User)
     )
 
@@ -72,7 +79,7 @@ var selectedIndex by remember { mutableStateOf(0) }
         }
     )
 }
-[END CODE]
+```
 
 ---
 
@@ -99,10 +106,15 @@ The `TabRow` is a horizontal container that gives all its children equal width b
 
 The `Tab` is an individual clickable element within a `TabRow`. It handles the layout of icons and labels and animates content colors automatically.
 
-### Behavior & Best Practices
-* **Auto-Tinting:** By using `CompositionLocalProvider`, the Tab automatically tints its icons and text to match the `selectedContentColor` or `unselectedContentColor`.
-* **Smooth Transitions:** The color shift between selected and unselected states is handled by `animateColorAsState` for a premium feel.
-* **Accessibility:** Built with `Role.Tab`, ensuring the component is correctly identified by screen readers.
+| Slot | Description |
+|---|---|
+| `isSelected` | Whether this tab is active. You must pass the comparison logic here (e.g., `selectedIndex == index`). |
+| `onClick` | The callback to trigger state changes when the user presses the tab. |
+| `content` | The composable slot where you define the main label (usually a `Text` component). |
+
+## Styling 
+tab row exposes several params to cusomize the tab row .
+
 
 ### Parameters
 
@@ -119,18 +131,20 @@ The `Tab` is an individual clickable element within a `TabRow`. It handles the l
 
 ---
 
-## Customization
+
 
 ### Full-Width "Segments" (Pill Style)
 By using `tabSpacing` and fully rounded shapes for the track and indicator, you can create a segmented control look where all segments have equal weight.
 
-[CODE EXAMPLE]
+<figure><img src="../showcases/tabShowcase/tabrow_custom_shape.png" alt="Tab example image"><figcaption></figcaption></figure>
+
+```kotlin
 TabRow(
-selectedIndex = index,
-tabSpacing = 8.dp, // Adds separation between tabs
-containerColor = Color.Transparent, // Makes the track invisible
-shape = RoundedCornerShape(100), // Pill-shaped track boundary
-indicatorShape = RoundedCornerShape(100), // Pill-shaped indicator highlight
-tabs = { /* Tab items */ }
+    selectedIndex = index,
+    tabSpacing = 8.dp, // Adds separation between tabs
+    containerColor = Color.Transparent, // Makes the track invisible
+    shape = RoundedCornerShape(100), // Pill-shaped track boundary
+    indicatorShape = RoundedCornerShape(100), // Pill-shaped indicator highlight
+    tabs = { /* Tab items */ }
 )
-[END CODE]
+```

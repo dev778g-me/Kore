@@ -77,7 +77,7 @@ CircularProgressIndicator(
 
 ---
 
-## Customization
+## Styling
 
 ### Custom Value Ranges
 Because the API supports a `valueRange`, you don't have to manually calculate percentages. If you have a 5-step form, you can simply pass the current step and set the range to `0f..5f`.

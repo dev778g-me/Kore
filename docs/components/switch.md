@@ -68,7 +68,7 @@ Switch(
 
 ---
 
-## Styling & Dimensions
+## Styling 
 
 The Switch API provides granular control over the sizes of both the track and the thumb, as well as the transition specifications for internal content.
 
@@ -91,7 +91,7 @@ The Switch API provides granular control over the sizes of both the track and th
 
 ---
 
-## Customization
+
 
 
 By default, the switch is pill-shaped, but you can pass custom shapes to the trackShape and thumbShape to match a more industrial or blocky design system.

@@ -56,7 +56,7 @@ CircularLoadingIndicator()
 
 ---
 
-## Customization
+## Styling
 
 Both indicators expose parameters allowing you to heavily modify their appearance to fit different UI contexts, such as changing the stroke thickness, overall size, or component colors.
 

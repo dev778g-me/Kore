@@ -79,6 +79,8 @@ fun TabRow (
         val spacingPx = tabSpacing.roundToPx()
         val tabCount = tabMeasurables.size
         val totalSpacingPx = if (tabCount > 1) spacingPx * (tabCount - 1) else 0
+
+
         val tabWidth = if (tabCount>0) (constraints.maxWidth- totalSpacingPx)  / tabCount else {0}
 
         val exactWidthConstraints = constraints.copy(
@@ -348,8 +350,6 @@ fun Tab(
     ) {
         CompositionLocalProvider(LocalContentColor provides contentColor) {
             Row(
-                modifier = Modifier,
-                //    .padding(TabRowDefaults.defaultTabPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.let {

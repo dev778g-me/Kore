@@ -67,7 +67,7 @@ The Stepper exposes parameters to handle visual separators, custom sizing, and s
 | `labelPaddingValues` | `PaddingValues`| `StepperDefaults...` | The internal padding immediately surrounding the label content. |
 | `separatorPaddingValues`| `PaddingValues`| `StepperDefaults...` | The vertical padding applied to the separators to control their height. |
 
-## Customization
+
 
 ### Bordered Style without Separators
 
