@@ -1,8 +1,9 @@
-package com.dev.korelibrary.src.Components.TextFields
+package com.dev.korelibrary.components.textFields
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -10,6 +11,7 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
@@ -20,15 +22,18 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.themes.LocalContentColor
@@ -53,9 +58,10 @@ internal fun BaseTextField(
     trailingIcon: @Composable (() -> Unit)? = null,
     maxLines : Int = if (singleLine) 1 else Int.MAX_VALUE,
     minLine : Int = 1,
-    shape : androidx.compose.ui.graphics.Shape ,
+    shape : Shape,
     textStyle: TextStyle ?,
     textFieldColors: TextFieldColors,
+    borderWidth : OutlinedBorderWidth,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default
@@ -83,9 +89,11 @@ internal fun BaseTextField(
 
     val width by animateDpAsState(
         targetValue = when {
-            isFocused -> 2.dp
-            isError -> 2.dp
-            else -> 1.dp
+            isFocused -> borderWidth.focusedBorderWidth
+            isError -> borderWidth.errorBorderWidth
+            !isFocused -> borderWidth.unFocusedBorderWidth
+            !enabled -> borderWidth.disabledBorderWidth
+            else -> borderWidth.unFocusedBorderWidth
         }
     )
 
@@ -108,7 +116,7 @@ internal fun BaseTextField(
                    )
                ) {
                    Box(
-                       modifier = Modifier.padding(TextFieldDefaults.labelPaddingValues)
+                       modifier = Modifier.Companion.padding(TextFieldDefaults.labelPaddingValues)
                    ) {
                        it()
                    }
@@ -169,23 +177,19 @@ internal fun BaseTextField(
                     onValueChange.invoke(it)
                 })
             description?.let {
-               Box(
-                   modifier = Modifier.padding(
-                       TextFieldDefaults.errorLabelPaddingValues
-                   )
-               ){
-                   CompositionLocalProvider(
-                       values = arrayOf(
-                           LocalTextStyle provides KoreTheme.typography.label3,
+                Box(
+                    modifier = Modifier.Companion.padding(
+                        TextFieldDefaults.errorLabelPaddingValues
+                    )
+                ) {
+                    CompositionLocalProvider(
+                        values = arrayOf(
+                            LocalTextStyle provides KoreTheme.typography.label3,
                            LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant
                        )
                    ) {
                        it()
                    }
-
-
-
-
 
                }
             }
@@ -213,7 +217,7 @@ fun DecorationBox(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = Modifier.Companion
             .padding(
                 TextFieldDefaults.textFieldPadding
             )
@@ -290,6 +294,31 @@ fun DecorationBox(
         }
     }}
 
+
+/**
+ * OutlinedTextField is an ui component which lets user enter text into ui(email, passwords, name etc.)
+ * @param value the value of the textfield input [String]
+ * @param onValueChange the callback to be invoked when the value of the textfield changes [String]
+ * @param modifier the [Modifier] applied to the textfield.
+ * @param enabled the boolean state which decides textfield enabled nature [Boolean]
+ * @param readOnly the boolean state which decides textfield readOnly nature [Boolean]
+ * @param textStyle the [TextStyle] of the textfield
+ * @param label the label of the textfield [Composable] appears on top of outlinedTextField
+ * @param placeholder the placeholder of the textfield appears when textfield is empty [Composable] (usually explaining about the input)
+ * @param leadingIcon the leading icon of the textfield [Composable]
+ * @param trailingIcon the trailing icon of the textfield [Composable]
+ * @param description the description of the textfield [Composable] appears on bottom of the outlinedTextField .
+ * @param isError the boolean state which decides textfield error nature [Boolean]
+ * @param visualTransformation the [VisualTransformation] of the textfield
+ * @param keyboardOptions the [KeyboardOptions] of the textfield
+ * @param keyboardActions the [KeyboardActions] of the textfield
+ * @param singleLine the boolean state which decides textfield singleLine nature [Boolean]
+ * @param maxLines the maxLines of the textfield [Int]
+ * @param minLines the minLines of the textfield [Int]
+ * @param shape the shape of the textfield [Shape]
+ * @param borderWidth the borderWidth of the textfield [OutlinedBorderWidth]. use [TextFieldDefaults.defaultBorderWidth] to customize
+ * @param textFieldColors the colors of the outlinedTextfield [TextFieldColors] . use [TextFieldDefaults.outlinedTextFieldColors] to customize the colors
+ */
 @Composable
 fun OutlinedTextField(
     value: String,
@@ -311,6 +340,7 @@ fun OutlinedTextField(
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     minLines: Int = 1,
     shape: Shape = TextFieldDefaults.defaultTextFieldShape,
+    borderWidth: OutlinedBorderWidth = TextFieldDefaults.defaultBorderWidth(),
     textFieldColors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors()
 ) {
     BaseTextField(
@@ -333,6 +363,7 @@ fun OutlinedTextField(
         maxLines = maxLines,
         minLine = minLines,
         shape = shape,
+        borderWidth = borderWidth,
         textFieldColors = textFieldColors
     )
 }
@@ -341,7 +372,241 @@ fun OutlinedTextField(
 
 
 
+object TextFieldDefaults {
+    @Composable
+    fun outlinedTextFieldColors(
+        focusedBorderColor: Color = KoreTheme.colorScheme.primary,
+        unFocusedBorderColor: Color = KoreTheme.colorScheme.backGroundVariant,
+        errorBorderColor: Color = KoreTheme.colorScheme.error,
+        disabledBorderColor: Color = KoreTheme.colorScheme.disabled,
+        focusedContainerColor: Color = KoreTheme.colorScheme.transparent,
+        unFocusedContainerColor: Color = KoreTheme.colorScheme.transparent,
+        errorContainerColor: Color = KoreTheme.colorScheme.transparent,
+        disabledContainerColor: Color = KoreTheme.colorScheme.disabled,
+        labelColor : Color = KoreTheme.colorScheme.onBackGround.copy(alpha = 0.7f),
+        errorLabelColor : Color = KoreTheme.colorScheme.error,
+        disabledLabelColor: Color = KoreTheme.colorScheme.disabled,
+        unFocusedIndicatorColor : Color = KoreTheme.colorScheme.backGroundVariant,
+        focusedIndicatorColor: Color = KoreTheme.colorScheme.primary,
+        errorIndicatorColor: Color = KoreTheme.colorScheme.error,
+        disabledIndicatorColor: Color = KoreTheme.colorScheme.disabled,
+        focusedTextColor: Color = KoreTheme.colorScheme.onBackGround,
+        unFocusedTextColor: Color = KoreTheme.colorScheme.onBackGround,
+        errorTextColors: Color = KoreTheme.colorScheme.onBackGround,
+        disabledTextColor: Color = KoreTheme.colorScheme.disabled,
+        unFocusedLeadingIconColor: Color = KoreTheme.colorScheme.onBackGround,
+        focusedLeadingIconColor: Color = KoreTheme.colorScheme.onBackGround,
+        errorLeadingIconColor: Color = KoreTheme.colorScheme.error,
+        disabledLeadingIconColor: Color = KoreTheme.colorScheme.onDisabled,
+        unFocusedTrailingIconColor: Color  = KoreTheme.colorScheme.onBackGround,
+        focusedTrailingIconColor : Color = KoreTheme.colorScheme.onBackGround,
+        errorTrailingIconColor : Color = KoreTheme.colorScheme.error,
+        disabledTrailingIconColor : Color = KoreTheme.colorScheme.onDisabled,
+    ) = TextFieldColors(
+        focusedBorderColor = focusedBorderColor,
+        unFocusedBorderColor = unFocusedBorderColor,
+        errorBorderColor = errorBorderColor,
+        disabledBorderColor = disabledBorderColor,
+        focusedContainerColor = focusedContainerColor,
+        unFocusedContainerColor = unFocusedContainerColor,
+        errorContainerColor = errorContainerColor,
+        disabledContainerColor = disabledContainerColor,
+        labelColor = labelColor,
+        errorLabelColor = errorLabelColor,
+        disabledLabelColor = disabledLabelColor,
+        focusedIndicatorColor = focusedIndicatorColor,
+        unFocusedIndicatorColor = unFocusedIndicatorColor,
+        errorIndicatorColor = errorIndicatorColor,
+        disabledIndicatorColor = disabledIndicatorColor,
+        focusedTextColor = focusedTextColor,
+        unFocusedTextColor = unFocusedTextColor,
+        errorTextColor = errorTextColors,
+        disabledTextColor = disabledTextColor,
+        unFocusedLeadingIconColor = unFocusedLeadingIconColor,
+        focusedLeadingIconColor = focusedLeadingIconColor,
+        errorLeadingIconColor = errorLeadingIconColor,
+        disabledLeadingIconColor = disabledLeadingIconColor,
+        unFocusedTrailingIconColor = unFocusedTrailingIconColor,
+        focusedTrailingIconColor = focusedTrailingIconColor,
+        errorTrailingIconColor = errorTrailingIconColor,
+        disabledTrailingIconColor = disabledTrailingIconColor,
+    )
 
+    @Composable
+    fun defaultBorderWidth(
+        focusedBorderWidth : Dp = 2.dp,
+        unFocusedBorderWidth : Dp = 1.dp,
+        errorBorderWidth : Dp = 2.dp,
+        disabledBorderWidth : Dp = 1.dp
+    ) = OutlinedBorderWidth(
+        focusedBorderWidth = focusedBorderWidth,
+        unFocusedBorderWidth = unFocusedBorderWidth,
+        errorBorderWidth = errorBorderWidth,
+        disabledBorderWidth = disabledBorderWidth,
+    )
+
+    val defaultTextFieldShape
+        @Composable get() = KoreTheme.shapes.md
+
+    val minimumTextFieldHeight = 56.dp
+
+    val minimumTextFieldWidth = 300.dp
+
+    val maxLeadingIconHeight = 42.dp
+
+    val maxTrailingIconHeight = 42.dp
+
+
+    val labelPaddingValues : PaddingValues = PaddingValues(
+        start = 8.dp,
+        bottom = 4.dp
+    )
+
+    val errorLabelPaddingValues : PaddingValues = PaddingValues(
+        start = 8.dp,
+        top = 4.dp
+    )
+
+    val textFieldPadding : PaddingValues = PaddingValues(
+        horizontal = 12.dp,
+        vertical = 8.dp
+    )
+
+    val leadingIconPaddingValues : PaddingValues = PaddingValues(
+        end = 12.dp
+    )
+
+    val trailingIconPaddingValues : PaddingValues = PaddingValues(
+        start = 12.dp
+    )
+
+
+}
+
+@Immutable
+data class TextFieldColors(
+    val focusedBorderColor : Color,
+    val unFocusedBorderColor : Color,
+    val errorBorderColor : Color,
+    val disabledBorderColor : Color,
+    val focusedContainerColor : Color,
+    val unFocusedContainerColor : Color,
+    val errorContainerColor : Color,
+    val disabledContainerColor : Color,
+    val labelColor : Color,
+    val errorLabelColor : Color,
+    val disabledLabelColor : Color,
+    val unFocusedIndicatorColor : Color,
+    val focusedIndicatorColor: Color,
+    val errorIndicatorColor : Color,
+    val disabledIndicatorColor : Color,
+    val focusedTextColor : Color,
+    val unFocusedTextColor : Color,
+    val errorTextColor: Color,
+    val disabledTextColor: Color,
+    val unFocusedLeadingIconColor: Color,
+    val focusedLeadingIconColor : Color,
+    val errorLeadingIconColor : Color,
+    val disabledLeadingIconColor : Color,
+    val unFocusedTrailingIconColor: Color,
+    val focusedTrailingIconColor : Color,
+    val errorTrailingIconColor : Color,
+    val disabledTrailingIconColor : Color,
+)
+
+@Immutable
+data class OutlinedBorderWidth(
+    val focusedBorderWidth : Dp,
+    val unFocusedBorderWidth : Dp,
+    val errorBorderWidth : Dp,
+    val disabledBorderWidth : Dp
+)
+
+
+
+private fun TextFieldColors.borderColor(
+    enabled: Boolean,
+    hasError: Boolean,
+    isFocused: Boolean
+): Color {
+    val isError: Boolean = enabled && hasError
+    return when {
+        !enabled -> this.disabledBorderColor
+        isError -> this.errorBorderColor
+        isFocused -> this.focusedBorderColor
+        else -> this.unFocusedBorderColor
+    }
+}
+
+
+private fun TextFieldColors.indicatorColor(
+    enabled: Boolean,
+    error: Boolean,
+    isFocused: Boolean
+): Color {
+    return when {
+        !enabled -> this.disabledIndicatorColor
+        error -> this.errorIndicatorColor
+        isFocused -> this.focusedIndicatorColor
+        else -> this.unFocusedIndicatorColor
+    }
+}
+
+// function for colors of the leading icon
+
+
+private fun TextFieldColors.leadingIconColor(
+    enabled: Boolean,
+    error : Boolean,
+    isFocused: Boolean
+) : Color {
+
+    return when {
+        !enabled -> this.disabledLeadingIconColor
+        error -> this.errorLeadingIconColor
+        isFocused -> this.focusedLeadingIconColor
+        else -> this.unFocusedLeadingIconColor
+    }
+}
+
+private fun TextFieldColors.trailingIconColor(
+    enabled: Boolean,
+    error : Boolean,
+    isFocused: Boolean
+) : Color {
+
+    return when {
+        !enabled -> this.disabledTrailingIconColor
+        error -> this.errorTrailingIconColor
+        isFocused -> this.focusedTrailingIconColor
+        else -> this.unFocusedTrailingIconColor
+    }
+}
+private fun TextFieldColors.contentColor(
+    enabled: Boolean,
+    error: Boolean,
+    isFocused: Boolean
+) : Color{
+
+    return when {
+        !enabled -> this.disabledTextColor
+        error -> this.errorTextColor
+        isFocused -> this.focusedTextColor
+        else -> this.unFocusedTextColor
+    }
+}
+private fun TextFieldColors.containerColor(
+    enabled: Boolean,
+    error: Boolean,
+    isFocused: Boolean
+) : Color{
+    return when {
+        !enabled -> this.disabledContainerColor
+        error -> this.errorContainerColor
+        isFocused -> this.focusedContainerColor
+        else -> this.unFocusedContainerColor
+    }
+}
 
 
 
