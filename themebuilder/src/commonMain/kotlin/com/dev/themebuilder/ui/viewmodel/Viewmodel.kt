@@ -151,7 +151,7 @@ class ThemeViewModel : ViewModel() {
             onSurface = lightScale.step11,
             surfaceBright = lightScale.step1,
             onSurfaceBright = lightScale.step12,
-            transparent = Color.Transparent
+            transparent = lightScale.step1.copy(alpha = 0f)
         )
         _currentLightColorScheme.value = neutralLightColors
     }
@@ -288,7 +288,7 @@ class ThemeViewModel : ViewModel() {
             onSurface = darkScale.step11,
             surfaceBright = darkScale.step3,
             onSurfaceBright = darkScale.step12,
-            transparent = Color.Transparent
+            transparent = darkScale.step1 .copy(alpha = 0f)
         )
         _currentDarkColorScheme.value = neutralDarkColors
     }
