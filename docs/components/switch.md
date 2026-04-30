@@ -37,6 +37,33 @@ Row(
 
 ---
 
+
+## Styling 
+
+The Switch API provides granular control over the sizes of both the track and the thumb, as well as the transition specifications for internal content.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| checked | Boolean | — | Whether the switch is currently on or off. |
+| onCheckChange | ((Boolean) -> Unit)? | — | Callback invoked when the user toggles the switch. |
+| modifier | Modifier | Modifier | Applied to the outer track container. |
+| enabled | Boolean | true | When false, the switch is greyed out and non-interactive. |
+| checkThumbContent | @Composable () -> Unit | null | Optional content to show inside the thumb when checked. |
+| unCheckedThumbContent| @Composable () -> Unit | null | Optional content to show inside the thumb when unchecked. |
+| switchTrackWidth | Dp | SwitchDefaults.defaultSwitchTrackWidth | The total width of the switch track. |
+| switchTrackHeight | Dp | SwitchDefaults.defaultSwitchHeight | The total height of the switch track. |
+| thumbSize | Dp | SwitchDefaults.defaultSwitchSize | The diameter/size of the sliding thumb. |
+| thumbPadding | Dp | SwitchDefaults.thumbPadding | The inset of the thumb from the track edges. |
+| transitionSpec | AnimatedContentTransitionScope | SwitchDefaults.defaultTransitionSpec | Customizes the animation logic for the thumb content. |
+| switchColors | SwitchColors | SwitchDefaults.defaultSwitchColors() | Defines track and thumb colors for all states. |
+
+---
+
+## Customization
+
+
 ## Advanced Thumb Content
 
 One of the standout features of the KoreLibrary Switch is the ability to add content inside the thumb that animates when the state changes. This is perfect for adding icons (like a sun/moon or check/cross) to provide extra visual clarity.
@@ -65,34 +92,6 @@ Switch(
     }
 )
 ```
-
----
-
-## Styling 
-
-The Switch API provides granular control over the sizes of both the track and the thumb, as well as the transition specifications for internal content.
-
-### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| checked | Boolean | — | Whether the switch is currently on or off. |
-| onCheckChange | ((Boolean) -> Unit)? | — | Callback invoked when the user toggles the switch. |
-| modifier | Modifier | Modifier | Applied to the outer track container. |
-| enabled | Boolean | true | When false, the switch is greyed out and non-interactive. |
-| checkThumbContent | @Composable () -> Unit | null | Optional content to show inside the thumb when checked. |
-| unCheckedThumbContent| @Composable () -> Unit | null | Optional content to show inside the thumb when unchecked. |
-| switchTrackWidth | Dp | SwitchDefaults.defaultSwitchTrackWidth | The total width of the switch track. |
-| switchTrackHeight | Dp | SwitchDefaults.defaultSwitchHeight | The total height of the switch track. |
-| thumbSize | Dp | SwitchDefaults.defaultSwitchSize | The diameter/size of the sliding thumb. |
-| thumbPadding | Dp | SwitchDefaults.thumbPadding | The inset of the thumb from the track edges. |
-| transitionSpec | AnimatedContentTransitionScope | SwitchDefaults.defaultTransitionSpec | Customizes the animation logic for the thumb content. |
-| switchColors | SwitchColors | SwitchDefaults.defaultSwitchColors() | Defines track and thumb colors for all states. |
-
----
-
-
-
 
 By default, the switch is pill-shaped, but you can pass custom shapes to the trackShape and thumbShape to match a more industrial or blocky design system.
 
