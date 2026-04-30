@@ -61,10 +61,9 @@ The Switch API provides granular control over the sizes of both the track and th
 
 ---
 
-## Customization
 
 
-## Advanced Thumb Content
+### Advanced Thumb Content
 
 One of the standout features of the KoreLibrary Switch is the ability to add content inside the thumb that animates when the state changes. This is perfect for adding icons (like a sun/moon or check/cross) to provide extra visual clarity.
 
