@@ -25,5 +25,6 @@
 * [Stack](components/stack.md)
 * [Stepper](components/stepper.md)
 * [Switch](components/switch.md)
-* [TabRow](components/tabrow.md)
+* [TabRow](components/tabrow/tabrow.md)
+* [Scrollable TabRow](components/tabrow/scrollableTabRow.md)
 * [Textfield](components/textfield.md)
