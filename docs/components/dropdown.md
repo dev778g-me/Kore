@@ -7,11 +7,11 @@ when to use DropDown :
 - Multiple options with limited 
 - Secondary Actions 
 
-when not to avoid DropDown :
+when to avoid DropDown :
 - For primary app routing/navigation (use an `Appbar` or `Navigation Bar` instead.)
 - Frequently accessed actions 
 
-for deeper reference check out [Mobbin](https://mobbin.com/glossary/dropdown-menu) guide on Dropdown
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/dropdown-menu) guide on Dropdown
 
 
 ## Basic Example 

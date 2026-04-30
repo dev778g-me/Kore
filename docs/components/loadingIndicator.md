@@ -2,13 +2,19 @@
 
 A Loading Indicator is a visual representation of an ongoing, indeterminate task. It signals to the user that the app is currently processing information, fetching data, or performing a background operation with an unspecified wait time.
 
-When to use Loading Indicator :
-- long tasks 
-- initialization before content is ready.
+When to use a Loading Indicator
+- Use it for tasks that take noticeable time (like loading data or processing something)
+- Use it when the app is preparing content before showing it
+- Use it when the wait time is unclear and users need feedback that something is happening
 
-When to avoid Loading Indicator :
-- instant actions
-- synchronous actions
+When to avoid a Loading Indicator
+- Avoid it for actions that feel instant
+- Avoid it for fast, predictable operations
+- Avoid it for small UI updates where a simple transition is enough
+
+> Tip: If something takes less than about 300–500ms, skip the loader and show the result directly
+
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/loading-indicator) guide on Loading Indicator
 
 
 ## Linear Loading Indicator

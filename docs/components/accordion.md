@@ -12,7 +12,7 @@ When not to avoid Accordion :
 - frequently accessed content
 - Critical Information 
 
-For deeper reference, check out [Mobbin](https://mobbin.com/glossary/accordion) guide on accordions.
+> For deeper reference, check out [Mobbin](https://mobbin.com/glossary/accordion) guide on accordions.
 
 <figure><img src="showcases/accordion_showcase.png" alt="Accordion example image "><figcaption></figcaption></figure>
 

@@ -13,7 +13,7 @@ When to avoid  Card :
 - repetitive layouts
 
 
-For deeper reference, check out [Mobbin](https://mobbin.com/glossary/card) guide on Card.
+> For deeper reference, check out [Mobbin](https://mobbin.com/glossary/card) guide on Card.
 ## Basic Example
 
 <figure><img src="showcases/cardShowcase/card_showcase.png" alt="Basic Card Example "><figcaption></figcaption></figure>

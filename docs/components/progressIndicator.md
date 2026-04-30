@@ -11,7 +11,7 @@ When not to avoid Progress Indicators:
 - For tasks where you do not know the total duration or wait time (use an indeterminate `LoadingIndicator` instead).
 - For instant, synchronous actions.
 
-for deeper reference check out [Mobbin](https://mobbin.com/glossary/progress-indicator) guide on ListTile
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/progress-indicator) guide on Progress Indicator
 
 ---
 

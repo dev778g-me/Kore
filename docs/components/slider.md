@@ -11,7 +11,7 @@ When not to use Sliders:
 - When the user needs to input an exact, highly precise numerical value (use a numeric `TextField` instead).
 - When the selection is binary or a small set of distinct options (use a `Switch` or `RadioButtons`).
 
-
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/slider) guide on Slider
 
 ## Basic Example
 

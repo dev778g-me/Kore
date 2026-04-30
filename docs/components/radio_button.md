@@ -13,6 +13,9 @@ When to avoid Radio Button :
 - For immediate actions that take effect the momment they are toggled (use a `Switch` instead)
 
 
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/radio-button) guide on Radio Button
+
+
 ## Basic Example 
 
 Because a Radio Button is stateless by default, you must manage the currently selected option in your parent composable and pass the `selected` state down.

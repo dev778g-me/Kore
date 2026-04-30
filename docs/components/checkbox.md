@@ -7,11 +7,11 @@ When to use Checkboxes :
 - Toggling a specific setting on or off
 - Acknowledging agreements (e.g., "Accept Terms and Conditions")
 
-When not to avoid Checkboxes:
+When to avoid Checkboxes:
 - When the user must select exactly *one* option from a mutually exclusive list (use a `RadioButton` instead)
 - For immediate actions that take effect the moment they are toggled (a `Switch` is often better for instant system-level changes)
 
-For deeper reference, check out [Mobbin](https://mobbin.com/glossary/checkbox) guide on CheckBox.
+> For deeper reference, check out [Mobbin](https://mobbin.com/glossary/checkbox) guide on CheckBox.
 
 
 ## Basic Example

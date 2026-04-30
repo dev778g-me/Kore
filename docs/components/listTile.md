@@ -2,17 +2,17 @@
 A list tile is a single row in a list that shows one piece of information or one option.
 
 It usually includes a labels (text) and sometimes an icon or action, and all items look similar so they’re easy to scan and use.
+When to use ListTile
+- Ordered information – When items follow a clear sequence or hierarchy
+- Concise content – When each item can be expressed in a short title (with optional subtitle)
+- Scannable layout – When users need to quickly browse a single-column list
 
-when to use ListTile :
-- ordered information
-- concise information 
-- scannable single column layout 
+When to avoid ListTile
+- Complex data – When items require multiple elements, interactions, or custom layouts
+- Content-heavy items – When each entry includes large text blocks, images, or detailed information
+- Multi-column or dense layouts – When information doesn’t fit well in a simple vertical list 
 
-when to avoid ListTile :
-- Complex data
-- Content heavy 
-
-for deeper reference check out [Mobbin](https://mobbin.com/glossary/stacked-list) guide on ListTile
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/stacked-list) guide on ListTile
 
 ## Basic Example 
 

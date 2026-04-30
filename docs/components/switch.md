@@ -11,6 +11,8 @@ When not to use Switches:
 - When the action requires a "Submit" or "Apply" button to take effect (use a CheckBox).
 - For navigation between screens.
 
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/switch) guide on Switch
+
 ---
 
 ## Basic Example

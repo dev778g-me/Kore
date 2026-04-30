@@ -10,6 +10,7 @@ When not to use Navigation Bars:
 - For secondary or nested navigation (use standard `Tabs` or `Appbars` instead).
 - For single-task flows, like checkout screens or deep-focus editors (hide the navigation bar entirely to maximize screen real estate).
 
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/tab-bar) guide on Navigation Bar(TabBar)
 
 
 ---

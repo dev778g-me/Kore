@@ -11,6 +11,7 @@ When not to use Steppers:
 - For adjusting values across a massive range where tapping would be tedious (use a `Slider` instead).
 - When the user is expected to input a large specific number directly, like a ZIP code or phone number (use a numeric `TextField` instead).
 
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/stepper) guide on Stepper
 
 
 ## Basic Example 

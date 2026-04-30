@@ -11,6 +11,8 @@ When not to use Separators:
 - If standard whitespace, padding, or elevation is enough to establish a clear visual hierarchy (overusing separators can create unnecessary visual noise).
 
 
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/divider) guide on Separator(Divider)
+
 ---
 
 ## Horizontal Separator
@@ -99,7 +101,7 @@ Row(
 
 ---
 
-## Customization
+## Styling
 
 Your API allows for deep customization, including changing the line endings (`StrokeCap`) and applying rich gradients using Compose's `Brush` API.
 

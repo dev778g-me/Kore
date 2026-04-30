@@ -19,7 +19,7 @@ There are several types of buttons in Kore based on action importance (e.g., Pri
 
 
 
-For deeper reference, check out [Mobbin](https://mobbin.com/glossary/badge) guide on Badges.
+> For deeper reference, check out [Mobbin](https://mobbin.com/glossary/badge) guide on Badges.
 
 
 ## Primary Badge

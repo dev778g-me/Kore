@@ -15,7 +15,7 @@ When to avoid Appbar :
 - too many actions
 
 
-For deeper reference, check out [Mobbin](https://mobbin.com/glossary/top-navigation-bar) guide on accordions.
+> For deeper reference, check out [Mobbin](https://mobbin.com/glossary/top-navigation-bar) guide on accordions.
 
 <figure><img src="showcases/appbar_showcase.png" alt="Appbar example image "><figcaption></figcaption></figure>
 
