@@ -27,6 +27,7 @@
 - [Loading Indicator](components/loadingIndicator.md)
 - [Progress Indicator](components/progressIndicator.md)
 - [Badge](components/badge.md)
+- [Dialog](components/dialog.md)
 
 ### Data Display
 - [Card](components/card.md)
