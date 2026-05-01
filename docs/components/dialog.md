@@ -12,7 +12,7 @@ When to avoid Alert Dialog:
 - Complex data entry, long forms, or deep configurations (use a Full-screen Dialog or Bottom Sheet).
 - Repetitive, low-risk actions (avoids "dialog fatigue").
 
-For deeper reference, check out [Material Design](https://m3.material.io/components/dialogs/overview) guidelines on dialogs.
+For deeper reference, check out [Mobbin](https://mobbin.com/glossary/dialog) guide on dialogs.
 
 
 
