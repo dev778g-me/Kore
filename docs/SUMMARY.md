@@ -7,9 +7,8 @@
 
 
 ## Components
-
-### Foundation
 - [Overview](components/overview.md)
+### Foundation
 - [Separators](components/separator.md)
 - [Stack](components/stack.md)
 
