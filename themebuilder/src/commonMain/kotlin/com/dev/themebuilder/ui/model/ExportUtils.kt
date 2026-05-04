@@ -15,6 +15,7 @@ import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
 
+
 object ExportUtils {
    fun exportTheme(
       darkColorScheme: KoreColorScheme,
@@ -135,7 +136,7 @@ object ExportUtils {
 
    fun openSaveFile(
       fileName : String = "theme.kt",
-      onResult: (File ?) -> Unit
+      onResult: (File?) -> Unit
    ){
       val dummyFrame = Frame()
       val dialog = FileDialog(dummyFrame, "export theme", FileDialog.SAVE)

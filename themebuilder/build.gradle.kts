@@ -57,7 +57,10 @@ compose.desktop {
     application {
         mainClass = "com.dev.themebuilder.MainKt"
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg,TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(
+                TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe,
+                TargetFormat.AppImage, TargetFormat.Rpm
+            )
             packageName = "com.dev.themebuilder"
             packageVersion = "1.0.0"
         }
