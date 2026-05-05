@@ -1,0 +1,34 @@
+name: Windows-BUILD-CI
+
+
+on :
+  workflow_dispatch:
+
+
+
+jobs:
+  build_windows :
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+
+        with:
+          java-version : '21'
+          distribution : 'zulu'
+          cache : 'gradle'
+
+      - name: upload to Github
+        uses: softprops/action-gh-release@v2
+        with:
+            files: |
+              themebuilder/build/compose/binaries/main/msi/*.msi
+              themebuilder/build/compose/binaries/main/exe/*.exe
+
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
