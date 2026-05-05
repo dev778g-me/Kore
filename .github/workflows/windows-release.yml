@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: '1.0.0-alpha01'
+        description: 'Release Tag'
         required: true
-        default: 'manual-build'
+        default: 'v1.0.0-alpha01'
 
 jobs:
   build-windows:
@@ -28,7 +28,6 @@ jobs:
       - name: Build Windows Packages
         run: ./gradlew :themebuilder:packageMsi :themebuilder:packageExe
 
-
       - name: Verify Build Output
         run: Get-ChildItem -Path . -Include *.msi, *.exe -Recurse
 
@@ -36,6 +35,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
 
+          tag_name: ${{ github.event.inputs.version }}
           files: |
             themebuilder/build/compose/binaries/main/**/*.msi
             themebuilder/build/compose/binaries/main/**/*.exe
