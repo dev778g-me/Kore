@@ -1,48 +1,29 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+# Kore
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+*Kore* is a Compose Multiplatform design foundation that provides beautifully pre-styled components to help you build scalable and consistent design systems.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
 
-### Build and Run Android Application
+> ⚠️ **Alpha Notice**
+> Kore is currently in **alpha**. APIs may change and are not yet stable.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
 
-### Build and Run Desktop (JVM) Application
+![Version](https://img.shields.io/badge/version-1.0.0--alpha01-green?style=flat\&logo=github)
+![Kotlin](https://img.shields.io/badge/kotlin-2.3.0-blue?style=flat\&logo=kotlin)
+![Maven Central](https://img.shields.io/badge/mavenCentral-1.0.0--alpha01-red?style=flat\&logo=apachemaven)
+![License](https://img.shields.io/badge/license-MIT-green?style=flat)
+![Compose Multiplatform](https://img.shields.io/badge/composeMultiplatform-1.10.0-blue?style=flat)
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
-
-### Build and Run iOS Application
-
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+```kotlin
+implementation("io.github.dev778g-me:kore:1.0.0-alpha01")
+```
 
 ---
+## Documentation
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+Visit https://kore-1.gitbook.io/kore/documentation for documentation.
+
+
+
+## 📝 License
+
+MIT License © 2026
