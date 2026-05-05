@@ -7,7 +7,6 @@
 > Kore is currently in **alpha**. APIs may change and are not yet stable.
 
 
-![Version](https://img.shields.io/badge/version-1.0.0--alpha01-green?style=flat\&logo=github)
 ![Kotlin](https://img.shields.io/badge/kotlin-2.3.0-blue?style=flat\&logo=kotlin)
 ![Maven Central](https://img.shields.io/badge/mavenCentral-1.0.0--alpha01-red?style=flat\&logo=apachemaven)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat)
