@@ -1,40 +1,40 @@
-name: Windows-BUILD-CI
-
+name: Windows Release
 
 on:
   push:
     tags:
       - 'v*'
 
-
-
 jobs:
-  build_windows :
+  build-windows:
     runs-on: windows-latest
     permissions:
-        contents: write
+      contents: write
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
-
         with:
-          java-version : '21'
-          distribution : 'zulu'
-          cache : 'gradle'
+          java-version: '17'
+          distribution: 'zulu'
+          cache: 'gradle'
 
-      - name: List files (Debug)
+      - name: Build Windows Packages
+        run: ./gradlew :themebuilder:packageMsi :themebuilder:packageExe
+
+
+      - name: Verify Build Output
         run: dir /s /b *.msi *.exe
 
-      - name: upload to Github
+      - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
-            files: |
-              themebuilder/build/compose/binaries/main/msi/*.msi
-              themebuilder/build/compose/binaries/main/exe/*.exe
 
+          files: |
+            themebuilder/build/compose/binaries/main/**/*.msi
+            themebuilder/build/compose/binaries/main/**/*.exe
         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
