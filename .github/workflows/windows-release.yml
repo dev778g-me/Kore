@@ -26,7 +26,7 @@ jobs:
 
 
       - name: Verify Build Output
-        run: dir /s /b *.msi *.exe
+        run: Get-ChildItem -Path . -Include *.msi, *.exe -Recurse
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
