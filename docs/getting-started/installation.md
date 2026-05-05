@@ -8,119 +8,44 @@ Kore is distributed via <a href="https://central.sonatype.com/">Maven Central</a
 To make sure you have maven central check your `settings.gradle.kts` file.<br>
 
 ```kotlin
-
 dependencyResolutionManagement {
     repositories {
         mavenCentral() // <- add this line 
     }
 }
-
 ```
 
-#### Add to Android 
-```kotlin
-
-plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-}
-
-android {
-    namespace = "com.example.koreapp"
-    compileSdk = 34
-
-    defaultConfig {
-        applicationId = "com.example.koreapp"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-}
-
-dependencies {
-    // Compose
-    implementation("androidx.compose.ui:ui:1.6.0")
-    implementation("androidx.compose.material3:material3:1.2.0")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.6.0")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.6.0")
-
-    // Kore (dummy dependency)
-    implementation("com.kore:kore:0.1.0")
-}
-
-```
 #### Add to Compose Multiplatform
 ``` kotlin
-
-// dummy ai genn
-plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
+commonMain.dependencies {
+    implementation("io.github.dev778g-me:kore:1.0.0-alpha01")
 }
-
-kotlin {
-    androidTarget()
-    
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
-    jvm("desktop")
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                // Compose Multiplatform
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-
-                // Kore (dummy dependency)
-                implementation("com.kore:kore:0.1.0")
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-                implementation("androidx.activity:activity-compose:1.9.0")
-            }
-        }
-
-        val desktopMain by getting {
-            dependencies {
-                implementation(compose.desktop.currentOs)
-            }
-        }
-
-        val iosMain by creating {
-            dependsOn(commonMain)
-        }
-    }
-}
-
-android {
-    namespace = "com.example.koreapp"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 24
-    }
-}
-
 ```
+or
+
+---
+#### Add to Android 
+```kotlin
+implementation("io.github.dev778g-me:kore-android:1.0.0-alpha01")
+```
+
+#### Add to Ios-arm64
+```kotlin
+implementation("io.github.dev778g-me:kore-iosarm64:1.0.0-alpha01")
+```
+
+#### Add to Ios-x64
+```kotlin
+implementation("io.github.dev778g-me:kore-iosx64:1.0.0-alpha01")
+```
+
+#### Add to Jvm(desktop)
+```kotlin
+implementation("io.github.dev778g-me:kore-jvm:1.0.0-alpha01")
+```
+
+
+
 
 and then sync the project.
 

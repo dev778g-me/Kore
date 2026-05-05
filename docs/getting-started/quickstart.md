@@ -5,7 +5,7 @@ Quickstart guide for using Kore.
 Make sure you have installed the Kore library into your project:
 
 ```kotlin
-implementation("com.dev778g-me:korelibrary:1.0.0 alpha")
+implementation("io.github.dev778g-me:kore:1.0.0-alpha01")
 ```
 
 Download and install the Kore companion app or web app.
