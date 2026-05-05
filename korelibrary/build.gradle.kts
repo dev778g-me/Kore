@@ -5,7 +5,8 @@ plugins {
     alias(libs.plugins.androidLint)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.composeCompiler)
-    //id("org.jetbrains.dokka") version "2.2.0"
+    id("maven-publish")
+    id("com.vanniktech.maven.publish") version "0.36.0"
 }
 
 
@@ -16,7 +17,7 @@ kotlin {
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
-    android {
+    androidLibrary {
         namespace = "com.dev.korelibrary"
         compileSdk = 36
         minSdk = 24
@@ -113,3 +114,41 @@ compose.resources {
     generateResClass = always
 }
 
+mavenPublishing {
+    coordinates(
+        groupId = "io.github.dev778g-me",
+        artifactId = "kore",
+        version = "1.0.0-alpha01"
+    )
+
+    pom {
+        name.set("kore")
+        description.set("Compose Multiplatform design foundation (alpha)")
+        inceptionYear.set("2026")
+        url.set("https://github.com/dev778g-me/kore")
+
+        developers {
+            developer {
+                id.set("dev778g-me")
+                name.set("dev")
+                email.set("sanji778g@gmail.com")
+            }
+        }
+
+        licenses {
+            license {
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
+            }
+        }
+
+        scm {
+            url.set("https://github.com/dev778g-me/kore")
+            connection.set("scm:git:git://github.com/dev778g-me/kore.git")
+            developerConnection.set("scm:git:ssh://git@github.com:dev778g-me/kore.git")
+        }
+    }
+
+    publishToMavenCentral(automaticRelease = false)
+    signAllPublications()
+}
