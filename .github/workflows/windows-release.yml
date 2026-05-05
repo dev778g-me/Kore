@@ -11,7 +11,8 @@ on:
 jobs:
   build_windows :
     runs-on: windows-latest
-
+    permissions:
+        contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -23,6 +24,9 @@ jobs:
           java-version : '21'
           distribution : 'zulu'
           cache : 'gradle'
+
+      - name: List files (Debug)
+        run: dir /s /b *.msi *.exe
 
       - name: upload to Github
         uses: softprops/action-gh-release@v2
