@@ -1,0 +1,50 @@
+name: Library CI
+
+# I will run manually for now
+on:
+  workflow_dispatch:
+
+
+
+
+
+jobs:
+  build-and-publish-to-maven:
+    runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4096m -XX:MaxMetaspaceSize=1024m"
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.GPG_KEY_ID }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_PRIVATE_KEY }}
+
+
+
+    steps:
+      - name: checkout/v4
+        uses: actions/checkout@v4
+
+      - name: setup java@v4
+        uses: actions/setup-java@v4
+
+        with:
+          java-version : '21'
+          distribution : 'zulu'
+          cache : 'gradle'
+
+
+      - name: Grant superuser to run gradlew
+        run: chmod +x gradlew
+
+
+      - name: build and test
+        run: ./gradlew check
+
+
+      - name: publish to Maven Central
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-configuration-cache
+
+
+
+
