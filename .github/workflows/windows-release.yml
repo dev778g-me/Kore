@@ -26,8 +26,7 @@ jobs:
           distribution: 'zulu'
           cache: 'gradle'
 
-      - name: Grant Gradle Permission
-        run: chmod=+x gradlew
+
 
       - name: Build Release Packages
         run: ./gradlew :themebuilder:packageReleaseMsi :themebuilder:packageReleaseExe
