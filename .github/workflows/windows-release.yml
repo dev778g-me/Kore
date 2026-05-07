@@ -11,6 +11,7 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
+
     permissions:
       contents: write
 
@@ -25,19 +26,21 @@ jobs:
           distribution: 'zulu'
           cache: 'gradle'
 
-      - name: Build Windows Packages
-        run: ./gradlew :themebuilder:packageMsi :themebuilder:packageExe
+      - name: Grant Gradle Permission
+        run: chmod=+x gradlew
+
+      - name: Build Release Packages
+        run: ./gradlew :themebuilder:packageReleaseMsi :themebuilder:packageReleaseExe
 
       - name: Verify Build Output
         run: Get-ChildItem -Path . -Include *.msi, *.exe -Recurse
 
-      - name: Upload to Release
+      - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-
           tag_name: ${{ github.event.inputs.version }}
           files: |
-            themebuilder/build/compose/binaries/main/**/*.msi
-            themebuilder/build/compose/binaries/main/**/*.exe
+            themebuilder/build/compose/binaries/main-release/**/*.msi
+            themebuilder/build/compose/binaries/main-release/**/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

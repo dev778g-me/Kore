@@ -32,8 +32,6 @@ object ExportUtils {
       return """
         import androidx.compose.foundation.isSystemInDarkTheme
         import androidx.compose.runtime.Composable
-        import androidx.compose.ui.graphics.Color
-        import androidx.compose.ui.unit.Dp
         import androidx.compose.ui.unit.dp
         import androidx.compose.ui.graphics.Shape
         import com.dev.korelibrary.themes.KoreColorScheme
@@ -43,6 +41,7 @@ object ExportUtils {
         import com.dev.korelibrary.themes.KoreTheme
         import com.dev.korelibrary.themes.KoreTypography
         import com.dev.korelibrary.themes.colors.RadixColors
+        import androidx.compose.ui.graphics.Color
         
         val lightColorScheme = KoreColorScheme(
             background = ${lightColorScheme.background.toRadixString()},
@@ -67,7 +66,7 @@ object ExportUtils {
             onError = ${lightColorScheme.onError.toRadixString()},
             disabled = ${lightColorScheme.disabled.toRadixString()},
             onDisabled = ${lightColorScheme.onDisabled.toRadixString()},
-            transparent = ${lightColorScheme.transparent.toRadixString()}
+            transparent = Color.Transparent
         )
         
         val darkColorScheme = KoreColorScheme(
@@ -93,7 +92,7 @@ object ExportUtils {
             onError = ${darkColorScheme.onError.toRadixString()},
             disabled = ${darkColorScheme.disabled.toRadixString()},
             onDisabled = ${darkColorScheme.onDisabled.toRadixString()},
-            transparent = ${darkColorScheme.transparent.toRadixString()}
+            transparent = Color.Transparent
         )
         
         val sizes = KoreSizes(

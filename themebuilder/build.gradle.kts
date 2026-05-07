@@ -7,21 +7,18 @@ plugins {
     alias(libs.plugins.composeHotReload)
 }
 
-configurations.all {
-    exclude(group = "org.jetbrains.compose.material", module = "material")
-    exclude(group = "org.jetbrains.compose.material3", module = "material3")
-    exclude(group = "androidx.compose.material", module = "material")
-}
+//configurations.all {
+//    exclude(group = "org.jetbrains.compose.material", module = "material")
+//    exclude(group = "org.jetbrains.compose.material3", module = "material3")
+//    exclude(group = "androidx.compose.material", module = "material")
+//}
 
 kotlin {
     jvm()
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.material)
             implementation(libs.adaptive)
             implementation(project(":korelibrary"))
             implementation(libs.compose.runtime)
@@ -57,12 +54,18 @@ compose.desktop {
     application {
         mainClass = "com.dev.themebuilder.MainKt"
         nativeDistributions {
+            packageName = "ThemeBuilder"
+            packageVersion = "1.0.0"
+
+            linux {
+                menuGroup = "Development"
+                shortcut = true
+            }
+
             targetFormats(
                 TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe,
                 TargetFormat.AppImage, TargetFormat.Rpm
             )
-            packageName = "com.dev.themebuilder"
-            packageVersion = "1.0.0"
         }
     }
 }
