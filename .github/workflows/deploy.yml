@@ -27,6 +27,8 @@ jobs:
 
       - name: Build WASM
         run: chmod +x gradlew && ./gradlew :themebuilder:wasmJsBrowserDistribution
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx8g -XX:MaxMetaspaceSize=8g"
 
       - name: Add WASM MIME header
         run: |
