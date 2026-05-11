@@ -17,13 +17,6 @@ import com.mikepenz.markdown.model.DefaultMarkdownColors
 import com.mikepenz.markdown.model.DefaultMarkdownTypography
 
 
-private val CodeBackground = Color(0xFF1E1E1E)
-private val CodeKeyword = Color(0xFF569CD6)
-private val CodeString = Color(0xFFCE9178)
-private val CodeComment = Color(0xFF6A9955)
-private val CodeFunction = Color(0xFFDCDCAA)
-private val CodeNumber = Color(0xFFB5CEA8)
-private val CodeType = Color(0xFF4EC9B0)
 
 @Composable
 fun DefaultMarkdownParser(
@@ -119,9 +112,9 @@ fun DefaultMarkdownParser(
         colors = DefaultMarkdownColors(
             text = colorScheme.onBackGround,
             codeBackground = colorScheme.backGroundVariant,
-            inlineCodeBackground = colorScheme.surface,
+            inlineCodeBackground = colorScheme.surfaceBright,
             dividerColor = colorScheme.onSurface.copy(alpha = 0.2f),
-            tableBackground = colorScheme.backGroundVariant,
+            tableBackground = colorScheme.surface,
 //            tableBorder = colorScheme.onSurface.copy(alpha = 0.1f)
         ),
         components = markdownComponents(

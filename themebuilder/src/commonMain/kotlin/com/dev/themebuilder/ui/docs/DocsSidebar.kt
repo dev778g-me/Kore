@@ -16,10 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
+import com.dev.korelibrary.components.card.Card
 import com.dev.korelibrary.components.separators.HorizontalSeparator
 import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
+import com.dev.korelibrary.utilities.extensions.semiBold
 
 @Composable
 fun DocsSidebar(
@@ -28,22 +31,10 @@ fun DocsSidebar(
     onItemClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxHeight()
-            .background(KoreTheme.colorScheme.surface)
-            .padding(vertical = 24.dp, horizontal = 12.dp)
+    Card (
+       modifier = modifier
     ) {
-        Text(
-            text = "Kore",
-            textStyle = KoreTheme.typography.title1,
-            color = KoreTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-        )
 
-        Spacer(modifier = Modifier.height(8.dp))
-        HorizontalSeparator(modifier = Modifier.padding(horizontal = 12.dp))
-        Spacer(modifier = Modifier.height(16.dp))
 
         Column(
             modifier = Modifier
@@ -66,8 +57,8 @@ private fun NavSection(item: NavItem, selectedPath: String, onItemClick: (String
         } else {
             Text(
                 text = item.title,
-                textStyle = KoreTheme.typography.label1,
-                color = KoreTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                textStyle = KoreTheme.typography.label1.semiBold(),
+                color = KoreTheme.colorScheme.onBackGround,
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
             )
             item.children.forEach { child ->
@@ -77,7 +68,7 @@ private fun NavSection(item: NavItem, selectedPath: String, onItemClick: (String
                     Text(
                         text = child.title,
                         textStyle = KoreTheme.typography.label2,
-                        color = KoreTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        color = KoreTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 8.dp)
                     )
                     child.children.forEach { grandchild ->
@@ -125,45 +116,26 @@ private fun NavLinkItem(
 data class NavItem(val title: String, val path: String? = null, val children: List<NavItem> = emptyList())
 
 fun getNavItems(): List<NavItem> = listOf(
-    NavItem(title = "Getting Started", children = listOf(
-        NavItem(title = "Overview", path = "getting-started/overview"),
-        NavItem(title = "Installation", path = "getting-started/installation"),
-        NavItem(title = "Quickstart", path = "getting-started/quickstart")
-    )),
     NavItem(title = "Components", children = listOf(
-        NavItem(title = "Overview", path = "components/overview"),
-        NavItem(title = "Foundation", children = listOf(
-            NavItem(title = "Separators", path = "components/separator"),
-            NavItem(title = "Stack", path = "components/stack")
-        )),
-        NavItem(title = "Inputs & Controls", children = listOf(
-            NavItem(title = "Buttons", path = "components/buttons"),
-            NavItem(title = "IconButton", path = "components/icon_button"),
-            NavItem(title = "Textfield", path = "components/textfield"),
-            NavItem(title = "Checkbox", path = "components/checkbox"),
-            NavItem(title = "Radio Buttons", path = "components/radio_button"),
-            NavItem(title = "Switch", path = "components/switch"),
-            NavItem(title = "Slider", path = "components/slider"),
-            NavItem(title = "Dropdown", path = "components/dropdown")
-        )),
-        NavItem(title = "Feedback & Indicators", children = listOf(
-            NavItem(title = "Loading Indicator", path = "components/loadingIndicator"),
-            NavItem(title = "Progress Indicator", path = "components/progressIndicator"),
-            NavItem(title = "Badge", path = "components/badge"),
-            NavItem(title = "Dialog", path = "components/dialog")
-        )),
-        NavItem(title = "Data Display", children = listOf(
-            NavItem(title = "Card", path = "components/card"),
-            NavItem(title = "ListTile", path = "components/listTile"),
-            NavItem(title = "Accordion", path = "components/accordion"),
-            NavItem(title = "Stepper", path = "components/stepper")
-        )),
-        NavItem(title = "Navigation", children = listOf(
-            NavItem(title = "Appbar", path = "components/appbar"),
-            NavItem(title = "Navigation Bar", path = "components/navigationBar"),
-            NavItem(title = "TabRow", path = "components/tabrow/README", children = listOf(
-                NavItem(title = "Scrollable TabRow", path = "components/tabrow/scrollableTabRow")
-            ))
-        ))
+        NavItem(title = "Accordion", path = "components/accordion"),
+        NavItem(title = "Appbar", path = "components/appbar"),
+        NavItem(title = "Badge", path = "components/badge"),
+        NavItem(title = "Buttons", path = "components/buttons"),
+        NavItem(title = "Card", path = "components/card"),
+        NavItem(title = "Checkbox", path = "components/checkbox"),
+        NavItem(title = "Dialog", path = "components/dialog"),
+        NavItem(title = "Dropdown", path = "components/dropdown"),
+        NavItem(title = "IconButton", path = "components/icon_button"),
+        NavItem(title = "ListTile", path = "components/listTile"),
+        NavItem(title = "Loading Indicator", path = "components/loadingIndicator"),
+        NavItem(title = "Navigation Bar", path = "components/navigationBar"),
+        NavItem(title = "Progress Indicator", path = "components/progressIndicator"),
+        NavItem(title = "Radio Buttons", path = "components/radio_button"),
+        NavItem(title = "Separators", path = "components/separator"),
+        NavItem(title = "Slider", path = "components/slider"),
+        NavItem(title = "Stack", path = "components/stack"),
+        NavItem(title = "Stepper", path = "components/stepper"),
+        NavItem(title = "Switch", path = "components/switch"),
+        NavItem(title = "Textfield", path = "components/textfield")
     ))
 )

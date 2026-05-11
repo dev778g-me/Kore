@@ -14,6 +14,9 @@ import com.dev.korelibrary.components.separators.HorizontalSeparator
 import com.dev.korelibrary.components.stack.VerticalStack
 import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
+import com.phosphor.icons.PhIcons
+import com.phosphor.icons.regular.Clipboard
+import com.phosphor.icons.regular.Code
 
 @Composable
 fun CodeBlock(
@@ -22,29 +25,34 @@ fun CodeBlock(
     language : String = "Kotlin"
 ){
 
-    OutlinedCard(
+
+    VerticalStack(
         modifier = modifier
     ) {
-
-        VerticalStack(
-            spacing = 2.dp
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
 
                 Text(
                     text = language,
-                    textStyle = KoreTheme.typography.label2,
+                    textStyle = KoreTheme.typography.label1,
                     color = KoreTheme.colorScheme.success
+                )
+
+                CodeSwitch(
+                    onClick = {
+                        copyToClipboard(code)
+                    },
+                    icon = PhIcons.Regular.Clipboard,
+                    content = "Copy Code"
                 )
 
 
             }
 
-            HorizontalSeparator()
+
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -54,11 +62,13 @@ fun CodeBlock(
                 } else {
                     AnnotatedString(code)
                 },
-                textStyle = KoreTheme.typography.body2
+                textStyle = KoreTheme.typography.body2.copy(
+                    fontFamily = FontFamily.Monospace
+                )
             )
         }
     }
 
-}
+
 
 expect fun copyToClipboard(text: String)

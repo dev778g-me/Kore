@@ -1,0 +1,189 @@
+package com.dev.themebuilder.ui.docs
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.dev.korelibrary.components.icon.Icon
+import com.dev.korelibrary.components.listtile.ListTile
+import com.dev.korelibrary.components.listtile.ListTileDefaults
+import com.dev.korelibrary.components.stack.VerticalStack
+import com.dev.korelibrary.components.switch.Switch
+import com.dev.korelibrary.components.text.Text
+import com.dev.korelibrary.themes.KoreTheme
+import com.phosphor.icons.PhIcons
+import com.phosphor.icons.regular.UserCircle
+import com.phosphor.icons.regular.WifiHigh
+
+@Composable
+fun ListTileDocs(
+    modifier: Modifier = Modifier,
+){
+    Column(
+        modifier = modifier
+    ) {
+        DefaultMarkdownParser(
+            content = """# ListTile 
+A list tile is a single row in a list that shows one piece of information or one option.
+
+It usually includes a labels (text) and sometimes an icon or action, and all items look similar so they're easy to scan and use.
+When to use ListTile
+- Ordered information – When items follow a clear sequence or hierarchy
+- Concise content – When each item can be expressed in a short title (with optional subtitle)
+- Scannable layout – When users need to quickly browse a single-column list
+
+When to avoid ListTile
+- Complex data – When items require multiple elements, interactions, or custom layouts
+- Content-heavy items – When each entry includes large text blocks, images, or detailed information
+- Multi-column or dense layouts – When information doesn't fit well in a simple vertical list 
+
+> For deeper reference check out [Mobbin](https://mobbin.com/glossary/stacked-list) guide on ListTile
+
+## Basic Example 
+
+By default, a `ListTile` only strictly requires a `title`. If you provide an `onClick` parameter, the entire tile automatically becomes interactive and displays standard ripple effects.
+
+| Slot | Description |
+|------|-------------|
+| `title` | The primary text identifying the list item. |
+
+<figure><img src="showcases/listTileShowcase/basic_listTile.png" alt="Basic usage of Listtile"><figcaption></figcaption></figure>
+
+"""
+        )
+
+        ComponentShowcase(
+            code = """
+ListTile(
+    title = { Text("Push Notifications") },
+    onClick = { /* Navigate to notification settings */ }
+)
+""".trimIndent(),
+            content = {
+                ListTile(
+                    title = { Text("Push Notifications") },
+                    onClick = { }
+                )
+            }
+        )
+
+        DefaultMarkdownParser(
+            content = """
+## Styling 
+
+The List Tile exposes a rich set of slots (leading, trailing, overline, subtitle) and formatting parameters to handle everything from simple one-line items to complex three-line interactive rows.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `title` | `@Composable () -> Unit` | — | The primary text or content of the list item. |
+| `modifier` | `Modifier` | `Modifier` | Applied to the root container of the list tile. |
+| `onClick` | `(() -> Unit)?` | `null` | Called when clicked. If null, the tile is non-interactive. |
+| `leading` | `@Composable (() -> Unit)?` | `null` | Content (often an icon/avatar) placed before the title. |
+| `leadingAlignment`| `Alignment.Vertical` | `ListTileDefaults.defaultLeadingAlignment`| Vertical alignment of the leading content. |
+| `overline` | `@Composable (() -> Unit)?` | `null` | Small text appearing directly *above* the title. |
+| `subtitle` | `@Composable (() -> Unit)?` | `null` | Supporting text appearing directly *below* the title. |
+| `trailing` | `@Composable (() -> Unit)?` | `null` | Content (often a switch or icon) placed after the title. |
+| `trailingAlignment`| `Alignment.Vertical` | `ListTileDefaults.defaultTrailingAlignment`| Vertical alignment of the trailing content. |
+| `shape` | `Shape` | `ListTileDefaults.defaultListTileShape` | Defines the clipping shape of the list tile's background. |
+| `colors` | `ListTileColors` | `ListTileDefaults.defaultListTileColors()`| The resolved colors used for the background and text slots. |
+| `contentPaddingValues`| `PaddingValues`| `ListTileDefaults.defaultListItemPaddingValues`| Internal padding separating the content from the container edges. |
+
+### Leading & Trailing Actions
+
+You can easily pair text with controls. A very common pattern is placing an identifying icon in the `leading` slot and an interactive element (like a Checkbox or Switch) in the `trailing` slot.
+
+<figure><img src="showcases/listTileShowcase/list_tile_switch.png" alt="Listtile with trailing switch"><figcaption></figcaption></figure>
+
+
+
+"""
+        )
+
+        ComponentShowcase(
+            code = """
+var isWifiEnabled by remember { mutableStateOf(true) }
+
+ListTile(
+    leading = { 
+        Icon(imageVector = PhIcons.Regular.WifiHigh, contentDescription = null) 
+    },
+    title = { Text("Wi-Fi") },
+    trailing = {
+        Switch( // Assuming you have a Switch component
+            checked = isWifiEnabled,
+            onCheckChange = { isWifiEnabled = it }
+        )
+    },
+    onClick = { isWifiEnabled = !isWifiEnabled } // Allows tapping the whole row
+)
+""".trimIndent(),
+            content = {
+                var isWifiEnabled by remember { mutableStateOf(true) }
+                ListTile(
+                    leading = { 
+                        Icon(imageVector = PhIcons.Regular.WifiHigh, contentDescription = null) 
+                    },
+                    title = { Text("Wi-Fi") },
+                    trailing = {
+                        Switch(
+                            checked = isWifiEnabled,
+                            onCheckChange = { isWifiEnabled = it }
+                        )
+                    },
+                    onClick = { isWifiEnabled = !isWifiEnabled }
+                )
+            }
+        )
+
+        DefaultMarkdownParser(
+            content = """
+### Complex / Multi-line Tile
+
+For denser data requirements, you can utilize the `overline` and `subtitle` slots to create a structured three-line list item. This is heavily used in email clients or detailed contact lists.
+
+<figure><img src="showcases/listTileShowcase/complex_listtile.png" alt="Multiline usage"><figcaption></figcaption></figure>
+
+
+"""
+        )
+
+        ComponentShowcase(
+            code = """
+ListTile(
+    overline = { Text("New Message", color = KoreTheme.colorScheme.primary) },
+    title = { Text("Jane Doe") },
+    subtitle = { Text("Are we still on for the meeting tomorrow at 10 AM?") },
+    leading = { 
+        Icon(imageVector = PhIcons.Regular.UserCircle, contentDescription = "Profile") 
+    },
+    trailing = { 
+        Text("9:41 AM") 
+    },
+    onClick = { /* Open message thread */ }
+)
+""".trimIndent(),
+            content = {
+                ListTile(
+                    overline = { Text("New Message", color = KoreTheme.colorScheme.primary) },
+                    title = { Text("Jane Doe") },
+                    subtitle = { Text("Are we still on for the meeting tomorrow at 10 AM?") },
+                    leading = { 
+                        Icon(imageVector = PhIcons.Regular.UserCircle, contentDescription = "Profile") 
+                    },
+                    trailing = { 
+                        Text("9:41 AM") 
+                    },
+                    onClick = { }
+                )
+            }
+        )
+    }
+}

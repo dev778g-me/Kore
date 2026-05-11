@@ -8,7 +8,6 @@ import androidx.navigation.toRoute
 import com.dev.themebuilder.ui.ThemeApp
 import com.dev.themebuilder.ui.theme.BuilderTheme
 import com.dev.themebuilder.ui.view.navigation.AppRoute
-import com.dev.themebuilder.ui.view.screens.HomeScreen
 import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalBrowserHistoryApi::class)
@@ -26,8 +25,8 @@ fun main() {
                                 "#home"
                             }
 
-                            route.startsWith(AppRoute.Docs.serializer().descriptor.serialName) ->{
-                                val args = entry.toRoute<AppRoute.Docs>()
+                            route.startsWith(AppRoute.Components.serializer().descriptor.serialName) ->{
+                                val args = entry.toRoute<AppRoute.Components>()
 
                                 "#docs/${args.path}"
                             }

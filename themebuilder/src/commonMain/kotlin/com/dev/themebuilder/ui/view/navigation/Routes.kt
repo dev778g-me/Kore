@@ -13,7 +13,7 @@ sealed class AppRoute(val route: String) {
     data object Create : AppRoute(route = "create")
 
     @Serializable
-    data class Docs(val path: String) : AppRoute(route = "docs")
+    data class Components(val path: String) : AppRoute(route = "docs")
 
     @Serializable
     data object ChangeLog : AppRoute(route = "changelog")

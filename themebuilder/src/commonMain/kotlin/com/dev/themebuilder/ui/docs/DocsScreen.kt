@@ -21,6 +21,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dev.korelibrary.themes.KoreTheme
+import com.dev.themebuilder.ui.docs.AccordionDocs
+import com.dev.themebuilder.ui.docs.AppbarDocs
+import com.dev.themebuilder.ui.docs.BadgeDocs
+import com.dev.themebuilder.ui.docs.CardDocs
+import com.dev.themebuilder.ui.docs.CheckBoxDocs
+import com.dev.themebuilder.ui.docs.DialogDocs
+import com.dev.themebuilder.ui.docs.DropdownDocs
+import com.dev.themebuilder.ui.docs.IconButtonDocs
+import com.dev.themebuilder.ui.docs.ListTileDocs
+import com.dev.themebuilder.ui.docs.LoadingIndicatorDocs
+import com.dev.themebuilder.ui.docs.NavigationBarDocs
+import com.dev.themebuilder.ui.docs.ProgressIndicatorDocs
+import com.dev.themebuilder.ui.docs.RadioButtonDocs
+import com.dev.themebuilder.ui.docs.SeparatorDocs
+import com.dev.themebuilder.ui.docs.SliderDocs
+import com.dev.themebuilder.ui.docs.StepperDocs
+import com.dev.themebuilder.ui.docs.StackDocs
+import com.dev.themebuilder.ui.docs.SwitchDocs
+import com.dev.themebuilder.ui.docs.TextFieldDocs
+import com.dev.themebuilder.ui.docs.InstallationDocs
+import com.dev.themebuilder.ui.docs.OverviewDocs
+import com.dev.themebuilder.ui.docs.QuickstartDocs
 
 @Composable
 fun DocsScreen(
@@ -62,7 +84,6 @@ fun DocsScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 48.dp)
                     .verticalScroll(rememberScrollState()),
                 contentAlignment = Alignment.TopCenter
             ) {
@@ -88,6 +109,28 @@ private fun DocContent(
 ) {
     when {
         path.contains("buttons") -> ButtonDocs()
+        path.contains("icon_button") -> IconButtonDocs()
+        path.contains("textfield") -> TextFieldDocs()
+        path.contains("checkbox") -> CheckBoxDocs()
+        path.contains("radio_button") -> RadioButtonDocs()
+        path.contains("switch") -> SwitchDocs()
+        path.contains("slider") -> SliderDocs()
+        path.contains("dropdown") -> DropdownDocs()
+        path.contains("loadingIndicator") -> LoadingIndicatorDocs()
+        path.contains("progressIndicator") -> ProgressIndicatorDocs()
+        path.contains("badge") -> BadgeDocs()
+        path.contains("dialog") -> DialogDocs()
+        path.contains("card") -> CardDocs()
+        path.contains("listTile") -> ListTileDocs()
+        path.contains("accordion") -> AccordionDocs()
+        path.contains("stepper") -> StepperDocs()
+        path.contains("separator") -> SeparatorDocs()
+        path.contains("stack") -> StackDocs()
+        path.contains("appbar") -> AppbarDocs()
+        path.contains("navigationBar") -> NavigationBarDocs()
+        path.contains("getting-started/overview") -> OverviewDocs()
+        path.contains("getting-started/installation") -> InstallationDocs()
+        path.contains("getting-started/quickstart") -> QuickstartDocs()
         else -> DefaultMarkdownParser(
             content = "# Coming Soon\n\nDocumentation for this component is being developed."
         )
