@@ -9,20 +9,20 @@ import com.dev.korelibrary.themes.KoreColorScheme
 import com.dev.korelibrary.themes.KoreDefaults
 import com.dev.korelibrary.themes.KoreShapes
 import com.dev.korelibrary.themes.KoreSizes
-import com.dev.themebuilder.ui.model.ColorEntry
-import com.dev.themebuilder.ui.model.ComplementaryColors
-import com.dev.themebuilder.ui.model.ExportUtils
-import com.dev.themebuilder.ui.model.balancedSizes
-import com.dev.themebuilder.ui.model.NeutralColors
-import com.dev.themebuilder.ui.model.PrimaryColors
-import com.dev.themebuilder.ui.model.Sizes
-import com.dev.themebuilder.ui.model.SuccessErrorColors
-import com.dev.themebuilder.ui.model.airySizes
-import com.dev.themebuilder.ui.model.compactSizes
-import com.dev.themebuilder.ui.model.neutralColorsList
-import com.dev.themebuilder.ui.model.primaryColorsList
-import com.dev.themebuilder.ui.model.ShapeType
-import com.dev.themebuilder.ui.model.lowContrastColor
+import com.dev.themebuilder.ui.models.ColorEntry
+import com.dev.themebuilder.ui.models.ComplementaryColors
+import com.dev.themebuilder.ui.models.ExportUtils
+import com.dev.themebuilder.ui.models.balancedSizes
+import com.dev.themebuilder.ui.models.NeutralColors
+import com.dev.themebuilder.ui.models.PrimaryColors
+import com.dev.themebuilder.ui.models.Sizes
+import com.dev.themebuilder.ui.models.SuccessErrorColors
+import com.dev.themebuilder.ui.models.airySizes
+import com.dev.themebuilder.ui.models.compactSizes
+import com.dev.themebuilder.ui.models.neutralColorsList
+import com.dev.themebuilder.ui.models.primaryColorsList
+import com.dev.themebuilder.ui.models.ShapeType
+import com.dev.themebuilder.ui.models.lowContrastColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -390,37 +390,37 @@ class ThemeViewModel : ViewModel() {
 
     private var _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
-    fun makeFile(
-        lightColorScheme: KoreColorScheme,
-        darkColorScheme: KoreColorScheme,
-        currentSizes: KoreSizes,
-        currentShapes: KoreShapes,
-    ) {
-        _isLoading.value = true
-        ExportUtils.openSaveFile { selectedFile ->
-            if (selectedFile != null) {
-                val themeCode = ExportUtils.exportTheme(
-                    darkColorScheme = darkColorScheme,
-                    lightColorScheme = lightColorScheme,
-                    currentSizes = currentSizes,
-                    currentShapes = currentShapes
-                )
-                viewModelScope.launch {
-                    try {
-                        selectedFile.writeText(themeCode)
-
-                    } catch (e: Exception) {
-                        System.err.println(e.message)
-                    }
-                }
-            } else {
-                println("export canceled")
-            }
-
-        }
-        _isLoading.value = false
-
-    }
+//    fun makeFile(
+//        lightColorScheme: KoreColorScheme,
+//        darkColorScheme: KoreColorScheme,
+//        currentSizes: KoreSizes,
+//        currentShapes: KoreShapes,
+//    ) {
+//        _isLoading.value = true
+//        ExportUtils.openSaveFile { selectedFile ->
+//            if (selectedFile != null) {
+//                val themeCode = ExportUtils.exportTheme(
+//                    darkColorScheme = darkColorScheme,
+//                    lightColorScheme = lightColorScheme,
+//                    currentSizes = currentSizes,
+//                    currentShapes = currentShapes
+//                )
+//                viewModelScope.launch {
+//                    try {
+//                        selectedFile.writeText(themeCode)
+//
+//                    } catch (e: Exception) {
+//                        System.err.println(e.message)
+//                    }
+//                }
+//            } else {
+//                println("export canceled")
+//            }
+//
+//        }
+//        _isLoading.value = false
+//
+//    }
 
 
 

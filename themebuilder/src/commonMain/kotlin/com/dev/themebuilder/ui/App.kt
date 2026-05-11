@@ -6,26 +6,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import com.dev.themebuilder.ui.theme.BuilderTheme
-import com.dev.themebuilder.ui.view.screens.HomeScreen
+import com.dev.themebuilder.ui.view.navigation.BuilderNavHost
 
-@Composable
 @Preview
-fun ThemeApp() {
-
-
+@Composable
+fun ThemeApp(
+    onNavHostReady: suspend (NavController) -> Unit = {},
+    onOpenUrl: (String) -> Unit = {}
+) {
     var isDark by remember { mutableStateOf(false) }
 
-    BuilderTheme(
-        isDark = isDark,
-        content = {
-            HomeScreen(
-                isDark = isDark,
-                onClick = {
-                    isDark = !isDark
-                }
-            )
-        }
-    )
+    BuilderTheme(isDark = isDark) {
+        BuilderNavHost(onNavHostReady, onOpenUrl)
+    }
 }

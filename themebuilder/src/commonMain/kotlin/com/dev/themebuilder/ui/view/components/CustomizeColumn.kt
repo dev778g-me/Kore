@@ -25,20 +25,18 @@ import com.dev.korelibrary.components.stack.VerticalStack
 import com.dev.korelibrary.components.text.Text
 import com.dev.korelibrary.themes.KoreTheme
 import com.dev.korelibrary.utilities.extensions.color
-import com.dev.themebuilder.ui.model.Sizes
-import com.dev.themebuilder.ui.model.neutralColorsList
-import com.dev.themebuilder.ui.model.primaryColorsList
-import com.dev.themebuilder.ui.model.ShapeType
-import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
+import com.dev.themebuilder.ui.models.Sizes
+import com.dev.themebuilder.ui.models.neutralColorsList
+import com.dev.themebuilder.ui.models.primaryColorsList
+import com.dev.themebuilder.ui.models.ShapeType
+import com.dev.themebuilder.ui.theme.LocalThemeViewModel
 
 @Composable
 fun CustomizeColumn(
     modifier: Modifier = Modifier,
     isDark : Boolean
 ) {
-
-    val viewModel: ThemeViewModel = viewModel { ThemeViewModel() }
-
+    val viewModel = LocalThemeViewModel.current
     val primary by viewModel.currentPrimaryColor.collectAsStateWithLifecycle()
     val neutral by viewModel.currentNeutralColor.collectAsStateWithLifecycle()
     val complementary by viewModel.currentComplementaryColor.collectAsStateWithLifecycle()
