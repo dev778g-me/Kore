@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -41,6 +42,16 @@ kotlin {
     // https://developer.android.com/kotlin/multiplatform/migrate
     val xcfName = "korelibraryKit"
      jvm()
+    js {
+        browser()
+        binaries.executable()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
     iosX64 {
         binaries.framework {
             baseName = xcfName
