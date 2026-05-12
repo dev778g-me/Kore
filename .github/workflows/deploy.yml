@@ -37,9 +37,19 @@ jobs:
           chmod +x gradlew
           ./gradlew :themebuilder:wasmJsBrowserDistribution
 
+      - name: List build output
+        run: ls -la themebuilder/build/dist/wasmJs/productionExecutable/
+
       - name: Add WASM MIME Header
         run: |
-          printf '/*.wasm\n  Content-Type: application/wasm\n' > themebuilder/build/dist/wasmJs/productionExecutable/_headers
+          python3 -c "
+          content = '/*.wasm\n  Content-Type: application/wasm\n'
+          with open('themebuilder/build/dist/wasmJs/productionExecutable/_headers', 'w') as f:
+              f.write(content)
+          "
+          echo "--- _headers content ---"
+          cat themebuilder/build/dist/wasmJs/productionExecutable/_headers
+          echo "--- end ---"
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
