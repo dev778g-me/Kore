@@ -8,9 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'zulu'
@@ -23,7 +25,7 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-      - name: Configure Gradle memory
+      - name: Configure Gradle Memory
         run: |
           echo "org.gradle.jvmargs=-Xmx6g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8" >> gradle.properties
           echo "kotlin.daemon.jvmargs=-Xmx6g -XX:MaxMetaspaceSize=1g" >> gradle.properties
@@ -31,16 +33,20 @@ jobs:
           echo "kotlin.incremental=false" >> gradle.properties
 
       - name: Build WASM
-        run: chmod +x gradlew && ./gradlew :themebuilder:wasmJsBrowserDistribution
-
-      - name: Add WASM MIME header
         run: |
-          echo '/*.wasm
-            Content-Type: application/wasm' > themebuilder/build/dist/wasmJs/productionExecutable/_headers
+          chmod +x gradlew
+          ./gradlew :themebuilder:wasmJsBrowserDistribution
+
+      - name: Add WASM MIME Header
+        run: |
+          cat > themebuilder/build/dist/wasmJs/productionExecutable/_headers << EOF
+          /*
+            Content-Type: application/wasm
+          EOF
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy themebuilder/build/dist/wasmJs/productionExecutable --project-name=YOUR_PROJECT_NAME
+          command: pages deploy themebuilder/build/dist/wasmJs/productionExecutable --project-name=kore --commit-dirty=true
