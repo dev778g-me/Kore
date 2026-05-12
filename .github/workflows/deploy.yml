@@ -37,6 +37,11 @@ jobs:
           chmod +x gradlew
           ./gradlew :themebuilder:wasmJsBrowserDistribution
 
+      - name: Collect WASM Output
+        run: |
+          cp themebuilder/build/compose/skiko-runtime-processed-wasmjs/*.wasm themebuilder/build/dist/wasmJs/productionExecutable/
+          cp themebuilder/build/compose/skiko-runtime-processed-wasmjs/*.mjs themebuilder/build/dist/wasmJs/productionExecutable/
+
       - name: List Build Output
         run: |
           ls -la themebuilder/build/dist/wasmJs/productionExecutable/
@@ -48,6 +53,9 @@ jobs:
             Content-Type: application/wasm
 
           *.js
+            Content-Type: application/javascript
+
+          *.mjs
             Content-Type: application/javascript
           EOF
 
