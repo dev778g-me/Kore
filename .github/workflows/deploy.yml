@@ -39,10 +39,7 @@ jobs:
 
       - name: Add WASM MIME Header
         run: |
-          cat > themebuilder/build/dist/wasmJs/productionExecutable/_headers << EOF
-          *.wasm
-            Content-Type: application/wasm
-          EOF
+          printf '/*.wasm\n  Content-Type: application/wasm\n' > themebuilder/build/dist/wasmJs/productionExecutable/_headers
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
