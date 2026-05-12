@@ -1,4 +1,3 @@
-# .github/workflows/deploy.yml
 name: Build & Deploy to Cloudflare Pages
 
 on:
@@ -24,13 +23,15 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-      - name: Set Kotlin daemon memory
-        run: echo "kotlin.daemon.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m" >> gradle.properties
+      - name: Configure Gradle memory
+        run: |
+          echo "org.gradle.jvmargs=-Xmx6g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8" >> gradle.properties
+          echo "kotlin.daemon.jvmargs=-Xmx6g -XX:MaxMetaspaceSize=1g" >> gradle.properties
+          echo "org.gradle.parallel=false" >> gradle.properties
+          echo "kotlin.incremental=false" >> gradle.properties
 
       - name: Build WASM
         run: chmod +x gradlew && ./gradlew :themebuilder:wasmJsBrowserDistribution
-        env:
-          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx2g -XX:MaxMetaspaceSize=512m"
 
       - name: Add WASM MIME header
         run: |
