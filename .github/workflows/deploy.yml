@@ -14,8 +14,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'zulu'
+          java-version: "21"
+          distribution: "zulu"
 
       - name: Cache Gradle
         uses: actions/cache@v4
@@ -40,7 +40,7 @@ jobs:
       - name: Add WASM MIME Header
         run: |
           cat > themebuilder/build/dist/wasmJs/productionExecutable/_headers << EOF
-          /*
+          *.wasm
             Content-Type: application/wasm
           EOF
 
