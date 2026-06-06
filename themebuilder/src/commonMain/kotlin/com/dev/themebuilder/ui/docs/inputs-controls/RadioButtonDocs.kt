@@ -16,10 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.radio.RadioButton
-import com.dev.korelibrary.components.radio.RadioButtonDefaults
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
+import com.dev.kore.components.radio.RadioButton
+import com.dev.kore.components.radio.RadioButtonDefaults
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
 
 @Composable
 fun RadioButtonDocs(
@@ -162,11 +162,11 @@ RadioButton(
                 RadioButton(
                     selected = isSelected,
                     onClick = { isSelected = !isSelected },
-                    colors = RadioButtonDefaults.defaultRadioColors(
-                        selectedColor = androidx.compose.ui.graphics.Color.Green,
-                        unSelectedColor = androidx.compose.ui.graphics.Color.DarkGray,
-                        disabledSelectedColor = androidx.compose.ui.graphics.Color.LightGray
-                    )
+//                    colors = RadioButtonDefaults.defaultRadioColors(
+//                        selectedColor = androidx.compose.ui.graphics.Color.Green,
+//                        unSelectedColor = androidx.compose.ui.graphics.Color.DarkGray,
+//                        disabledSelectedColor = androidx.compose.ui.graphics.Color.LightGray
+//                    )
                 )
             }
         )

@@ -1,27 +1,22 @@
 package com.dev.themebuilder.ui.docs
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.badge.BadgeDefaults
-import com.dev.korelibrary.components.badge.ErrorBadge
-import com.dev.korelibrary.components.badge.OutlinedBadge
-import com.dev.korelibrary.components.badge.PrimaryBadge
-import com.dev.korelibrary.components.badge.SecondaryBadge
-import com.dev.korelibrary.components.badge.SuccessBadge
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
+import com.dev.kore.components.badge.BadgeDefaults
+import com.dev.kore.components.badge.ErrorBadge
+import com.dev.kore.components.badge.OutlinedBadge
+import com.dev.kore.components.badge.PrimaryBadge
+import com.dev.kore.components.badge.SecondaryBadge
+import com.dev.kore.components.badge.SuccessBadge
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.text.Text
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.regular.Check
 import com.phosphor.icons.regular.Star
 import com.phosphor.icons.regular.Warning
-import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.themes.colors.TailwindColors
+import com.dev.kore.themes.colors.TailwindColors
 
 @Composable
 fun BadgeDocs(
@@ -161,8 +156,8 @@ PrimaryBadge(
                 PrimaryBadge(
                     shape = RectangleShape,
                     badgeColors = BadgeDefaults.primaryBadgeColors(
-                        containerColor = TailwindColors.Red500,
-                        contentColor = TailwindColors.Red50
+                        containerColor = TailwindColors.Red.swatch400,
+                        contentColor = TailwindColors.Red.swatch50
                     ),
                     content = { Text("99+") }
                 )

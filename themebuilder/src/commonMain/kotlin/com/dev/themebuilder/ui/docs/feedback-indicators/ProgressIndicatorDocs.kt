@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.progress.CircularProgressIndicator
-import com.dev.korelibrary.components.progress.LinearProgressIndicator
-import com.dev.korelibrary.components.progress.ProgressIndicatorDefaults
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.progress.CircularProgressIndicator
+import com.dev.kore.components.progress.LinearProgressIndicator
+import com.dev.kore.components.progress.ProgressIndicatorDefaults
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.themes.KoreTheme
 
 @Composable
 fun ProgressIndicatorDocs(

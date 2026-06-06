@@ -15,11 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.accordion.Accordion
-import com.dev.korelibrary.components.accordion.AccordionDefaults
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
+import com.dev.kore.components.accordion.Accordion
+import com.dev.kore.components.accordion.AccordionDefaults
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.bold.CaretDownBold
 

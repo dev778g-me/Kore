@@ -16,11 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.checkbox.CheckBox
-import com.dev.korelibrary.components.checkbox.CheckBoxDefaults
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.themes.colors.TailwindColors
+import com.dev.kore.components.checkbox.CheckBox
+import com.dev.kore.components.checkbox.CheckBoxDefaults
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import com.dev.kore.themes.colors.TailwindColors
 
 @Composable
 fun CheckBoxDocs(
@@ -163,7 +163,7 @@ CheckBox(
     shape = CircleShape,
     borderWidth = 2.dp,
     colors = CheckBoxDefaults.defaultCheckBoxColors(
-        checkedContainerColor = TailwindColors.Green500,
+        checkedContainerColor = TailwindColors.Green.s500,
         checkedCheckColor = TailwindColors.White,
         uncheckedBorderColor = TailwindColors.Gray500
     )
@@ -177,9 +177,9 @@ CheckBox(
                     shape = CircleShape,
                     borderWidth = 2.dp,
                     colors = CheckBoxDefaults.defaultCheckBoxColors(
-                        checkedContainerColor = TailwindColors.Green500,
+                        checkedContainerColor = TailwindColors.Green.swatch500,
                         checkedCheckColor = TailwindColors.White,
-                        uncheckedBorderColor = TailwindColors.Gray500
+                        uncheckedBorderColor = TailwindColors.Gray.swatch500
                     )
                 )
             }

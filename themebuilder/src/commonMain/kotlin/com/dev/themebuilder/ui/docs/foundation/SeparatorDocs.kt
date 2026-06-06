@@ -15,14 +15,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.buttons.GhostButton
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.separators.SeparatorDefaults
-import com.dev.korelibrary.components.separators.VerticalSeparator
-import com.dev.korelibrary.components.stack.HorizontalStack
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.buttons.GhostButton
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.separators.SeparatorDefaults
+import com.dev.kore.components.separators.VerticalSeparator
+import com.dev.kore.components.stack.HorizontalStack
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
 
 @Composable
 fun SeparatorDocs(

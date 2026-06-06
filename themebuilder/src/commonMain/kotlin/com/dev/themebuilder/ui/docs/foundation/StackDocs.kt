@@ -8,13 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.buttons.GhostButton
-import com.dev.korelibrary.components.buttons.PrimaryButton
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.stack.HorizontalStack
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.buttons.GhostButton
+import com.dev.kore.components.buttons.PrimaryButton
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.stack.HorizontalStack
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.regular.LockKey
 

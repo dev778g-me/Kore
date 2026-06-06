@@ -12,15 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.buttons.ButtonDefaults
-import com.dev.korelibrary.components.buttons.GhostButton
-import com.dev.korelibrary.components.buttons.OutlinedButton
-import com.dev.korelibrary.components.buttons.PrimaryButton
-import com.dev.korelibrary.components.buttons.SecondaryButton
-import com.dev.korelibrary.components.card.OutlinedCard
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
+import com.dev.kore.components.buttons.ButtonDefaults
+import com.dev.kore.components.buttons.GhostButton
+import com.dev.kore.components.buttons.OutlinedButton
+import com.dev.kore.components.buttons.PrimaryButton
+import com.dev.kore.components.buttons.SecondaryButton
+import com.dev.kore.components.card.OutlinedCard
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.regular.Plus
 

@@ -6,11 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.loadingIndicator.CircularLoadingIndicator
-import com.dev.korelibrary.components.loadingIndicator.LinearLoadingIndicator
-import com.dev.korelibrary.components.loadingIndicator.LoadingIndicatorDefaults
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.loadingIndicator.CircularLoadingIndicator
+import com.dev.kore.components.loadingIndicator.LinearLoadingIndicator
+import com.dev.kore.components.loadingIndicator.LoadingIndicatorDefaults
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.themes.KoreTheme
 
 @Composable
 fun LoadingIndicatorDocs(
