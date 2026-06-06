@@ -1,5 +1,6 @@
 package com.dev.themebuilder.ui.view.components
 
+import co.touchlab.kermit.Logger
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,40 +17,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.dev.korelibrary.components.dropdown.DropDown
-import com.dev.korelibrary.components.dropdown.DropDownItem
-import com.dev.korelibrary.components.listtile.ListTile
-import com.dev.korelibrary.components.badge.ErrorBadge
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.utilities.extensions.color
+import com.dev.kore.components.dropdown.DropDown
+import com.dev.kore.components.dropdown.DropDownItem
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.badge.ErrorBadge
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import com.dev.kore.utilities.extensions.color
+import com.dev.themebuilder.ui.models.PrimaryColorSource
 import com.dev.themebuilder.ui.models.Sizes
 import com.dev.themebuilder.ui.models.neutralColorsList
 import com.dev.themebuilder.ui.models.primaryColorsList
 import com.dev.themebuilder.ui.models.ShapeType
-import com.dev.themebuilder.ui.theme.LocalThemeViewModel
+import com.dev.themebuilder.ui.models.tailWindPrimaryColorsList
+import com.dev.themebuilder.ui.view.components.logo.RadixLogo
+import com.dev.themebuilder.ui.view.components.logo.TailwindCss
+import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 
 @Composable
 fun CustomizeColumn(
     modifier: Modifier = Modifier,
-    isDark : Boolean
+    viewModel: ThemeViewModel,
 ) {
-    val viewModel = LocalThemeViewModel.current
     val primary by viewModel.currentPrimaryColor.collectAsStateWithLifecycle()
+    val tailWindPrimary by viewModel.currentTailwindPrimaryColor.collectAsStateWithLifecycle()
+    val primarySource by viewModel.currentPrimaryColorSource.collectAsStateWithLifecycle()
     val neutral by viewModel.currentNeutralColor.collectAsStateWithLifecycle()
     val complementary by viewModel.currentComplementaryColor.collectAsStateWithLifecycle()
+    val tailwindComplementary by viewModel.currentTailwindComplementaryColor.collectAsStateWithLifecycle()
     val sizes by viewModel.currentSize.collectAsStateWithLifecycle()
     val shape by viewModel.provideShape .collectAsStateWithLifecycle()
 
     var showShapes by remember { mutableStateOf(false) }
     var showSizes by remember { mutableStateOf(false) }
     var showPrimary by remember { mutableStateOf(false) }
+    var showPrimarySource by remember { mutableStateOf(false) }
     var showNeutralColors by remember { mutableStateOf(false) }
     var showComplementaryColors by remember { mutableStateOf(false) }
 
-  //  val isDark = isSystemInDarkTheme()
+    val isTailwind = primarySource == PrimaryColorSource.Tailwind
+
     VerticalStack(
         modifier = modifier.sizeIn(
             maxWidth = 200.dp
@@ -60,23 +68,10 @@ fun CustomizeColumn(
             textStyle = KoreTheme.typography.title2.color(color = KoreTheme.colorScheme.onBackGround)
         )
 
-        ListTile(
-            onClick = {
-                showPrimary = true
-            },
-            modifier = Modifier.border(
-                width = 2.dp,
-                shape = KoreTheme.shapes.md,
-                color = KoreTheme.colorScheme.backGroundVariant
-            ),
-            overline = {
-                Text("Primary Color")
-            },
-            title = {
-                Text(
-                    text = primary.name
-                )
-            },
+        CustomizeColumnItem(
+            overlineText = "Primary Color",
+            titleText = if (isTailwind) tailWindPrimary.name else primary.name,
+            onClick = { showPrimary = true },
             trailing = {
                 Box(
                     modifier = Modifier.size(12.dp).background(
@@ -87,21 +82,23 @@ fun CustomizeColumn(
 
                 DropDown(
                     borderStroke = BorderStroke(
-                            width = 2.dp,
-                            color = KoreTheme.colorScheme.backGroundVariant
-                        ),
-                        expanded = showPrimary,
-                        onDismissRequest = {
-                            showPrimary = false
-                        },
-                        content = {
-                            primaryColorsList.forEach {
+                        width = 2.dp,
+                        color = KoreTheme.colorScheme.backGroundVariant
+                    ),
+                    expanded = showPrimary,
+                    onDismissRequest = {
+                        showPrimary = false
+                    },
+                    content = {
+
+                        if(isTailwind){
+                            tailWindPrimaryColorsList.forEach {
                                 DropDownItem(
                                     leading = {
                                         Box(
                                             modifier = Modifier.size(12.dp)
                                                 .clip(CircleShape)
-                                                .background(color = it.lightScale.step9)
+                                                .background(color = it.colorScale.swatch500, )
                                         )
 
                                     },
@@ -109,30 +106,142 @@ fun CustomizeColumn(
                                         Text(it.name)
                                     },
                                     onClick = {
-                                       viewModel.providePrimary(seedColor = it)
+                                        Logger.i {
+                                            "i choosed tailwind one"
+                                        }
+                                        viewModel.providePrimary(seedColor = primary, tailWindSeedColor =  it, colorSource = PrimaryColorSource.Tailwind)
                                         showPrimary = false
                                     }
                                 )
                             }
-                        }
-                    )
-                }
-            )
-        ListTile(
+                        }else{
+                        primaryColorsList.forEach {
+                            DropDownItem(
+                                leading = {
+                                    Box(
+                                        modifier = Modifier.size(12.dp)
+                                            .clip(CircleShape)
+                                            .background(color = it.lightScale.step9)
+                                    )
+
+                                },
+                                title = {
+                                    Text(it.name)
+                                },
+                                onClick = {
+                                    Logger.i {
+                                        "i choosed radix one"
+                                    }
+                                    viewModel.providePrimary(seedColor = it, colorSource = PrimaryColorSource.Radix)
+                                    showPrimary = false
+                                }
+                            )
+                        }}
+                    }
+                )
+            }
+        )
+
+        CustomizeColumnItem(
+            overlineText = "Primary Color Source",
+            titleText = primarySource.name,
             onClick = {
-                showComplementaryColors = true
+                showPrimarySource = true
             },
-            modifier = Modifier.border(
-                width = 2.dp,
-                shape = KoreTheme.shapes.md,
-                color = KoreTheme.colorScheme.backGroundVariant
-            ),
-            overline = {
-                Text("Complementary")
-            },
-            title = {
-                Text(complementary.complementaryName!!)
-            },
+            trailing = {
+                com.dev.kore.components.icon.Icon(
+                    imageVector = if (isTailwind) TailwindCss else RadixLogo,
+                    contentDescription = "",
+                    modifier = Modifier.size(18.dp)
+                )
+                DropDown(
+                    borderStroke = BorderStroke(
+                        width = 2.dp,
+                        color = KoreTheme.colorScheme.backGroundVariant
+                    ),
+                    expanded = showPrimarySource,
+                    onDismissRequest = {
+                        showPrimarySource = false
+                    },
+                    content = {
+                        PrimaryColorSource.entries.forEach { colorSource ->
+                            DropDownItem(
+                                leading = {
+                                    com.dev.kore.components.icon.Icon(
+                                        imageVector = if (colorSource == PrimaryColorSource.Tailwind) TailwindCss else RadixLogo,
+                                        contentDescription = "",
+                                        modifier = Modifier.size(12.dp)
+                                    )
+
+                                },
+                                title = {
+                                    Text(colorSource.name)
+                                },
+                                onClick = {
+                                    when(colorSource){
+                                        PrimaryColorSource.Tailwind -> {
+                                            viewModel.changePrimaryColorSource(PrimaryColorSource.Tailwind)
+
+                                            val currentPrimary =
+                                                tailWindPrimaryColorsList.find { tailWindColorEntry ->
+                                                    primary.name == tailWindColorEntry.name
+                                                }
+
+                                            if (currentPrimary != null) {
+                                                viewModel.providePrimary(
+                                                    tailWindSeedColor = currentPrimary,
+                                                    colorSource = PrimaryColorSource.Tailwind,
+                                                    seedColor = primaryColorsList[8]
+                                                )
+                                            } else {
+                                                viewModel.providePrimary(
+                                                    tailWindSeedColor = tailWindPrimaryColorsList[8],
+                                                    colorSource = PrimaryColorSource.Tailwind,
+                                                    seedColor = primary
+                                                )
+                                            }
+                                            viewModel.provideSuccessColor(colorSource = PrimaryColorSource.Tailwind)
+                                        }
+                                        PrimaryColorSource.Radix -> {
+                                            viewModel.changePrimaryColorSource(PrimaryColorSource.Radix)
+
+                                            Logger.i{
+                                                "changed source to ${PrimaryColorSource.Radix}"
+                                            }
+                                            val currentPrimary =
+                                                primaryColorsList.find { radixColorEntry ->
+                                                    radixColorEntry.name == tailWindPrimary.name
+                                                }
+                                            if (currentPrimary != null) {
+                                                Logger.i("Found Color ${currentPrimary.name}")
+                                                viewModel.providePrimary(
+                                                    colorSource = PrimaryColorSource.Radix,
+                                                    seedColor = currentPrimary,
+                                                )
+                                            } else {
+                                                Logger.i { "else case ran sp the default color" }
+                                                viewModel.providePrimary(
+                                                    colorSource = PrimaryColorSource.Radix,
+                                                    seedColor = primaryColorsList[8],
+
+                                                    )
+                                            }
+                                            viewModel.provideSuccessColor(colorSource = PrimaryColorSource.Radix)
+                                        }
+                                    }
+                                    showPrimarySource = false
+                                }
+                            )
+                        }
+                    }
+                )
+            }
+        )
+
+        CustomizeColumnItem(
+            overlineText = "Complementary",
+            titleText = if (isTailwind) tailwindComplementary.complementaryName else complementary.complementaryName!!,
+            onClick = { showComplementaryColors = true },
             trailing = {
                 Box(
                     modifier = Modifier.size(12.dp).background(
@@ -151,6 +260,7 @@ fun CustomizeColumn(
                     },
 
                     content = {
+                        if (primarySource == PrimaryColorSource.Radix){
                         primaryColorsList.forEach {
                             DropDownItem(
                                 leading = {
@@ -163,40 +273,50 @@ fun CustomizeColumn(
                                 },
                                 onClick = {
                                     showComplementaryColors = false
-                                    viewModel.provideComplementary(seedColor = it )
+                                    viewModel.provideComplementary(seedColor = it, colorSource = PrimaryColorSource.Radix)
                                 },
                                 title = {
                                     Text(it.name)
                                 }
                             )
+                        }} else {
+                            tailWindPrimaryColorsList.forEach {
+                                DropDownItem(
+                                    leading = {
+                                        Box(
+                                            modifier = Modifier.size(12.dp)
+                                                .clip(CircleShape)
+                                                .background(color = it.colorScale.swatch600)
+                                        )
+                                    },
+                                    onClick = {
+                                        showComplementaryColors = false
+                                        viewModel.provideComplementary(seedColor = primaryColorsList[8], colorSource = PrimaryColorSource.Tailwind, tailWindSeedColor = it)
+                                    },
+                                    title = {
+                                        Text(it.name)
+                                    }
+                                )
+                            }
                         }
                     }
                 )
             }
-
         )
-        ListTile(
+
+        CustomizeColumnItem(
+            overlineText = "Neutral Colors",
+            titleText = neutral.name,
             onClick = {
                 showNeutralColors = true
             },
-            modifier = Modifier.border(
-                width = 2.dp,
-                shape = KoreTheme.shapes.md,
-                color = KoreTheme.colorScheme.backGroundVariant
-            ),
-            overline = {
-                Text("Neutral Colors")
-            },
-            title = {
-                Text(
-                    text = neutral.name
-                )
-            },
             trailing = {
-                Box(modifier = Modifier.size(12.dp).background(
-                    color =neutral.lightScale.step9,
-                    shape = CircleShape
-                ))
+                Box(
+                    modifier = Modifier.size(12.dp).background(
+                        color = neutral.lightScale.step9,
+                        shape = CircleShape
+                    )
+                )
                 DropDown(
                     borderStroke = BorderStroke(
                         width = 2.dp,
@@ -220,7 +340,7 @@ fun CustomizeColumn(
                                     )
                                 },
                                 onClick = {
-                                  viewModel.provideNeutrals(it)
+                                    viewModel.provideNeutrals(it)
                                     showNeutralColors = false
                                 }
                             )
@@ -230,23 +350,11 @@ fun CustomizeColumn(
             }
         )
 
-
-        ListTile(
+        CustomizeColumnItem(
+            overlineText = "Shape",
+            titleText = shape.name,
             onClick = {
                 showShapes = true
-            },
-            modifier = Modifier.border(
-                width = 2.dp,
-                shape = KoreTheme.shapes.md,
-                color = KoreTheme.colorScheme.backGroundVariant
-            ),
-            overline = {
-                Text("Shape")
-            },
-            title = {
-                Text(shape.name)
-
-
             },
             trailing = {
                 DropDown(
@@ -265,15 +373,15 @@ fun CustomizeColumn(
                                     Text(it.name)
                                 },
                                 onClick = {
-                                   when(it){
-                                       ShapeType.RoundedRectangle -> viewModel.changeRoundedRect()
-                                       ShapeType.Squircle -> viewModel.changeSquircle()
-                                   }
+                                    when (it) {
+                                        ShapeType.RoundedRectangle -> viewModel.changeRoundedRect()
+                                        ShapeType.SmoothCornerShape -> viewModel.changeSquircle()
+                                    }
                                     showShapes = false
                                 },
                                 trailing = {
-                                    if (it== ShapeType.Squircle){
-                                        ErrorBadge(content = {Text("Expr")})
+                                    if (it == ShapeType.SmoothCornerShape) {
+                                        ErrorBadge(content = { Text("Expr") })
                                     }
                                 }
                             )
@@ -282,20 +390,12 @@ fun CustomizeColumn(
                 )
             }
         )
-        ListTile(
+
+        CustomizeColumnItem(
+            overlineText = "Spacing",
+            titleText = sizes.name,
             onClick = {
                 showSizes = true
-            },
-            modifier = Modifier.border(
-                width = 2.dp,
-                shape = KoreTheme.shapes.md,
-                color = KoreTheme.colorScheme.backGroundVariant
-            ),
-            overline = {
-                Text("Sizes")
-            },
-            title = {
-                Text(sizes.name)
             },
             trailing = {
                 DropDown(
@@ -312,11 +412,11 @@ fun CustomizeColumn(
                             DropDownItem(
                                 onClick = {
                                     showSizes = false
-                                   when(it){
-                                       Sizes.Airy -> viewModel.changeToAiry()
-                                       Sizes.Compact -> viewModel.changeToCompact()
-                                       Sizes.Balanced -> viewModel.changeToBalanced()
-                                   }
+                                    when (it) {
+                                        Sizes.Airy -> viewModel.changeToAiry()
+                                        Sizes.Compact -> viewModel.changeToCompact()
+                                        Sizes.Balanced -> viewModel.changeToBalanced()
+                                    }
                                 },
                                 title = {
                                     Text(it.name)
@@ -326,10 +426,39 @@ fun CustomizeColumn(
                     }
                 )
             }
-
         )
 
 
 
     }
+}
+
+
+@Composable
+fun CustomizeColumnItem(
+    overlineText : String,
+    titleText : String,
+    onClick : ()-> Unit,
+    trailing : @Composable ()-> Unit,
+){
+    ListTile(
+        onClick = {
+            onClick()
+        },
+        modifier = Modifier.border(
+            width = 2.dp,
+            shape = KoreTheme.shapes.md,
+            color = KoreTheme.colorScheme.backGroundVariant
+        ),
+        overline = {
+            Text(overlineText)
+        },
+        title = {
+            Text(titleText)
+        },
+        trailing = {
+            trailing()
+        }
+
+    )
 }

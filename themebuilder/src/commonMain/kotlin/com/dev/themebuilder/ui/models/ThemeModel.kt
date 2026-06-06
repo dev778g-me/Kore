@@ -1,17 +1,31 @@
 package com.dev.themebuilder.ui.models
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.themes.KoreDefaults
-import com.dev.korelibrary.themes.KoreShapes
-import com.dev.korelibrary.themes.KoreSizes
-import com.dev.korelibrary.themes.colors.RadixColors
-import com.dev.korelibrary.themes.colors.RadixScale
-import com.dev.korelibrary.themes.shapes.SquircleShape
+import com.dev.kore.themes.KoreDefaults
+import com.dev.kore.themes.KoreShapes
+import com.dev.kore.themes.KoreSizes
+import com.dev.kore.themes.colors.RadixColors
+import com.dev.kore.themes.colors.RadixScale
+import com.dev.kore.themes.colors.TailwindColors
+import com.dev.kore.themes.colors.TailwindSwatch
 
+data class ColorEntry(
+    val name : String,
+    val lightScale : RadixScale,
+    val darkScale : RadixScale,
+    val complementaryName : String ? = null,
+    val complementaryLight : RadixScale ? = null,
+    val complementaryDark : RadixScale ? = null,
+)
 
+data class TailWindColorEntry(
+    val name: String,
+    val colorScale: TailwindSwatch,
+    val complementaryScale: TailwindSwatch? = null,
+    val complementaryName: String,
+)
 @Immutable
 data class PrimaryColors(
     val primary : Color = KoreDefaults.defaultLightColorScheme.primary,
@@ -53,14 +67,7 @@ data class SuccessErrorColors(
     val onError : Color = KoreDefaults.defaultLightColorScheme.onError,
 )
 
-data class ColorEntry(
-    val name : String,
-    val lightScale : RadixScale,
-    val darkScale : RadixScale,
-    val complementaryName : String ? = null,
-    val complementaryLight : RadixScale ? = null,
-    val complementaryDark : RadixScale ? = null,
-)
+
 
 
 val primaryColorsList = listOf(
@@ -82,6 +89,23 @@ val primaryColorsList = listOf(
     ColorEntry("Crimson", RadixColors.Crimson.light, RadixColors.Crimson.dark, complementaryName = "Green", complementaryLight = RadixColors.Green.light, complementaryDark = RadixColors.Green.dark),
     ColorEntry("Ruby", RadixColors.Ruby.light, RadixColors.Ruby.dark, complementaryName = "Jade", complementaryLight = RadixColors.Jade.light, complementaryDark = RadixColors.Jade.dark),
     ColorEntry("Lime", RadixColors.Lime.light, RadixColors.Lime.dark, complementaryName = "Purple", complementaryLight = RadixColors.Purple.light, complementaryDark = RadixColors.Purple.dark),
+)
+val tailWindPrimaryColorsList = listOf(
+    TailWindColorEntry("Orange", TailwindColors.Orange, TailwindColors.Blue, "Blue"),
+    TailWindColorEntry("Amber", TailwindColors.Amber, TailwindColors.Indigo, "Indigo"),
+    TailWindColorEntry("Yellow", TailwindColors.Yellow, TailwindColors.Violet, "Violet"),
+    TailWindColorEntry("Lime", TailwindColors.Lime, TailwindColors.Purple, "Purple"),
+    TailWindColorEntry("Emerald", TailwindColors.Emerald, TailwindColors.Rose, "Rose"),
+    TailWindColorEntry("Teal", TailwindColors.Teal, TailwindColors.Red, "Red"),
+    TailWindColorEntry("Cyan", TailwindColors.Cyan, TailwindColors.Orange, "Orange"),
+    TailWindColorEntry("Sky", TailwindColors.Sky, TailwindColors.Amber, "Amber"),
+    TailWindColorEntry("Blue", TailwindColors.Blue, TailwindColors.Orange, "Orange"),
+    TailWindColorEntry("Indigo", TailwindColors.Indigo, TailwindColors.Amber, "Amber"),
+    TailWindColorEntry("Violet", TailwindColors.Violet, TailwindColors.Yellow, "Yellow"),
+    TailWindColorEntry("Purple", TailwindColors.Purple, TailwindColors.Lime, "Lime"),
+    TailWindColorEntry("Fuchsia", TailwindColors.Fuchsia, TailwindColors.Green, "Green"),
+    TailWindColorEntry("Pink", TailwindColors.Pink, TailwindColors.Emerald, "Emerald"),
+    TailWindColorEntry("Rose", TailwindColors.Rose, TailwindColors.Teal, "Teal"),
 )
 
 val neutralColorsList = listOf(
@@ -139,13 +163,18 @@ val compactSizes = KoreSizes(
 
 enum class ShapeType{
     RoundedRectangle,
-    Squircle,
+    SmoothCornerShape,
+}
+
+enum class PrimaryColorSource{
+    Radix,
+    Tailwind,
 }
 
 fun ShapeType.toKoreShapes(): KoreShapes {
     val shape = when (this) {
         ShapeType.RoundedRectangle -> androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
-        ShapeType.Squircle -> com.dev.korelibrary.themes.shapes.SquircleShape(8.dp)
+        ShapeType.SmoothCornerShape -> com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape(8.dp)
     }
     return KoreShapes(
         xl = shape,

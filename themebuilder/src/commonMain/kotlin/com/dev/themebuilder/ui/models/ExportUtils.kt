@@ -5,107 +5,112 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
-import com.dev.korelibrary.themes.KoreColorScheme
-import com.dev.korelibrary.themes.KoreShapes
-import com.dev.korelibrary.themes.KoreSizes
-import com.dev.korelibrary.themes.colors.RadixColors
-import com.dev.korelibrary.themes.colors.RadixScale
-import com.dev.korelibrary.themes.shapes.SquircleShape
+import com.dev.kore.themes.KoreColorScheme
+import com.dev.kore.themes.KoreShapes
+import com.dev.kore.themes.KoreSizes
+import com.dev.kore.themes.colors.RadixColors
+import com.dev.kore.themes.colors.RadixScale
+import com.dev.kore.themes.colors.TailwindColors
+import com.dev.kore.themes.colors.TailwindSwatch
+import com.dev.kore.themes.colors.toHexString
+import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape
 
 object ExportUtils {
     fun exportTheme(
       darkColorScheme: KoreColorScheme,
       lightColorScheme: KoreColorScheme,
+      colorSource: PrimaryColorSource,
       currentSizes: KoreSizes,
       currentShapes: KoreShapes,
    ): String {
 
-      val isSquircleShape= currentShapes.sm is SquircleShape
+      val isSmoothCornerShapes= currentShapes.sm is AbsoluteSmoothCornerShape
 
-      val shapeImport = if (isSquircleShape) "import com.dev.korelibrary.themes.shapes.SquircleShape" else  "import androidx.compose.foundation.shape.RoundedCornerShape"
+      val shapeImport = if (isSmoothCornerShapes) "import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape" else  "import androidx.compose.foundation.shape.RoundedCornerShape"
 
+       val isTailwind = colorSource == PrimaryColorSource.Tailwind
 
-      return """
+      return $$"""
         import androidx.compose.foundation.isSystemInDarkTheme
         import androidx.compose.runtime.Composable
         import androidx.compose.ui.unit.dp
         import androidx.compose.ui.graphics.Shape
-        import com.dev.korelibrary.themes.KoreColorScheme
-        import com.dev.korelibrary.themes.KoreShapes
-        $shapeImport
-        import com.dev.korelibrary.themes.KoreSizes
-        import com.dev.korelibrary.themes.KoreTheme
-        import com.dev.korelibrary.themes.KoreTypography
-        import com.dev.korelibrary.themes.colors.RadixColors
+        import com.dev.kore.themes.KoreColorScheme
+        import com.dev.kore.themes.KoreShapes
+        $$shapeImport
+        import com.dev.kore.themes.KoreSizes
+        import com.dev.kore.themes.KoreTheme
+        import com.dev.kore.themes.KoreTypography
+        import com.dev.kore.themes.colors.RadixColors
         import androidx.compose.ui.graphics.Color
         
-        val lightColorScheme = KoreColorScheme(
-            background = ${lightColorScheme.background.toRadixString()},
-            onBackGround = ${lightColorScheme.onBackGround.toRadixString()},
-            backGroundVariant = ${lightColorScheme.backGroundVariant.toRadixString()},
-            onBackGroundVariant = ${lightColorScheme.onBackGroundVariant.toRadixString()},
-            surface = ${lightColorScheme.surface.toRadixString()},
-            onSurface = ${lightColorScheme.onSurface.toRadixString()},
-            surfaceBright = ${lightColorScheme.surfaceBright.toRadixString()},
-            onSurfaceBright = ${lightColorScheme.onSurfaceBright.toRadixString()},
-            primary = ${lightColorScheme.primary.toRadixString()},
-            onPrimary = ${lightColorScheme.onPrimary.toRadixString()},
-            primaryContainer = ${lightColorScheme.primaryContainer.toRadixString()},
-            onPrimaryContainer = ${lightColorScheme.onPrimaryContainer.toRadixString()},
-            complementary = ${lightColorScheme.complementary.toRadixString()},
-            onComplementary = ${lightColorScheme.onComplementary.toRadixString()},
-            complementaryContainer = ${lightColorScheme.complementaryContainer.toRadixString()},
-            onComplementaryContainer = ${lightColorScheme.onComplementaryContainer.toRadixString()},
-            success = ${lightColorScheme.success.toRadixString()},
-            onSuccess = ${lightColorScheme.onSuccess.toRadixString()},
-            error = ${lightColorScheme.error.toRadixString()},
-            onError = ${lightColorScheme.onError.toRadixString()},
-            disabled = ${lightColorScheme.disabled.toRadixString()},
-            onDisabled = ${lightColorScheme.onDisabled.toRadixString()},
-            transparent = Color.Transparent
+       val lightColorScheme = KoreColorScheme(
+          background = $${lightColorScheme.background.toRadixString()},
+          onBackGround = $${lightColorScheme.onBackGround.toRadixString()},
+          backGroundVariant = $${lightColorScheme.backGroundVariant.toRadixString()},
+          onBackGroundVariant = $${lightColorScheme.onBackGroundVariant.toRadixString()},
+          surface = $${lightColorScheme.surface.toRadixString()},
+          onSurface = $${lightColorScheme.onSurface.toRadixString()},
+          surfaceBright = $${lightColorScheme.surfaceBright.toRadixString()},
+          onSurfaceBright = $${lightColorScheme.onSurfaceBright.toRadixString()},
+          primary = $${if (isTailwind) lightColorScheme.primary.toTailwindString() else lightColorScheme.primary.toRadixString()},
+          onPrimary = $${if (isTailwind) lightColorScheme.onPrimary.toTailwindString() else lightColorScheme.onPrimary.toRadixString()},
+          primaryContainer = $${if (isTailwind) lightColorScheme.primaryContainer.toTailwindString() else lightColorScheme.primaryContainer.toRadixString()},
+          onPrimaryContainer = $${if (isTailwind) lightColorScheme.onPrimaryContainer.toTailwindString() else lightColorScheme.onPrimaryContainer.toRadixString()},
+          complementary = $${if (isTailwind) lightColorScheme.complementary.toTailwindString() else lightColorScheme.complementary.toRadixString()},
+          onComplementary = $${if (isTailwind) lightColorScheme.onComplementary.toTailwindString() else lightColorScheme.onComplementary.toRadixString()},
+          complementaryContainer = $${if (isTailwind) lightColorScheme.complementaryContainer.toTailwindString() else lightColorScheme.complementaryContainer.toRadixString()},
+          onComplementaryContainer = $${if (isTailwind) lightColorScheme.onComplementaryContainer.toTailwindString() else lightColorScheme.onComplementaryContainer.toRadixString()},
+          success = $${if (isTailwind) lightColorScheme.success.toTailwindString() else lightColorScheme.success.toRadixString()},
+          onSuccess = $${if (isTailwind) lightColorScheme.onSuccess.toTailwindString() else lightColorScheme.onSuccess.toRadixString()},
+          error = $${if (isTailwind) lightColorScheme.error.toTailwindString() else lightColorScheme.error.toRadixString()},
+          onError = $${if (isTailwind) lightColorScheme.onError.toTailwindString() else lightColorScheme.onError.toRadixString()},
+          disabled = $${lightColorScheme.disabled.toRadixString()},
+          onDisabled = $${lightColorScheme.onDisabled.toRadixString()},
+          transparent = Color.Transparent
         )
         
         val darkColorScheme = KoreColorScheme(
-            background = ${darkColorScheme.background.toRadixString()},
-            onBackGround = ${darkColorScheme.onBackGround.toRadixString()},
-            backGroundVariant = ${darkColorScheme.backGroundVariant.toRadixString()},
-            onBackGroundVariant = ${darkColorScheme.onBackGroundVariant.toRadixString()},
-            surface = ${darkColorScheme.surface.toRadixString()},
-            onSurface = ${darkColorScheme.onSurface.toRadixString()},
-            surfaceBright = ${darkColorScheme.surfaceBright.toRadixString()},
-            onSurfaceBright = ${darkColorScheme.onSurfaceBright.toRadixString()},
-            primary = ${darkColorScheme.primary.toRadixString()},
-            onPrimary = ${darkColorScheme.onPrimary.toRadixString()},
-            primaryContainer = ${darkColorScheme.primaryContainer.toRadixString()},
-            onPrimaryContainer = ${darkColorScheme.onPrimaryContainer.toRadixString()},
-            complementary = ${darkColorScheme.complementary.toRadixString()},
-            onComplementary = ${darkColorScheme.onComplementary.toRadixString()},
-            complementaryContainer = ${darkColorScheme.complementaryContainer.toRadixString()},
-            onComplementaryContainer = ${darkColorScheme.onComplementaryContainer.toRadixString()},
-            success = ${darkColorScheme.success.toRadixString()},
-            onSuccess = ${darkColorScheme.onSuccess.toRadixString()},
-            error = ${darkColorScheme.error.toRadixString()},
-            onError = ${darkColorScheme.onError.toRadixString()},
-            disabled = ${darkColorScheme.disabled.toRadixString()},
-            onDisabled = ${darkColorScheme.onDisabled.toRadixString()},
-            transparent = Color.Transparent
-        )
+          background = $${darkColorScheme.background.toRadixString()},
+          onBackGround = $${darkColorScheme.onBackGround.toRadixString()},
+          backGroundVariant = $${darkColorScheme.backGroundVariant.toRadixString()},
+          onBackGroundVariant = $${darkColorScheme.onBackGroundVariant.toRadixString()},
+          surface = $${darkColorScheme.surface.toRadixString()},
+          onSurface = $${darkColorScheme.onSurface.toRadixString()},
+          surfaceBright = $${darkColorScheme.surfaceBright.toRadixString()},
+          onSurfaceBright = $${darkColorScheme.onSurfaceBright.toRadixString()},
+          primary = $${if (isTailwind) darkColorScheme.primary.toTailwindString() else darkColorScheme.primary.toRadixString()},
+          onPrimary = $${if (isTailwind) darkColorScheme.onPrimary.toTailwindString() else darkColorScheme.onPrimary.toRadixString()},
+          primaryContainer = $${if (isTailwind) darkColorScheme.primaryContainer.toTailwindString() else darkColorScheme.primaryContainer.toRadixString()},
+          onPrimaryContainer = $${if (isTailwind) darkColorScheme.onPrimaryContainer.toTailwindString() else darkColorScheme.onPrimaryContainer.toRadixString()},
+          complementary = $${if (isTailwind) darkColorScheme.complementary.toTailwindString() else darkColorScheme.complementary.toRadixString()},
+          onComplementary = $${if (isTailwind) darkColorScheme.onComplementary.toTailwindString() else darkColorScheme.onComplementary.toRadixString()},
+          complementaryContainer = $${if (isTailwind) darkColorScheme.complementaryContainer.toTailwindString() else darkColorScheme.complementaryContainer.toRadixString()},
+          onComplementaryContainer = $${if (isTailwind) darkColorScheme.onComplementaryContainer.toTailwindString() else darkColorScheme.onComplementaryContainer.toRadixString()},
+          success = $${if (isTailwind) darkColorScheme.success.toTailwindString() else darkColorScheme.success.toRadixString()},
+          onSuccess = $${if (isTailwind) darkColorScheme.onSuccess.toTailwindString() else darkColorScheme.onSuccess.toRadixString()},
+          error = $${if (isTailwind) darkColorScheme.error.toTailwindString() else darkColorScheme.error.toRadixString()},
+          onError = $${if (isTailwind) darkColorScheme.onError.toTailwindString() else darkColorScheme.onError.toRadixString()},
+          disabled = $${darkColorScheme.disabled.toRadixString()},
+          onDisabled = $${darkColorScheme.onDisabled.toRadixString()},
+          transparent = Color.Transparent
+         )
         
         val sizes = KoreSizes(
-            xl = ${currentSizes.xl},
-            lg = ${currentSizes.lg},
-            md = ${currentSizes.md},
-            sm = ${currentSizes.sm},
-            xs = ${currentSizes.xs},
-            xxs = ${currentSizes.xxs}
+            xl = $${currentSizes.xl},
+            lg = $${currentSizes.lg},
+            md = $${currentSizes.md},
+            sm = $${currentSizes.sm},
+            xs = $${currentSizes.xs},
+            xxs = $${currentSizes.xxs}
         )
         
         val shapes = KoreShapes(
-            xl = ${currentShapes.xl.toShapeString()},
-            lg = ${currentShapes.lg.toShapeString()},
-            md = ${currentShapes.md.toShapeString()},
-            sm = ${currentShapes.sm.toShapeString()},
-            xs = ${currentShapes.xs.toShapeString()}
+            xl = $${currentShapes.xl.toShapeString()},
+            lg = $${currentShapes.lg.toShapeString()},
+            md = $${currentShapes.md.toShapeString()},
+            sm = $${currentShapes.sm.toShapeString()},
+            xs = $${currentShapes.xs.toShapeString()}
         )
         
         @Composable
@@ -131,23 +136,6 @@ object ExportUtils {
 
 
 
-//   fun openSaveFile(
-//      fileName : String = "theme.kt",
-//      onResult: (File?) -> Unit
-//   ){
-//      val dummyFrame = Frame()
-//      val dialog = FileDialog(dummyFrame, "export theme", FileDialog.SAVE)
-//      dialog.file = fileName
-//      dialog.isVisible = true
-//
-//      if (dialog.directory != null && dialog.file != null){
-//         val  file = File(dialog.directory, dialog.file)
-//         onResult(file)
-//      }else {
-//         onResult(null)
-//      }
-//      dummyFrame.dispose()
-//   }
 }
 
 
@@ -251,16 +239,47 @@ object ExportUtils {
     "Sky.dark" to RadixColors.Sky.dark
 )
 
-internal fun Color.toRadixString() : String{
-    for ((name , scales) in radixScaleMap){
-        val  index = scales.steps.indexOf(this)
-        if (index != -1) {
-            return "RadixColors.$name.step${index + 1}"
-        }
+internal val tailwindSwatchMap: Map<String, TailwindSwatch> =
+   tailWindPrimaryColorsList.associate {
+      it.name to it.colorScale
+   }
 
-    }
 
-    return "Color(0x${this.value.toString(8).uppercase()})"
+private val shadeNames = listOf(
+   "swatch50",
+   "swatch100",
+   "swatch200",
+   "swatch300",
+   "swatch400",
+   "swatch500",
+   "swatch600",
+   "swatch700",
+   "swatch800",
+   "swatch900",
+   "swatch950"
+)
+
+internal fun Color.toTailwindString(): String? =
+   tailwindSwatchMap.entries.firstNotNullOfOrNull { (name, swatch) ->
+      val index = swatch.swatches.indexOf(this)
+      if (index >= 0) {
+         "TailwindColors.$name.${shadeNames[index]}"
+      } else {
+         return "Color(0x${this.toHexString().uppercase()})"
+      }
+   }
+
+
+internal fun Color.toRadixString(): String {
+   for ((name, scales) in radixScaleMap) {
+      val index = scales.steps.indexOf(this)
+      if (index >= 0) {
+         return "RadixColors.$name.step${index + 1}"
+      }
+
+   }
+
+   return "Color(0x${this.toHexString().uppercase()})"
 }
 
 internal fun Shape.toShapeString(): String {
@@ -269,9 +288,9 @@ internal fun Shape.toShapeString(): String {
          val dp = topStart.toPx(Size(1000f, 1000f), Density(1f))
          "RoundedCornerShape(${dp}.dp)"
       }
-      is SquircleShape -> {
+      is AbsoluteSmoothCornerShape -> {
          val dp = topStart.toPx(Size(1000f, 1000f), Density(1f))
-         "SquircleShape(${dp}.dp)"
+         "AbsoluteSmoothCornerShape(${dp}.dp)"
       }
       else -> this.toString()
    }

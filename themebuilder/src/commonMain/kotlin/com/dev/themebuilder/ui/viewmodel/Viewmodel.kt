@@ -1,32 +1,27 @@
 package com.dev.themebuilder.ui.viewmodel
 
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.dev.korelibrary.themes.KoreColorScheme
-import com.dev.korelibrary.themes.KoreDefaults
-import com.dev.korelibrary.themes.KoreShapes
-import com.dev.korelibrary.themes.KoreSizes
+import co.touchlab.kermit.Logger
+import com.dev.kore.themes.KoreColorScheme
+import com.dev.kore.themes.KoreDefaults
+import com.dev.kore.themes.KoreSizes
+import com.dev.kore.themes.colors.RadixColors
+import com.dev.kore.themes.colors.TailwindColors
+import com.dev.kore.themes.colors.blend
 import com.dev.themebuilder.ui.models.ColorEntry
-import com.dev.themebuilder.ui.models.ComplementaryColors
-import com.dev.themebuilder.ui.models.ExportUtils
 import com.dev.themebuilder.ui.models.balancedSizes
-import com.dev.themebuilder.ui.models.NeutralColors
-import com.dev.themebuilder.ui.models.PrimaryColors
+import com.dev.themebuilder.ui.models.PrimaryColorSource
 import com.dev.themebuilder.ui.models.Sizes
-import com.dev.themebuilder.ui.models.SuccessErrorColors
 import com.dev.themebuilder.ui.models.airySizes
 import com.dev.themebuilder.ui.models.compactSizes
 import com.dev.themebuilder.ui.models.neutralColorsList
 import com.dev.themebuilder.ui.models.primaryColorsList
 import com.dev.themebuilder.ui.models.ShapeType
+import com.dev.themebuilder.ui.models.TailWindColorEntry
 import com.dev.themebuilder.ui.models.lowContrastColor
+import com.dev.themebuilder.ui.models.tailWindPrimaryColorsList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 class ThemeViewModel : ViewModel() {
 
@@ -34,14 +29,27 @@ class ThemeViewModel : ViewModel() {
     /**
      * the current values of the themedata
      */
+
+
+    private var _currentPrimaryColorSource = MutableStateFlow(value = PrimaryColorSource.Radix)
+    val currentPrimaryColorSource : StateFlow<PrimaryColorSource> = _currentPrimaryColorSource
+
+    // default radix primary
     private var _currentPrimaryColor = MutableStateFlow(primaryColorsList[8])
     val currentPrimaryColor : StateFlow<ColorEntry> = _currentPrimaryColor
+
+    // tailwind primary
+    private var _currentTailwindPrimaryColor = MutableStateFlow(tailWindPrimaryColorsList[8])
+    val currentTailwindPrimaryColor : StateFlow<TailWindColorEntry> = _currentTailwindPrimaryColor
 
     private var _currentNeutralColor = MutableStateFlow(neutralColorsList[3])
     val currentNeutralColor : StateFlow<ColorEntry> = _currentNeutralColor
 
-    private var _currentComplementaryColor = MutableStateFlow(primaryColorsList[8])
+    private var _currentComplementaryColor = MutableStateFlow(primaryColorsList[1])
     val currentComplementaryColor : StateFlow<ColorEntry> = _currentComplementaryColor
+
+    private var _currentTailwindComplementaryColor = MutableStateFlow(tailWindPrimaryColorsList[0])
+    val currentTailwindComplementaryColor : StateFlow<TailWindColorEntry> = _currentTailwindComplementaryColor
 
 
 
@@ -52,87 +60,162 @@ class ThemeViewModel : ViewModel() {
     var currentShape : StateFlow<ShapeType> = _currentShape
 
 
-    /**
-     *  the states that change the theme
-     */
-    private var _lightPrimaryColors = MutableStateFlow(PrimaryColors())
-    val lightPrimaryColors : StateFlow<PrimaryColors> = _lightPrimaryColors
-
-
-
-    private var _lightComplementaryColors = MutableStateFlow(ComplementaryColors())
-    val lightComplementaryColors : StateFlow<ComplementaryColors> = _lightComplementaryColors
-
-
-
-    private var _lightNeutralColors = MutableStateFlow(NeutralColors())
-    val lightNeutralColors : StateFlow<NeutralColors> = _lightNeutralColors
-
-
-    private var _lightSuccessErrorColors = MutableStateFlow(SuccessErrorColors())
-    val lightSuccessErrorColors : StateFlow<SuccessErrorColors> = _lightSuccessErrorColors
-
 
     // fun to provide the light primary colors
     fun provideLightPrimaryColors(
-        seedColor: ColorEntry
+        seedColor: ColorEntry,
+        tailWindSeedColor: TailWindColorEntry,
+        colorSource: PrimaryColorSource
     ) {
-        val lightScale = seedColor.lightScale
 
-        val isLowContrast = seedColor in lowContrastColor
 
-        if (isLowContrast) {
-            val primaryLightColors = _currentLightColorScheme.value.copy(
-                primary = lightScale.step9,
-                onPrimary = lightScale.step12,
-                primaryContainer = lightScale.step6,
-                onPrimaryContainer = lightScale.step11,
+        if (colorSource == PrimaryColorSource.Tailwind) {
+            Logger.i {
+                "the current primary source is $colorSource"
+            }
+            val colorScale = tailWindSeedColor.colorScale
+
+            val primaryLightColor = _currentLightColorScheme.value.copy(
+                primary = colorScale.swatch600,
+                onPrimary = colorScale.swatch50,
+                primaryContainer = colorScale.swatch300,
+                onPrimaryContainer = colorScale.swatch900,
             )
-            _currentLightColorScheme.value = primaryLightColors
 
+            _currentLightColorScheme.value = primaryLightColor
         } else {
-            val primaryLightColors = _currentLightColorScheme.value.copy(
-                primary = lightScale.step9,
-                onPrimary = lightScale.step1,
-                primaryContainer = lightScale.step6,
-                onPrimaryContainer = lightScale.step10,
-            )
-            _currentLightColorScheme.value = primaryLightColors
+            Logger.i {
+                "the current primary source is $colorSource"
+            }
+            val lightScale = seedColor.lightScale
+
+            val isLowContrast = seedColor in lowContrastColor
+
+            if (isLowContrast) {
+                val primaryLightColors = _currentLightColorScheme.value.copy(
+                    primary = lightScale.step9,
+                    onPrimary = lightScale.step12,
+                    primaryContainer = lightScale.step6,
+                    onPrimaryContainer = lightScale.step11,
+                )
+                _currentLightColorScheme.value = primaryLightColors
+
+            } else {
+                val primaryLightColors = _currentLightColorScheme.value.copy(
+                    primary = lightScale.step9,
+                    onPrimary =  lightScale.step1.blend(blendColor = RadixColors.White.white),
+                    primaryContainer = lightScale.step6,
+                    onPrimaryContainer = lightScale.step10,
+                )
+                _currentLightColorScheme.value = primaryLightColors
+            }
+        }
         }
 
-
-    }
-
 // fun to provide the light complementary colors depending on the primary
-    fun provideLightComplementaryColors(
-        seedColor: ColorEntry
-    ){
+fun provideLightComplementaryColors(
+    seedColor: ColorEntry,
+    tailWindSeedColor: TailWindColorEntry = tailWindPrimaryColorsList[0],
+    colorSource: PrimaryColorSource,
+) {
+    val isTailwind = colorSource == PrimaryColorSource.Tailwind
 
+    if (isTailwind) {
+        val colorScale = tailWindSeedColor.complementaryScale!!
+        val complementaryLightColors = _currentLightColorScheme.value.copy(
+            complementary = colorScale.swatch600,
+            onComplementary = colorScale.swatch50,
+            complementaryContainer = colorScale.swatch300,
+            onComplementaryContainer = colorScale.swatch900,
+        )
+        _currentLightColorScheme.value = complementaryLightColors
+    } else {
         val lightScheme = seedColor.complementaryLight!!
         val complementaryLightColors = _currentLightColorScheme.value.copy(
             complementary = lightScheme.step9,
-            onComplementary = lightScheme.step1,
+            onComplementary = lightScheme.step1.blend(blendColor = RadixColors.White.white),
             complementaryContainer = lightScheme.step6,
             onComplementaryContainer = lightScheme.step10
         )
         _currentLightColorScheme.value = complementaryLightColors
     }
-
+}
 
     // fun to provide the light compl
     fun provideIndividualLightComplementaryColors(
-
-        seedColor: ColorEntry
+        seedColor: ColorEntry,
+        tailWindSeedColor: TailWindColorEntry = tailWindPrimaryColorsList[8],
+        colorSource: PrimaryColorSource
     ){
-        val lightScheme = seedColor.lightScale
-        val complementaryLightColors = _currentLightColorScheme.value.copy(
-            complementary = lightScheme.step9,
-            onComplementary = lightScheme.step1,
-            complementaryContainer = lightScheme.step6,
-            onComplementaryContainer = lightScheme.step10
-        )
-        _currentLightColorScheme.value = complementaryLightColors
+
+        if (colorSource == PrimaryColorSource.Tailwind) {
+            val colorScale = tailWindSeedColor.colorScale
+            val complementaryLightColors = _currentLightColorScheme.value.copy(
+                complementary = colorScale.swatch600,
+                onComplementary = colorScale.swatch50,
+                complementaryContainer = colorScale.swatch300,
+                onComplementaryContainer = colorScale.swatch900
+            )
+            _currentLightColorScheme.value = complementaryLightColors
+        } else {
+            val lightScheme = seedColor.lightScale
+            val complementaryLightColors = _currentLightColorScheme.value.copy(
+                complementary = lightScheme.step9,
+                onComplementary = lightScheme.step1.blend(blendColor = RadixColors.White.white),
+                complementaryContainer = lightScheme.step6,
+                onComplementaryContainer = lightScheme.step10
+            )
+            _currentLightColorScheme.value = complementaryLightColors
+        }
     }
+
+
+    /**
+     * function to provide success error color
+     * by default for both the color source it is green and  red
+     * for radix I can switch to grass it looks better also removing it from the primary list
+     */
+    fun provideSuccessColor(
+        colorSource: PrimaryColorSource
+    ){
+        if (colorSource == PrimaryColorSource.Tailwind) {
+            val lightSuccessErrorColors = _currentLightColorScheme.value.copy(
+                success = TailwindColors.Green.swatch600,
+                onSuccess = TailwindColors.Green.swatch50,
+                error = TailwindColors.Red.swatch600,
+                onError = TailwindColors.Red.swatch50,
+            )
+            val darkSuccessErrorColors = _currentDarkColorScheme.value.copy(
+                success = TailwindColors.Green.swatch600,
+                onSuccess = TailwindColors.Green.swatch50,
+                error = TailwindColors.Red.swatch600,
+                onError = TailwindColors.Red.swatch50,
+            )
+            _currentLightColorScheme.value = lightSuccessErrorColors
+            _currentDarkColorScheme.value = darkSuccessErrorColors
+        } else {
+            val lightSuccessErrorColors = _currentLightColorScheme.value.copy(
+                success = RadixColors.Grass.light.step9,
+                onSuccess = RadixColors.Grass.light.step1.blend(blendColor = RadixColors.White.white),
+                error = RadixColors.Red.light.step9,
+                onError = RadixColors.Red.light.step1.blend(blendColor = RadixColors.White.white)
+            )
+
+            val darkSuccessErrorColors = _currentDarkColorScheme.value.copy(
+                success = RadixColors.Grass.dark.step9,
+                onSuccess = RadixColors.Grass.dark.step12.blend(RadixColors.White.white),
+                error = RadixColors.Red.dark.step9,
+                onError = RadixColors.Red.dark.step12.blend(blendColor = RadixColors.White.white)
+            )
+            _currentLightColorScheme.value = lightSuccessErrorColors
+            _currentDarkColorScheme.value = darkSuccessErrorColors
+
+        }
+    }
+
+
+
+
 
 
     // funt to provide the light neutral colors 
@@ -156,121 +239,122 @@ class ThemeViewModel : ViewModel() {
         _currentLightColorScheme.value = neutralLightColors
     }
 
-    fun provideLightSuccessErrorColors(
-      seedColor: ColorEntry
-    ){
-        val lightScale = seedColor.lightScale
-        val successErrorLightColors = SuccessErrorColors(
-            success = lightScale.step9,
-            onSuccess = lightScale.step2,
-            error = lightScale.step9,
-            onError = lightScale.step2
-        )
-        _lightSuccessErrorColors.value = successErrorLightColors
-    }
 
 
 
 
-    private val darkColorScheme = KoreDefaults.defaultDarkColorScheme
-
-
-    private var _darkPrimaryColors = MutableStateFlow(PrimaryColors(
-        primary = darkColorScheme.primary,
-        onPrimary = darkColorScheme.onPrimary,
-        primaryContainer = darkColorScheme.primaryContainer,
-        onPrimaryContainer = darkColorScheme.onPrimaryContainer,
-    ))
-    val darkPrimaryColors : StateFlow<PrimaryColors> = _darkPrimaryColors
-
-    private var _darkComplementaryColors = MutableStateFlow(ComplementaryColors(
-        complementary = darkColorScheme.complementary,
-        onComplementary = darkColorScheme.onComplementary,
-        complementaryContainer = darkColorScheme.complementaryContainer,
-        onComplementaryContainer = darkColorScheme.onComplementaryContainer
-    ))
-    val darkComplementaryColors : StateFlow<ComplementaryColors> = _darkComplementaryColors
-
-
-    private var _darkNeutralColors = MutableStateFlow(NeutralColors(
-        backGround = darkColorScheme.background,
-        onBackGround = darkColorScheme.onBackGround,
-        backGroundVariant = darkColorScheme.backGroundVariant,
-        onBackGroundVariant = darkColorScheme.onBackGroundVariant,
-        surface = darkColorScheme.surface,
-        onSurface = darkColorScheme.onSurface,
-        surfaceBright = darkColorScheme.surfaceBright,
-        onSurfaceBright = darkColorScheme.onSurfaceBright,
-        disabled = darkColorScheme.disabled,
-        onDisabled = darkColorScheme.onDisabled,
-        transParentColor = darkColorScheme.transparent,
-    ))
-    val darkNeutralColors : StateFlow<NeutralColors> = _darkNeutralColors
 
 
 
-    private var _darkSuccessErrorColors = MutableStateFlow(SuccessErrorColors(
-        success = darkColorScheme.success,
-        onSuccess = darkColorScheme.onSuccess,
-        error = darkColorScheme.error,
-        onError = darkColorScheme.onError
-    ))
-    val darkSuccessErrorColors : StateFlow<SuccessErrorColors> = _darkSuccessErrorColors
+
+
+
+
 
 
     fun provideDarkPrimaryColors(
-        seedColor: ColorEntry
+        seedColor: ColorEntry,
+        tailWindSeedColor: TailWindColorEntry,
+        colorSource: PrimaryColorSource
     ) {
-        val darkScale = seedColor.darkScale
 
-        val isLowContrast = seedColor in lowContrastColor
-        if (isLowContrast) {
+        if (colorSource == PrimaryColorSource.Tailwind) {
+
+            val colorScale = tailWindSeedColor.colorScale
+
             val primaryDarkColors = _currentDarkColorScheme.value.copy(
-                primary = darkScale.step9,
-                onPrimary = darkScale.step1,
-                primaryContainer = darkScale.step3,
-                onPrimaryContainer = darkScale.step10,
+                primary = colorScale.swatch600,
+                onPrimary = colorScale.swatch50,
+                primaryContainer = colorScale.swatch950,
+                onPrimaryContainer = colorScale.swatch200
             )
+
             _currentDarkColorScheme.value = primaryDarkColors
+
         } else {
-            val primaryDarkColors = _currentDarkColorScheme.value.copy(
-                primary = darkScale.step9,
-                onPrimary = darkScale.step12,
-                primaryContainer = darkScale.step3,
-                onPrimaryContainer = darkScale.step10,
-            )
-            _currentDarkColorScheme.value = primaryDarkColors
-        }
+            val darkScale = seedColor.darkScale
 
+            val isLowContrast = seedColor in lowContrastColor
+            if (isLowContrast) {
+                val primaryDarkColors = _currentDarkColorScheme.value.copy(
+                    primary = darkScale.step9,
+                    onPrimary = darkScale.step1,
+                    primaryContainer = darkScale.step3,
+                    onPrimaryContainer = darkScale.step10,
+                )
+                _currentDarkColorScheme.value = primaryDarkColors
+            } else {
+                val primaryDarkColors = _currentDarkColorScheme.value.copy(
+                    primary = darkScale.step9,
+                    onPrimary = darkScale.step12.blend(blendColor = RadixColors.White.white),
+                    primaryContainer = darkScale.step3,
+                    onPrimaryContainer = darkScale.step10,
+                )
+                _currentDarkColorScheme.value = primaryDarkColors
+            }
+        }
 
     }
 
 
     fun provideDarkComplementaryColors(
-        seedColor: ColorEntry
+        seedColor: ColorEntry,
+        tailWindSeedColor: TailWindColorEntry = tailWindPrimaryColorsList[0],
+        colorSource: PrimaryColorSource,
     ){
+        if (colorSource == PrimaryColorSource.Tailwind){
+            val colorScale = tailWindSeedColor.complementaryScale!!
+
+            Logger.i{
+                "The Complementary scale ins $colorScale"
+            }
+            val complementaryDarkColors = _currentDarkColorScheme.value.copy(
+                complementary = colorScale.swatch600,
+                onComplementary = colorScale.swatch50,
+                complementaryContainer = colorScale.swatch950,
+                onComplementaryContainer = colorScale.swatch200
+            )
+            _currentDarkColorScheme.value = complementaryDarkColors
+        } else {
+
         val darkScale = seedColor.complementaryDark!!
         val complementaryDarkColors =  _currentDarkColorScheme.value.copy(
             complementary = darkScale.step9,
-            onComplementary = darkScale.step12,
+            onComplementary = darkScale.step12.blend(RadixColors.White.white),
             complementaryContainer = darkScale.step3,
             onComplementaryContainer = darkScale.step10
         )
        _currentDarkColorScheme.value = complementaryDarkColors
-    }
+    }}
 
     fun provideIndividualDarkComplementaryColors(
-        seedColor: ColorEntry
+        seedColor: ColorEntry,
+        tailWindSeedColor: TailWindColorEntry = tailWindPrimaryColorsList[8],
+        colorSource: PrimaryColorSource
     ){
+
+        if (colorSource == PrimaryColorSource.Tailwind){
+            val colorSource = tailWindSeedColor.colorScale
+
+            val complementaryDarkColors = _currentDarkColorScheme.value.copy(
+                complementary = colorSource.swatch600,
+                onComplementary = colorSource.swatch50,
+                complementaryContainer = colorSource.swatch950,
+                onComplementaryContainer = colorSource.swatch200
+            )
+            _currentDarkColorScheme.value = complementaryDarkColors
+
+        } else {
+
         val darkScale = seedColor.darkScale
         val complementaryDarkColors =  _currentDarkColorScheme.value.copy(
             complementary = darkScale.step9,
-            onComplementary = darkScale.step12,
+            onComplementary = darkScale.step12.blend(RadixColors.White.white),
             complementaryContainer = darkScale.step3,
             onComplementaryContainer = darkScale.step10
         )
         _currentDarkColorScheme.value = complementaryDarkColors
-    }
+    }}
 
     
     fun provideDarkNeutralColors(
@@ -293,38 +377,68 @@ class ThemeViewModel : ViewModel() {
         _currentDarkColorScheme.value = neutralDarkColors
     }
 
-    fun provideDarkSuccessErrorColors(
-        seedColor: ColorEntry
+
+
+
+
+
+    fun providePrimary(
+        seedColor: ColorEntry,
+        tailWindSeedColor: TailWindColorEntry = tailWindPrimaryColorsList[8],
+        colorSource: PrimaryColorSource
     ) {
-        val darkScale = seedColor.darkScale
-        val successErrorDarkColors = SuccessErrorColors(
-            success = darkScale.step9,
-            onSuccess = darkScale.step12,
-            error = darkScale.step9,
-            onError = darkScale.step12
-        )
-        _darkSuccessErrorColors.value = successErrorDarkColors
-    }
 
+        val isTailwind = colorSource == PrimaryColorSource.Tailwind
 
+        if (isTailwind) {
+            _currentTailwindPrimaryColor.value = tailWindSeedColor
+        }
 
-
-    fun providePrimary(seedColor: ColorEntry){
         _currentPrimaryColor.value = seedColor
-        provideDarkPrimaryColors(seedColor = seedColor)
-        provideLightPrimaryColors(seedColor = seedColor)
+
+        // dark primary
+        provideDarkPrimaryColors(
+            seedColor = seedColor,
+            tailWindSeedColor = tailWindSeedColor,
+            colorSource = colorSource
+        )
+        // light primary
+        provideLightPrimaryColors(
+            seedColor = seedColor,
+            tailWindSeedColor = tailWindSeedColor,
+            colorSource = colorSource
+        )
+        // complementary
         _currentComplementaryColor.value = seedColor
-        provideDarkComplementaryColors(seedColor = seedColor)
-        provideLightComplementaryColors(seedColor = seedColor)
+        if (isTailwind) _currentTailwindComplementaryColor.value = tailWindSeedColor
+
+
+       //  dark complementary
+        provideDarkComplementaryColors(
+            seedColor = seedColor,
+            tailWindSeedColor = tailWindSeedColor,
+            colorSource = colorSource
+        )
+        // light complementary
+        provideLightComplementaryColors(
+            seedColor = seedColor,
+            tailWindSeedColor = tailWindSeedColor,
+            colorSource = colorSource
+        )
     }
 
 
     fun provideComplementary(
-        seedColor: ColorEntry
+        seedColor: ColorEntry,
+        tailWindSeedColor: TailWindColorEntry = tailWindPrimaryColorsList[8],
+        colorSource: PrimaryColorSource
     ){
+        if (colorSource == PrimaryColorSource.Tailwind){
+            _currentTailwindComplementaryColor.value = tailWindSeedColor
+        }
         _currentComplementaryColor.value = seedColor
-       provideIndividualLightComplementaryColors(seedColor)
-        provideIndividualDarkComplementaryColors(seedColor)
+        provideIndividualLightComplementaryColors(seedColor, tailWindSeedColor = tailWindSeedColor, colorSource = colorSource)
+        provideIndividualDarkComplementaryColors(seedColor, tailWindSeedColor = tailWindSeedColor, colorSource = colorSource)
     }
 
 
@@ -342,9 +456,12 @@ class ThemeViewModel : ViewModel() {
     }
 
     fun changeSquircle(){
-        _provideShape.value = ShapeType.Squircle
+        _provideShape.value = ShapeType.SmoothCornerShape
     }
 
+    fun changePrimaryColorSource(primaryColorSource: PrimaryColorSource){
+        _currentPrimaryColorSource.value = primaryColorSource
+    }
 
     private var _provideSizes = MutableStateFlow(balancedSizes)
     val provideSizes : StateFlow<KoreSizes> = _provideSizes
@@ -360,7 +477,6 @@ class ThemeViewModel : ViewModel() {
         KoreDefaults.defaultLightColorScheme
     )
 
-    // Expose as a read-only StateFlow for the UI to observe
     val currentLightColorScheme: StateFlow<KoreColorScheme> = _currentLightColorScheme
 
     private val _currentDarkColorScheme = MutableStateFlow(
