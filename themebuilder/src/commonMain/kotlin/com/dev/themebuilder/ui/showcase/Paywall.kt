@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.ModalDrawer
-import com.dev.korelibrary.components.radio.RadioButton
-import com.dev.korelibrary.components.tabRow.ScrollableTabRow
-import com.dev.korelibrary.components.text.Text
+import com.dev.kore.components.radio.RadioButton
+import com.dev.kore.components.tabRow.ScrollableTabRow
+import com.dev.kore.components.text.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,12 +19,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.listtile.ListTile
-import com.dev.korelibrary.components.listtile.ListTileDefaults
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.tabRow.Tab
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.listtile.ListTileDefaults
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.tabRow.Tab
+import com.dev.kore.themes.KoreTheme
 import org.jetbrains.skia.paragraph.Alignment
 
 @Composable

@@ -12,14 +12,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.card.CardDefaults
-import com.dev.korelibrary.components.listtile.ListTile
-import com.dev.korelibrary.components.slider.Slider
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
-import kore.themebuilder.generated.resources.Res
-import kore.themebuilder.generated.resources.far
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.card.CardDefaults
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.slider.Slider
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import koreproject.themebuilder.generated.resources.Res
+import koreproject.themebuilder.generated.resources.far
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

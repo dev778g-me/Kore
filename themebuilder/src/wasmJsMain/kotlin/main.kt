@@ -5,16 +5,19 @@ import androidx.compose.ui.window.ComposeViewport
 import androidx.navigation.ExperimentalBrowserHistoryApi
 import androidx.navigation.bindToBrowserNavigation
 import androidx.navigation.toRoute
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dev.themebuilder.ui.ThemeApp
 import com.dev.themebuilder.ui.theme.BuilderTheme
 import com.dev.themebuilder.ui.view.navigation.AppRoute
+import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalBrowserHistoryApi::class)
 fun main() {
     val body = document.body ?: return
     ComposeViewport(body) {
-        BuilderTheme(isDark = false) {
+        val viewModel: ThemeViewModel = viewModel { ThemeViewModel() }
+        BuilderTheme(isDark = false, viewModel = viewModel) {
             ThemeApp(
                 onNavHostReady = { navController ->
                     navController.bindToBrowserNavigation(){entry ->

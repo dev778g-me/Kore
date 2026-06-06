@@ -12,14 +12,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.checkbox.CheckBox
-import com.dev.korelibrary.components.listtile.ListTile
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.components.textFields.OutlinedTextField
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.checkbox.CheckBox
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.components.textFields.OutlinedTextField
+import com.dev.kore.themes.KoreTheme
 
 @Composable
 fun MemberUiShowCase(

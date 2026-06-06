@@ -27,24 +27,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dev.korelibrary.components.appbar.Appbar
-import com.dev.korelibrary.components.buttons.GhostIconButton
-import com.dev.korelibrary.components.buttons.PrimaryIconButton
-import com.dev.korelibrary.components.buttons.SecondaryButton
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.listtile.ListTile
-import com.dev.korelibrary.components.navigationBar.NavigationBar
-import com.dev.korelibrary.components.navigationBar.NavigationBarItem
-import com.dev.korelibrary.components.progress.LinearProgressIndicator
-import com.dev.korelibrary.components.progress.ProgressIndicatorDefaults
-import com.dev.korelibrary.components.scaffold.Scaffold
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.utilities.extensions.bold
-import com.dev.korelibrary.utilities.extensions.color
+import com.dev.kore.components.appbar.Appbar
+import com.dev.kore.components.buttons.GhostIconButton
+import com.dev.kore.components.buttons.PrimaryIconButton
+import com.dev.kore.components.buttons.SecondaryButton
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.navigationBar.NavigationBar
+import com.dev.kore.components.navigationBar.NavigationBarItem
+import com.dev.kore.components.progress.LinearProgressIndicator
+import com.dev.kore.components.progress.ProgressIndicatorDefaults
+import com.dev.kore.components.scaffold.Scaffold
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import com.dev.kore.utilities.extensions.bold
+import com.dev.kore.utilities.extensions.color
 import com.dev.themebuilder.ui.showcase.AllShowCase
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.bold.AndroidLogoBold
@@ -208,7 +208,7 @@ fun PhoneUI(
                 }
 
 
-                    DailyProgressCard()
+                DailyProgressCard()
                 BreakFastCard()
 
                 LunchCard()
@@ -273,7 +273,7 @@ fun DailyProgressCard(){
         }
         Spacer(modifier = Modifier.height(KoreTheme.sizes.sm))
         LinearProgressIndicator(
-            progress = 40f / 100f
+            progress = 40f
         )
         Spacer(modifier = Modifier.height(KoreTheme.sizes.sm))
 
@@ -304,7 +304,7 @@ fun DailyProgressCard(){
                     ),
                     thickness = 4.dp,
                     modifier = Modifier.fillMaxWidth(1f),
-                    progress = 45f / 100f
+                    progress = 45f
                 )
 
                 Text(
@@ -341,7 +341,7 @@ fun DailyProgressCard(){
                     ),
                     thickness = 4.dp,
                     modifier = Modifier.fillMaxWidth(1f),
-                    progress = 45f / 100f
+                    progress = 45f
                 )
 
                 Text(
@@ -378,7 +378,7 @@ fun DailyProgressCard(){
                     ),
                     thickness = 4.dp,
                     //   modifier = Modifier.fillMaxWidth(1f),
-                    progress = 45f / 100f
+                    progress = 70f
                 )
 
                 Text(

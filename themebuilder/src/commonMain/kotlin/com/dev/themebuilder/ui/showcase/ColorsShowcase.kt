@@ -16,10 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.card.OutlinedCard
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.card.OutlinedCard
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
 
 @Composable
 fun ColorsShowCase(

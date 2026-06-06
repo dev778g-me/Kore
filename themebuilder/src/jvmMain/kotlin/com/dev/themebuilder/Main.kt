@@ -5,8 +5,8 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.dev.themebuilder.ui.ThemeApp
-import kore.themebuilder.generated.resources.Res
-import kore.themebuilder.generated.resources.icon_desktop
+import koreproject.themebuilder.generated.resources.Res
+import koreproject.themebuilder.generated.resources.icon_desktop
 import org.jetbrains.compose.resources.painterResource
 import java.awt.Desktop
 import java.net.URI

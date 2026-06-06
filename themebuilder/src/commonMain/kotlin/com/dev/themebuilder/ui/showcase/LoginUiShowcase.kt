@@ -18,23 +18,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.buttons.GhostIconButton
-import com.dev.korelibrary.components.buttons.PrimaryButton
-import com.dev.korelibrary.components.buttons.SecondaryButton
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.components.textFields.OutlinedTextField
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.buttons.GhostIconButton
+import com.dev.kore.components.buttons.PrimaryButton
+import com.dev.kore.components.buttons.SecondaryButton
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.components.textFields.OutlinedTextField
+import com.dev.kore.themes.KoreTheme
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.regular.Envelope
 import com.phosphor.icons.regular.Eye
 import com.phosphor.icons.regular.GithubLogo
 import com.phosphor.icons.regular.Password
-import kore.themebuilder.generated.resources.Res
-import kore.themebuilder.generated.resources.icon_desktop
+import koreproject.themebuilder.generated.resources.Res
+import koreproject.themebuilder.generated.resources.icon_desktop
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

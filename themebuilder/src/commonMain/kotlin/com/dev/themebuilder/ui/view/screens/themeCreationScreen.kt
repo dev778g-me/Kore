@@ -9,28 +9,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
-import com.dev.korelibrary.components.card.Card
+import com.dev.kore.components.card.Card
 import com.dev.themebuilder.ui.showcase.AllShowCase
-import com.dev.themebuilder.ui.theme.LocalThemeViewModel
 import com.dev.themebuilder.ui.view.components.CustomizeColumn
 import com.dev.themebuilder.ui.view.components.PhoneScreen
+import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 
 @Composable
 fun ThemeCreationScreen(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    viewModel: ThemeViewModel,
     isDark: Boolean,
 ) {
-    val viewModel = LocalThemeViewModel.current
     val currentWindowSizeClass =
         currentWindowAdaptiveInfo(supportLargeAndXLargeWidth = true).windowSizeClass
 
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -46,7 +43,7 @@ fun ThemeCreationScreen(
             Card(
                 modifier = Modifier.fillMaxHeight(),
             ) {
-                CustomizeColumn(isDark = isDark)
+                CustomizeColumn( viewModel = viewModel)
             }
 
             if (currentWindowSizeClass.isAtLeastBreakpoint(

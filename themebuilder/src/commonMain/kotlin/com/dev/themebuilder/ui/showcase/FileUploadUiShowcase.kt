@@ -9,12 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.loadingIndicator.LinearLoadingIndicator
-import com.dev.korelibrary.components.progress.LinearProgressIndicator
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.loadingIndicator.LinearLoadingIndicator
+import com.dev.kore.components.progress.LinearProgressIndicator
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
 import kotlinx.coroutines.delay
 
 @Composable

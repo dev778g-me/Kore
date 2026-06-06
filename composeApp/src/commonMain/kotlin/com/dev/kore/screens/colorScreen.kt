@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.card.CardDefaults
-import com.dev.korelibrary.components.card.OutlinedCard
-import com.dev.korelibrary.components.scaffold.Scaffold
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.card.CardDefaults
+import com.dev.kore.components.card.OutlinedCard
+import com.dev.kore.components.scaffold.Scaffold
+import com.dev.kore.themes.KoreTheme
 
 @Composable
 fun ColorScreen() {

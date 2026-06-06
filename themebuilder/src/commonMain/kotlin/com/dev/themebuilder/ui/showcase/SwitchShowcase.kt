@@ -5,11 +5,11 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.listtile.ListTile
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.switch.Switch
-import com.dev.korelibrary.components.text.Text
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.switch.Switch
+import com.dev.kore.components.text.Text
 
 @Composable
 fun SwitchShowCase(

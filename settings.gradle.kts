@@ -1,4 +1,4 @@
-rootProject.name = "Kore"
+rootProject.name = "KoreProject"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -34,5 +34,5 @@ plugins {
 
 include(":composeApp")
 include(":androidApp")
-include(":korelibrary")
+include(":kore")
 include(":themebuilder")

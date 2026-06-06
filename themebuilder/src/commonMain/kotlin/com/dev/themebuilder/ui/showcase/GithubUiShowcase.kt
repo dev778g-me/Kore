@@ -20,20 +20,20 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.buttons.IconButtonDefaults
-import com.dev.korelibrary.components.buttons.PrimaryButton
-import com.dev.korelibrary.components.buttons.PrimaryIconButton
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.listtile.ListTile
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.stack.HorizontalStack
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.tabRow.Tab
-import com.dev.korelibrary.components.tabRow.TabRow
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.components.textFields.OutlinedTextField
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.buttons.IconButtonDefaults
+import com.dev.kore.components.buttons.PrimaryButton
+import com.dev.kore.components.buttons.PrimaryIconButton
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.stack.HorizontalStack
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.tabRow.Tab
+import com.dev.kore.components.tabRow.TabRow
+import com.dev.kore.components.text.Text
+import com.dev.kore.components.textFields.OutlinedTextField
+import com.dev.kore.themes.KoreTheme
 import com.dev.themebuilder.ui.view.navigation.BuilderTabItem
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.filled.GithubLogoFill
@@ -56,7 +56,7 @@ fun GithubUIShowcase(
             unSelectedIcon = PhIcons.Regular.Users,
         ),
         BuilderTabItem(
-            name = "Github Access",
+            name = "Github",
             selectedIcon = PhIcons.Filled.GithubLogoFill,
             unSelectedIcon = PhIcons.Regular.GithubLogo,
             onClick = {}

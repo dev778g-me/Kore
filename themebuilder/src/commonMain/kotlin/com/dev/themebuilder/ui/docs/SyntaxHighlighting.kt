@@ -5,9 +5,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.themes.KoreTheme
+import org.jetbrains.skia.FontWeight
 
 object KotlinSyntaxHighlighter {
 
@@ -68,7 +68,7 @@ object KotlinSyntaxHighlighter {
         val tokens = tokenize(code)
         for ((type, value) in tokens) {
             val style = when (type) {
-                TokenType.KEYWORD    -> SpanStyle(color = keywordColor, fontWeight = FontWeight.Bold)
+                TokenType.KEYWORD    -> SpanStyle(color = keywordColor, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
                 TokenType.STRING     -> SpanStyle(color = stringColor)
                 TokenType.LINE_COMMENT-> SpanStyle(color = commentColor)
                 TokenType.BLOCK_COMMENT-> SpanStyle(color = docCommentColor)

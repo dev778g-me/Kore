@@ -11,15 +11,15 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.buttons.OutlinedIconButton
-import com.dev.korelibrary.components.buttons.SecondaryIconButton
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.listtile.ListTile
-import com.dev.korelibrary.components.listtile.ListTileDefaults
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.utilities.extensions.color
+import com.dev.kore.components.buttons.OutlinedIconButton
+import com.dev.kore.components.buttons.SecondaryIconButton
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.listtile.ListTileDefaults
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import com.dev.kore.utilities.extensions.color
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.regular.MapPin
 import com.phosphor.icons.regular.NavigationArrow
@@ -52,7 +52,7 @@ fun ContactUiShowcase(
                 ),
 
                 leading = {
-                    com.dev.korelibrary.components.icon.Icon(
+                    com.dev.kore.components.icon.Icon(
                         imageVector = PhIcons.Regular.User,
                         contentDescription = "user"
                     )
@@ -61,7 +61,7 @@ fun ContactUiShowcase(
                     SecondaryIconButton(
                         onClick = {},
                         content = {
-                            com.dev.korelibrary.components.icon.Icon(
+                            com.dev.kore.components.icon.Icon(
                                 imageVector = PhIcons.Regular.Plus,
                                 contentDescription = "user"
                             )
@@ -80,7 +80,7 @@ fun ContactUiShowcase(
 
                 leading = {
 
-                        com.dev.korelibrary.components.icon.Icon(
+                        com.dev.kore.components.icon.Icon(
                             imageVector = PhIcons.Regular.MapPin,
                             contentDescription = "user"
                         )
@@ -97,7 +97,7 @@ fun ContactUiShowcase(
 
                 leading = {
 
-                        com.dev.korelibrary.components.icon.Icon(
+                        com.dev.kore.components.icon.Icon(
                             imageVector = PhIcons.Regular.Toolbox,
                             contentDescription = "user"
                         )
@@ -114,7 +114,7 @@ fun ContactUiShowcase(
 
                 leading = {
 
-                        com.dev.korelibrary.components.icon.Icon(
+                        com.dev.kore.components.icon.Icon(
                             imageVector = PhIcons.Regular.NavigationArrow,
                             contentDescription = "user"
                         )

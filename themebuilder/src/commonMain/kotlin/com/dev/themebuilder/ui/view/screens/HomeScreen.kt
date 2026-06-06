@@ -8,15 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.buttons.OutlinedButton
-import com.dev.korelibrary.components.buttons.PrimaryButton
-import com.dev.korelibrary.components.stack.HorizontalStack
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.utilities.extensions.alignCenter
-import com.dev.korelibrary.utilities.extensions.medium
-import com.dev.korelibrary.utilities.extensions.semiBold
+import com.dev.kore.components.buttons.OutlinedButton
+import com.dev.kore.components.buttons.PrimaryButton
+import com.dev.kore.components.stack.HorizontalStack
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import com.dev.kore.utilities.extensions.alignCenter
+import com.dev.kore.utilities.extensions.medium
+import com.dev.kore.utilities.extensions.semiBold
 import com.dev.themebuilder.ui.showcase.ColorsShowCase
 import com.dev.themebuilder.ui.showcase.ContactUiShowcase
 import com.dev.themebuilder.ui.showcase.FileUploadUiShowcase
@@ -67,7 +67,7 @@ fun HomeScreen(
             OutlinedButton(
                 onClick = {}
             ){
-                com.dev.korelibrary.components.icon.Icon(imageVector = PhIcons.Regular.GithubLogo, contentDescription = "", modifier = Modifier.padding(end = 4.dp))
+                com.dev.kore.components.icon.Icon(imageVector = PhIcons.Regular.GithubLogo, contentDescription = "", modifier = Modifier.padding(end = 4.dp))
                 Text("Github")
             }
         }

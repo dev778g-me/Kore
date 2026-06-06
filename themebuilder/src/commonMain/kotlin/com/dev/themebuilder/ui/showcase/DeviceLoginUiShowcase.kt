@@ -7,14 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.badge.ErrorBadge
-import com.dev.korelibrary.components.badge.SecondaryBadge
-import com.dev.korelibrary.components.badge.SuccessBadge
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.utilities.extensions.color
+import com.dev.kore.components.badge.ErrorBadge
+import com.dev.kore.components.badge.SecondaryBadge
+import com.dev.kore.components.badge.SuccessBadge
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import com.dev.kore.utilities.extensions.color
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.regular.DeviceMobile
 import com.phosphor.icons.regular.Laptop
@@ -108,7 +108,7 @@ private fun DeviceLoginTile(
         verticalAlignment = androidx.compose.ui.Alignment.Top
     ) {
 
-        com.dev.korelibrary.components.icon.Icon(
+        com.dev.kore.components.icon.Icon(
             imageVector = imageVector,
             contentDescription = null,
             tint = KoreTheme.colorScheme.onBackGround

@@ -2,60 +2,75 @@ package com.dev.themebuilder.ui.view.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.dev.korelibrary.components.appbar.Appbar
-import com.dev.korelibrary.components.buttons.PrimaryButton
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.scaffold.Scaffold
-import com.dev.korelibrary.components.stack.HorizontalStack
-import com.dev.korelibrary.components.tabRow.ScrollableTabRow
-import com.dev.korelibrary.components.tabRow.Tab
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
+import androidx.savedstate.SavedState
+import androidx.savedstate.read
+import androidx.savedstate.write
+import com.dev.kore.components.appbar.Appbar
+import com.dev.kore.components.buttons.GhostIconButton
+import com.dev.kore.components.buttons.PrimaryButton
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.scaffold.Scaffold
+import com.dev.kore.components.stack.HorizontalStack
+import com.dev.kore.components.tabRow.ScrollableTabRow
+import com.dev.kore.components.tabRow.Tab
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
 import com.dev.themebuilder.ui.docs.ChangelogDocs
+import com.dev.themebuilder.ui.docs.DocRoute
 import com.dev.themebuilder.ui.docs.DocsScreen
 import com.dev.themebuilder.ui.models.ExportUtils
-import com.dev.themebuilder.ui.models.saveFile as saveThemeFile
 import com.dev.themebuilder.ui.models.toKoreShapes
-import com.dev.themebuilder.ui.theme.LocalThemeViewModel
 import com.dev.themebuilder.ui.view.screens.HomeScreen
 import com.dev.themebuilder.ui.view.screens.ThemeCreationScreen
+import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.filled.ClockClockwiseFill
 import com.phosphor.icons.filled.HouseFill
 import com.phosphor.icons.filled.PlusFill
 import com.phosphor.icons.filled.SquaresFourFill
 import com.phosphor.icons.regular.ClockCounterClockwise
-import com.phosphor.icons.regular.House
-import com.phosphor.icons.regular.Plus
 import com.phosphor.icons.regular.FloppyDisk
+import com.phosphor.icons.regular.House
+import com.phosphor.icons.regular.Moon
+import com.phosphor.icons.regular.Plus
 import com.phosphor.icons.regular.SquaresFour
+import com.phosphor.icons.regular.Sun
+import kotlinx.serialization.json.Json
+import kotlin.reflect.typeOf
+import com.dev.themebuilder.ui.models.saveFile as saveThemeFile
 
 @Composable
 fun BuilderNavHost(
+    viewModel: ThemeViewModel,
     onNavHostReady: suspend (NavController) -> Unit = {},
+    onThemeChange : () -> Unit,
+    isDark : Boolean,
     onOpenUrl: (String) -> Unit = {}
 ) {
 
     val navController = rememberNavController()
-
     LaunchedEffect(navController) {
         onNavHostReady(navController)
     }
+
+    val docsScrollState = rememberScrollState()
 
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
 
@@ -67,24 +82,23 @@ fun BuilderNavHost(
             navController.navigate(AppRoute.Create)
         },
         BuilderTabItem("Components", PhIcons.Filled.SquaresFourFill, PhIcons.Regular.SquaresFour) {
-            navController.navigate(AppRoute.Components("components/accordion"))
+            navController.navigate(AppRoute.Components(DocRoute.Overview))
         },
         BuilderTabItem(
             "Changelog",
             PhIcons.Filled.ClockClockwiseFill,
-            PhIcons.Regular.ClockCounterClockwise,
-            { navController.navigate(AppRoute.ChangeLog) }
-        )
+            PhIcons.Regular.ClockCounterClockwise
+        ) { navController.navigate(AppRoute.ChangeLog) }
     )
 
     Scaffold(
         appBar = {
-            val viewModel = LocalThemeViewModel.current
+
             val lightColorScheme by viewModel.currentLightColorScheme.collectAsStateWithLifecycle()
             val darkColorScheme by viewModel.currentDarkColorScheme.collectAsStateWithLifecycle()
             val currentSizes by viewModel.provideSizes.collectAsStateWithLifecycle()
             val currentShapes by viewModel.currentShape.collectAsStateWithLifecycle()
-
+            val currentSource by viewModel.currentPrimaryColorSource.collectAsStateWithLifecycle()
             val isCreatePage = selectedTabIndex == 1
 
             Appbar(
@@ -118,6 +132,18 @@ fun BuilderNavHost(
                     }
                 },
                 appBarAction = {
+                    GhostIconButton(
+                        modifier = Modifier.padding(end = 8.dp),
+                        onClick = {
+                            onThemeChange()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isDark) PhIcons.Regular.Moon else PhIcons.Regular.Sun,
+                            contentDescription = ""
+                        )
+                    }
+
                     if (isCreatePage) {
                         PrimaryButton(
                             onClick = {
@@ -126,7 +152,8 @@ fun BuilderNavHost(
                                     darkColorScheme = darkColorScheme,
                                     lightColorScheme = lightColorScheme,
                                     currentSizes = currentSizes,
-                                    currentShapes = shapes
+                                    currentShapes = shapes,
+                                    colorSource = currentSource
                                 )
                                 saveThemeFile(themeCode, "Theme.kt")
                             }
@@ -151,11 +178,14 @@ fun BuilderNavHost(
             startDestination = AppRoute.Home
         ) {
             composable<AppRoute.Home> { HomeScreen() }
-            composable<AppRoute.Create> { ThemeCreationScreen(onClick = {}, isDark = false) }
-            composable<AppRoute.Components> {
-                val path = it.toRoute<AppRoute.Components>().path
+            composable<AppRoute.Create> { ThemeCreationScreen(onClick = {}, viewModel = viewModel, isDark = false) }
+            composable<AppRoute.Components>(
+                typeMap = mapOf(typeOf<DocRoute>() to DocRouteNavType)
+            ) { entry ->
+                val route = entry.toRoute<AppRoute.Components>().path
                 DocsScreen(
-                    initialPath = path,
+                    initialRoute = route,
+                    scrollState = docsScrollState,
                     onNavigate = { newPath ->
                         navController.navigate(AppRoute.Components(newPath))
                     }
@@ -167,6 +197,32 @@ fun BuilderNavHost(
         }
     }
 
+}
+
+
+
+val DocRouteNavType = object : NavType<DocRoute>(isNullableAllowed = false) {
+    override fun get(bundle: SavedState, key: String): DocRoute? {
+        return bundle.read {
+            if (contains(key)) {
+                getString(key).let { Json.decodeFromString(it) }
+            } else null
+        }
+    }
+
+    override fun parseValue(value: String): DocRoute {
+        return Json.decodeFromString(value)
+    }
+
+    override fun serializeAsValue(value: DocRoute): String {
+        return Json.encodeToString(value)
+    }
+
+    override fun put(bundle: SavedState, key: String, value: DocRoute) {
+        bundle.write {
+            putString(key, Json.encodeToString(value))
+        }
+    }
 }
 data class BuilderTabItem(
     val name: String,

@@ -8,13 +8,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.card.CardDefaults
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.stepper.Stepper
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
-import com.dev.korelibrary.utilities.extensions.color
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.card.CardDefaults
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.stepper.Stepper
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import com.dev.kore.utilities.extensions.color
 
 @Composable
 fun TypographyShowcase(modifier: Modifier = Modifier) {

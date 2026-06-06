@@ -1,20 +1,22 @@
 package com.dev.themebuilder.ui.view.navigation
 
+import com.dev.themebuilder.ui.docs.DocRoute
 import kotlinx.serialization.Serializable
 
 
+
 @Serializable
-sealed class AppRoute(val route: String) {
+sealed class AppRoute {
 
     @Serializable
-    data object Home : AppRoute(route = "home")
+    data object Home : AppRoute()
 
     @Serializable
-    data object Create : AppRoute(route = "create")
+    data object Create : AppRoute()
 
     @Serializable
-    data class Components(val path: String) : AppRoute(route = "docs")
+    data class Components(val path: DocRoute) : AppRoute()
 
     @Serializable
-    data object ChangeLog : AppRoute(route = "changelog")
+    data object ChangeLog : AppRoute()
 }

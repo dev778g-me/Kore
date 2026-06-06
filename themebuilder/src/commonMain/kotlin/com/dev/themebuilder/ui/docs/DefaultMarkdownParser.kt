@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -41,9 +42,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.sp
-import com.dev.korelibrary.components.badge.PrimaryBadge
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.badge.PrimaryBadge
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
 import com.mikepenz.markdown.annotator.AnnotatorSettings
 import com.mikepenz.markdown.annotator.annotatorSettings
 import com.mikepenz.markdown.compose.LocalMarkdownColors
@@ -56,10 +57,16 @@ import com.mikepenz.markdown.compose.MarkdownElement
 import com.mikepenz.markdown.compose.components.CurrentComponentsBridge
 import com.mikepenz.markdown.compose.components.markdownComponents
 import com.mikepenz.markdown.compose.elements.MarkdownDivider
-import com.mikepenz.markdown.compose.elements.MarkdownTableBasicText
+import com.mikepenz.markdown.compose.elements.MarkdownInlineImage
 import com.mikepenz.markdown.compose.elements.MarkdownText
+import com.mikepenz.markdown.compose.extendedspans.ExtendedSpans
+import com.mikepenz.markdown.compose.extendedspans.RoundedCornerSpanPainter
 import com.mikepenz.markdown.model.DefaultMarkdownColors
 import com.mikepenz.markdown.model.DefaultMarkdownTypography
+import com.mikepenz.markdown.model.markdownExtendedSpans
+import com.mikepenz.markdown.model.markdownAnnotator
+import com.mikepenz.markdown.model.markdownInlineContent
+import com.mikepenz.markdown.model.rememberMarkdownState
 import org.intellij.markdown.IElementType
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownElementTypes.IMAGE
@@ -81,150 +88,181 @@ fun DefaultMarkdownParser(
     val typography = KoreTheme.typography
     val colorScheme = KoreTheme.colorScheme
 
-    Markdown(
-        modifier = modifier.fillMaxWidth(),
-        content = content,
-        typography = DefaultMarkdownTypography(
-            h1 = typography.display1.copy(
-                fontSize = 30.sp,
-                lineHeight = 32.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = (-0.5).sp
+    val inlineCodePainter = remember {
+        RoundedCornerSpanPainter(
+            cornerRadius = 4.sp,
+            stroke = RoundedCornerSpanPainter.Stroke(
+                color = colorScheme.onBackGroundVariant,
+                width = 1.sp,
             ),
-            h2 = typography.display2.copy(
-                fontSize = 26.sp,
-                lineHeight = 38.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = (-0.25).sp
+            padding = RoundedCornerSpanPainter.TextPaddingValues(
+                horizontal = 1.sp,
+                vertical = 1.sp,
             ),
-            h3 = typography.heading1.copy(
-                fontSize = 24.sp,
-                lineHeight = 32.sp,
-                fontWeight = FontWeight.SemiBold
-            ),
-            h4 = typography.heading2.copy(
-                fontSize = 20.sp,
-                lineHeight = 28.sp,
-                fontWeight = FontWeight.SemiBold
-            ),
-            h5 = typography.title1.copy(
-                fontSize = 18.sp,
-                lineHeight = 26.sp,
-                fontWeight = FontWeight.Medium
-            ),
-            h6 = typography.title2.copy(
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                fontWeight = FontWeight.Medium
-            ),
-            text = typography.body1.copy(
-                fontSize = 16.sp,
-                lineHeight = 28.sp,
-                letterSpacing = 0.15.sp
-            ),
-            code = typography.body3.copy(
-                fontSize = 13.sp,
-                lineHeight = 20.sp,
-                fontFamily = jetBrainsMono()
-            ),
-            inlineCode = typography.body3.copy(
-                fontSize = 13.sp,
-                lineHeight = 20.sp,
-                fontFamily = jetBrainsMono(),
-                fontWeight = FontWeight.Medium
-            ),
-            quote = typography.body1.copy(
-                fontStyle = FontStyle.Italic,
-                lineHeight = 28.sp
-            ),
-            paragraph = typography.body1.copy(
-                fontSize = 16.sp,
-                lineHeight = 28.sp
-            ),
-            ordered = typography.body1.copy(
-                fontSize = 16.sp,
-                lineHeight = 28.sp,
-                fontWeight = FontWeight.Medium
-            ),
-            bullet = typography.body1.copy(
-                fontSize = 16.sp,
-                lineHeight = 28.sp
-            ),
-            list = typography.body1.copy(
-                fontSize = 16.sp,
-                lineHeight = 28.sp
-            ),
-            textLink = TextLinkStyles(
-                style = SpanStyle(
-                    color = colorScheme.primary
-                )
-            ),
-            table = typography.body3.copy(
-                fontSize = 14.sp,
-                lineHeight = 22.sp
-            )
-        ),
-        colors = DefaultMarkdownColors(
-            text = colorScheme.onBackGround,
-            codeBackground = colorScheme.backGroundVariant,
-            inlineCodeBackground = colorScheme.background,
-            dividerColor = colorScheme.onSurface.copy(alpha = 0.2f),
-            tableBackground = colorScheme.surface,
-        ),
-        components = markdownComponents(
-            blockQuote = {
-                DefaultMarkdownBlockQuote(
-                    content = it.content,
-                    node = it.node,
-                    style = it.typography.quote
-                )
-            },
+        )
+    }
 
-            heading1 = {
-                DefaultMarkdownHeader(
-                    content = it.content,
-                    style = it.typography.h1,
-                    node = it.node
-                )
-            },
-            heading2 = {
-                DefaultMarkdownHeader(
-                    content = it.content,
-                    style = it.typography.h2,
-                    node = it.node
-                )
-            },
-            heading3 = {
-                DefaultMarkdownHeader(
-                    content = it.content,
-                    style = it.typography.h3,
-                    node = it.node
-                )
-            },
-            heading4 = {
-                DefaultMarkdownHeader(
-                    content = it.content,
-                    style = it.typography.h4,
-                    node = it.node
-                )
-            },
-            paragraph = {
-                DefaultMarkdownHeader(
-                    content = it.content,
-                    style = it.typography.paragraph,
-                    node = it.node
-                )
-            },
+  SelectionContainer {
+      Markdown(
+          markdownState = rememberMarkdownState(
+              content = content
+          ),
+          modifier = modifier.fillMaxWidth(),
+          typography = DefaultMarkdownTypography(
+              h1 = typography.display1.copy(
+                  fontSize = 34.sp,
+                  lineHeight = 40.sp,
+                  fontWeight = FontWeight.SemiBold,
+                  letterSpacing = (0.5).sp
+              ),
+              h2 = typography.display2.copy(
+                  fontSize = 26.sp,
+                  lineHeight = 38.sp,
+                  fontWeight = FontWeight.SemiBold,
+                  letterSpacing = (0.85).sp
+              ),
+              h3 = typography.heading1.copy(
+                  fontSize = 20.sp,
+                  lineHeight = 32.sp,
+                  fontWeight = FontWeight.SemiBold
+              ),
+              h4 = typography.heading2.copy(
+                  fontSize = 18.sp,
+                  lineHeight = 28.sp,
+                  fontWeight = FontWeight.SemiBold
+              ),
+              h5 = typography.title1.copy(
+                  fontSize = 18.sp,
+                  lineHeight = 26.sp,
+                  fontWeight = FontWeight.Medium
+              ),
+              h6 = typography.title2.copy(
+                  fontSize = 16.sp,
+                  lineHeight = 24.sp,
+                  fontWeight = FontWeight.Medium
+              ),
+              text = typography.body1.copy(
+                  color = Color.Red,
+                  fontSize = 16.sp,
+                  lineHeight = 28.sp,
+                  letterSpacing = 0.15.sp
+              ),
+              code = typography.body3.copy(
+                  fontSize = 13.sp,
+                  lineHeight = 20.sp,
+                  fontFamily = jetBrainsMono()
+              ),
+              inlineCode = typography.body3.copy(
+                  fontSize = 13.sp,
+                  lineHeight = 20.sp,
+                  fontFamily = jetBrainsMono(),
+                  fontWeight = FontWeight.Normal
+              ),
+              quote = typography.body1.copy(
+                  fontStyle = FontStyle.Italic,
+                  lineHeight = 28.sp
+              ),
+              paragraph = typography.body1.copy(
+                  fontSize = 16.sp,
+                  lineHeight = 28.sp,
+                  letterSpacing = 0.15.sp,
+                  color = KoreTheme.colorScheme.onBackGround.copy(alpha = 0.85f)
+              ),
+              ordered = typography.body1.copy(
+                  fontSize = 16.sp,
+                  lineHeight = 28.sp,
+                  fontWeight = FontWeight.Normal
+              ),
+              bullet = typography.body1.copy(
+                  fontSize = 16.sp,
+                  lineHeight = 28.sp
+              ),
+              list = typography.body1.copy(
+                  fontSize = 16.sp,
+                  lineHeight = 28.sp
+              ),
+              textLink = TextLinkStyles(
+                  style = SpanStyle(
+                      color = colorScheme.primary
+                  )
+              ),
+              table = typography.body3.copy(
+                  fontSize = 14.sp,
+                  lineHeight = 22.sp
+              )
+          ),
 
-            table = {
-                ScrollableMarkdownTable(
-                    content = it.content,
-                    node = it.node,
-                    style = it.typography.table,
-                    annotatorSettings = annotatorSettings(),
-                )
-            })
-    )
+          extendedSpans = markdownExtendedSpans {
+              remember {
+                  ExtendedSpans(inlineCodePainter)
+              }
+          },
+
+          colors = DefaultMarkdownColors(
+              text = colorScheme.onBackGround,
+              codeBackground = colorScheme.backGroundVariant,
+              inlineCodeBackground = colorScheme.backGroundVariant.copy(alpha = 0.5f),
+              dividerColor = colorScheme.onSurface.copy(alpha = 0.2f),
+              tableBackground = colorScheme.surface,
+          ),
+
+          components = markdownComponents(
+              blockQuote = {
+                  DefaultMarkdownBlockQuote(
+                      content = it.content,
+                      node = it.node,
+                      style = it.typography.quote
+                  )
+              },
+
+              heading1 = {
+                  DefaultMarkdownHeader(
+                      content = it.content,
+                      style = it.typography.h1,
+                      node = it.node
+                  )
+              },
+              heading2 = {
+                  DefaultMarkdownHeader(
+                      content = it.content,
+                      style = it.typography.h2,
+                      node = it.node
+                  )
+              },
+              heading3 = {
+                  DefaultMarkdownHeader(
+                      content = it.content,
+                      style = it.typography.h3,
+                      node = it.node
+                  )
+              },
+              heading4 = {
+                  DefaultMarkdownHeader(
+                      content = it.content,
+                      style = it.typography.h4,
+                      node = it.node
+                  )
+              },
+              paragraph = {
+                  DefaultMarkdownHeader(
+                      content = it.content,
+                      style = it.typography.paragraph,
+                      node = it.node
+                  )
+              },
+
+              table = {
+                  ScrollableMarkdownTable(
+                      content = it.content,
+                      node = it.node,
+                      style = it.typography.table,
+                      annotatorSettings = annotatorSettings(),
+                  )
+              },
+
+          )
+      )
+  }
 }
 
 @Composable
@@ -238,12 +276,14 @@ fun ScrollableMarkdownTable(
             content = content, header = header, tableWidth = tableWidth, style = style, annotatorSettings = annotatorSettings,
         )
     },
+
     rowBlock: @Composable (String, ASTNode, Dp, TextStyle) -> Unit = { content, header, tableWidth, style ->
         ScrollableMarkdownTableRow(
             content = content, header = header, tableWidth = tableWidth, style = style, annotatorSettings = annotatorSettings,
         )
     },
 ) {
+
     val tableMaxWidth = LocalMarkdownDimens.current.tableMaxWidth
     val tableCellWidth = maxOf(LocalMarkdownDimens.current.tableCellWidth, 160.dp)
     val tableCornerSize = LocalMarkdownDimens.current.tableCornerSize
@@ -310,12 +350,10 @@ fun ScrollableMarkdownTableHeader(
                 if (cell.children.any { it.type == IMAGE }) {
                     MarkdownElement(node = cell, components = markdownComponents, content = content, includeSpacer = false)
                 } else {
-                    MarkdownTableBasicText(
+                    MarkdownText(
                         content = content,
-                        cell = cell,
+                        node = cell,
                         style = style.copy(fontWeight = FontWeight.Bold),
-                        maxLines = Int.MAX_VALUE,
-                        overflow = TextOverflow.Clip,
                         annotatorSettings = annotatorSettings
                     )
                 }
@@ -352,12 +390,10 @@ fun ScrollableMarkdownTableRow(
 
                 } else {
 
-                    MarkdownTableBasicText(
+                    MarkdownText(
                         content = content,
-                        cell = cell,
+                        node = cell,
                         style = style,
-                        maxLines = Int.MAX_VALUE,
-                        overflow = TextOverflow.Clip,
                         annotatorSettings = annotatorSettings
                     )
 

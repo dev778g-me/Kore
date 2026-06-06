@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,12 +23,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.badge.BadgeDefaults
-import com.dev.korelibrary.components.badge.SecondaryBadge
-import com.dev.korelibrary.components.card.OutlinedCard
-import com.dev.korelibrary.components.separators.HorizontalSeparator
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.badge.BadgeDefaults
+import com.dev.kore.components.badge.SecondaryBadge
+import com.dev.kore.components.card.OutlinedCard
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.separators.HorizontalSeparator
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.regular.Eye
 import com.phosphor.icons.regular.EyeSlash
@@ -50,7 +50,10 @@ fun ComponentShowcase(
     }
 
     OutlinedCard(
-        modifier = modifier.fillMaxWidth()
+        contentPaddingValues = PaddingValues(0.dp),
+        modifier = modifier.fillMaxWidth().padding(
+            vertical = 16.dp
+        )
     ) {
 
         VerticalStack(
@@ -58,7 +61,7 @@ fun ComponentShowcase(
         ) {
             Row (
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth().padding(end = 12.dp, top = 12.dp),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -86,8 +89,10 @@ fun ComponentShowcase(
             }
 
             SecondaryBadge(content = {
-                Text("Code")
-            }, modifier = Modifier.graphicsLayer{
+                com.dev.kore.components.text.Text("Code")
+            }, modifier = Modifier
+                .padding(end = 12.dp, bottom = 12.dp)
+                .graphicsLayer{
                 alpha = 0f
             })
             AnimatedVisibility(
@@ -103,7 +108,7 @@ fun ComponentShowcase(
                 ) {
                     HorizontalSeparator()
                     CodeBlock(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
                         code = code
                     )
                 }
@@ -141,7 +146,7 @@ fun CodeSwitch (
             Icon(imageVector = icon, contentDescription = "")
         },
         content = {
-            com.dev.korelibrary.components.text.Text(content)
+            Text(content)
         }
     )
 }
