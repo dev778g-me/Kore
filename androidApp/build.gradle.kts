@@ -8,7 +8,7 @@ plugins {
 
 
 dependencies {
-    implementation(projects.korelibrary)
+    implementation(projects.kore)
     implementation(projects.composeApp)
     implementation(libs.compose.uiToolingPreview)
     implementation(libs.androidx.activity.compose)

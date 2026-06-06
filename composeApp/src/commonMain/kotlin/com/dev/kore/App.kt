@@ -1,59 +1,116 @@
 package com.dev.kore
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dev.kore.theme.AppTheme
-import com.dev.korelibrary.components.buttons.PrimaryButton
-import com.dev.korelibrary.components.buttons.SecondaryButton
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.DefaultKoreTheme
-import com.dev.korelibrary.utilities.modifiers.noRippleClickable
-import com.dev.korelibrary.utilities.modifiers.scaleClickable
+import com.dev.kore.components.appbar.Appbar
+import com.dev.kore.components.buttons.PrimaryIconButton
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.listtile.ListTile
+import com.dev.kore.components.scaffold.Scaffold
+import com.dev.kore.components.separators.HorizontalDashedSeparator
+import com.dev.kore.components.separators.HorizontalDottedDivider
+import com.dev.kore.components.separators.VerticalDashedSeparator
+import com.dev.kore.components.separators.VerticalDottedSeparator
+import com.dev.kore.components.separators.VerticalSeparator
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import com.dev.kore.themes.colors.TailwindColors
+import com.dev.kore.utilities.modifiers.clearFocusOnTap
+import com.dev.kore.utilities.modifiers.dotBorder
+import com.dev.kore.utilities.modifiers.verticalFadingEdges
+import com.phosphor.icons.PhIcons
+import com.phosphor.icons.regular.Stack
 
 
 @Composable
 fun App() {
-    DefaultKoreTheme {
-        com.dev.korelibrary.components.scaffold.Scaffold {
+    var switchState by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
+    AppTheme {
+        Scaffold(
+            appBar = {
+                Appbar(
+                    title = {
+                        Text("Blendinggg")
+                    }
+                )
+            }
+        ) {
             VerticalStack(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize().padding(it).padding(horizontal = 16.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalFadingEdges(0.1f)
+                    //.verticalScroll(state = scrollState)
+                    .clearFocusOnTap()
+                    .padding(it)
+                    .padding(horizontal = 16.dp) // The parent constraints
             ) {
-                Text(
-                    text = """
-        Alongside the library itself, Kore also includes a companion theme builder application inspired by tools like Material Theme Builder. The goal of the companion app is to simplify the process of generating themes visually without requiring manual configuration or deep knowledge of design systems. Developers can experiment with colors, typography, shapes, and component styling in real time. Currently, the companion app is available for Windows and Linux, with a web version planned for a future release.
 
-        Kore is still in active development and continues to evolve with new components, improvements, and tooling updates. The project focuses heavily on developer experience, customization, clean architecture, and making Compose Multiplatform UI development more approachable for everyone.
-    """.trimIndent()
+                //VerticalSeparator(color = Color.Red)
+                HorizontalDashedSeparator(
+                    thickness = if (switchState) 12.dp else 2.dp
                 )
-                
-                
-                val interaction1 = remember { MutableInteractionSource() }
-                PrimaryButton(
-                    interactionSource = interaction1,
-                    onClick = {},
-                    modifier = Modifier.noRippleClickable(
-                        interactionSource = interaction1, onClick = {})) {
-                    Text("hello")
-                }
 
+                HorizontalDottedDivider(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            TailwindColors.Red.swatch600, TailwindColors.Black
+                        )
+                    ),
+                    dotRadius = 4.dp
+                )
 
-
-                SecondaryButton(
-                    onClick = {}
+                PrimaryIconButton(
+                    onClick = {
+                        switchState = !switchState
+                    }
                 ){
-                    Text("hello")
+                    Icon(
+                        imageVector = PhIcons.Regular.Stack,
+                        contentDescription = null
+                    )
                 }
+//                Card(
+//                    modifier = Modifier.size(200.dp)
+//                        .dotBorder(
+//                        color = KoreTheme.colorScheme.backGroundVariant,
+//                        shape = KoreTheme.shapes.sm
+//                    )
+//                ) {}
+//
+//                    repeat(40) {
+//                        ListTile(
+//                            leading = {
+//                                Icon(
+//                                    imageVector = PhIcons.Regular.Stack,
+//                                    contentDescription = null,
+//                                    tint = KoreTheme.colorScheme.primary
+//                                )
+//                            },
+//                            title = {
+//                                Text("Path Effect")
+//                            }
+//                        )
+//                    }
+
             }
         }
     }

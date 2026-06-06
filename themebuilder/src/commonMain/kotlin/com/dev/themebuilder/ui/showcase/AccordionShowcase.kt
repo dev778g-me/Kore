@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.accordion.Accordion
-import com.dev.korelibrary.components.card.Card
-import com.dev.korelibrary.components.icon.Icon
-import com.dev.korelibrary.components.text.Text
+import com.dev.kore.components.accordion.Accordion
+import com.dev.kore.components.card.Card
+import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.text.Text
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.regular.CaretDown
 

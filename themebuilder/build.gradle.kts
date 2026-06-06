@@ -28,10 +28,12 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+
+            implementation("co.touchlab:kermit:2.0.4")
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.material)
             implementation(libs.adaptive)
-            implementation(projects.korelibrary)
+            implementation(projects.kore)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.phosphoricon.compose)

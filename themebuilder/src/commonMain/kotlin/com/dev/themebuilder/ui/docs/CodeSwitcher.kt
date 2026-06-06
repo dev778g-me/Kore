@@ -8,11 +8,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dev.korelibrary.components.stack.VerticalStack
-import com.dev.korelibrary.components.tabRow.ScrollableTabRow
-import com.dev.korelibrary.components.tabRow.Tab
-import com.dev.korelibrary.components.text.Text
-import com.dev.korelibrary.themes.KoreTheme
+import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.tabRow.ScrollableTabRow
+import com.dev.kore.components.tabRow.Tab
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
 
 enum class CodeSwitcherTab {
     Code,
