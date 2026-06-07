@@ -1,7 +1,12 @@
 package com.dev.themebuilder.ui.models
 
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreDefaults
 import com.dev.kore.themes.KoreShapes
@@ -10,6 +15,7 @@ import com.dev.kore.themes.colors.RadixColors
 import com.dev.kore.themes.colors.RadixScale
 import com.dev.kore.themes.colors.TailwindColors
 import com.dev.kore.themes.colors.TailwindSwatch
+import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape
 
 data class ColorEntry(
     val name : String,
@@ -160,12 +166,99 @@ val compactSizes = KoreSizes(
     xxs = 2.dp
 )
 
+fun getSharpShapes(
+): KoreShapes {
+    return KoreShapes(
+        xl = RectangleShape,
+        lg = RectangleShape,
+        md = RectangleShape,
+        sm = RectangleShape,
+        xs = RectangleShape
+    )
+}
+
+fun getSmallShapes(shapeType: ShapeType): KoreShapes {
+    return if (shapeType == ShapeType.SmoothCornerShape) {
+        KoreShapes(
+            xl = AbsoluteSmoothCornerShape(16.dp),
+            lg = AbsoluteSmoothCornerShape(12.dp),
+            md = AbsoluteSmoothCornerShape(8.dp),
+            sm = AbsoluteSmoothCornerShape(4.dp),
+            xs = AbsoluteSmoothCornerShape(2.dp)
+        )
+    } else {
+        KoreShapes(
+            xl = RoundedCornerShape(16.dp),
+            lg = RoundedCornerShape(12.dp),
+            md = RoundedCornerShape(8.dp),
+            sm = RoundedCornerShape(4.dp),
+            xs = RoundedCornerShape(2.dp)
+        )
+    }
+}
+fun getMediumShapes(shapeType: ShapeType): KoreShapes {
+    return if (shapeType == ShapeType.SmoothCornerShape) {
+        KoreShapes(
+            xl = AbsoluteSmoothCornerShape(34.dp),
+            lg = AbsoluteSmoothCornerShape(24.dp),
+            md = AbsoluteSmoothCornerShape(16.dp),
+            sm = AbsoluteSmoothCornerShape(12.dp),
+            xs = AbsoluteSmoothCornerShape(8.dp)
+        )
+    } else {
+        KoreShapes(
+            xl = RoundedCornerShape(34.dp),
+            lg = RoundedCornerShape(24.dp),
+            md = RoundedCornerShape(16.dp),
+            sm = RoundedCornerShape(12.dp),
+            xs = RoundedCornerShape(8.dp)
+        )
+    }
+}
+fun getLargeShapes(shapeType: ShapeType): KoreShapes {
+    return if (shapeType == ShapeType.SmoothCornerShape) {
+        KoreShapes(
+            xl = AbsoluteSmoothCornerShape(48.dp),
+            lg = AbsoluteSmoothCornerShape(32.dp),
+            md = AbsoluteSmoothCornerShape(24.dp),
+            sm = AbsoluteSmoothCornerShape(16.dp),
+            xs = AbsoluteSmoothCornerShape(12.dp)
+        )
+    } else {
+        KoreShapes(
+            xl = RoundedCornerShape(48.dp),
+            lg = RoundedCornerShape(32.dp),
+            md = RoundedCornerShape(24.dp),
+            sm = RoundedCornerShape(16.dp),
+            xs = RoundedCornerShape(12.dp)
+        )
+    }
+}
+
+fun getCircleShapes(): KoreShapes {
+    return KoreShapes(
+        xl = CircleShape,
+        lg = CircleShape,
+        md = CircleShape,
+        sm = CircleShape,
+        xs = CircleShape
+    )
+}
+
+
 
 enum class ShapeType{
     RoundedRectangle,
     SmoothCornerShape,
 }
 
+enum class ShapeRadius{
+    Sharp,
+    Small,
+    Medium,
+    Large,
+    Circle
+}
 enum class PrimaryColorSource{
     Radix,
     Tailwind,
@@ -173,15 +266,15 @@ enum class PrimaryColorSource{
 
 fun ShapeType.toKoreShapes(): KoreShapes {
     val shape = when (this) {
-        ShapeType.RoundedRectangle -> androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
-        ShapeType.SmoothCornerShape -> com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape(8.dp)
+        ShapeType.RoundedRectangle -> RoundedCornerShape(8.dp)
+        ShapeType.SmoothCornerShape -> AbsoluteSmoothCornerShape(8.dp)
     }
     return KoreShapes(
-        xl = shape,
-        lg = shape,
-        md = shape,
-        sm = shape,
-        xs = shape
+        xl = shape.copy(CornerSize(34.dp)),
+        lg = shape.copy(all = CornerSize(24.dp)),
+        md = shape.copy(all = CornerSize(16.dp)),
+        sm = shape.copy(all = CornerSize(12.dp)),
+        xs = shape.copy(all = CornerSize(8.dp))
     )
 }
 

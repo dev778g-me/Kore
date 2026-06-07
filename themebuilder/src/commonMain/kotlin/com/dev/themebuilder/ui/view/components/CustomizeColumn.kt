@@ -21,11 +21,13 @@ import com.dev.kore.components.dropdown.DropDown
 import com.dev.kore.components.dropdown.DropDownItem
 import com.dev.kore.components.listtile.ListTile
 import com.dev.kore.components.badge.ErrorBadge
+import com.dev.kore.components.icon.Icon
 import com.dev.kore.components.stack.VerticalStack
 import com.dev.kore.components.text.Text
 import com.dev.kore.themes.KoreTheme
 import com.dev.kore.utilities.extensions.color
 import com.dev.themebuilder.ui.models.PrimaryColorSource
+import com.dev.themebuilder.ui.models.ShapeRadius
 import com.dev.themebuilder.ui.models.Sizes
 import com.dev.themebuilder.ui.models.neutralColorsList
 import com.dev.themebuilder.ui.models.primaryColorsList
@@ -47,9 +49,11 @@ fun CustomizeColumn(
     val complementary by viewModel.currentComplementaryColor.collectAsStateWithLifecycle()
     val tailwindComplementary by viewModel.currentTailwindComplementaryColor.collectAsStateWithLifecycle()
     val sizes by viewModel.currentSize.collectAsStateWithLifecycle()
-    val shape by viewModel.provideShape .collectAsStateWithLifecycle()
+    val shapeType by viewModel.provideShapeType .collectAsStateWithLifecycle()
+    val shapeRadius by viewModel.shaprRadius.collectAsStateWithLifecycle()
 
-    var showShapes by remember { mutableStateOf(false) }
+    var showShapeType by remember { mutableStateOf(false) }
+    var showShapeRadius by remember { mutableStateOf(false) }
     var showSizes by remember { mutableStateOf(false) }
     var showPrimary by remember { mutableStateOf(false) }
     var showPrimarySource by remember { mutableStateOf(false) }
@@ -149,7 +153,7 @@ fun CustomizeColumn(
                 showPrimarySource = true
             },
             trailing = {
-                com.dev.kore.components.icon.Icon(
+                Icon(
                     imageVector = if (isTailwind) TailwindCss else RadixLogo,
                     contentDescription = "",
                     modifier = Modifier.size(18.dp)
@@ -167,7 +171,7 @@ fun CustomizeColumn(
                         PrimaryColorSource.entries.forEach { colorSource ->
                             DropDownItem(
                                 leading = {
-                                    com.dev.kore.components.icon.Icon(
+                                    Icon(
                                         imageVector = if (colorSource == PrimaryColorSource.Tailwind) TailwindCss else RadixLogo,
                                         contentDescription = "",
                                         modifier = Modifier.size(12.dp)
@@ -351,10 +355,10 @@ fun CustomizeColumn(
         )
 
         CustomizeColumnItem(
-            overlineText = "Shape",
-            titleText = shape.name,
+            overlineText = "ShapeType",
+            titleText = shapeType.name,
             onClick = {
-                showShapes = true
+                showShapeType = true
             },
             trailing = {
                 DropDown(
@@ -362,9 +366,9 @@ fun CustomizeColumn(
                         width = 2.dp,
                         color = KoreTheme.colorScheme.backGroundVariant
                     ),
-                    expanded = showShapes,
+                    expanded = showShapeType,
                     onDismissRequest = {
-                        showShapes = false
+                        showShapeType = false
                     },
                     content = {
                         ShapeType.entries.forEach {
@@ -373,11 +377,13 @@ fun CustomizeColumn(
                                     Text(it.name)
                                 },
                                 onClick = {
+                                    viewModel.changeShapeRadius(shapeRadius = shapeRadius, shapeType = it)
+
                                     when (it) {
                                         ShapeType.RoundedRectangle -> viewModel.changeRoundedRect()
                                         ShapeType.SmoothCornerShape -> viewModel.changeSquircle()
                                     }
-                                    showShapes = false
+                                    showShapeType = false
                                 },
                                 trailing = {
                                     if (it == ShapeType.SmoothCornerShape) {
@@ -391,6 +397,38 @@ fun CustomizeColumn(
             }
         )
 
+        CustomizeColumnItem(
+            overlineText = "ShapeRadius",
+            titleText = "$shapeRadius",
+            onClick = {
+                showShapeRadius = true
+            },
+            trailing = {
+                DropDown(
+                    borderStroke = BorderStroke(
+                        width = 2.dp,
+                        color = KoreTheme.colorScheme.backGroundVariant
+                    ),
+                    expanded = showShapeRadius,
+                    onDismissRequest = {
+                        showShapeRadius = false
+                    },
+                    content = {
+                        ShapeRadius.entries.forEach {
+                            DropDownItem(
+                                onClick = {
+                                    showShapeRadius = false
+                                    viewModel.changeShapeRadius(shapeRadius = it, shapeType = shapeType)
+                                },
+                                title = {
+                                    Text(it.name)
+                                }
+                            )
+                        }
+                    }
+                )
+            }
+        )
         CustomizeColumnItem(
             overlineText = "Spacing",
             titleText = sizes.name,

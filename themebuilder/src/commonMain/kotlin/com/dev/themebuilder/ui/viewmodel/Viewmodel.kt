@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import co.touchlab.kermit.Logger
 import com.dev.kore.themes.KoreColorScheme
 import com.dev.kore.themes.KoreDefaults
+import com.dev.kore.themes.KoreShapes
 import com.dev.kore.themes.KoreSizes
 import com.dev.kore.themes.colors.RadixColors
 import com.dev.kore.themes.colors.TailwindColors
@@ -11,6 +12,7 @@ import com.dev.kore.themes.colors.blend
 import com.dev.themebuilder.ui.models.ColorEntry
 import com.dev.themebuilder.ui.models.balancedSizes
 import com.dev.themebuilder.ui.models.PrimaryColorSource
+import com.dev.themebuilder.ui.models.ShapeRadius
 import com.dev.themebuilder.ui.models.Sizes
 import com.dev.themebuilder.ui.models.airySizes
 import com.dev.themebuilder.ui.models.compactSizes
@@ -18,6 +20,10 @@ import com.dev.themebuilder.ui.models.neutralColorsList
 import com.dev.themebuilder.ui.models.primaryColorsList
 import com.dev.themebuilder.ui.models.ShapeType
 import com.dev.themebuilder.ui.models.TailWindColorEntry
+import com.dev.themebuilder.ui.models.getLargeShapes
+import com.dev.themebuilder.ui.models.getMediumShapes
+import com.dev.themebuilder.ui.models.getSharpShapes
+import com.dev.themebuilder.ui.models.getSmallShapes
 import com.dev.themebuilder.ui.models.lowContrastColor
 import com.dev.themebuilder.ui.models.tailWindPrimaryColorsList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,8 +62,8 @@ class ThemeViewModel : ViewModel() {
     private var _currentSize = MutableStateFlow(Sizes.Balanced)
     val currentSize : StateFlow<Sizes> = _currentSize
 
-    private var _currentShape = MutableStateFlow(ShapeType.RoundedRectangle)
-    var currentShape : StateFlow<ShapeType> = _currentShape
+    private var _currentShapeType = MutableStateFlow(ShapeType.RoundedRectangle)
+    var currentShapeType : StateFlow<ShapeType> = _currentShapeType
 
 
 
@@ -448,15 +454,15 @@ fun provideLightComplementaryColors(
         provideDarkNeutralColors(seedColor = seedColor)
     }
 
-    private var _provideShape = MutableStateFlow(ShapeType.RoundedRectangle)
-    val provideShape: StateFlow<ShapeType> = _provideShape
+    private var _provideShapeType = MutableStateFlow(ShapeType.RoundedRectangle)
+    val provideShapeType: StateFlow<ShapeType> = _provideShapeType
 
     fun changeRoundedRect(){
-        _provideShape.value = ShapeType.RoundedRectangle
+        _provideShapeType.value = ShapeType.RoundedRectangle
     }
 
     fun changeSquircle(){
-        _provideShape.value = ShapeType.SmoothCornerShape
+        _provideShapeType.value = ShapeType.SmoothCornerShape
     }
 
     fun changePrimaryColorSource(primaryColorSource: PrimaryColorSource){
@@ -499,6 +505,36 @@ fun provideLightComplementaryColors(
         _currentSize.value = Sizes.Balanced
     }
 
+
+
+     private var _shapeRadius = MutableStateFlow<ShapeRadius>(ShapeRadius.Medium)
+     val shaprRadius : StateFlow<ShapeRadius> = _shapeRadius
+
+
+    private var _currentShape = MutableStateFlow(KoreDefaults.defaultShapes)
+    val currentShape : StateFlow<KoreShapes> = _currentShape
+
+    fun changeShapeRadius(
+        shapeRadius: ShapeRadius,
+        shapeType: ShapeType
+    ){
+        _shapeRadius.value = shapeRadius
+
+        when (shapeRadius) {
+            ShapeRadius.Sharp -> _currentShape.value = getSharpShapes()
+            ShapeRadius.Small -> _currentShape.value =
+                getSmallShapes(shapeType = shapeType)
+
+            ShapeRadius.Medium -> _currentShape.value =
+                getMediumShapes(shapeType = shapeType)
+
+            ShapeRadius.Large -> _currentShape.value =
+                getLargeShapes(shapeType = shapeType)
+
+            ShapeRadius.Circle -> _currentShape.value =
+                getLargeShapes(shapeType = shapeType)
+        }
+    }
 
     /**
      * Theme Exporting
