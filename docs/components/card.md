@@ -56,8 +56,10 @@ The Card exposes several parameters to customize its elevation, shape, internal 
 |-----------|------|---------|-------------|
 | `modifier` | `Modifier` | `Modifier` | Applied to the root container of the card. |
 | `shape` | `Shape` | `CardDefaults.defaultCardShape` | Defines the clipping shape of the card (typically rounded corners). |
-| `colors` | `CardColors` | `CardDefaults.defaultCardColors()` | The resolved colors used for the background and content of the card. |
+| `containerColor` | `Color` | `CardDefaults.defaultCardContainerColor` | The background color of the card container. |
+| `contentColor` | `Color` | `CardDefaults.defaultCardContentColor` | The default color applied to content inside the card. |
 | `elevation` | `Dp` | `CardDefaults.defaultCardElevation` | Controls the shadow cast by the card to communicate depth. |
+| `contentAlignment` | `Alignment` | `Alignment.TopStart` | The vertical and horizontal alignment of content inside the card. |
 | `contentPaddingValues` | `PaddingValues` | `CardDefaults.defaultCardContentPaddingValues` | The spacing applied internally between the card boundaries and the content. |
 | `content` | `@Composable ColumnScope.() -> Unit` | — | The main content. Elements placed here are arranged vertically. |
 
@@ -99,9 +101,11 @@ The `OutlinedCard` shares the same anatomy as the standard `Card`, but introduce
 |-----------|------|---------|-------------|
 | `modifier` | `Modifier` | `Modifier` | Applied to the root container of the card. |
 | `shape` | `Shape` | `CardDefaults.defaultCardShape` | Defines the clipping shape of the card. |
-| `colors` | `CardColors` | `CardDefaults.defaultOutlinedCardColors()` | The resolved colors. Typically uses a transparent or surface-matched background. |
+| `containerColor` | `Color` | `CardDefaults.defaultOutlinedContainerColor` | The background color of the outlined card container. |
+| `contentColor` | `Color` | `CardDefaults.defaultOutlinedContentColor` | The default color applied to content inside the card. |
 | `borderStroke` | `BorderStroke` | `CardDefaults.defaultOutlinedBorderStroke` | The stroke drawn around the perimeter of the card container. |
 | `elevation` | `Dp` | `CardDefaults.defaultCardElevation` | Controls shadow. Usually left at 0.dp for outlined variants. |
+| `contentAlignment` | `Alignment` | `Alignment.TopStart` | The vertical and horizontal alignment of content inside the card. |
 | `contentPaddingValues` | `PaddingValues` | `CardDefaults.defaultCardContentPaddingValues` | The spacing applied internally. |
 | `content` | `@Composable ColumnScope.() -> Unit` | — | The main content. |
 
