@@ -194,8 +194,7 @@ object SwitchDefaults{
         (scaleIn() + fadeIn()) togetherWith (scaleOut() + fadeOut())
     }
 
-    val defaultTrackShape : Shape
-        @Composable get() = KoreTheme.shapes.md
+    val defaultTrackShape : Shape = CircleShape
 
     val defaultThumbShape : Shape = CircleShape
     @Composable
