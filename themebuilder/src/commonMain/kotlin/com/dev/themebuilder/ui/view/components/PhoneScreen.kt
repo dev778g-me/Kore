@@ -1,5 +1,6 @@
 package com.dev.themebuilder.ui.view.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -158,27 +159,30 @@ fun PhoneUI(
                 )
             },
             navigationBar = {
-                NavigationBar(
-                    modifier = Modifier.padding(bottom = 12.dp),
-                    content = {
-                        bottomNavItems.forEachIndexed { index, nav ->
-                            val isSelected = index == selectedIndex
-                            NavigationBarItem(
-                                icon = {
-                                    Icon(
-                                        imageVector = if (isSelected) nav.selectedIcon else nav.unSelectedIcon,
-                                        contentDescription = nav.label
-                                    )
-                                },
-                                label = { Text(text = nav.label) },
-                                selected = isSelected,
-                                onClick = {
-                                    selectedIndex = index
-                                }
-                            )
-                        }
-                    }
-                )
+               Box(){
+
+
+                   NavigationBar(
+                       content = {
+                           bottomNavItems.forEachIndexed { index, nav ->
+                               val isSelected = index == selectedIndex
+                               NavigationBarItem(
+                                   icon = {
+                                       Icon(
+                                           imageVector = if (isSelected) nav.selectedIcon else nav.unSelectedIcon,
+                                           contentDescription = nav.label
+                                       )
+                                   },
+                                   label = { Text(text = nav.label) },
+                                   selected = isSelected,
+                                   onClick = {
+                                       selectedIndex = index
+                                   }
+                               )
+                           }
+                       })
+
+               }
             }
         ) {
             Column(

@@ -29,9 +29,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import androidx.savedstate.SavedState
@@ -86,7 +88,16 @@ fun BuilderNavHost(
 
     val docsScrollState = rememberScrollState()
 
-    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
+
+    val navBackStackEntry = navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry.value?.destination
+    val selectedTabIndex = when {
+        currentDestination?.hasRoute<AppRoute.Home>() == true -> 0
+        currentDestination?.hasRoute<AppRoute.Create>() == true -> 1
+        currentDestination?.hasRoute<AppRoute.Components>() == true -> 2
+        currentDestination?.hasRoute<AppRoute.ChangeLog>() == true -> 3
+        else -> 0
+    }
 
     val tabBarEntries = listOf(
         BuilderTabItem("Home", PhIcons.Filled.HouseFill, PhIcons.Regular.House) {
@@ -126,7 +137,6 @@ fun BuilderNavHost(
                                 Tab(
                                     isSelected = isSelected,
                                     onClick = {
-                                        selectedTabIndex = index
                                         item.onClick?.invoke()
                                     },
                                     content = {
