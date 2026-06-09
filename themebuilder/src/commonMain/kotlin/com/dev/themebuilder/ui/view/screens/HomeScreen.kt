@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.dev.kore.components.buttons.OutlinedButton
 import com.dev.kore.components.buttons.PrimaryButton
@@ -36,8 +37,11 @@ import com.phosphor.icons.regular.GithubLogo
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onQuickStart : () -> Unit
 ){
+    val uriHandler = LocalUriHandler.current
+
     VerticalStack(
         spacing = KoreTheme.sizes.sm,
         modifier = modifier.fillMaxSize().padding(
@@ -59,13 +63,17 @@ fun HomeScreen(
 
         HorizontalStack {
             PrimaryButton(
-                onClick = {}
+                onClick = {
+                    onQuickStart()
+                }
             ){
                 Text("QuickStart")
             }
 
             OutlinedButton(
-                onClick = {}
+                onClick = {
+                    uriHandler.openUri("https://github.com/dev778g-me/Kore")
+                }
             ){
                 com.dev.kore.components.icon.Icon(imageVector = PhIcons.Regular.GithubLogo, contentDescription = "", modifier = Modifier.padding(end = 4.dp))
                 Text("Github")

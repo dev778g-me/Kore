@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.dev.kore.components.card.Card
 import com.dev.themebuilder.ui.showcase.AllShowCase
 import com.dev.themebuilder.ui.view.components.CustomizeColumn
@@ -46,11 +49,11 @@ fun ThemeCreationScreen(
                 CustomizeColumn( viewModel = viewModel)
             }
 
-            if (currentWindowSizeClass.isAtLeastBreakpoint(
-                    widthDpBreakpoint = WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND,
-                    heightDpBreakpoint = WindowSizeClass.HEIGHT_DP_EXPANDED_LOWER_BOUND
-                )
-            ) {
+            val windowWidthDp = with(LocalDensity.current) {
+                LocalWindowInfo.current.containerSize.width.toDp()
+            }
+
+            if (windowWidthDp >= 1200.dp) {
                 PhoneScreen()
             } else {
                 AllShowCase()

@@ -74,7 +74,7 @@ fun PhoneScreen (
         Box(
             modifier = modifier.border(
                 width = 6.dp,
-                shape = RoundedCornerShape(24.dp),
+                shape = KoreTheme.shapes.xl,
                 color = KoreTheme.colorScheme.backGroundVariant
             )
 
@@ -159,6 +159,7 @@ fun PhoneUI(
             },
             navigationBar = {
                 NavigationBar(
+                    modifier = Modifier.padding(bottom = 12.dp),
                     content = {
                         bottomNavItems.forEachIndexed { index, nav ->
                             val isSelected = index == selectedIndex

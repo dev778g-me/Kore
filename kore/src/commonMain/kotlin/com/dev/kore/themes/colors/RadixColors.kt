@@ -3,6 +3,7 @@
 
 package com.dev.kore.themes.colors
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 
@@ -1023,6 +1024,7 @@ object RadixColors {
     }
 }
 
+@Immutable
 data class RadixScale(
     val step1: Color,
     val step2: Color,

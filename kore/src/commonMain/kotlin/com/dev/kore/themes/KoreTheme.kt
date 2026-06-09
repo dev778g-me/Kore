@@ -29,6 +29,8 @@ data class KoreColorScheme(
     val onSurface: Color,
     val surfaceBright: Color,
     val onSurfaceBright: Color,
+    val disabled: Color,
+    val onDisabled: Color,
     val primary: Color,
     val onPrimary: Color,
     val primaryContainer: Color,
@@ -41,8 +43,6 @@ data class KoreColorScheme(
     val onSuccess: Color,
     val error: Color,
     val onError: Color,
-    val disabled: Color,
-    val onDisabled: Color,
     val transparent: Color,
 )
 

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
 import com.dev.kore.themes.LocalContentColor
 import com.dev.kore.themes.LocalTextStyle
+import com.dev.kore.utilities.extensions.color
 
 
 // the base text field which other text field with style will implement
@@ -97,6 +99,14 @@ internal fun BaseTextField(
         }
     )
 
+    val labelColor by animateColorAsState(
+        targetValue = textFieldColors.labelColor(
+            enabled = enabled,
+            error = isError,
+            isFocused = isFocused
+        )
+    )
+
     CompositionLocalProvider(
         LocalTextStyle provides KoreTheme.typography.title3,
         LocalContentColor provides textFieldColors.contentColor(
@@ -112,7 +122,7 @@ internal fun BaseTextField(
                CompositionLocalProvider(
                    values = arrayOf(
                        LocalTextStyle provides KoreTheme.typography.title2,
-                       LocalContentColor provides KoreTheme.colorScheme.onBackGround
+                       LocalContentColor provides labelColor
                    )
                ) {
                    Box(
@@ -199,8 +209,7 @@ internal fun BaseTextField(
 
 }
 
-// decoration box for the text field <idk i am so dumb idk why i am doing this>
-@OptIn(ExperimentalSharedTransitionApi::class)
+// decoration box for the text field
 @Composable
 fun DecorationBox(
     innerTextField : @Composable () -> Unit,
@@ -258,7 +267,12 @@ fun DecorationBox(
         ) {
 
             if (shouldShowPlaceholder && placeholder != null) {
-                placeholder()
+                CompositionLocalProvider(
+                    value = LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant
+                ) {
+
+                    placeholder()
+                }
 
             }
             CompositionLocalProvider(
@@ -383,7 +397,7 @@ object TextFieldDefaults {
         unFocusedContainerColor: Color = KoreTheme.colorScheme.transparent,
         errorContainerColor: Color = KoreTheme.colorScheme.transparent,
         disabledContainerColor: Color = KoreTheme.colorScheme.disabled,
-        labelColor : Color = KoreTheme.colorScheme.onBackGround.copy(alpha = 0.7f),
+        labelColor : Color = KoreTheme.colorScheme.onBackGround,
         errorLabelColor : Color = KoreTheme.colorScheme.error,
         disabledLabelColor: Color = KoreTheme.colorScheme.disabled,
         unFocusedIndicatorColor : Color = KoreTheme.colorScheme.backGroundVariant,
@@ -394,11 +408,11 @@ object TextFieldDefaults {
         unFocusedTextColor: Color = KoreTheme.colorScheme.onBackGround,
         errorTextColors: Color = KoreTheme.colorScheme.onBackGround,
         disabledTextColor: Color = KoreTheme.colorScheme.disabled,
-        unFocusedLeadingIconColor: Color = KoreTheme.colorScheme.onBackGround,
+        unFocusedLeadingIconColor: Color = KoreTheme.colorScheme.onBackGroundVariant,
         focusedLeadingIconColor: Color = KoreTheme.colorScheme.onBackGround,
         errorLeadingIconColor: Color = KoreTheme.colorScheme.error,
         disabledLeadingIconColor: Color = KoreTheme.colorScheme.onDisabled,
-        unFocusedTrailingIconColor: Color  = KoreTheme.colorScheme.onBackGround,
+        unFocusedTrailingIconColor: Color  = KoreTheme.colorScheme.onBackGroundVariant,
         focusedTrailingIconColor : Color = KoreTheme.colorScheme.onBackGround,
         errorTrailingIconColor : Color = KoreTheme.colorScheme.error,
         disabledTrailingIconColor : Color = KoreTheme.colorScheme.onDisabled,
@@ -452,9 +466,9 @@ object TextFieldDefaults {
 
     val minimumTextFieldWidth = 300.dp
 
-    val maxLeadingIconHeight = 42.dp
+    val maxLeadingIconHeight = 48.dp
 
-    val maxTrailingIconHeight = 42.dp
+    val maxTrailingIconHeight = 48.dp
 
 
     val labelPaddingValues : PaddingValues = PaddingValues(
@@ -605,6 +619,19 @@ private fun TextFieldColors.containerColor(
         error -> this.errorContainerColor
         isFocused -> this.focusedContainerColor
         else -> this.unFocusedContainerColor
+    }
+}
+
+private fun TextFieldColors.labelColor(
+    enabled: Boolean,
+    error: Boolean,
+    isFocused: Boolean
+): Color{
+    return when {
+        !enabled -> this.disabledLabelColor
+        error -> this.errorLabelColor
+        isFocused -> this.labelColor
+        else -> this.labelColor
     }
 }
 

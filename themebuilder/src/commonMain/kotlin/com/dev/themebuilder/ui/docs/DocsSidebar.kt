@@ -33,9 +33,7 @@ fun DocsSidebar(
 ) {
     Card (
        modifier = modifier,
-        colors = CardDefaults.defaultCardColors(
-            containerColor = KoreTheme.colorScheme.background
-        )
+        containerColor = KoreTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
@@ -60,20 +58,20 @@ private fun NavSection(item: NavItem, selectedPath: DocRoute, onItemClick: (DocR
                 text = item.title,
                 textStyle = KoreTheme.typography.label1.semiBold(),
                 color = KoreTheme.colorScheme.onBackGround,
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
             )
             item.children.forEach { child ->
                 if (child.children.isEmpty()) {
-                    NavLinkItem(title = child.title, path = child.route, selectedPath = selectedPath, onItemClick = onItemClick, indentDp = 12)
+                    NavLinkItem(title = child.title, path = child.route, selectedPath = selectedPath, onItemClick = onItemClick, indentDp = 8)
                 } else {
                     Text(
                         text = child.title,
                         textStyle = KoreTheme.typography.label2,
                         color = KoreTheme.colorScheme.onBackGround.copy(alpha = 0.9f),
-                        modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 8.dp)
+                        modifier = Modifier.padding(start = 8.dp, top = 12.dp, bottom = 4.dp)
                     )
                     child.children.forEach { grandchild ->
-                        NavLinkItem(title = grandchild.title, path = grandchild.route, selectedPath =selectedPath , onItemClick = onItemClick, indentDp = 24)
+                        NavLinkItem(title = grandchild.title, path = grandchild.route, selectedPath =selectedPath , onItemClick = onItemClick, indentDp = 8)
                     }
                 }
             }
@@ -183,12 +181,13 @@ fun getNavItems(): List<NavItem> = listOf(
         ),
         route =DocRoute.Overview
     ),
-    NavItem(
-        title = "Extensions",
-        children = listOf(
-            NavItem(title = "ModifierExtensions" , route = DocRoute.ModifierExtension),
-            NavItem(title = "Typography", route = DocRoute.TypographyExtensions)
-        ),
-        route = DocRoute.Overview
-    )
+            NavItem(
+                title = "Extensions",
+                children = listOf(
+                    NavItem(title = "ModifierExtensions" , route = DocRoute.ModifierExtension),
+                    NavItem(title = "Typography", route = DocRoute.TypographyExtensions),
+                    NavItem(title = "Colors", route = DocRoute.ColorsExtensions)
+                ),
+                route = DocRoute.Overview
+            )
 )

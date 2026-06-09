@@ -15,18 +15,18 @@ fun BuilderTheme(
     viewModel: ThemeViewModel,
     content: @Composable () -> Unit,
 ) {
-    val provideShape by viewModel.provideShape.collectAsStateWithLifecycle()
+    val provideShape by viewModel.provideShapeType.collectAsStateWithLifecycle()
     val provideSizes by viewModel.provideSizes.collectAsStateWithLifecycle()
     val builderLightScheme by viewModel.currentLightColorScheme.collectAsStateWithLifecycle()
     val builderDarkScheme by viewModel.currentDarkColorScheme.collectAsStateWithLifecycle()
 
-    val shape = if (provideShape == ShapeType.RoundedRectangle) KoreDefaults.defaultShapes else KoreDefaults.defaultSmoothCornerShapes
+    val shape by viewModel.currentShape.collectAsStateWithLifecycle()
 
-        KoreTheme(
-            shapes = shape,
-            sizes = provideSizes,
-            content = content,
-            colorScheme = if (isDark) builderDarkScheme else builderLightScheme
-        )
+    KoreTheme(
+        shapes = shape,
+        sizes = provideSizes,
+        content = content,
+        colorScheme = if (isDark) builderDarkScheme else builderLightScheme
+    )
 
 }

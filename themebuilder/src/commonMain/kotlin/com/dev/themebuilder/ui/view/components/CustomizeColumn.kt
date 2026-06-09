@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -22,6 +23,7 @@ import com.dev.kore.components.dropdown.DropDownItem
 import com.dev.kore.components.listtile.ListTile
 import com.dev.kore.components.badge.ErrorBadge
 import com.dev.kore.components.icon.Icon
+import com.dev.kore.components.listtile.ListTileDefaults
 import com.dev.kore.components.stack.VerticalStack
 import com.dev.kore.components.text.Text
 import com.dev.kore.themes.KoreTheme
@@ -59,6 +61,7 @@ fun CustomizeColumn(
     var showPrimarySource by remember { mutableStateOf(false) }
     var showNeutralColors by remember { mutableStateOf(false) }
     var showComplementaryColors by remember { mutableStateOf(false) }
+    var isRectSelected by remember(shapeRadius) { mutableStateOf(shapeRadius == ShapeRadius.Sharp)  }
 
     val isTailwind = primarySource == PrimaryColorSource.Tailwind
 
@@ -244,7 +247,11 @@ fun CustomizeColumn(
 
         CustomizeColumnItem(
             overlineText = "Complementary",
-            titleText = if (isTailwind) tailwindComplementary.complementaryName else complementary.complementaryName!!,
+            titleText = if(complementary == primary && tailwindComplementary == tailWindPrimary){
+                if (isTailwind) tailwindComplementary.complementaryName else complementary.complementaryName!!
+            }else {
+                if (isTailwind) tailwindComplementary.name else complementary.name
+            },
             onClick = { showComplementaryColors = true },
             trailing = {
                 Box(
@@ -355,6 +362,7 @@ fun CustomizeColumn(
         )
 
         CustomizeColumnItem(
+            enabled = !isRectSelected,
             overlineText = "ShapeType",
             titleText = shapeType.name,
             onClick = {
@@ -398,6 +406,7 @@ fun CustomizeColumn(
         )
 
         CustomizeColumnItem(
+
             overlineText = "ShapeRadius",
             titleText = "$shapeRadius",
             onClick = {
@@ -478,16 +487,26 @@ fun CustomizeColumnItem(
     titleText : String,
     onClick : ()-> Unit,
     trailing : @Composable ()-> Unit,
+    enabled : Boolean = true,
 ){
     ListTile(
-        onClick = {
-            onClick()
-        },
-        modifier = Modifier.border(
-            width = 2.dp,
-            shape = KoreTheme.shapes.md,
-            color = KoreTheme.colorScheme.backGroundVariant
+
+        colors = ListTileDefaults.defaultListTileColors(
+            containerColor =if (enabled)  KoreTheme.colorScheme.surface else KoreTheme.colorScheme.disabled,
+            overlineContentColor = if (enabled)  KoreTheme.colorScheme.onBackGroundVariant else KoreTheme.colorScheme.onDisabled,
+            titleContentColor =  if (enabled)  KoreTheme.colorScheme.onBackGround else KoreTheme.colorScheme.onDisabled,
         ),
+
+        modifier = Modifier
+            .clip(KoreTheme.shapes.md)
+            .border(
+                width = 2.dp,
+                shape = KoreTheme.shapes.md,
+                color = if (enabled) KoreTheme.colorScheme.backGroundVariant else KoreTheme.colorScheme.disabled
+            ).clickable(
+                onClick = onClick,
+                enabled = enabled
+            ),
         overline = {
             Text(overlineText)
         },

@@ -400,34 +400,34 @@ fun VerticalDashedSeparator(
  * A vertical dotted line  that is used to separate content
  *
  * @param modifier the [Modifier] applied to the layout
- * @param thickness the thickness of the separator in [Dp]
+ * @param dotRadius the radius of the dots in separators [Dp]
  * @param dotGap the gap between each gap [Dp]
  * @param color the color of the dot across separator [Color]
  * */
 @Composable
 fun VerticalDottedSeparator(
     modifier: Modifier = Modifier,
-    thickness : Dp = 2.dp,
+    dotRadius : Dp = 2.dp,
     dotGap : Dp = 8.dp,
     color: Color= SeparatorDefaults.defaultSeparatorColor,
 ){
 
     val density = LocalDensity.current
 
-    val pathEffect = remember(dotGap, thickness,density){
+    val pathEffect = remember(dotGap, dotRadius,density){
         with(density){
             PathEffect.dashPathEffect(
                 phase = 0f,
-                intervals = floatArrayOf(0f, dotGap.toPx() + thickness.toPx())
+                intervals = floatArrayOf(0f, dotGap.toPx() + dotRadius.toPx())
             )
         }
     }
 
     Canvas(
         modifier = modifier.fillMaxHeight()
-            .width(thickness)
+            .width(dotRadius)
     ){
-        val diameterPx = thickness.toPx()
+        val diameterPx = dotRadius.toPx()
         drawLine(
             cap = StrokeCap.Round,
             color = color,
@@ -443,34 +443,34 @@ fun VerticalDottedSeparator(
  * A vertical dotted line  that is used to separate content
  *
  * @param modifier the [Modifier] applied to the layout
- * @param thickness the thickness of the separator in [Dp]
+ * @param dotRadius the radius of the dots in separators [Dp]
  * @param dotGap the gap between each gap [Dp]
  * @param brush the gradient color of the dot across separator [Color]
  * */
 @Composable
 fun VerticalDottedSeparator(
     modifier: Modifier = Modifier,
-    thickness : Dp = 2.dp,
+    dotRadius : Dp = 2.dp,
     dotGap : Dp = 8.dp,
     brush: Brush,
 ){
 
     val density = LocalDensity.current
 
-    val pathEffect = remember(dotGap, thickness,density){
+    val pathEffect = remember(dotGap, dotRadius,density){
         with(density){
             PathEffect.dashPathEffect(
                 phase = 0f,
-                intervals = floatArrayOf(0f, dotGap.toPx() + thickness.toPx())
+                intervals = floatArrayOf(0f, dotGap.toPx() + dotRadius.toPx())
             )
         }
     }
 
     Canvas(
         modifier = modifier.fillMaxHeight()
-            .width(thickness)
+            .width(dotRadius)
     ){
-        val diameterPx = thickness.toPx()
+        val diameterPx = dotRadius.toPx()
         drawLine(
             cap = StrokeCap.Round,
             brush = brush,

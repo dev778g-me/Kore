@@ -183,10 +183,16 @@ fun DocsScreen(
                     composable<DocRoute.Installation> { ScrollableDocContainer({ InstallationDocs() }) }
                     composable<DocRoute.Quickstart> { ScrollableDocContainer({ QuickstartDocs() }) }
                    composable<DocRoute.ModifierExtension> {
+                        ScrollableDocContainer({ ModifierExtensionDocs() })
+                    }
+                   composable<DocRoute.TypographyExtensions> {
+                        ScrollableDocContainer({ TextStyleExtensionDocs() })
+                    }
+                   composable<DocRoute.ColorsExtensions> {
+                        ScrollableDocContainer({ ColorExtensionDocs() })
+                    }
 
-                   }
-
-                    composable<DocRoute.Fallback> {
+                     composable<DocRoute.Fallback> {
                         ScrollableDocContainer({
                             DefaultMarkdownParser(
                                 content = "# Coming Soon\n\nDocumentation for this component is being developed."

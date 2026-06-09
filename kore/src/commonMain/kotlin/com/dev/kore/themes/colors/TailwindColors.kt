@@ -1,6 +1,7 @@
 package com.dev.kore.themes.colors
 
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 object TailwindColors {
@@ -353,7 +354,7 @@ val Slate = TailwindSwatch(
     val Transparent = Color(0x00000000)
 }
 
-
+@Immutable
 data class TailwindSwatch(
     val swatch50: Color,
     val swatch100: Color,

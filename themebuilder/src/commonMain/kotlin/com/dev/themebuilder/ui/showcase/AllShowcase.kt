@@ -13,35 +13,7 @@ fun AllShowCase(
     modifier: Modifier = Modifier
 ){
     ShowCase {
-        item {
-            VerticalStack {
-                PrimaryButton(
-                    onClick = {
 
-                    }
-                ){
-                    com.dev.kore.components.text.Text(
-                        "Primary"
-                    )
-                }
-                PrimaryButton(
-
-                 colors = com.dev.kore.components.buttons.ButtonDefaults.primaryButtonColors(
-                     containerColor = KoreTheme.colorScheme.complementary,
-                     contentColor = KoreTheme.colorScheme.onComplementary
-
-                 ),
-                    onClick = {
-
-                    }
-                ){
-                    com.dev.kore.components.text.Text(
-                        "Complementary"
-                    )
-                }
-            }
-
-        }
         item {
             ColorsShowCase()
         }

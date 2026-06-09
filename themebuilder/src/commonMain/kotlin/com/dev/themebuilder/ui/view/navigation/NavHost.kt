@@ -1,5 +1,20 @@
 package com.dev.themebuilder.ui.view.navigation
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -36,7 +51,6 @@ import com.dev.themebuilder.ui.docs.ChangelogDocs
 import com.dev.themebuilder.ui.docs.DocRoute
 import com.dev.themebuilder.ui.docs.DocsScreen
 import com.dev.themebuilder.ui.models.ExportUtils
-import com.dev.themebuilder.ui.models.toKoreShapes
 import com.dev.themebuilder.ui.view.screens.HomeScreen
 import com.dev.themebuilder.ui.view.screens.ThemeCreationScreen
 import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
@@ -97,6 +111,7 @@ fun BuilderNavHost(
             val lightColorScheme by viewModel.currentLightColorScheme.collectAsStateWithLifecycle()
             val darkColorScheme by viewModel.currentDarkColorScheme.collectAsStateWithLifecycle()
             val currentSizes by viewModel.provideSizes.collectAsStateWithLifecycle()
+            val currentShapeType by viewModel.currentShapeType.collectAsStateWithLifecycle()
             val currentShapes by viewModel.currentShape.collectAsStateWithLifecycle()
             val currentSource by viewModel.currentPrimaryColorSource.collectAsStateWithLifecycle()
             val isCreatePage = selectedTabIndex == 1
@@ -138,24 +153,33 @@ fun BuilderNavHost(
                             onThemeChange()
                         }
                     ) {
-                        Icon(
-                            imageVector = if (isDark) PhIcons.Regular.Moon else PhIcons.Regular.Sun,
-                            contentDescription = ""
-                        )
+                        AnimatedContent(
+                            targetState = isDark,
+                            transitionSpec = {
+                                scaleIn() + fadeIn() togetherWith scaleOut() + fadeOut()
+                            }
+                        ){
+                            Icon(
+                                imageVector = if (it) PhIcons.Regular.Moon else PhIcons.Regular.Sun,
+                                contentDescription = ""
+                            )
+                        }
                     }
 
-                    if (isCreatePage) {
+                    AnimatedVisibility(
+                        visible = isCreatePage,
+                    ){
                         PrimaryButton(
                             onClick = {
-                                val shapes = currentShapes.toKoreShapes()
+
                                 val themeCode = ExportUtils.exportTheme(
                                     darkColorScheme = darkColorScheme,
                                     lightColorScheme = lightColorScheme,
                                     currentSizes = currentSizes,
-                                    currentShapes = shapes,
+                                    currentShapes = currentShapes,
                                     colorSource = currentSource
                                 )
-                                saveThemeFile(themeCode, "Theme.kt")
+                                saveThemeFile(themeCode, "theme.kt")
                             }
                         ) {
                             HorizontalStack(spacing = 4.dp) {
@@ -177,7 +201,14 @@ fun BuilderNavHost(
             navController = navController,
             startDestination = AppRoute.Home
         ) {
-            composable<AppRoute.Home> { HomeScreen() }
+            composable<AppRoute.Home> { HomeScreen(
+                onQuickStart = {
+
+                    navController.navigate(AppRoute.Components(
+                        path = DocRoute.Quickstart
+                    ))
+                }
+            ) }
             composable<AppRoute.Create> { ThemeCreationScreen(onClick = {}, viewModel = viewModel, isDark = false) }
             composable<AppRoute.Components>(
                 typeMap = mapOf(typeOf<DocRoute>() to DocRouteNavType)
