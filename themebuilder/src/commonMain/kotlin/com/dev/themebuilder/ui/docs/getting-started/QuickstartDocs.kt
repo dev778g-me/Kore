@@ -1,61 +1,128 @@
 package com.dev.themebuilder.ui.docs
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.dev.kore.components.card.OutlinedCard
 import com.dev.kore.components.stack.VerticalStack
+import com.dev.kore.components.text.Text
+import com.dev.kore.themes.KoreTheme
+import koreproject.themebuilder.generated.resources.Res
+import koreproject.themebuilder.generated.resources.createPage
+import koreproject.themebuilder.generated.resources.export_dark
+import koreproject.themebuilder.generated.resources.home_dark
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun QuickstartDocs(
     modifier: Modifier = Modifier,
 ) {
-    VerticalStack (
+    val textStyle = KoreTheme.typography.body1.copy(
+        fontSize = 16.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.15.sp,
+        color = KoreTheme.colorScheme.onBackGround.copy(alpha = 0.85f)
+    )
+
+    val localUriHandler = LocalUriHandler.current
+
+    VerticalStack(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 48.dp),
-
     ) {
 
-            DefaultMarkdownParser(
-                content = """# QuickStart
+        DefaultMarkdownParser(
+            content = """# QuickStart
 
-Quickstart guide for using Kore.
+Get up and running with Kore in a few simple steps.
 
-Make sure you have installed the Kore library into your project:"""
-
-            )
+First, add the Kore dependency to your project:"""
+        )
 
         OutlinedCard {
             CodeBlock(
-                code = """```
-implementation("io.github.dev778g-me:kore:1.0.0-alpha01")
+                code = """```kotlin
+implementation("io.github.dev778g-me:kore:1.0.0-alpha02")
 ```"""
             )
         }
 
-        DefaultMarkdownParser(content = """Download and install the Kore companion app or web app.
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = "While Kore works perfectly out of the box using KoreDefaults, configuring your own design system is highly recommended.",
+                textStyle = textStyle
+            )
 
-<figure><img src="quickstart_images/companion_app.png" alt="companion app"><figcaption></figcaption></figure>
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    modifier = Modifier.clickable(
+                        onClick = {
+                            localUriHandler.openUri("https://kore-3j8.pages.dev/#create")
+                        }
+                    ),
+                    text = buildAnnotatedString {
+                        append("Visit the")
 
-Although Kore comes with default themes `KoreDefaults`, you can customize it using the Kore Companion app **ThemeBuilder**. From there, choose color schemes for dark and light mode, shapes, and sizes — then hit export and you get your `theme.kt` file.
+                        withStyle(style = SpanStyle(color = KoreTheme.colorScheme.primary)){
+                            append(" Kore Playground")
+                        }
+                    },
+                    textStyle = textStyle
+                )
+                Image(
+                    painter = painterResource(resource = Res.drawable.home_dark),
+                    contentDescription = "Kore Playground Home",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
 
-<figure><img src="quickstart_images/customize.png" alt="Customizing"><figcaption></figcaption></figure>
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = "2. Customize your design system: tweak colors (neutrals, primary, and complementary accents), shapes, and spacing.",
+                    textStyle = textStyle
+                )
+                Image(
+                    painter = painterResource(resource = Res.drawable.createPage),
+                    contentDescription = "Customize Theme",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
 
-Add this file  to your project.
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = "3. Generate and export the Theme.kt file, then drop it into your project.",
+                    textStyle = textStyle
+                )
+                Image(
+                    painter = painterResource(resource = Res.drawable.export_dark),
+                    contentDescription = "Export Theme",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
 
-<figure><img src="quickstart_images/export.png" alt="export theme"><figcaption></figcaption></figure>
+            Text(
+                text = "4. Wrap your root composable with AppTheme (feel free to rename this inside the file).",
+                textStyle = textStyle
+            )
 
-Wrap your main content with `AppTheme` (renameable inside `theme.kt`) and you're all set.
-
-
-
-*Happy building 😻*
-""")
+            Text(
+                text = "That's it. All Kore components will now automatically adapt to your custom theme.\n\nHappy building \uD83D\uDE3B",
+                textStyle = textStyle
+            )
         }
     }
+}

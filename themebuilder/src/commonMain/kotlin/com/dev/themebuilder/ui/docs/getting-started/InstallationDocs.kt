@@ -45,7 +45,7 @@ To make sure you have maven central check your `settings.gradle.kts` file."""
         OutlinedCard {
             CodeBlock(
                 code = """commonMain.dependencies {
-    implementation("io.github.dev778g-me:kore:1.0.0-alpha01")
+    implementation("io.github.dev778g-me:kore:1.0.0-alpha02")
 }"""
             )
         }
@@ -60,7 +60,7 @@ To make sure you have maven central check your `settings.gradle.kts` file."""
 
         OutlinedCard {
             CodeBlock(
-                code = """implementation("io.github.dev778g-me:kore-android:1.0.0-alpha01")"""
+                code = """implementation("io.github.dev778g-me:kore-android:1.0.0-alpha02")"""
             )
         }
 
@@ -70,7 +70,7 @@ To make sure you have maven central check your `settings.gradle.kts` file."""
 
         OutlinedCard {
             CodeBlock(
-                code = """implementation("io.github.dev778g-me:kore-iosarm64:1.0.0-alpha01")"""
+                code = """implementation("io.github.dev778g-me:kore-iosarm64:1.0.0-alpha02")"""
             )
         }
 
@@ -80,7 +80,7 @@ To make sure you have maven central check your `settings.gradle.kts` file."""
 
         OutlinedCard {
             CodeBlock(
-                code = """implementation("io.github.dev778g-me:kore-iosx64:1.0.0-alpha01")"""
+                code = """implementation("io.github.dev778g-me:kore-iosx64:1.0.0-alpha02")"""
             )
         }
 
@@ -90,7 +90,7 @@ To make sure you have maven central check your `settings.gradle.kts` file."""
 
         OutlinedCard {
             CodeBlock(
-                code = """implementation("io.github.dev778g-me:kore-jvm:1.0.0-alpha01")"""
+                code = """implementation("io.github.dev778g-me:kore-jvm:1.0.0-alpha02")"""
             )
         }
 
