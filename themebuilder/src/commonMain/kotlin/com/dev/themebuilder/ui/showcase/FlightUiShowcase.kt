@@ -52,9 +52,9 @@ fun FlightUIShowCase(
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.defaultCardColors(
+
             containerColor = KoreTheme.colorScheme.surface
-        )
+
     ){
 
         VerticalStack(

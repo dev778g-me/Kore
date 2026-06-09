@@ -31,9 +31,8 @@ fun RadioUiShowcase(
     var selectedRadio by rememberSaveable(){ mutableStateOf(0) }
 
     Card(
-        colors = CardDefaults.defaultCardColors(
             containerColor = KoreTheme.colorScheme.surface
-        )
+
     ){
 
         Text(

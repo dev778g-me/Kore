@@ -71,8 +71,6 @@ fun ColorBox(
 ){
     OutlinedCard(
         modifier = Modifier.size(72.dp),
-        colors = CardDefaults.defaultCardColors(
-            containerColor = color
-        )
+        containerColor = color
     ){}
 }

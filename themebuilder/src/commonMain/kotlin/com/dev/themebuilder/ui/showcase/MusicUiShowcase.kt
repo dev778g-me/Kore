@@ -30,9 +30,9 @@ fun MusicUiShowcase(
     var sliderState by rememberSaveable(){mutableStateOf(40f)}
     Card(
         modifier = modifier,
-        colors = CardDefaults.defaultCardColors(
+
             containerColor = KoreTheme.colorScheme.surface
-        )
+
     ) {
 
         Image(

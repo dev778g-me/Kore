@@ -21,9 +21,8 @@ fun TypographyShowcase(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .fillMaxWidth(),
-        colors = CardDefaults.defaultCardColors(
             contentColor = KoreTheme.colorScheme.onBackGround
-        )
+
 
     ) {
         Column(
