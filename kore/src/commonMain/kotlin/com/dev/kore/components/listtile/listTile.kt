@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
 import com.dev.kore.themes.LocalContentColor
@@ -276,10 +277,11 @@ object ListTileDefaults{
 
 
 
-   val defaultListItemPaddingValues : PaddingValues = PaddingValues(
-       horizontal = 16.dp,
-       vertical = 12.dp
-   )
+   val defaultListItemPaddingValues : PaddingValues
+       @Composable get() = PaddingValues(
+           horizontal = KoreTheme.sizes.md,
+           vertical = KoreTheme.sizes.sm
+       )
 
    val defaultListTileShape  : Shape
        @Composable get() = KoreTheme.shapes.md
@@ -287,12 +289,15 @@ object ListTileDefaults{
 
 
 
-    val textItemSpacing = 4.dp
+    val textItemSpacing : Dp
+        @Composable get ()= KoreTheme.sizes.xxs
 
 
 
 
-    val itemSpacing = 8.dp
+    val itemSpacing : Dp
+        @Composable get ()= KoreTheme.sizes.xs
+
 }
 
 
