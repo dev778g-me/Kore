@@ -23,6 +23,8 @@ fun SliderDocs(
 ){
     Column(
         modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 48.dp)
     ) {
         DefaultMarkdownParser(
             content = """# Slider

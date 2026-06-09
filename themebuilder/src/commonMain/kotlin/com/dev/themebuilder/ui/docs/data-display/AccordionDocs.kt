@@ -8,6 +8,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,8 @@ fun AccordionDocs(
 ){
     Column(
         modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 48.dp)
     ) {
         DefaultMarkdownParser(
             content = """# Accordion 

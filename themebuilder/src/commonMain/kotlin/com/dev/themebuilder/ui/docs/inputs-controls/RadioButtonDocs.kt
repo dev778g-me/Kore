@@ -27,6 +27,8 @@ fun RadioButtonDocs(
 ){
     Column(
         modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 48.dp)
     ) {
         DefaultMarkdownParser(
             content = """# Radio Button

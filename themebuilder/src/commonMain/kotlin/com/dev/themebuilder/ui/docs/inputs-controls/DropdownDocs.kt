@@ -2,12 +2,15 @@ package com.dev.themebuilder.ui.docs
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.dev.kore.components.buttons.PrimaryIconButton
 import com.dev.kore.components.dropdown.DropDown
 import com.dev.kore.components.dropdown.DropDownItem
@@ -27,6 +30,8 @@ fun DropdownDocs(
 ){
     Column(
         modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 48.dp)
     ) {
         DefaultMarkdownParser(
             content = """# DropDown

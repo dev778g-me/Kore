@@ -2,6 +2,7 @@ package com.dev.themebuilder.ui.docs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
@@ -18,6 +19,8 @@ fun LoadingIndicatorDocs(
 ){
     Column(
         modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 48.dp)
     ) {
         DefaultMarkdownParser(
             content = """# LoadingIndicator 

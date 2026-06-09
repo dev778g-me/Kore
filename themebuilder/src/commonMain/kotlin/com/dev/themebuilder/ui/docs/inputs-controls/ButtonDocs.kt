@@ -30,7 +30,9 @@ fun ButtonDocs(
 ){
 
     VerticalStack(
-
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 48.dp)
     ) {
         DefaultMarkdownParser(
             content = """# Buttons

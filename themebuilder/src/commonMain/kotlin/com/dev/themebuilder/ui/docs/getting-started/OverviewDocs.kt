@@ -8,22 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.dev.kore.components.stack.VerticalStack
 
 @Composable
 fun OverviewDocs(
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    VerticalStack (
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 48.dp),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Box(
-            modifier = Modifier
-                .width(720.dp)
-                .padding(horizontal = 24.dp)
-        ) {
+            .padding(vertical = 48.dp)
+    ){
             DefaultMarkdownParser(
                 content = """# Why Kore?
 
@@ -67,4 +62,3 @@ All components are accessible out of the box, so you don't have to worry about t
             )
         }
     }
-}

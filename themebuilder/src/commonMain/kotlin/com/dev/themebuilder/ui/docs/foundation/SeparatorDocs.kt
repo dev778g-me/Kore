@@ -3,11 +3,9 @@ package com.dev.themebuilder.ui.docs
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,11 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import com.dev.kore.components.buttons.GhostButton
+import com.dev.kore.components.separators.HorizontalDashedSeparator
+import com.dev.kore.components.separators.HorizontalDottedDivider
 import com.dev.kore.components.separators.HorizontalSeparator
-import com.dev.kore.components.separators.SeparatorDefaults
+import com.dev.kore.components.separators.VerticalDashedSeparator
+import com.dev.kore.components.separators.VerticalDottedSeparator
 import com.dev.kore.components.separators.VerticalSeparator
-import com.dev.kore.components.stack.HorizontalStack
-import com.dev.kore.components.stack.VerticalStack
 import com.dev.kore.components.text.Text
 import com.dev.kore.themes.KoreTheme
 
@@ -186,6 +185,206 @@ Row(
 
 ---
 
+## Horizontal Dotted Divider
+
+The `HorizontalDottedDivider` draws a horizontal line of dots. Useful for subtle visual separation with a softer appearance.
+
+"""
+        )
+
+        ComponentShowcase(
+            code = """
+HorizontalDottedDivider(
+    dotRadius = 3.dp,
+    dotGap = 6.dp,
+    color = KoreTheme.colorScheme.primary
+)
+""".trimIndent(),
+            content = {
+                HorizontalDottedDivider(
+                    dotRadius = 3.dp,
+                    dotGap = 6.dp,
+                    color = KoreTheme.colorScheme.primary
+                )
+            }
+        )
+
+        DefaultMarkdownParser(
+            content = """
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `modifier` | `Modifier` | `Modifier` | Applied to the root canvas. |
+| `dotRadius` | `Dp` | `2.dp` | Radius of each dot. |
+| `dotGap` | `Dp` | `4.dp` | Gap between dots. |
+| `color` | `Color` | `backGroundVariant` | Solid color of the dots. |
+
+---
+
+## Horizontal Dashed Separator
+
+The `HorizontalDashedSeparator` draws a dashed line from left to right. Customize dash length and gap between dashes.
+
+"""
+        )
+
+        ComponentShowcase(
+            code = """
+HorizontalDashedSeparator(
+    thickness = 2.dp,
+    dashLength = 8.dp,
+    dashGap = 4.dp,
+    color = KoreTheme.colorScheme.primary
+)
+""".trimIndent(),
+            content = {
+                HorizontalDashedSeparator(
+                    thickness = 2.dp,
+                    dashLength = 8.dp,
+                    dashGap = 4.dp,
+                    color = KoreTheme.colorScheme.primary
+                )
+            }
+        )
+
+        DefaultMarkdownParser(
+            content = """
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `modifier` | `Modifier` | `Modifier` | Applied to the root canvas. |
+| `thickness` | `Dp` | `1.dp` | Height of the separator. |
+| `dashLength` | `Dp` | `4.dp` | Length of each dash. |
+| `dashGap` | `Dp` | `4.dp` | Gap between dashes. |
+| `separatorCap` | `StrokeCap` | `Round` | Treatment at dash ends. |
+| `color` | `Color` | `backGroundVariant` | Solid color of the separator. |
+
+---
+
+## Vertical Dotted Divider
+
+The `VerticalDottedDivider` draws a vertical line of dots from top to bottom.
+
+"""
+        )
+
+        ComponentShowcase(
+            code = """
+Row(
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(IntrinsicSize.Min)
+        .padding(vertical = 8.dp),
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceEvenly
+) {
+    Text("A")
+    VerticalDottedSeparator(
+        dotRadius = 3.dp,
+        dotGap = 6.dp,
+        color = KoreTheme.colorScheme.primary
+    )
+    Text("B")
+}
+""".trimIndent(),
+            content = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min)
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceEvenly
+                ) {
+                    Text("A")
+                    VerticalDottedSeparator(
+                        dotRadius = 3.dp,
+                        dotGap = 6.dp,
+                        color = KoreTheme.colorScheme.primary
+                    )
+                    Text("B")
+                }
+            }
+        )
+
+        DefaultMarkdownParser(
+            content = """
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `modifier` | `Modifier` | `Modifier` | Applied to the root canvas. |
+| `dotRadius` | `Dp` | `2.dp` | Radius of each dot. |
+| `dotGap` | `Dp` | `4.dp` | Gap between dots. |
+| `color` | `Color` | `backGroundVariant` | Solid color of the dots. |
+
+---
+
+## Vertical Dashed Separator
+
+The `VerticalDashedSeparator` draws a dashed line from top to bottom.
+
+"""
+        )
+
+        ComponentShowcase(
+            code = """
+Row(
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(IntrinsicSize.Min)
+        .padding(vertical = 8.dp),
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceEvenly
+) {
+    Text("Left")
+    VerticalDashedSeparator(
+        thickness = 2.dp,
+        dashLength = 6.dp,
+        dashGap = 4.dp,
+        color = KoreTheme.colorScheme.primary
+    )
+    Text("Right")
+}
+""".trimIndent(),
+            content = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min)
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceEvenly
+                ) {
+                    Text("Left")
+                    VerticalDashedSeparator(
+                        thickness = 2.dp,
+                        dashLength = 6.dp,
+                        dashGap = 4.dp,
+                        color = KoreTheme.colorScheme.primary
+                    )
+                    Text("Right")
+                }
+            }
+        )
+
+        DefaultMarkdownParser(
+            content = """
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `modifier` | `Modifier` | `Modifier` | Applied to the root canvas. |
+| `thickness` | `Dp` | `1.dp` | Width of the separator. |
+| `dashLength` | `Dp` | `4.dp` | Length of each dash. |
+| `dashGap` | `Dp` | `4.dp` | Gap between dashes. |
+| `separatorCap` | `StrokeCap` | `Round` | Treatment at dash ends. |
+| `color` | `Color` | `backGroundVariant` | Solid color of the separator. |
+
+---
+
 ## Styling
 
 Your API allows for deep customization, including changing the line endings (`StrokeCap`) and applying rich gradients using Compose's `Brush` API.
@@ -214,42 +413,64 @@ HorizontalSeparator(
             }
         )
 
+
+
+
         DefaultMarkdownParser(
             content = """
 ### Gradient Separator
 
 Using the overloaded API, you can pass a `Brush` to create smooth, fading transitions. This is excellent for creating elegant, modern dividers that fade out at the edges.
 
-<figure><img src="showcases/separatorShowcase/gradient_separator.png" alt="Custom brush separator"><figcaption></figcaption></figure>
+Every separator variant  solid, dashed, and dotted, both horizontal and vertical  has a **brush overload** that accepts a `Brush` instead of a `Color`. This allows you to apply gradients for more polished visuals.
 
 """
         )
 
         ComponentShowcase(
             code = """
-HorizontalSeparator(
+HorizontalDashedSeparator(
     thickness = 2.dp,
+    dashLength = 8.dp,
+    dashGap = 4.dp,
     brush = Brush.horizontalGradient(
-        colors = listOf(
-            Color.Transparent,
-            KoreTheme.colorScheme.primary,
-            Color.Transparent
-        )
+        colors = listOf(Color.Transparent, KoreTheme.colorScheme.primary, Color.Transparent)
     )
 )
 """.trimIndent(),
             content = {
-                HorizontalSeparator(
+                HorizontalDashedSeparator(
                     thickness = 2.dp,
+                    dashLength = 8.dp,
+                    dashGap = 4.dp,
                     brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            KoreTheme.colorScheme.primary,
-                            Color.Transparent
-                        )
+                        colors = listOf(Color.Transparent, KoreTheme.colorScheme.primary, Color.Transparent)
                     )
                 )
             }
         )
+
+        ComponentShowcase(
+            code = """
+HorizontalDottedDivider(
+    dotRadius = 3.dp,
+    dotGap = 6.dp,
+    brush = Brush.horizontalGradient(
+        colors = listOf(Color.Transparent, KoreTheme.colorScheme.primary, Color.Transparent)
+    )
+)
+""".trimIndent(),
+            content = {
+                HorizontalDottedDivider(
+                    dotRadius = 3.dp,
+                    dotGap = 6.dp,
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(Color.Transparent, KoreTheme.colorScheme.primary, Color.Transparent)
+                    )
+                )
+            }
+        )
+
+
     }
 }
