@@ -14,6 +14,7 @@ import com.dev.kore.themes.KoreDefaults.defaultSizes
 import com.dev.kore.themes.KoreDefaults.defaultSmoothCornerShapes
 import com.dev.kore.themes.KoreDefaults.defaultTypography
 import com.dev.kore.themes.colors.RadixColors
+import com.dev.kore.themes.colors.blend
 import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape
 import com.dev.kore.themes.typography.googleSansFlex
 
@@ -29,80 +30,70 @@ import com.dev.kore.themes.typography.googleSansFlex
  */
 object KoreDefaults{
     val defaultLightColorScheme = KoreColorScheme(
+        //[neutrals]
         background = RadixColors.Gray.light.step4,
         onBackGround = RadixColors.Gray.light.step12,
         backGroundVariant = RadixColors.Gray.light.step7,
         onBackGroundVariant = RadixColors.Gray.light.step10,
-
-        disabled = RadixColors.Gray.light.step5,
-        onDisabled = RadixColors.Gray.light.step8,
-
-        primary = RadixColors.Blue.light.step9,
-        onPrimary = RadixColors.Blue.light.step1,
-
-        primaryContainer = RadixColors.Blue.light.step6,
-        onPrimaryContainer = RadixColors.Blue.light.step10,
-
-        complementary = RadixColors.Orange.light.step9,
-        onComplementary = RadixColors.Orange.light.step1,
-        complementaryContainer = RadixColors.Orange.light.step6,
-        onComplementaryContainer = RadixColors.Orange.light.step10,
-
-
-        // success colors
-        success = RadixColors.Green.light.step9,
-        onSuccess = RadixColors.Green.light.step2,
-
-        // error colors
-        error = RadixColors.Red.light.step9,
-        onError = RadixColors.Red.light.step2,
-        transparent = Color.Transparent,
-
         surface = RadixColors.Gray.light.step3,
         onSurface = RadixColors.Gray.light.step11,
         surfaceBright = RadixColors.Gray.light.step1,
-        onSurfaceBright = RadixColors.Gray.light.step12
+        onSurfaceBright = RadixColors.Gray.light.step12,
+        // disabled
+        disabled = RadixColors.Gray.light.step5,
+        onDisabled = RadixColors.Gray.light.step8,
+        //[neutrals]
+
+        // [bright Accent colors]
+        primary = RadixColors.Blue.light.step9,
+        onPrimary = RadixColors.Blue.light.step1.blend(blendColor = RadixColors.White.white),
+        primaryContainer = RadixColors.Blue.light.step6,
+        onPrimaryContainer = RadixColors.Blue.light.step10,
+        complementary = RadixColors.Orange.light.step9,
+        onComplementary = RadixColors.Orange.light.step1.blend(blendColor = RadixColors.White.white),
+        complementaryContainer = RadixColors.Orange.light.step6,
+        onComplementaryContainer = RadixColors.Orange.light.step10,
+        // success & error
+        success = RadixColors.Green.light.step9,
+        onSuccess = RadixColors.Green.light.step1.blend(blendColor = RadixColors.White.white),
+        error = RadixColors.Red.light.step9,
+        onError = RadixColors.Red.light.step1.blend(blendColor = RadixColors.White.white),
+        transparent = Color.Transparent,
+        // [bright Accent colors]
     )
 
 
     val defaultDarkColorScheme = KoreColorScheme(
-        // background and background variant
+       //[neutrals]
         background = RadixColors.Gray.dark.step1,
         onBackGround = RadixColors.Gray.dark.step12,
-
         backGroundVariant = RadixColors.Gray.dark.step5,
         onBackGroundVariant = RadixColors.Gray.dark.step11,
-
+        surface = RadixColors.Gray.dark.step2,
+        onSurface = RadixColors.Gray.dark.step11,
+        surfaceBright = RadixColors.Gray.dark.step3,
+        onSurfaceBright = RadixColors.Gray.dark.step12,
         // disabled colors
         disabled = RadixColors.Gray.dark.step3,
         onDisabled = RadixColors.Gray.dark.step8,
+        //[neutrals]
 
-        // primary colors
+        // [bright Accent colors]
         primary = RadixColors.Blue.dark.step9,
-        onPrimary = RadixColors.Blue.dark.step12,
-
+        onPrimary = RadixColors.Blue.dark.step12.blend(blendColor = RadixColors.White.white),
         primaryContainer = RadixColors.Blue.dark.step3,
         onPrimaryContainer = RadixColors.Blue.dark.step10,
-
         complementary = RadixColors.Orange.dark.step9,
-        onComplementary = RadixColors.Orange.dark.step12,
+        onComplementary = RadixColors.Orange.dark.step12.blend(blendColor = RadixColors.White.white),
         complementaryContainer = RadixColors.Orange.dark.step3,
         onComplementaryContainer = RadixColors.Orange.dark.step10,
-
-
-        // success colors
+        // success & error
         success = RadixColors.Green.dark.step9,
-        onSuccess = RadixColors.Green.dark.step12,
-
-        // error colors
+        onSuccess = RadixColors.Green.dark.step12.blend(blendColor = RadixColors.White.white),
         error = RadixColors.Red.dark.step9,
-        onError = RadixColors.Red.dark.step12,
+        onError = RadixColors.Red.dark.step12.blend(blendColor = RadixColors.White.white),
         transparent = Color.Transparent,
-        surface = RadixColors.Gray.dark.step2,
-        onSurface = RadixColors.Gray.dark.step11,
-
-        surfaceBright = RadixColors.Gray.dark.step3,
-        onSurfaceBright = RadixColors.Gray.dark.step12
+       // [bright Accent colors]
     )
 
 
