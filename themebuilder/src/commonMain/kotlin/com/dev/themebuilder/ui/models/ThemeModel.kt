@@ -1,12 +1,10 @@
 package com.dev.themebuilder.ui.models
 
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreDefaults
 import com.dev.kore.themes.KoreShapes
@@ -101,6 +99,31 @@ val tailWindPrimaryColorsList = listOf(
     TailWindColorEntry("Amber", TailwindColors.Amber, TailwindColors.Indigo, "Indigo"),
     TailWindColorEntry("Yellow", TailwindColors.Yellow, TailwindColors.Violet, "Violet"),
     TailWindColorEntry("Lime", TailwindColors.Lime, TailwindColors.Purple, "Purple"),
+    TailWindColorEntry("Emerald", TailwindColors.Emerald, TailwindColors.Rose, "Rose"),
+    TailWindColorEntry("Teal", TailwindColors.Teal, TailwindColors.Pink, "Red"),
+    TailWindColorEntry("Cyan", TailwindColors.Cyan, TailwindColors.Orange, "Orange"),
+    TailWindColorEntry("Sky", TailwindColors.Sky, TailwindColors.Amber, "Amber"),
+    TailWindColorEntry("Blue", TailwindColors.Blue, TailwindColors.Orange, "Orange"),
+    TailWindColorEntry("Indigo", TailwindColors.Indigo, TailwindColors.Amber, "Amber"),
+    TailWindColorEntry("Violet", TailwindColors.Violet, TailwindColors.Yellow, "Yellow"),
+    TailWindColorEntry("Purple", TailwindColors.Purple, TailwindColors.Lime, "Lime"),
+    TailWindColorEntry("Fuchsia", TailwindColors.Fuchsia, TailwindColors.Cyan, "Green"),
+    TailWindColorEntry("Pink", TailwindColors.Pink, TailwindColors.Emerald, "Emerald"),
+    TailWindColorEntry("Rose", TailwindColors.Rose, TailwindColors.Teal, "Teal"),
+)
+
+internal val tailwindColorsList = listOf(
+    TailWindColorEntry("Slate", TailwindColors.Slate, TailwindColors.Neutral, "Neutral"),
+    TailWindColorEntry("Gray", TailwindColors.Gray, TailwindColors.Stone, "Stone"),
+    TailWindColorEntry("Zinc", TailwindColors.Zinc, TailwindColors.Gray, "Gray"),
+    TailWindColorEntry("Neutral", TailwindColors.Neutral, TailwindColors.Slate, "Slate"),
+    TailWindColorEntry("Stone", TailwindColors.Stone, TailwindColors.Gray, "Gray"),
+    TailWindColorEntry("Red", TailwindColors.Red, TailwindColors.Teal, "Teal"),
+    TailWindColorEntry("Orange", TailwindColors.Orange, TailwindColors.Blue, "Blue"),
+    TailWindColorEntry("Amber", TailwindColors.Amber, TailwindColors.Indigo, "Indigo"),
+    TailWindColorEntry("Yellow", TailwindColors.Yellow, TailwindColors.Violet, "Violet"),
+    TailWindColorEntry("Lime", TailwindColors.Lime, TailwindColors.Purple, "Purple"),
+    TailWindColorEntry("Green", TailwindColors.Green, TailwindColors.Rose, "Rose"),
     TailWindColorEntry("Emerald", TailwindColors.Emerald, TailwindColors.Rose, "Rose"),
     TailWindColorEntry("Teal", TailwindColors.Teal, TailwindColors.Red, "Red"),
     TailWindColorEntry("Cyan", TailwindColors.Cyan, TailwindColors.Orange, "Orange"),
@@ -235,14 +258,24 @@ fun getLargeShapes(shapeType: ShapeType): KoreShapes {
     }
 }
 
-fun getCircleShapes(): KoreShapes {
-    return KoreShapes(
-        xl = CircleShape,
-        lg = CircleShape,
-        md = CircleShape,
-        sm = CircleShape,
-        xs = CircleShape
-    )
+fun getExtraLargeShapes(shapeType: ShapeType): KoreShapes {
+    return if (shapeType == ShapeType.SmoothCornerShape) {
+        KoreShapes(
+            xl = AbsoluteSmoothCornerShape(64.dp),
+            lg = AbsoluteSmoothCornerShape(48.dp),
+            md = AbsoluteSmoothCornerShape(32.dp),
+            sm = AbsoluteSmoothCornerShape(24.dp),
+            xs = AbsoluteSmoothCornerShape(16.dp)
+        )
+    } else {
+        KoreShapes(
+            xl = RoundedCornerShape(64.dp),
+            lg = RoundedCornerShape(48.dp),
+            md = RoundedCornerShape(32.dp),
+            sm = RoundedCornerShape(24.dp),
+            xs = RoundedCornerShape(16.dp)
+        )
+    }
 }
 
 
@@ -257,7 +290,7 @@ enum class ShapeRadius{
     Small,
     Medium,
     Large,
-    Circle
+    ExtraLarge
 }
 enum class PrimaryColorSource{
     Radix,

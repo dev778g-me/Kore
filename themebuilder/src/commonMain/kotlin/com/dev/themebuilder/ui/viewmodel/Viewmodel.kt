@@ -10,21 +10,22 @@ import com.dev.kore.themes.colors.RadixColors
 import com.dev.kore.themes.colors.TailwindColors
 import com.dev.kore.themes.colors.blend
 import com.dev.themebuilder.ui.models.ColorEntry
-import com.dev.themebuilder.ui.models.balancedSizes
 import com.dev.themebuilder.ui.models.PrimaryColorSource
 import com.dev.themebuilder.ui.models.ShapeRadius
-import com.dev.themebuilder.ui.models.Sizes
-import com.dev.themebuilder.ui.models.airySizes
-import com.dev.themebuilder.ui.models.compactSizes
-import com.dev.themebuilder.ui.models.neutralColorsList
-import com.dev.themebuilder.ui.models.primaryColorsList
 import com.dev.themebuilder.ui.models.ShapeType
+import com.dev.themebuilder.ui.models.Sizes
 import com.dev.themebuilder.ui.models.TailWindColorEntry
+import com.dev.themebuilder.ui.models.airySizes
+import com.dev.themebuilder.ui.models.balancedSizes
+import com.dev.themebuilder.ui.models.compactSizes
+import com.dev.themebuilder.ui.models.getExtraLargeShapes
 import com.dev.themebuilder.ui.models.getLargeShapes
 import com.dev.themebuilder.ui.models.getMediumShapes
 import com.dev.themebuilder.ui.models.getSharpShapes
 import com.dev.themebuilder.ui.models.getSmallShapes
 import com.dev.themebuilder.ui.models.lowContrastColor
+import com.dev.themebuilder.ui.models.neutralColorsList
+import com.dev.themebuilder.ui.models.primaryColorsList
 import com.dev.themebuilder.ui.models.tailWindPrimaryColorsList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -531,8 +532,8 @@ fun provideLightComplementaryColors(
             ShapeRadius.Large -> _currentShape.value =
                 getLargeShapes(shapeType = shapeType)
 
-            ShapeRadius.Circle -> _currentShape.value =
-                getLargeShapes(shapeType = shapeType)
+            ShapeRadius.ExtraLarge -> _currentShape.value =
+                getExtraLargeShapes(shapeType = shapeType)
         }
     }
 

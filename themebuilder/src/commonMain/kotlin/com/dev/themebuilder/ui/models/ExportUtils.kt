@@ -1,8 +1,11 @@
 package com.dev.themebuilder.ui.models
 
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
 import com.dev.kore.themes.KoreColorScheme
@@ -10,7 +13,6 @@ import com.dev.kore.themes.KoreShapes
 import com.dev.kore.themes.KoreSizes
 import com.dev.kore.themes.colors.RadixColors
 import com.dev.kore.themes.colors.RadixScale
-import com.dev.kore.themes.colors.TailwindColors
 import com.dev.kore.themes.colors.TailwindSwatch
 import com.dev.kore.themes.colors.toHexString
 import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape
@@ -24,9 +26,9 @@ object ExportUtils {
       currentShapes: KoreShapes,
    ): String {
 
-      val isSmoothCornerShapes= currentShapes.sm is AbsoluteSmoothCornerShape
 
-      val shapeImport = if (isSmoothCornerShapes) "import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape" else  "import androidx.compose.foundation.shape.RoundedCornerShape"
+
+      val shapeImport = provideShapeImport(shape = currentShapes.sm)
 
        val isTailwind = colorSource == PrimaryColorSource.Tailwind
 
@@ -41,6 +43,7 @@ object ExportUtils {
         import com.dev.kore.themes.KoreSizes
         import com.dev.kore.themes.KoreTheme
         import com.dev.kore.themes.KoreTypography
+        import com.dev.kore.themes.colors.TailwindColors
         import com.dev.kore.themes.colors.RadixColors
         import androidx.compose.ui.graphics.Color
         
@@ -80,7 +83,7 @@ object ExportUtils {
           surfaceBright = $${darkColorScheme.surfaceBright.toRadixString()},
           onSurfaceBright = $${darkColorScheme.onSurfaceBright.toRadixString()},
           primary = $${if (isTailwind) darkColorScheme.primary.toTailwindString() else darkColorScheme.primary.toRadixString()},
-          onPrimary = $${if (isTailwind) darkColorScheme.onPrimary.toTailwindString() else darkColorScheme.onPrimary.toRadixString()},
+          onPrimary = $${if (isTailwind) darkColorScheme.onPrimary.toTailwindString() else darkColorScheme.onPrimary.toBlendedRadixString()},
           primaryContainer = $${if (isTailwind) darkColorScheme.primaryContainer.toTailwindString() else darkColorScheme.primaryContainer.toRadixString()},
           onPrimaryContainer = $${if (isTailwind) darkColorScheme.onPrimaryContainer.toTailwindString() else darkColorScheme.onPrimaryContainer.toRadixString()},
           complementary = $${if (isTailwind) darkColorScheme.complementary.toTailwindString() else darkColorScheme.complementary.toRadixString()},
@@ -239,8 +242,12 @@ object ExportUtils {
     "Sky.dark" to RadixColors.Sky.dark
 )
 
+
+
+
+
 internal val tailwindSwatchMap: Map<String, TailwindSwatch> =
-   tailWindPrimaryColorsList.associate {
+   tailwindColorsList.associate {
       it.name to it.colorScale
    }
 
@@ -259,15 +266,15 @@ private val shadeNames = listOf(
    "swatch950"
 )
 
-internal fun Color.toTailwindString(): String? =
+internal fun Color.toTailwindString(): String =
    tailwindSwatchMap.entries.firstNotNullOfOrNull { (name, swatch) ->
       val index = swatch.swatches.indexOf(this)
       if (index >= 0) {
          "TailwindColors.$name.${shadeNames[index]}"
       } else {
-         return "Color(0x${this.toHexString().uppercase()})"
+         null
       }
-   }
+   } ?: "Color(0x${this.toHexString().uppercase()})"
 
 
 internal fun Color.toRadixString(): String {
@@ -279,19 +286,55 @@ internal fun Color.toRadixString(): String {
 
    }
 
-   return "Color(0x${this.toHexString().uppercase()})"
+   return "Color(${this.toHexString().uppercase()})"
 }
 
+internal fun Color.toBlendedRadixString() : String{
+   for ((name, scales) in radixScaleMap) {
+      val index = scales.steps.indexOf(this)
+      if (index >= 0) {
+         return "hello"
+      }
+
+   }
+
+   return "Color(${this.toHexString().uppercase()})"
+}
 internal fun Shape.toShapeString(): String {
+   fun CornerSize.toDp(): String {
+      val px = toPx(Size(1000f, 1000f), Density(1f))
+      return if (px == px.toInt().toFloat()) "${px.toInt()}.dp" else "${px}.dp"
+   }
+
    return when (this) {
+      CircleShape -> "CircleShape"
+      RectangleShape -> "RectangleShape"
+
       is RoundedCornerShape -> {
-         val dp = topStart.toPx(Size(1000f, 1000f), Density(1f))
-         "RoundedCornerShape(${dp}.dp)"
+         val ts = topStart.toDp()
+         "RoundedCornerShape($ts)"
       }
+
       is AbsoluteSmoothCornerShape -> {
-         val dp = topStart.toPx(Size(1000f, 1000f), Density(1f))
-         "AbsoluteSmoothCornerShape(${dp}.dp)"
+         val ts = topStart.toDp()
+         "AbsoluteSmoothCornerShape($ts)"
       }
+
       else -> this.toString()
+   }
+}
+
+
+internal fun provideShapeImport(shape: Shape): String {
+   return when (shape) {
+      is RoundedCornerShape -> "import androidx.compose.foundation.shape.RoundedCornerShape"
+
+      is AbsoluteSmoothCornerShape -> "import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape"
+
+      CircleShape -> "import androidx.compose.foundation.shape.CircleShape"
+      RectangleShape -> "import androidx.compose.ui.graphics.RectangleShape"
+
+
+      else -> ""
    }
 }
