@@ -19,11 +19,11 @@ dependencies {
 
 
 android {
-    namespace = "com.dev.kore"
+    namespace = "com.dev.kore.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.dev.kore"
+        applicationId = "com.dev.kore.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
