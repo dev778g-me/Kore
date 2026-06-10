@@ -1,5 +1,6 @@
-package com.dev.kore
+package com.dev.kore.shared
 
+import com.dev.kore.shared.Platform
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {

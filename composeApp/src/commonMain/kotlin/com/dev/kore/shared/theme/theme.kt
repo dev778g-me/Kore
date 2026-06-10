@@ -1,4 +1,4 @@
-package com.dev.kore.theme
+package com.dev.kore.shared.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package com.dev.kore
+package com.dev.kore.shared
 
 import androidx.compose.ui.window.ComposeUIViewController
 

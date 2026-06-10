@@ -1,4 +1,4 @@
-package com.dev.kore.screens
+package com.dev.kore.shared.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dev.kore.components.card.CardDefaults
 import com.dev.kore.components.card.OutlinedCard
 import com.dev.kore.components.scaffold.Scaffold
 import com.dev.kore.themes.KoreTheme

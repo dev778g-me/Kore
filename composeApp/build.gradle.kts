@@ -42,7 +42,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            implementation(project(":kore"))
+            implementation(projects.kore)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.phosphoricon.compose)
