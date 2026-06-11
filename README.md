@@ -13,7 +13,7 @@
 ![Compose Multiplatform](https://img.shields.io/badge/composeMultiplatform-1.10.0-blue?style=flat)
 
 ```kotlin
-implementation("io.github.dev778g-me:kore:1.0.0-alpha01")
+implementation("io.github.dev778g-me:kore:1.0.0-alpha02")
 ```
 
 ---
