@@ -52,14 +52,15 @@ fun RowScope.ColorCard(
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
     ) {
     OutlinedCard(
+        shape = KoreTheme.shapes.md,
         contentPaddingValues = PaddingValues(0.dp)
     ) {
         Box(
-            modifier = modifier.size(60.dp).padding(4.dp).background(
-                    color = color,
-                    shape = KoreTheme.shapes.sm
-                )
+            modifier = modifier.size(60.dp).padding(KoreTheme.sizes.xxs).background(
+                color = color,
+                shape = KoreTheme.shapes.sm
             )
+        )
 
         }
         Spacer(

@@ -138,7 +138,9 @@ fun DocsScreen(
                 selectedPath = currentRoute,
                 onItemClick = { path ->
                     currentRoute = path
-                    navController.navigate(path)
+                    navController.navigate(path){
+                        launchSingleTop = true
+                    }
                     onNavigate(path)
                 },
                 scrollState = scrollState,
