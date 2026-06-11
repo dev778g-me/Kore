@@ -1,4 +1,4 @@
-name: Library CI
+name: Build & Deploy to Maven
 
 # I will run manually for now
 on:
