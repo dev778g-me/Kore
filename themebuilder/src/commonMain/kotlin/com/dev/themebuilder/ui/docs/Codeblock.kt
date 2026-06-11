@@ -42,16 +42,13 @@ fun CodeBlock(
                     color = KoreTheme.colorScheme.success
                 )
 
-                CodeSwitch(
-                    onClick = {
-                        copyToClipboard(code)
-                    },
-                    icon = PhIcons.Regular.Clipboard,
+                CodeCopyButton(
+                    copyContent = code,
                     content = "Copy Code"
                 )
 
 
-            }
+        }
 
 
 

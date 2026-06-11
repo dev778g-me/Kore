@@ -15,7 +15,7 @@ sealed class AppRoute {
     data object Create : AppRoute()
 
     @Serializable
-    data class Components(val path: DocRoute) : AppRoute()
+    data class Docs(val path: DocRoute) : AppRoute()
 
     @Serializable
     data object ChangeLog : AppRoute()

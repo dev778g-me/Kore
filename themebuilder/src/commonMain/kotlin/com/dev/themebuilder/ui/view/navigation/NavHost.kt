@@ -2,18 +2,10 @@ package com.dev.themebuilder.ui.view.navigation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,9 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -58,10 +47,12 @@ import com.dev.themebuilder.ui.view.screens.ThemeCreationScreen
 import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.filled.ClockClockwiseFill
+import com.phosphor.icons.filled.FilesFill
 import com.phosphor.icons.filled.HouseFill
 import com.phosphor.icons.filled.PlusFill
 import com.phosphor.icons.filled.SquaresFourFill
 import com.phosphor.icons.regular.ClockCounterClockwise
+import com.phosphor.icons.regular.Files
 import com.phosphor.icons.regular.FloppyDisk
 import com.phosphor.icons.regular.House
 import com.phosphor.icons.regular.Moon
@@ -94,7 +85,7 @@ fun BuilderNavHost(
     val selectedTabIndex = when {
         currentDestination?.hasRoute<AppRoute.Home>() == true -> 0
         currentDestination?.hasRoute<AppRoute.Create>() == true -> 1
-        currentDestination?.hasRoute<AppRoute.Components>() == true -> 2
+        currentDestination?.hasRoute<AppRoute.Docs>() == true -> 2
         currentDestination?.hasRoute<AppRoute.ChangeLog>() == true -> 3
         else -> 0
     }
@@ -106,8 +97,8 @@ fun BuilderNavHost(
         BuilderTabItem("Create", PhIcons.Filled.PlusFill, PhIcons.Regular.Plus) {
             navController.navigate(AppRoute.Create)
         },
-        BuilderTabItem("Components", PhIcons.Filled.SquaresFourFill, PhIcons.Regular.SquaresFour) {
-            navController.navigate(AppRoute.Components(DocRoute.Overview))
+        BuilderTabItem("Docs", PhIcons.Filled.FilesFill, PhIcons.Regular.Files) {
+            navController.navigate(AppRoute.Docs(DocRoute.Overview))
         },
         BuilderTabItem(
             "Changelog",
@@ -214,21 +205,21 @@ fun BuilderNavHost(
             composable<AppRoute.Home> { HomeScreen(
                 onQuickStart = {
 
-                    navController.navigate(AppRoute.Components(
+                    navController.navigate(AppRoute.Docs(
                         path = DocRoute.Quickstart
                     ))
                 }
             ) }
             composable<AppRoute.Create> { ThemeCreationScreen(onClick = {}, viewModel = viewModel, isDark = false) }
-            composable<AppRoute.Components>(
+            composable<AppRoute.Docs>(
                 typeMap = mapOf(typeOf<DocRoute>() to DocRouteNavType)
             ) { entry ->
-                val route = entry.toRoute<AppRoute.Components>().path
+                val route = entry.toRoute<AppRoute.Docs>().path
                 DocsScreen(
                     initialRoute = route,
                     scrollState = docsScrollState,
                     onNavigate = { newPath ->
-                        navController.navigate(AppRoute.Components(newPath))
+                        navController.navigate(AppRoute.Docs(newPath))
                     }
                 )
             }

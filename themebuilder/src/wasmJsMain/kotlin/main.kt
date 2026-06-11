@@ -28,8 +28,8 @@ fun main() {
                                 "#home"
                             }
 
-                            route.startsWith(AppRoute.Components.serializer().descriptor.serialName) ->{
-                                val args = entry.toRoute<AppRoute.Components>()
+                            route.startsWith(AppRoute.Docs.serializer().descriptor.serialName) ->{
+                                val args = entry.toRoute<AppRoute.Docs>()
 
                                 "#docs/${args.path}"
                             }
