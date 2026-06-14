@@ -19,7 +19,7 @@ implementation("io.github.dev778g-me:kore:1.0.0-alpha02")
 ---
 ## Documentation
 
-Visit https://kore-1.gitbook.io/kore/documentation for documentation.
+Visit https://kore-3j8.pages.dev/ for documentation.
 
 
 
