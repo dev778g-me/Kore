@@ -133,7 +133,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.dev778g-me",
         artifactId = "kore",
-        version = "1.0.0-alpha02"
+        version = "1.0.0-alpha03"
     )
 
     pom {
