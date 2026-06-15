@@ -8,7 +8,7 @@
 
 
 ![Kotlin](https://img.shields.io/badge/kotlin-2.3.0-blue?style=flat\&logo=kotlin)
-![Maven Central](https://img.shields.io/badge/mavenCentral-1.0.0--alpha01-red?style=flat\&logo=apachemaven)
+![Maven Central](https://img.shields.io/badge/mavenCentral-1.0.0--alpha02-red?style=flat\&logo=apachemaven)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat)
 ![Compose Multiplatform](https://img.shields.io/badge/composeMultiplatform-1.10.0-blue?style=flat)
 
