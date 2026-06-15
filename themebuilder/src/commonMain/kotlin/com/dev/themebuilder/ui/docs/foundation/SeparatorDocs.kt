@@ -20,6 +20,7 @@ import com.dev.kore.components.separators.HorizontalSeparator
 import com.dev.kore.components.separators.VerticalDashedSeparator
 import com.dev.kore.components.separators.VerticalDottedSeparator
 import com.dev.kore.components.separators.VerticalSeparator
+import com.dev.kore.components.stack.VerticalStack
 import com.dev.kore.components.text.Text
 import com.dev.kore.themes.KoreTheme
 
@@ -27,8 +28,10 @@ import com.dev.kore.themes.KoreTheme
 fun SeparatorDocs(
     modifier: Modifier = Modifier,
 ){
-    Column(
+    VerticalStack(
         modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 48.dp)
     ) {
         DefaultMarkdownParser(
             content = """# Separators

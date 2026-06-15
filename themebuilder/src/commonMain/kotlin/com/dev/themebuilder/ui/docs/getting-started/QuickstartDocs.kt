@@ -54,7 +54,7 @@ First, add the Kore dependency to your project:"""
         OutlinedCard {
             CodeBlock(
                 code = """```kotlin
-implementation("io.github.dev778g-me:kore:1.0.0-alpha02")
+implementation("io.github.dev778g-me:kore:1.0.0-alpha03")
 ```"""
             )
         }

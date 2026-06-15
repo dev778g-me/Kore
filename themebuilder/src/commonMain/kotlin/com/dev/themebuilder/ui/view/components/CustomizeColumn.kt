@@ -247,10 +247,16 @@ fun CustomizeColumn(
 
         CustomizeColumnItem(
             overlineText = "Complementary",
-            titleText = if(complementary == primary && tailwindComplementary == tailWindPrimary){
-                if (isTailwind) tailwindComplementary.complementaryName else complementary.complementaryName!!
-            }else {
-                if (isTailwind) tailwindComplementary.name else complementary.name
+            titleText = if (isTailwind) {
+                if (tailwindComplementary == tailWindPrimary) {
+                    tailWindPrimary.complementaryName
+                } else tailwindComplementary.name
+            } else {
+                if (primary == complementary) {
+                    primary.complementaryName!!
+                } else {
+                    complementary.name!!
+                }
             },
             onClick = { showComplementaryColors = true },
             trailing = {

@@ -25,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0-alpha03] - 2026-06-14
+### Fixed 
+- Fixed resource sharing in android 
+
+
 ## [1.0.0-alpha02] - 2026-06-09
 
 ### Added
