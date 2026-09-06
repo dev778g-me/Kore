@@ -1,11 +1,10 @@
 package com.dev.kore.components.textFields
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
@@ -13,14 +12,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.KeyboardActionHandler
+import androidx.compose.foundation.text.input.OutputTransformation
+import androidx.compose.foundation.text.input.TextFieldDecorator
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -29,13 +37,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
+import androidx.compose.ui.util.fastFirstOrNull
 import com.dev.kore.themes.KoreTheme
 import com.dev.kore.themes.LocalContentColor
 import com.dev.kore.themes.LocalTextStyle
@@ -75,8 +94,17 @@ internal fun BaseTextField(
     val backGroundColor by animateColorAsState(
         targetValue = textFieldColors.containerColor(
             enabled = enabled,
-            isFocused = isFocused,
+            focused = isFocused,
             error = isError,
+        )
+    )
+
+    val contentColor by animateColorAsState(
+        targetValue = textFieldColors.textColor(
+            enabled = enabled,
+            error = isError,
+            focused = isFocused
+
         )
     )
 
@@ -84,8 +112,8 @@ internal fun BaseTextField(
     val borderColor by animateColorAsState(
         targetValue = textFieldColors.borderColor(
             enabled = enabled,
-            isFocused = isFocused,
-            hasError = isError
+            focused = isFocused,
+            error = isError
         )
     )
 
@@ -103,16 +131,15 @@ internal fun BaseTextField(
         targetValue = textFieldColors.labelColor(
             enabled = enabled,
             error = isError,
-            isFocused = isFocused
         )
     )
 
     CompositionLocalProvider(
         LocalTextStyle provides KoreTheme.typography.title3,
-        LocalContentColor provides textFieldColors.contentColor(
+        LocalContentColor provides textFieldColors.textColor(
             enabled = enabled,
             error = isError,
-            isFocused = isFocused
+            focused = isFocused
         )
     ) {
 
@@ -146,49 +173,49 @@ internal fun BaseTextField(
                         color = backGroundColor
                     )
 
-                    .border(
-                        color = borderColor,
-                        width = width,
-                        shape = shape
+                        .border(
+                            color = borderColor,
+                            width = width,
+                            shape = shape
+                        ),
+                    enabled = enabled,
+                    readOnly = readOnly,
+                    singleLine = singleLine,
+                    keyboardActions = keyboardActions,
+                    keyboardOptions = keyboardOptions,
+                    visualTransformation = visualTransformation,
+                    interactionSource = textFieldInteractionSource,
+                    maxLines = maxLines,
+                    minLines = minLine,
+                    textStyle = textStyle ?: LocalTextStyle.current.copy(
+                        color = contentColor
                     ),
-                enabled = enabled,
-                readOnly = readOnly,
-                singleLine = singleLine,
-                keyboardActions = keyboardActions,
-                keyboardOptions = keyboardOptions,
-                visualTransformation = visualTransformation,
-                interactionSource = textFieldInteractionSource,
-                maxLines = maxLines,
-                minLines = minLine,
-                textStyle = textStyle ?: LocalTextStyle.current.copy(
-                    color = LocalContentColor.current
-                ),
-                cursorBrush = SolidColor(
-                    value = textFieldColors.indicatorColor(
-                        enabled = enabled,
-                        error = isError,
-                        isFocused = isFocused
-                    )
-                ),
-                decorationBox = { innerField ->
-                    DecorationBox(
-                        innerTextField = innerField,
-                        enabled = enabled,
-                        singleLine = singleLine,
-                        textFieldColors = textFieldColors,
-                        leadingIcon = leadingIcon,
-                        trailingIcon = trailingIcon,
-                        placeholder = placeholder,
-                        isError = isError,
-                        isFocused = isFocused,
-                        shouldShowPlaceholder = shouldShow,
-                    )
-                }, value = value, onValueChange = {
-                    onValueChange.invoke(it)
-                })
+                    cursorBrush = SolidColor(
+                        value = textFieldColors.indicatorColor(
+                            enabled = enabled,
+                            error = isError,
+                            focused = isFocused
+                        )
+                    ),
+                    decorationBox = { innerField ->
+                        DecorationBox(
+                            innerTextField = innerField,
+                            enabled = enabled,
+                            textFieldColors = textFieldColors,
+                            leadingIcon = leadingIcon,
+                            trailingIcon = trailingIcon,
+                            placeholder = placeholder,
+                            isError = isError,
+                            isFocused = isFocused,
+                            shouldShowPlaceholder = shouldShow,
+                        )
+                    }, value = value, onValueChange = {
+                        onValueChange.invoke(it)
+                    })
+            }
             description?.let {
                 Box(
-                    modifier = Modifier.Companion.padding(
+                    modifier = Modifier.padding(
                         TextFieldDefaults.errorLabelPaddingValues
                     )
                 ) {
@@ -206,18 +233,347 @@ internal fun BaseTextField(
 
         }
     }
+@Composable
+internal fun BaseTextField(
+    state: TextFieldState,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    error: Boolean = false,
+    label:@Composable (() -> Unit)? = null,
+    placeholder :@Composable (() -> Unit)? = null,
+    description: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    shape: Shape,
+    textStyle: TextStyle?,
+    textFieldColors: TextFieldColors,
+    borderWidth: OutlinedBorderWidth,
+    interactionSource: MutableInteractionSource? = null,
+    decorator: TextFieldDecorator? = null,
+    outputTransformation: OutputTransformation? = null,
+    inputTransformation: InputTransformation?,
+    contentPadding: PaddingValues,
+    onTextLayout: (Density.(() -> TextLayoutResult?) -> Unit)?,
+    onKeyboardActions: KeyboardActionHandler?,
+    lineLimits: TextFieldLineLimits,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+) {
 
+
+    val focusRequester = remember { FocusRequester() }
+    val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val mergedTextStyle = textStyle ?: KoreTheme.typography.title2
+
+    val shouldShowPlaceholder : Boolean = state.text.isEmpty()
+    val labelColor by animateColorAsState(
+        targetValue = textFieldColors.labelColor(
+            enabled = enabled,
+            error = error,
+        )
+    )
+    val contentColor by animateColorAsState(
+        targetValue = textFieldColors.textColor(enabled = enabled, error  = error, focused = focused)
+    )
+    val indicatorColor by animateColorAsState(
+        targetValue = textFieldColors.indicatorColor(
+            enabled = enabled,
+            error = error,
+            focused = focused
+        )
+    )
+
+
+    TextFieldLayout(
+        modifier = modifier,
+        label = label,
+        description = description,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        placeholder = {
+            shouldShowPlaceholder.let {
+                if (it){
+                    CompositionLocalProvider(
+                        LocalTextStyle provides mergedTextStyle
+                    ){
+                        placeholder?.invoke()
+                    }
+                }
+            }
+        },
+        innerTextField = {
+            BasicTextField(
+                modifier = Modifier.focusRequester(focusRequester),
+                state = state,
+                enabled = enabled,
+                readOnly = readOnly,
+                inputTransformation = inputTransformation,
+                textStyle = mergedTextStyle.color(contentColor),
+                keyboardOptions = keyboardOptions,
+                onKeyboardAction = onKeyboardActions,
+                lineLimits = lineLimits,
+                cursorBrush = SolidColor(indicatorColor),
+                onTextLayout = onTextLayout,
+                interactionSource = resolvedInteractionSource,
+                outputTransformation = outputTransformation,
+                decorator = decorator,
+                scrollState = rememberScrollState()
+            )
+        },
+        paddingValues =contentPadding,
+        container = {
+            TextFieldContainer(
+                shape = shape, textFieldColors = textFieldColors,
+                enabled = enabled,
+                focused =focused,
+                error = error,
+                borderWidth = borderWidth,
+                focusRequester = focusRequester,
+                interactionSource = resolvedInteractionSource
+            )
+
+        }
+    )
+}
+@Composable
+fun TextFieldLayout(
+    modifier: Modifier = Modifier,
+    label : @Composable (() -> Unit)? = null,
+    description :@Composable (() -> Unit)? = null,
+    placeholder :@Composable (() -> Unit)? = null,
+    innerTextField : @Composable () -> Unit,
+    container : @Composable () -> Unit,
+    leadingIcon : @Composable (() -> Unit)? = null,
+    trailingIcon : @Composable (() -> Unit)? = null,
+    paddingValues: PaddingValues,
+){
+
+    val layoutDirection = LocalLayoutDirection.current
+
+    val density = LocalDensity.current
+
+    val startPadding =
+        with(density) { paddingValues.calculateStartPadding(layoutDirection).roundToPx() }
+    val endPadding =
+        with(density) { paddingValues.calculateEndPadding(layoutDirection).roundToPx() }
+    val topPadding = with(density) { paddingValues.calculateTopPadding().roundToPx() }
+    val bottomPadding = with(density) { paddingValues.calculateBottomPadding().roundToPx() }
+    val itemSpacing = with(density){8.dp.roundToPx()}
+    Layout(
+        modifier = modifier
+            .defaultMinSize(minWidth = 300.dp),
+        content = {
+            label?.let {
+                Box(
+                    modifier = Modifier.layoutId(TextFieldLayoutContents.Label), content = { it() })
+            }
+
+            description?.let {
+                Box(
+                    modifier = Modifier.layoutId(TextFieldLayoutContents.Description),
+                    content = { it() })
+            }
+
+            Box(
+                modifier = Modifier.layoutId(TextFieldLayoutContents.Container)
+            ) {
+                container()
+            }
+
+            placeholder?.let {
+                Box(modifier = Modifier.layoutId(TextFieldLayoutContents.PlaceHolder), content = {
+                    it()
+                })
+            }
+
+            leadingIcon?.let {
+                Box(
+                    modifier = Modifier.layoutId(TextFieldLayoutContents.LeadingIcon),
+                    content = { it() })
+            }
+            Box(
+                modifier = Modifier.layoutId(TextFieldLayoutContents.InnerTextField),
+                content = { innerTextField() }
+            )
+            trailingIcon?.let {
+                Box(
+                    modifier = Modifier.layoutId(TextFieldLayoutContents.TrailingIcon),
+                    content = { it() })
+            }
+
+        }
+    )
+    { measurables, constraints ->
+
+
+     val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+        val defaultMinWidth = TextFieldDefaults.minimumTextFieldWidth .roundToPx()
+
+
+        val targetWidth = defaultMinWidth
+            .coerceIn(constraints.minWidth, constraints.maxWidth)
+     // label placeable
+
+     val labelPlaceable = measurables.firstOrNull { it.layoutId == TextFieldLayoutContents.Label }?.measure(looseConstraints)
+
+
+     val leadingPlaceable = measurables.firstOrNull { it.layoutId == TextFieldLayoutContents.LeadingIcon }?.measure(looseConstraints)
+
+     val leadingPlaceableHeight = leadingPlaceable?.height ?:0
+     val leadingPlaceableWidth = leadingPlaceable?.width ?:0
+
+     val trailingPlaceable = measurables.fastFirstOrNull { it.layoutId == TextFieldLayoutContents.TrailingIcon }?.measure(looseConstraints)
+
+     val trailingPlaceableHeight = trailingPlaceable?.height ?:0
+     val trailingPlaceableWidth = trailingPlaceable?.width ?:0
+
+     val leadingTrailingWidth = (leadingPlaceableWidth + if (leadingPlaceable != null) itemSpacing + startPadding else 0) + (trailingPlaceableWidth + if(trailingPlaceable != null) itemSpacing+ endPadding else 0)
+
+
+
+     val textFieldWidth = targetWidth - leadingTrailingWidth
+
+     val textfieldPlaceable =
+         measurables.first { it.layoutId == TextFieldLayoutContents.InnerTextField }.measure(looseConstraints.copy(maxWidth = textFieldWidth))
+
+     val textFieldContainerHeight = maxOf(
+         textfieldPlaceable.height ?: 0,
+         leadingPlaceableHeight,
+         trailingPlaceableHeight
+     ).plus(topPadding + bottomPadding).coerceAtLeast(56.dp.roundToPx())
+     val placeHolderPlaceable = measurables.fastFirstOrNull {
+         it.layoutId == TextFieldLayoutContents.PlaceHolder
+     }?.measure(looseConstraints.copy(maxWidth = textFieldWidth))
+
+        val containerPlaceable = measurables.firstOrNull { it.layoutId == TextFieldLayoutContents.Container }
+            ?.measure(
+                Constraints.fixed(
+                    width = targetWidth,
+                    height = textFieldContainerHeight
+                )
+            )
+
+        val descriptionPlaceable = measurables.fastFirstOrNull { it.layoutId == TextFieldLayoutContents.Description }?.measure(looseConstraints)
+        val labelHeight = if (labelPlaceable != null) labelPlaceable.height + itemSpacing else 0
+        val descriptionHeight = if (descriptionPlaceable != null) descriptionPlaceable.height + itemSpacing else 0
+        val containerHeight = textFieldContainerHeight + labelHeight + descriptionHeight
+
+        val labelHeightWithSpacing = if (labelPlaceable != null) labelPlaceable.height + itemSpacing else 0
+        layout(
+            width = targetWidth,
+            height = containerHeight
+        ) {
+            var currentX = 0
+            labelPlaceable?.placeRelative(
+                x = 0,
+                y = 0
+            )
+            val currentY = if (labelPlaceable != null) labelPlaceable.height + itemSpacing else 0
+            containerPlaceable?.placeRelative(x = 0, y = currentY)
+
+            currentX += startPadding
+
+            leadingPlaceable?.place(
+                x = currentX,
+                y = labelHeightWithSpacing +(textFieldContainerHeight - leadingPlaceableHeight) / 2            )
+
+            currentX += leadingPlaceableWidth + itemSpacing
+            textfieldPlaceable?.place(
+                x = currentX,
+                y = labelHeightWithSpacing +(textFieldContainerHeight - textfieldPlaceable.height) /2
+            )
+            placeHolderPlaceable?.place(
+                x = currentX,
+                y = labelHeightWithSpacing +(textFieldContainerHeight - textfieldPlaceable.height) /2
+            )
+
+
+
+            currentX = targetWidth - endPadding - trailingPlaceableWidth
+            trailingPlaceable?.place(
+                x = currentX,
+                y = labelHeightWithSpacing +(textFieldContainerHeight - trailingPlaceableHeight) /2
+            )
+
+            descriptionPlaceable?.place(
+                x =  0,
+                y =labelHeightWithSpacing +  textFieldContainerHeight + itemSpacing
+            )
+
+
+        }
+}}
+
+enum class TextFieldLayoutContents{
+    Label,
+    Description,
+    Container,
+    PlaceHolder,
+    InnerTextField,
+    LeadingIcon,
+    TrailingIcon
+}
+
+
+
+@Composable
+private fun TextFieldContainer(
+    shape: Shape,
+    enabled: Boolean,
+    focused: Boolean,
+    error: Boolean,
+    focusRequester: FocusRequester,
+    textFieldColors: TextFieldColors,
+    borderWidth: OutlinedBorderWidth,
+    interactionSource: MutableInteractionSource,
+){
+
+    val borderColor by animateColorAsState(
+        targetValue = textFieldColors.borderColor(
+            enabled = enabled,
+            focused = focused,
+            error = error
+        )
+    )
+
+    val width by animateDpAsState(
+        targetValue = when {
+            focused -> borderWidth.focusedBorderWidth
+            error -> borderWidth.errorBorderWidth
+            !enabled -> borderWidth.disabledBorderWidth
+            else -> borderWidth.unFocusedBorderWidth
+        }
+    )
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(shape = shape)
+            //.background(Color.Red)
+
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = {
+                    if (!focused) {
+                        focusRequester.requestFocus()
+                    }
+                }
+            )
+            .border(width = width, color = borderColor, shape = shape)
+
+    )
 }
 
 // decoration box for the text field
 @Composable
-fun DecorationBox(
+private fun DecorationBox(
     innerTextField : @Composable () -> Unit,
     enabled: Boolean,
     placeholder :@Composable (()-> Unit) ?,
     isError:  Boolean,
     isFocused : Boolean,
-    singleLine : Boolean,
     shouldShowPlaceholder: Boolean,
     textFieldColors: TextFieldColors,
     leadingIcon : @Composable (()-> Unit) ?,
@@ -226,7 +582,7 @@ fun DecorationBox(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.Companion
+        modifier = Modifier
             .padding(
                 TextFieldDefaults.textFieldPadding
             )
@@ -250,7 +606,7 @@ fun DecorationBox(
                    value = LocalContentColor provides textFieldColors.leadingIconColor(
                        enabled = enabled,
                        error = isError,
-                       isFocused = isFocused
+                       focused = isFocused
                    )
                ) {
                    leadingIcon()
@@ -276,7 +632,7 @@ fun DecorationBox(
 
             }
             CompositionLocalProvider(
-                value = LocalTextStyle provides KoreTheme.typography.label3
+                LocalTextStyle provides KoreTheme.typography.label3
             ) {
                 innerTextField()
             }
@@ -299,7 +655,7 @@ fun DecorationBox(
                     value = LocalContentColor provides textFieldColors.trailingIconColor(
                         enabled = enabled,
                         error = isError,
-                        isFocused = isFocused
+                        focused = isFocused
                     )
                 ) {
                     trailingIcon()
@@ -308,7 +664,58 @@ fun DecorationBox(
         }
     }}
 
-
+@Composable
+fun OutlinedTextField(
+    state: TextFieldState,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    isError: Boolean = false,
+    label: @Composable (() -> Unit)? = null,
+    placeholder :@Composable (() -> Unit)? = null,
+    description: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    shape: Shape = TextFieldDefaults.defaultTextFieldShape,
+    textStyle: TextStyle?= null,
+    textFieldColors: TextFieldColors= TextFieldDefaults.outlinedTextFieldColors(),
+    borderWidth: OutlinedBorderWidth = TextFieldDefaults.defaultBorderWidth(),
+    interactionSource: MutableInteractionSource ? = null,
+    decorator: TextFieldDecorator? = null,
+    outputTransformation: OutputTransformation? = null,
+    inputTransformation: InputTransformation?= null,
+    onTextLayout: (Density.(() -> TextLayoutResult?) -> Unit)? = null,
+    onKeyboardActions: KeyboardActionHandler? = null,
+    contentPadding: PaddingValues = TextFieldDefaults.textFieldPadding,
+    lineLimits: TextFieldLineLimits= TextFieldLineLimits.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+){
+    BaseTextField(
+        state = state,
+        modifier = modifier,
+        enabled = enabled,
+        readOnly = readOnly,
+        error = isError,
+        label = label,
+        placeholder = placeholder,
+        description = description,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        shape = shape,
+        textStyle = textStyle,
+        textFieldColors = textFieldColors,
+        borderWidth = borderWidth,
+        interactionSource = interactionSource,
+        decorator = decorator,
+        contentPadding = contentPadding,
+        outputTransformation = outputTransformation,
+        inputTransformation = inputTransformation,
+        onTextLayout = onTextLayout,
+        onKeyboardActions = onKeyboardActions,
+        lineLimits = lineLimits,
+        keyboardOptions = keyboardOptions
+    )
+}
 /**
  * OutlinedTextField is an ui component which lets user enter text into ui(email, passwords, name etc.)
  * @param value the value of the textfield input [String]
@@ -389,59 +796,81 @@ fun OutlinedTextField(
 object TextFieldDefaults {
     @Composable
     fun outlinedTextFieldColors(
-        focusedBorderColor: Color = KoreTheme.colorScheme.primary,
-        unFocusedBorderColor: Color = KoreTheme.colorScheme.backGroundVariant,
-        errorBorderColor: Color = KoreTheme.colorScheme.error,
-        disabledBorderColor: Color = KoreTheme.colorScheme.disabled,
-        focusedContainerColor: Color = KoreTheme.colorScheme.transparent,
-        unFocusedContainerColor: Color = KoreTheme.colorScheme.transparent,
-        errorContainerColor: Color = KoreTheme.colorScheme.transparent,
-        disabledContainerColor: Color = KoreTheme.colorScheme.disabled,
-        labelColor : Color = KoreTheme.colorScheme.onBackGround,
-        errorLabelColor : Color = KoreTheme.colorScheme.error,
-        disabledLabelColor: Color = KoreTheme.colorScheme.disabled,
-        unFocusedIndicatorColor : Color = KoreTheme.colorScheme.backGroundVariant,
-        focusedIndicatorColor: Color = KoreTheme.colorScheme.primary,
-        errorIndicatorColor: Color = KoreTheme.colorScheme.error,
-        disabledIndicatorColor: Color = KoreTheme.colorScheme.disabled,
         focusedTextColor: Color = KoreTheme.colorScheme.onBackGround,
         unFocusedTextColor: Color = KoreTheme.colorScheme.onBackGround,
         errorTextColors: Color = KoreTheme.colorScheme.onBackGround,
         disabledTextColor: Color = KoreTheme.colorScheme.disabled,
-        unFocusedLeadingIconColor: Color = KoreTheme.colorScheme.onBackGroundVariant,
+
+        focusedContainerColor: Color = KoreTheme.colorScheme.transparent,
+        unFocusedContainerColor: Color = KoreTheme.colorScheme.transparent,
+        errorContainerColor: Color = KoreTheme.colorScheme.transparent,
+        disabledContainerColor: Color = KoreTheme.colorScheme.disabled,
+
+        focusedBorderColor: Color = KoreTheme.colorScheme.primary,
+        unFocusedBorderColor: Color = KoreTheme.colorScheme.backGroundVariant,
+        errorBorderColor: Color = KoreTheme.colorScheme.error,
+        disabledBorderColor: Color = KoreTheme.colorScheme.disabled,
+
+        focusedIndicatorColor: Color = KoreTheme.colorScheme.primary,
+        unFocusedIndicatorColor: Color = KoreTheme.colorScheme.backGroundVariant,
+        errorIndicatorColor: Color = KoreTheme.colorScheme.error,
+        disabledIndicatorColor: Color = KoreTheme.colorScheme.disabled,
+
+        labelColor: Color = KoreTheme.colorScheme.onBackGround,
+        errorLabelColor: Color = KoreTheme.colorScheme.error,
+        disabledLabelColor: Color = KoreTheme.colorScheme.disabled,
+
+        descriptionColor: Color = KoreTheme.colorScheme.onBackGround,
+        errorDescriptionColor: Color = KoreTheme.colorScheme.error,
+        disabledDescriptionColor: Color = KoreTheme.colorScheme.disabled,
+
+
         focusedLeadingIconColor: Color = KoreTheme.colorScheme.onBackGround,
+        unFocusedLeadingIconColor: Color = KoreTheme.colorScheme.onBackGroundVariant,
         errorLeadingIconColor: Color = KoreTheme.colorScheme.error,
         disabledLeadingIconColor: Color = KoreTheme.colorScheme.onDisabled,
-        unFocusedTrailingIconColor: Color  = KoreTheme.colorScheme.onBackGroundVariant,
-        focusedTrailingIconColor : Color = KoreTheme.colorScheme.onBackGround,
-        errorTrailingIconColor : Color = KoreTheme.colorScheme.error,
-        disabledTrailingIconColor : Color = KoreTheme.colorScheme.onDisabled,
+
+        focusedTrailingIconColor: Color = KoreTheme.colorScheme.onBackGround,
+        unFocusedTrailingIconColor: Color = KoreTheme.colorScheme.onBackGroundVariant,
+        errorTrailingIconColor: Color = KoreTheme.colorScheme.error,
+        disabledTrailingIconColor: Color = KoreTheme.colorScheme.onDisabled,
     ) = TextFieldColors(
-        focusedBorderColor = focusedBorderColor,
-        unFocusedBorderColor = unFocusedBorderColor,
-        errorBorderColor = errorBorderColor,
-        disabledBorderColor = disabledBorderColor,
-        focusedContainerColor = focusedContainerColor,
-        unFocusedContainerColor = unFocusedContainerColor,
-        errorContainerColor = errorContainerColor,
-        disabledContainerColor = disabledContainerColor,
-        labelColor = labelColor,
-        errorLabelColor = errorLabelColor,
-        disabledLabelColor = disabledLabelColor,
-        focusedIndicatorColor = focusedIndicatorColor,
-        unFocusedIndicatorColor = unFocusedIndicatorColor,
-        errorIndicatorColor = errorIndicatorColor,
-        disabledIndicatorColor = disabledIndicatorColor,
         focusedTextColor = focusedTextColor,
         unFocusedTextColor = unFocusedTextColor,
         errorTextColor = errorTextColors,
         disabledTextColor = disabledTextColor,
-        unFocusedLeadingIconColor = unFocusedLeadingIconColor,
+
+        focusedContainerColor = focusedContainerColor,
+        unFocusedContainerColor = unFocusedContainerColor,
+        errorContainerColor = errorContainerColor,
+        disabledContainerColor = disabledContainerColor,
+
+        focusedBorderColor = focusedBorderColor,
+        unFocusedBorderColor = unFocusedBorderColor,
+        errorBorderColor = errorBorderColor,
+        disabledBorderColor = disabledBorderColor,
+
+        focusedIndicatorColor = focusedIndicatorColor,
+        unFocusedIndicatorColor = unFocusedIndicatorColor,
+        errorIndicatorColor = errorIndicatorColor,
+        disabledIndicatorColor = disabledIndicatorColor,
+
+        labelColor = labelColor,
+        errorLabelColor = errorLabelColor,
+        disabledLabelColor = disabledLabelColor,
+
+        descriptionColor = descriptionColor,
+        errorDescriptionColor = errorDescriptionColor,
+        disabledDescriptionColor = disabledDescriptionColor,
+
+
         focusedLeadingIconColor = focusedLeadingIconColor,
+        unFocusedLeadingIconColor = unFocusedLeadingIconColor,
         errorLeadingIconColor = errorLeadingIconColor,
         disabledLeadingIconColor = disabledLeadingIconColor,
-        unFocusedTrailingIconColor = unFocusedTrailingIconColor,
+
         focusedTrailingIconColor = focusedTrailingIconColor,
+        unFocusedTrailingIconColor = unFocusedTrailingIconColor,
         errorTrailingIconColor = errorTrailingIconColor,
         disabledTrailingIconColor = disabledTrailingIconColor,
     )
@@ -498,35 +927,155 @@ object TextFieldDefaults {
 }
 
 @Immutable
-data class TextFieldColors(
-    val focusedBorderColor : Color,
-    val unFocusedBorderColor : Color,
-    val errorBorderColor : Color,
-    val disabledBorderColor : Color,
-    val focusedContainerColor : Color,
-    val unFocusedContainerColor : Color,
-    val errorContainerColor : Color,
-    val disabledContainerColor : Color,
-    val labelColor : Color,
-    val errorLabelColor : Color,
-    val disabledLabelColor : Color,
-    val unFocusedIndicatorColor : Color,
-    val focusedIndicatorColor: Color,
-    val errorIndicatorColor : Color,
-    val disabledIndicatorColor : Color,
-    val focusedTextColor : Color,
-    val unFocusedTextColor : Color,
+class TextFieldColors(
+    val focusedTextColor: Color,
+    val unFocusedTextColor: Color,
     val errorTextColor: Color,
     val disabledTextColor: Color,
+
+    val focusedContainerColor: Color,
+    val unFocusedContainerColor: Color,
+    val errorContainerColor: Color,
+    val disabledContainerColor: Color,
+
+    val focusedBorderColor: Color,
+    val unFocusedBorderColor: Color,
+    val errorBorderColor: Color,
+    val disabledBorderColor: Color,
+
+    val focusedIndicatorColor: Color,
+    val unFocusedIndicatorColor: Color,
+    val errorIndicatorColor: Color,
+    val disabledIndicatorColor: Color,
+
+    val labelColor: Color,
+    val errorLabelColor: Color,
+    val disabledLabelColor: Color,
+
+    val descriptionColor : Color,
+    val errorDescriptionColor : Color,
+    val disabledDescriptionColor : Color,
+
+    val focusedLeadingIconColor: Color,
     val unFocusedLeadingIconColor: Color,
-    val focusedLeadingIconColor : Color,
-    val errorLeadingIconColor : Color,
-    val disabledLeadingIconColor : Color,
+    val errorLeadingIconColor: Color,
+    val disabledLeadingIconColor: Color,
+
+    val focusedTrailingIconColor: Color,
     val unFocusedTrailingIconColor: Color,
-    val focusedTrailingIconColor : Color,
-    val errorTrailingIconColor : Color,
-    val disabledTrailingIconColor : Color,
-)
+    val errorTrailingIconColor: Color,
+    val disabledTrailingIconColor: Color,
+){
+    /**
+     * function to get the textfield text color [Color]
+     */
+    fun textColor(
+        enabled: Boolean,
+        error: Boolean,
+        focused: Boolean
+    ): Color {
+        return when {
+            !enabled -> disabledTextColor
+            error -> errorTextColor
+            focused -> focusedTextColor
+            else -> unFocusedTextColor
+        }
+    }
+
+
+    //function to get the label color
+    fun labelColor(
+        enabled: Boolean,
+        error: Boolean,
+    ) : Color{
+        return  when {
+            !enabled -> disabledLabelColor
+            error -> errorLabelColor
+            else -> labelColor
+        }
+    }
+
+    /**
+     * function to get the containerColor  [Color]
+     *
+     */
+
+    fun containerColor(
+        enabled: Boolean,
+        error: Boolean,
+        focused: Boolean
+    ): Color{
+        return when {
+            !enabled -> this.disabledContainerColor
+            error -> this.errorContainerColor
+            focused-> this.focusedContainerColor
+            else -> this.unFocusedContainerColor
+        }
+    }
+
+    /**
+     * function to get the borderColor [Color]
+     */
+
+    fun borderColor(
+        enabled: Boolean,
+        error: Boolean,
+        focused: Boolean
+    ): Color {
+        val isError: Boolean = enabled && error
+        return when {
+            !enabled -> disabledBorderColor
+            isError -> errorBorderColor
+            focused -> focusedBorderColor
+            else -> unFocusedBorderColor
+        }
+    }
+
+    /**
+     * function to get the text handle indicator [Color]
+     */
+
+    fun indicatorColor(
+        enabled: Boolean,
+        error: Boolean,
+        focused: Boolean
+    ): Color {
+        return when {
+            !enabled -> this.disabledIndicatorColor
+            error -> this.errorIndicatorColor
+            focused -> this.focusedIndicatorColor
+            else -> this.unFocusedIndicatorColor
+        }
+    }
+
+    // function to get the leadin Icon color
+    fun leadingIconColor(
+        enabled: Boolean,
+        error: Boolean,
+        focused: Boolean
+    ) : Color{
+        return when{
+            !enabled -> disabledLeadingIconColor
+            error -> errorLeadingIconColor
+            focused -> focusedLeadingIconColor
+            else -> unFocusedLeadingIconColor
+        }
+    }
+
+    // function to get the trailing Icon
+
+    fun trailingIconColor(
+        enabled: Boolean,
+        error: Boolean,
+        focused: Boolean
+    ) : Color{
+        return when {
+            !enabled -> disabledTrailingIconColor
+            error -> errorTrailingIconColor
+            focused -> focusedTrailingIconColor
+            else -> unFocusedTrailingIconColor
+        }
+}}
 
 @Immutable
 data class OutlinedBorderWidth(
@@ -535,109 +1084,5 @@ data class OutlinedBorderWidth(
     val errorBorderWidth : Dp,
     val disabledBorderWidth : Dp
 )
-
-
-
-private fun TextFieldColors.borderColor(
-    enabled: Boolean,
-    hasError: Boolean,
-    isFocused: Boolean
-): Color {
-    val isError: Boolean = enabled && hasError
-    return when {
-        !enabled -> this.disabledBorderColor
-        isError -> this.errorBorderColor
-        isFocused -> this.focusedBorderColor
-        else -> this.unFocusedBorderColor
-    }
-}
-
-
-private fun TextFieldColors.indicatorColor(
-    enabled: Boolean,
-    error: Boolean,
-    isFocused: Boolean
-): Color {
-    return when {
-        !enabled -> this.disabledIndicatorColor
-        error -> this.errorIndicatorColor
-        isFocused -> this.focusedIndicatorColor
-        else -> this.unFocusedIndicatorColor
-    }
-}
-
-// function for colors of the leading icon
-
-
-private fun TextFieldColors.leadingIconColor(
-    enabled: Boolean,
-    error : Boolean,
-    isFocused: Boolean
-) : Color {
-
-    return when {
-        !enabled -> this.disabledLeadingIconColor
-        error -> this.errorLeadingIconColor
-        isFocused -> this.focusedLeadingIconColor
-        else -> this.unFocusedLeadingIconColor
-    }
-}
-
-private fun TextFieldColors.trailingIconColor(
-    enabled: Boolean,
-    error : Boolean,
-    isFocused: Boolean
-) : Color {
-
-    return when {
-        !enabled -> this.disabledTrailingIconColor
-        error -> this.errorTrailingIconColor
-        isFocused -> this.focusedTrailingIconColor
-        else -> this.unFocusedTrailingIconColor
-    }
-}
-private fun TextFieldColors.contentColor(
-    enabled: Boolean,
-    error: Boolean,
-    isFocused: Boolean
-) : Color{
-
-    return when {
-        !enabled -> this.disabledTextColor
-        error -> this.errorTextColor
-        isFocused -> this.focusedTextColor
-        else -> this.unFocusedTextColor
-    }
-}
-private fun TextFieldColors.containerColor(
-    enabled: Boolean,
-    error: Boolean,
-    isFocused: Boolean
-) : Color{
-    return when {
-        !enabled -> this.disabledContainerColor
-        error -> this.errorContainerColor
-        isFocused -> this.focusedContainerColor
-        else -> this.unFocusedContainerColor
-    }
-}
-
-private fun TextFieldColors.labelColor(
-    enabled: Boolean,
-    error: Boolean,
-    isFocused: Boolean
-): Color{
-    return when {
-        !enabled -> this.disabledLabelColor
-        error -> this.errorLabelColor
-        isFocused -> this.labelColor
-        else -> this.labelColor
-    }
-}
-
-
-
-
-
 
 
