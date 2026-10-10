@@ -144,20 +144,20 @@ internal fun BaseTextField(
     ) {
 
 
-        Column { 
+        Column {
             label?.let {
-               CompositionLocalProvider(
-                   values = arrayOf(
-                       LocalTextStyle provides KoreTheme.typography.title2,
-                       LocalContentColor provides labelColor
-                   )
-               ) {
-                   Box(
-                       modifier = Modifier.Companion.padding(TextFieldDefaults.labelPaddingValues)
-                   ) {
-                       it()
-                   }
-               }
+                CompositionLocalProvider(
+                    values = arrayOf(
+                        LocalTextStyle provides KoreTheme.typography.title2,
+                        LocalContentColor provides labelColor
+                    )
+                ) {
+                    Box(
+                        modifier = Modifier.Companion.padding(TextFieldDefaults.labelPaddingValues)
+                    ) {
+                        it()
+                    }
+                }
             }
             BasicTextField(
                 modifier = modifier
@@ -173,66 +173,66 @@ internal fun BaseTextField(
                         color = backGroundColor
                     )
 
-                        .border(
-                            color = borderColor,
-                            width = width,
-                            shape = shape
-                        ),
-                    enabled = enabled,
-                    readOnly = readOnly,
-                    singleLine = singleLine,
-                    keyboardActions = keyboardActions,
-                    keyboardOptions = keyboardOptions,
-                    visualTransformation = visualTransformation,
-                    interactionSource = textFieldInteractionSource,
-                    maxLines = maxLines,
-                    minLines = minLine,
-                    textStyle = textStyle ?: LocalTextStyle.current.copy(
-                        color = contentColor
+                    .border(
+                        color = borderColor,
+                        width = width,
+                        shape = shape
                     ),
-                    cursorBrush = SolidColor(
-                        value = textFieldColors.indicatorColor(
-                            enabled = enabled,
-                            error = isError,
-                            focused = isFocused
-                        )
-                    ),
-                    decorationBox = { innerField ->
-                        DecorationBox(
-                            innerTextField = innerField,
-                            enabled = enabled,
-                            textFieldColors = textFieldColors,
-                            leadingIcon = leadingIcon,
-                            trailingIcon = trailingIcon,
-                            placeholder = placeholder,
-                            isError = isError,
-                            isFocused = isFocused,
-                            shouldShowPlaceholder = shouldShow,
-                        )
-                    }, value = value, onValueChange = {
-                        onValueChange.invoke(it)
-                    })
-            }
-            description?.let {
-                Box(
-                    modifier = Modifier.padding(
-                        TextFieldDefaults.errorLabelPaddingValues
+                enabled = enabled,
+                readOnly = readOnly,
+                singleLine = singleLine,
+                keyboardActions = keyboardActions,
+                keyboardOptions = keyboardOptions,
+                visualTransformation = visualTransformation,
+                interactionSource = textFieldInteractionSource,
+                maxLines = maxLines,
+                minLines = minLine,
+                textStyle = textStyle ?: LocalTextStyle.current.copy(
+                    color = contentColor
+                ),
+                cursorBrush = SolidColor(
+                    value = textFieldColors.indicatorColor(
+                        enabled = enabled,
+                        error = isError,
+                        focused = isFocused
+                    )
+                ),
+                decorationBox = { innerField ->
+                    DecorationBox(
+                        innerTextField = innerField,
+                        enabled = enabled,
+                        textFieldColors = textFieldColors,
+                        leadingIcon = leadingIcon,
+                        trailingIcon = trailingIcon,
+                        placeholder = placeholder,
+                        isError = isError,
+                        isFocused = isFocused,
+                        shouldShowPlaceholder = shouldShow,
+                    )
+                }, value = value, onValueChange = {
+                    onValueChange.invoke(it)
+                })
+        }
+        description?.let {
+            Box(
+                modifier = Modifier.padding(
+                    TextFieldDefaults.errorLabelPaddingValues
+                )
+            ) {
+                CompositionLocalProvider(
+                    values = arrayOf(
+                        LocalTextStyle provides KoreTheme.typography.label3,
+                        LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant
                     )
                 ) {
-                    CompositionLocalProvider(
-                        values = arrayOf(
-                            LocalTextStyle provides KoreTheme.typography.label3,
-                           LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant
-                       )
-                   ) {
-                       it()
-                   }
+                    it()
+                }
 
-               }
             }
-
         }
+
     }
+}
 @Composable
 internal fun BaseTextField(
     state: TextFieldState,
@@ -284,6 +284,12 @@ internal fun BaseTextField(
         )
     )
 
+    // decorator providers inner text field
+    /*
+    so the layout should be
+    outlined Textfield -> BaseTextField -> BasicTextField -> TextFieldContainer -> Textfield Layout
+
+     */
 
     TextFieldLayout(
         modifier = modifier,
@@ -407,44 +413,44 @@ fun TextFieldLayout(
     { measurables, constraints ->
 
 
-     val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+        val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
         val defaultMinWidth = TextFieldDefaults.minimumTextFieldWidth .roundToPx()
 
 
         val targetWidth = defaultMinWidth
             .coerceIn(constraints.minWidth, constraints.maxWidth)
-     // label placeable
+        // label placeable
 
-     val labelPlaceable = measurables.firstOrNull { it.layoutId == TextFieldLayoutContents.Label }?.measure(looseConstraints)
-
-
-     val leadingPlaceable = measurables.firstOrNull { it.layoutId == TextFieldLayoutContents.LeadingIcon }?.measure(looseConstraints)
-
-     val leadingPlaceableHeight = leadingPlaceable?.height ?:0
-     val leadingPlaceableWidth = leadingPlaceable?.width ?:0
-
-     val trailingPlaceable = measurables.fastFirstOrNull { it.layoutId == TextFieldLayoutContents.TrailingIcon }?.measure(looseConstraints)
-
-     val trailingPlaceableHeight = trailingPlaceable?.height ?:0
-     val trailingPlaceableWidth = trailingPlaceable?.width ?:0
-
-     val leadingTrailingWidth = (leadingPlaceableWidth + if (leadingPlaceable != null) itemSpacing + startPadding else 0) + (trailingPlaceableWidth + if(trailingPlaceable != null) itemSpacing+ endPadding else 0)
+        val labelPlaceable = measurables.firstOrNull { it.layoutId == TextFieldLayoutContents.Label }?.measure(looseConstraints)
 
 
+        val leadingPlaceable = measurables.firstOrNull { it.layoutId == TextFieldLayoutContents.LeadingIcon }?.measure(looseConstraints)
 
-     val textFieldWidth = targetWidth - leadingTrailingWidth
+        val leadingPlaceableHeight = leadingPlaceable?.height ?:0
+        val leadingPlaceableWidth = leadingPlaceable?.width ?:0
 
-     val textfieldPlaceable =
-         measurables.first { it.layoutId == TextFieldLayoutContents.InnerTextField }.measure(looseConstraints.copy(maxWidth = textFieldWidth))
+        val trailingPlaceable = measurables.fastFirstOrNull { it.layoutId == TextFieldLayoutContents.TrailingIcon }?.measure(looseConstraints)
 
-     val textFieldContainerHeight = maxOf(
-         textfieldPlaceable.height ?: 0,
-         leadingPlaceableHeight,
-         trailingPlaceableHeight
-     ).plus(topPadding + bottomPadding).coerceAtLeast(56.dp.roundToPx())
-     val placeHolderPlaceable = measurables.fastFirstOrNull {
-         it.layoutId == TextFieldLayoutContents.PlaceHolder
-     }?.measure(looseConstraints.copy(maxWidth = textFieldWidth))
+        val trailingPlaceableHeight = trailingPlaceable?.height ?:0
+        val trailingPlaceableWidth = trailingPlaceable?.width ?:0
+
+        val leadingTrailingWidth = (leadingPlaceableWidth + if (leadingPlaceable != null) itemSpacing + startPadding else 0) + (trailingPlaceableWidth + if(trailingPlaceable != null) itemSpacing+ endPadding else 0)
+
+
+
+        val textFieldWidth = targetWidth - leadingTrailingWidth
+
+        val textfieldPlaceable =
+            measurables.first { it.layoutId == TextFieldLayoutContents.InnerTextField }.measure(looseConstraints.copy(maxWidth = textFieldWidth))
+
+        val textFieldContainerHeight = maxOf(
+            textfieldPlaceable.height ?: 0,
+            leadingPlaceableHeight,
+            trailingPlaceableHeight
+        ).plus(topPadding + bottomPadding).coerceAtLeast(56.dp.roundToPx())
+        val placeHolderPlaceable = measurables.fastFirstOrNull {
+            it.layoutId == TextFieldLayoutContents.PlaceHolder
+        }?.measure(looseConstraints.copy(maxWidth = textFieldWidth))
 
         val containerPlaceable = measurables.firstOrNull { it.layoutId == TextFieldLayoutContents.Container }
             ?.measure(
@@ -503,7 +509,7 @@ fun TextFieldLayout(
 
 
         }
-}}
+    }}
 
 enum class TextFieldLayoutContents{
     Label,
@@ -578,7 +584,7 @@ private fun DecorationBox(
     textFieldColors: TextFieldColors,
     leadingIcon : @Composable (()-> Unit) ?,
     trailingIcon: @Composable (() -> Unit)?,
-    ) {
+) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -602,15 +608,15 @@ private fun DecorationBox(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-               CompositionLocalProvider(
-                   value = LocalContentColor provides textFieldColors.leadingIconColor(
-                       enabled = enabled,
-                       error = isError,
-                       focused = isFocused
-                   )
-               ) {
-                   leadingIcon()
-               }
+                CompositionLocalProvider(
+                    value = LocalContentColor provides textFieldColors.leadingIconColor(
+                        enabled = enabled,
+                        error = isError,
+                        focused = isFocused
+                    )
+                ) {
+                    leadingIcon()
+                }
             }
         }
 
@@ -1075,7 +1081,7 @@ class TextFieldColors(
             focused -> focusedTrailingIconColor
             else -> unFocusedTrailingIconColor
         }
-}}
+    }}
 
 @Immutable
 data class OutlinedBorderWidth(
