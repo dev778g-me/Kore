@@ -1,5 +1,6 @@
 package com.dev.kore.themes
 
+import com.dev.kore.motions.MotionConfig
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -26,9 +27,14 @@ import com.dev.kore.themes.typography.googleSansFlex
  * @property defaultShapes the default Shapes for the Kore Design System [KoreShapes]
  * @property defaultSmoothCornerShapes the default Squircle shapes for the Kore Design System [KoreShapes]
  * @property defaultSizes the default sizes for Kore Design System [KoreSizes]
+ * @property defaultMotion the default Motion for the Kore Design System [MotionConfig]
  *
  */
 object KoreDefaults{
+
+    /** The default motion configuration — uses [MotionConfig.balanced]. */
+    val defaultMotion: MotionConfig = MotionConfig.Still
+
     val defaultLightColorScheme = KoreColorScheme(
         //[neutrals]
         background = RadixColors.Gray.light.step4,
