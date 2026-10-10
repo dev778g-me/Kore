@@ -31,6 +31,7 @@ internal fun BaseBadge(
     modifier: Modifier = Modifier,
     shape : Shape,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
+    containerPadding: PaddingValues,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
     border : BorderStroke ? = null,
@@ -60,7 +61,7 @@ internal fun BaseBadge(
                             stateDescription = "Disabled"
                         }
                     }.padding(
-                    badgeSizes.containerPadding
+                    containerPadding
                 )
                 ,verticalAlignment = Alignment.CenterVertically
             ) {
@@ -114,6 +115,7 @@ fun PrimaryBadge(
     modifier: Modifier = Modifier,
     shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
+    contentPadding: PaddingValues = BadgeDefaults.defaultContainerPaddingValues,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
@@ -124,6 +126,7 @@ fun PrimaryBadge(
         modifier = modifier,
         shape = shape,
         badgeSizes = badgeSizes,
+        containerPadding = contentPadding,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         enabled = enabled,
@@ -148,6 +151,7 @@ fun SuccessBadge(
     modifier: Modifier = Modifier,
     shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
+    containerPadding: PaddingValues = BadgeDefaults.defaultContainerPaddingValues,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
@@ -158,6 +162,7 @@ fun SuccessBadge(
         modifier = modifier,
         shape = shape,
         badgeSizes = badgeSizes,
+        containerPadding = containerPadding,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         enabled = enabled,
@@ -182,6 +187,7 @@ fun ErrorBadge(
     modifier: Modifier = Modifier,
     shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
+    containerPadding: PaddingValues = BadgeDefaults.defaultContainerPaddingValues,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
@@ -192,6 +198,7 @@ fun ErrorBadge(
         modifier = modifier,
         shape = shape,
         badgeSizes = badgeSizes,
+        containerPadding = containerPadding,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         enabled = enabled,
@@ -217,6 +224,7 @@ fun SecondaryBadge(
     modifier: Modifier = Modifier,
     shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
+    containerPadding: PaddingValues = BadgeDefaults.defaultContainerPaddingValues,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
@@ -227,6 +235,7 @@ fun SecondaryBadge(
         modifier = modifier,
         shape = shape,
         badgeSizes = badgeSizes,
+        containerPadding =containerPadding ,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         enabled = enabled,
@@ -253,6 +262,7 @@ fun OutlinedBadge(
     modifier: Modifier = Modifier,
     shape: Shape = KoreTheme.shapes.lg,
     badgeSizes: BadgeSizes = BadgeDefaults.defaultBadgeSize(),
+    containerPadding: PaddingValues = BadgeDefaults.defaultContainerPaddingValues,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
@@ -263,6 +273,7 @@ fun OutlinedBadge(
         modifier = modifier,
         shape = shape,
         badgeSizes = badgeSizes,
+        containerPadding = containerPadding,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         border = BorderStroke(
@@ -275,15 +286,7 @@ fun OutlinedBadge(
 }
 
 
-/**
- * BadgeDefaults is the defaults values for all badge Composables
- * @property defaultBadgeSize is the default the content sizes and padding values [BadgeSizes]
- * @property primaryBadgeColors is the default colors for the PrimaryBadge [BadgeColors]
- * @property secondaryBadgeColors is the default colors for the SecondaryBadge [BadgeColors]
- * @property outlinedBadgeColor is the default colors for the OutlinedBadge [BadgeColors]
- * @property successBadgeColors is the default colors for the SuccessBadge [BadgeColors]
- * @property errorBadgeColors is the default colors for the ErrorBadge [BadgeColors]
- */
+
 object BadgeDefaults {
 
     /**
@@ -431,6 +434,8 @@ object BadgeDefaults {
     private val defaultLeadingIconSize = 18.dp
 
    private val defaultTrailingIconSize = 18.dp
+
+    val defaultContainerPaddingValues: PaddingValues = PaddingValues(vertical = 2.dp, horizontal = 6.dp)
 
 
 
