@@ -140,7 +140,7 @@ fun Select(
                     disabled()
                 }
                 if (error) {
-                    error()
+                    error("")
                 }
                 if (expanded) {
                     collapse(action = { onDismissRequest(); true })
