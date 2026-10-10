@@ -16,7 +16,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavType
@@ -202,6 +204,9 @@ fun BuilderNavHost(
             navController = navController,
             startDestination = AppRoute.Home
         ) {
+
+
+
             composable<AppRoute.Home> { HomeScreen(
                 onQuickStart = {
 
@@ -219,7 +224,11 @@ fun BuilderNavHost(
                     initialRoute = route,
                     scrollState = docsScrollState,
                     onNavigate = { newPath ->
-                        navController.navigate(AppRoute.Docs(newPath))
+                        navController.navigate(AppRoute.Docs(newPath)) {
+                            launchSingleTop = true
+                            popUpTo<AppRoute.Docs> { inclusive = false }
+                        }
+
                     }
                 )
             }
