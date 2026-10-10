@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -26,6 +27,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.components.separators.VerticalSeparator
@@ -60,7 +64,8 @@ fun ButtonGroup(
             .height(IntrinsicSize.Min)
             .width(IntrinsicSize.Max)
             .border(border = borderStroke, shape = shape)
-            .clip(shape),
+            .clip(shape)
+            .selectableGroup(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val scope = remember { ButtonGroupRowScopeWrapper(this) }
@@ -174,7 +179,7 @@ fun ButtonGroupRowScope.ToggleButtonItem(
         enabled = enabled,
         selected = selected,
         onClick = onClick,
-        role = Role.RadioButton,
+        role = Role.Checkbox,
         interactionSource = resolvedInteractionSource
     )
 
@@ -191,6 +196,13 @@ fun ButtonGroupRowScope.ToggleButtonItem(
             .defaultMinSize(minHeight = ButtonGroupDefaults.defaultButtonGroupMinHeight)
             .background(color = containerColor)
             .then(toggleableModifier)
+            .semantics {
+                stateDescription = if (!enabled) "Disabled"
+                else if (selected) "Selected" else "Not selected"
+                if (!enabled) {
+                    disabled()
+                }
+            }
             .padding(paddingValues),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally)

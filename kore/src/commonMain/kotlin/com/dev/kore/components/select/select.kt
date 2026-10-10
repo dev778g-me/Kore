@@ -43,6 +43,13 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.collapse
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.error
+import androidx.compose.ui.semantics.expand
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
@@ -121,6 +128,26 @@ fun Select(
             .clip(shape)
             .background(color = containerColor, shape = shape)
             .border(width = borderWidth, shape = shape, color = borderColor)
+            .semantics {
+                role = Role.DropdownList
+                stateDescription = when {
+                    !enabled -> "Disabled"
+                    error -> "Error"
+                    expanded -> "Expanded"
+                    else -> "Collapsed"
+                }
+                if (!enabled) {
+                    disabled()
+                }
+                if (error) {
+                    error()
+                }
+                if (expanded) {
+                    collapse(action = { onDismissRequest(); true })
+                } else {
+                    expand(action = { if (enabled) { onExpandedChange(); true } else false })
+                }
+            }
             .focusRequester(focusRequester)
             .focusable(
                 interactionSource = resolvedInteractionSource
@@ -315,6 +342,13 @@ fun SelectGroupItem(
             .clip(shape = shape)
             .background(color = containerColor, shape = shape)
             .then(selectableModifier)
+            .semantics {
+                stateDescription = if (!enabled) "Disabled"
+                else if (selected) "Selected" else "Not selected"
+                if (!enabled) {
+                    disabled()
+                }
+            }
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ){

@@ -11,6 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -24,13 +28,20 @@ fun Avatar(
     shape : Shape = AvatarDefaults.defaultAvatarShape,
     colors: AvatarColors = AvatarDefaults.defaultAvatarColors(),
     contentAlignment: Alignment = AvatarDefaults.defaultContentAlignment,
+    contentDescription: String? = null,
     content : @Composable () -> Unit,
 ) {
     Box(
         modifier = modifier
             .size(avatarSize)
             .clip(shape)
-            .background(color = colors.containerColor, shape = shape),
+            .background(color = colors.containerColor, shape = shape)
+            .semantics {
+                role = Role.Image
+                if (contentDescription != null) {
+                    this.contentDescription = contentDescription
+                }
+            },
         contentAlignment = contentAlignment
     ){
         CompositionLocalProvider(

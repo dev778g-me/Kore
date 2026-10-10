@@ -25,6 +25,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.collapse
+import androidx.compose.ui.semantics.expand
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.dev.kore.components.separators.HorizontalSeparator
 import com.dev.kore.themes.KoreTheme
@@ -85,7 +92,19 @@ fun Accordion(
                     .clickable(
                         onClick = {
                             onExpand.invoke()
-                        })
+                        },
+                        role = Role.Button,
+                        onClickLabel = if (expanded) "Collapse" else "Expand"
+                    )
+                    .semantics {
+                        role = Role.Button
+                        stateDescription = if (expanded) "Expanded" else "Collapsed"
+                        if (expanded) {
+                            collapse(action = { onExpand.invoke(); true })
+                        } else {
+                            expand(action = { onExpand.invoke(); true })
+                        }
+                    }
                     .padding(
                         headerContentPaddingValues
                     ),
@@ -104,7 +123,9 @@ fun Accordion(
                     }
                 }
                 Box(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .semantics { heading() }
                 ) {
                     header()
                 }

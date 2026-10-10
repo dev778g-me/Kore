@@ -33,6 +33,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -93,6 +96,13 @@ fun CheckBox(
                 minWidth = CheckBoxDefaults.defaultCheckBoxSize
             )
             .clip(shape = shape) .then(toggleModifier)
+            .semantics {
+                stateDescription = if (!enabled) "Disabled"
+                else if (checked) "Checked" else "Unchecked"
+                if (!enabled) {
+                    disabled()
+                }
+            }
             .background(
                 color =backgroundColor,
                 shape =shape

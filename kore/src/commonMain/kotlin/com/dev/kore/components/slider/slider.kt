@@ -33,6 +33,12 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.setProgress
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -193,7 +199,36 @@ fun SliderImpl(
     val scale = remember { Animatable(1f) }
     Layout(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .semantics {
+                progressBarRangeInfo = ProgressBarRangeInfo(
+                    current = sliderState.sliderValue.coerceIn(
+                        sliderState.valueRange.start,
+                        sliderState.valueRange.endInclusive
+                    ),
+                    range = sliderState.valueRange,
+                    steps = 0
+                )
+                stateDescription = "${sliderState.sliderValue.coerceIn(sliderState.valueRange.start, sliderState.valueRange.endInclusive)} of ${sliderState.valueRange.start} to ${sliderState.valueRange.endInclusive}"
+                if (!enabled) {
+                    disabled()
+                }
+                setProgress { targetValue ->
+                    if (!enabled) return@setProgress false
+                    val coerced = targetValue.coerceIn(
+                        sliderState.valueRange.start,
+                        sliderState.valueRange.endInclusive
+                    )
+                    val newFraction = if (sliderState.range <= 0f) 0f
+                    else ((coerced - sliderState.valueRange.start) / sliderState.range).coerceIn(0f..1f)
+                    scope.launch {
+                        sliderState.snapTo(newFraction)
+                    }
+                    sliderState.sliderValue = coerced
+                    sliderState.onValueChange(coerced)
+                    true
+                }
+            },
         content = {
           // track drag touch both
             Canvas(

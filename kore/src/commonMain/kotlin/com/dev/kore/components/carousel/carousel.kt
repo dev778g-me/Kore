@@ -22,6 +22,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -204,7 +208,12 @@ private fun HorizontalCarouselGroup(
     pageContent: @Composable PagerScope.(page: Int) -> Unit,
 ){
     HorizontalPager(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .semantics {
+                collectionInfo = CollectionInfo(rowCount = 1, columnCount = state.pagerState.pageCount)
+                stateDescription = "Page ${state.pagerState.currentPage + 1} of ${state.pagerState.pageCount}"
+            },
         pageSpacing = carouselItemSpacing,
         verticalAlignment = verticalAlignment,
         flingBehavior = filingBehavior,
@@ -242,7 +251,12 @@ private fun VerticalCarouselGroup(
     pageContent: @Composable PagerScope.(page: Int) -> Unit
 ){
     VerticalPager(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .semantics {
+                collectionInfo = CollectionInfo(rowCount = state.pagerState.pageCount, columnCount = 1)
+                stateDescription = "Page ${state.pagerState.currentPage + 1} of ${state.pagerState.pageCount}"
+            },
         pageSpacing = carouselItemSpacing,
         horizontalAlignment = horizontalAlignment,
         flingBehavior = filingBehavior,

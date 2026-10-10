@@ -25,6 +25,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -164,6 +167,13 @@ fun FilterChip(
             .shadow(elevation = elevation, shape = shape, clip = true)
             .clip(shape)
             .then(selectableModifier)
+            .semantics {
+                stateDescription = if (!enabled) "Disabled"
+                else if (selected) "Selected" else "Not selected"
+                if (!enabled) {
+                    disabled()
+                }
+            }
             .background(
                 shape = shape,
                 color = containerColor

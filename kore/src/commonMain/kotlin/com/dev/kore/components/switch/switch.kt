@@ -34,8 +34,10 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -122,6 +124,11 @@ fun Switch(
         modifier = modifier
             .semantics{
                 role = Role.Switch
+                stateDescription = if (!enabled) "Disabled"
+                else if (checked) "On" else "Off"
+                if (!enabled) {
+                    disabled()
+                }
             }
             .size(switchTrackWidth, switchTrackHeight)
             .clip(trackShape)

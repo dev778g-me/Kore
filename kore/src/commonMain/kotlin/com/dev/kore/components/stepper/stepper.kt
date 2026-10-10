@@ -19,6 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.components.separators.VerticalSeparator
@@ -60,7 +64,10 @@ fun Stepper(
             .height(IntrinsicSize.Min)
             .clip(shape)
             .background(color = containerColor, shape = shape)
-            .then(if (border != null) Modifier.border(border,shape) else Modifier),
+            .then(if (border != null) Modifier.border(border,shape) else Modifier)
+            .semantics {
+                isTraversalGroup = true
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(KoreTheme.sizes.xxs)
     ){
@@ -80,7 +87,10 @@ fun Stepper(
             Box(
                 modifier = Modifier
                     .widthIn(min = minLabelWidth)
-                    .padding(labelPaddingValues),
+                    .padding(labelPaddingValues)
+                    .semantics {
+                        liveRegion = LiveRegionMode.Polite
+                    },
                 contentAlignment = Alignment.Center
             ){
                 label()

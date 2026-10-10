@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -79,6 +81,9 @@ fun AlertDialog(
                     color = dialogColors.containerColor,
                     shape = dialogShape
                 ).then(if (border != null) Modifier.border(border, dialogShape) else Modifier)
+                .semantics {
+                    paneTitle = "Dialog"
+                }
                 .padding(
                     paddingValues = contentPadding
                 )
@@ -102,7 +107,9 @@ fun AlertDialog(
                         color = dialogColors.titleTextColor
                     )
                 ){
-                    title()
+                    Box(modifier = Modifier.semantics { heading() }) {
+                        title()
+                    }
                 }
                 Spacer(
                     modifier = Modifier.height(dialogSpacing.afterTitleSpacing)
@@ -125,9 +132,7 @@ fun AlertDialog(
 
                 // row for actions
                 Row(
-                    modifier = Modifier.fillMaxWidth().semantics{
-                        false
-                    },
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = dialogActionArrangement
                 ) {
                     //less likely task

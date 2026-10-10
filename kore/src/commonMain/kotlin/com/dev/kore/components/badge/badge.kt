@@ -15,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -51,8 +54,13 @@ internal fun BaseBadge(
                             border = border,
                             shape = shape
                         ) else Modifier
-                    ).padding(
-                   badgeSizes.containerPadding
+                    ).semantics {
+                        if (!enabled) {
+                            disabled()
+                            stateDescription = "Disabled"
+                        }
+                    }.padding(
+                    badgeSizes.containerPadding
                 )
                 ,verticalAlignment = Alignment.CenterVertically
             ) {

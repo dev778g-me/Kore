@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.progressSemantics
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
@@ -12,6 +13,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -47,6 +50,10 @@ fun LinearProgressIndicator(
         modifier = modifier
             .fillMaxWidth()
             .height(thickness)
+            .progressSemantics(value = fraction)
+            .semantics {
+                stateDescription = "$resolvedProgress of ${valueRange.start} to ${valueRange.endInclusive}"
+            }
     ) {
         val yCenter = size.height/2
         val strokeWidthPx = thickness.toPx()
@@ -114,6 +121,10 @@ fun CircularProgressIndicator(
         modifier = modifier
             .size(size)
             .padding(thickness /2)
+            .progressSemantics(value = fraction)
+            .semantics {
+                stateDescription = "$resolvedProgress of ${valueRange.start} to ${valueRange.endInclusive}"
+            }
     ) {
         val strokeWidthPx = thickness.toPx()
         drawArc(

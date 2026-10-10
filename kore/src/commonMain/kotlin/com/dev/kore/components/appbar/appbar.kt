@@ -20,6 +20,8 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -73,6 +75,7 @@ fun Appbar(
         content = {
             Box(
                 modifier = Modifier.layoutId(AppbarContents.Title)
+                    .semantics { heading() }
             ){
                 CompositionLocalProvider(
                     value = LocalTextStyle provides KoreTheme.typography.title1

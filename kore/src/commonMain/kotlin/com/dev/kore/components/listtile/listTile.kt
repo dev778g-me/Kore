@@ -17,6 +17,10 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -70,11 +74,16 @@ fun ListTile(
             .background(
                 color = colors.containerColor,
                 shape = shape
-            ).then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
+            ).then(if (onClick != null) Modifier.clickable(onClick = onClick, role = Role.Button) else Modifier)
+            .semantics {
+                if (onClick != null) {
+                    role = Role.Button
+                }
+            }
 
             ,
         content = {
-            Box(Modifier.layoutId(ListTileContents.Title)) {
+            Box(Modifier.layoutId(ListTileContents.Title).semantics { heading() }) {
                 CompositionLocalProvider(
                     values = arrayOf(
                         LocalTextStyle provides KoreTheme.typography.title2,

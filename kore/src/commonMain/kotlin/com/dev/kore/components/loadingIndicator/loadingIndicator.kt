@@ -26,6 +26,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreTheme
@@ -42,7 +45,7 @@ import com.dev.kore.themes.KoreTheme
 @Composable
 fun LinearLoadingIndicator(
     modifier: Modifier = Modifier,
-
+    contentDescription: String? = null,
     thickness: Dp = LoadingIndicatorDefaults.defaultLinearLoadingIndicatorStrokeWidth,
     cap: StrokeCap = LoadingIndicatorDefaults.defaultStrokeCap,
     colors: LoadingIndicatorColors = LoadingIndicatorDefaults.linearLoadingIndictorColors()
@@ -72,6 +75,12 @@ fun LinearLoadingIndicator(
     Canvas(
         modifier = modifier
             .progressSemantics()
+            .semantics {
+                if (contentDescription != null) {
+                    this.contentDescription = contentDescription
+                }
+                stateDescription = contentDescription ?: "Loading"
+            }
             .fillMaxWidth()
             .height(thickness)
 
@@ -111,6 +120,7 @@ fun LinearLoadingIndicator(
 @Composable
 fun CircularLoadingIndicator(
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
     size : Dp = LoadingIndicatorDefaults.defaultCircularLoadingSize,
     cap: StrokeCap = LoadingIndicatorDefaults.defaultStrokeCap,
     thickness : Dp = LoadingIndicatorDefaults.defaultCircularLoadingIndicatorStrokeWidth,
@@ -152,6 +162,12 @@ fun CircularLoadingIndicator(
     Canvas(
         modifier = modifier
             .progressSemantics()
+            .semantics {
+                if (contentDescription != null) {
+                    this.contentDescription = contentDescription
+                }
+                stateDescription = contentDescription ?: "Loading"
+            }
             .size(size)
             .padding(thickness / 2)
             .graphicsLayer {
