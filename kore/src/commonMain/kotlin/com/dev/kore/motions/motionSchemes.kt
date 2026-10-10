@@ -271,7 +271,7 @@ class MotionConfig internal constructor(
         )
 
         /**
-         * No animation - every slot produces an instantaneous [snap].
+         * No animation -z every slot produces an instantaneous [snap].
          *
          * Use for accessibility when the user has fully disabled animations,
          * or for testing/snapshot purposes.
