@@ -1,5 +1,8 @@
 package com.dev.kore.themes
 
+import com.dev.kore.motions.MotionConfig
+import com.dev.kore.motions.LocalMotionConfig
+
 import androidx.compose.foundation.IndicationNodeFactory
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -190,6 +193,7 @@ fun DefaultKoreTheme(
     typography: KoreTypography = KoreDefaults.defaultTypography,
     shapes: KoreShapes = KoreDefaults.defaultShapes,
     darkTheme : Boolean = isSystemInDarkTheme(),
+    motion: MotionConfig = MotionConfig.Still,
     content:  @Composable () -> Unit
 ){
     val colorScheme = if(darkTheme) {defaultDarkColorScheme} else {defaultLightColorScheme}
@@ -197,7 +201,8 @@ fun DefaultKoreTheme(
     KoreTheme(
         colorScheme = colorScheme,
         shapes = shapes,
-        typography = typography
+        typography = typography,
+        motion = motion
     ) {
         content()
     }
@@ -213,6 +218,7 @@ fun KoreTheme(
     sizes: KoreSizes = defaultSizes,
     shapes: KoreShapes = defaultShapes,
     colorScheme : KoreColorScheme= defaultLightColorScheme,
+    motion: MotionConfig = KoreDefaults.defaultMotion,
     ripple : IndicationNodeFactory = koreRipple(colorScheme.onBackGround),
     content: @Composable () -> Unit
 ) {
@@ -226,6 +232,7 @@ fun KoreTheme(
         LocalIndication provides ripple,
         LocalKoreShapes provides shapes,
         LocalKoreSizes provides sizes,
+        LocalMotionConfig provides motion,
         content = content
     )
 
@@ -246,4 +253,7 @@ object KoreTheme {
 
     val sizes : KoreSizes
         @Composable get() = LocalKoreSizes.current
+
+    val motion : MotionConfig
+        @Composable get() = LocalMotionConfig.current
 }
