@@ -24,6 +24,11 @@ kotlin {
         browser()
         binaries.executable()
     }
+    js {
+        browser()
+        binaries.executable()
+        nodejs()
+    }
 
 
     sourceSets {
