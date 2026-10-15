@@ -35,6 +35,15 @@ export default defineConfig({
 								{ label: 'Text Field', slug: 'components/text-field' },
 							],
 						},
+						{
+							label: 'Feedback & Indicators',
+							items: [
+								{ label: 'Badge', slug: 'components/badge' },
+								{ label: 'Dialog', slug: 'components/dialog' },
+								{ label: 'Loading Indicator', slug: 'components/loading-indicator' },
+								{ label: 'Progress Indicator', slug: 'components/progress-indicator' },
+							],
+						},
 					],
 				},
 				{

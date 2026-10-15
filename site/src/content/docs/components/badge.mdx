@@ -1,0 +1,178 @@
+---
+
+title: Badge
+description: Small status indicators and labels in Kore.
+---
+
+import ComponentDemo from '../../../components/ComponentDemo.astro';
+
+badge is a small,non-interactive visual indicator a lot number or label.
+
+
+When to use Badge :
+- status or notification
+- highlighting importance 
+- error or success
+
+
+When to avoid Badge :
+- too much information
+- critical actions
+
+There are several types of buttons in Kore based on action importance (e.g., Primary, Secondary, Outlined, Ghost). Each button has a different level of emphasis, representing the intent and importance of the action.
+
+
+
+> For deeper reference, check out [Mobbin](https://mobbin.com/glossary/badge) guide on Badges.
+
+
+## Primary Badge
+
+The `PrimaryBadge` is a high-emphasis component used to draw immediate attention to important statuses or tags.
+
+
+### Basic Example
+
+| Slot | Description |
+|------|-------------|
+| `content` | The core element of the badge, typically a `Text` composable. |
+| `leadingIcon` | An optional icon placed before the content. |
+| `trailingIcon` | An optional icon placed after the content. |
+
+<ComponentDemo sample="badge-primary" title="PrimaryBadge.kt" height="180px" eager>
+```kotlin
+@Composable
+fun PrimaryBadgeSample() {
+    PrimaryBadge(
+        content = { Text("New Feature") }
+    )
+}
+```
+</ComponentDemo>
+
+## Styling
+
+The badge exposes several parameters to customize its shape, size, icons, and colors.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `content` | `@Composable () -> Unit` | — | The main text or content to display inside the badge. |
+| `modifier` | `Modifier` | `Modifier` | Applied to the root container of the badge. |
+| `shape` | `Shape` | `KoreTheme.shapes.lg` | Defines the clipping shape of the badge container. |
+| `badgeSizes` | `BadgeSizes` | `BadgeDefaults.defaultBadgeSize()`| Controls the internal padding and typography sizing of the badge. |
+| `leadingIcon` | `@Composable (() -> Unit)?`| `null` | Optional icon rendered on the start side of the content. |
+| `trailingIcon`| `@Composable (() -> Unit)?`| `null` | Optional icon rendered on the end side of the content. |
+| `enabled` | `Boolean` | `true` | Controls the visual enabled state of the badge. |
+| `badgeColors` | `BadgeColors` | `BadgeDefaults.primaryBadgeColors()`| The resolved colors used for the background and content. |
+
+### With Icons
+
+You can easily pass icons into the `leadingIcon` or `trailingIcon` slots to provide more context to the badge's text.
+
+
+<ComponentDemo sample="badge-primary-with-icon" title="PrimaryBadgeWithIcon.kt" height="180px">
+```kotlin
+@Composable
+fun PrimaryBadgeWithIconSample() {
+    PrimaryBadge(
+        leadingIcon = {
+            Icon(imageVector = PhIcons.Regular.Star, contentDescription = null)
+        },
+        content = { Text("Premium") }
+    )
+}
+```
+</ComponentDemo>
+
+### Custom Shape and Colors
+
+You can override the default shape to be perfectly round (useful for notification counts) or change the colors entirely.
+
+
+<ComponentDemo sample="badge-primary-custom" title="PrimaryBadgeCustom.kt" height="180px">
+```kotlin
+@Composable
+fun PrimaryBadgeCustomSample() {
+    PrimaryBadge(
+        shape = RectangleShape,
+        badgeColors = BadgeDefaults.primaryBadgeColors(
+            containerColor = TailwindColors.Red.swatch400,
+            contentColor = TailwindColors.Red.swatch50
+        ),
+        content = { Text("99+") }
+    )
+}
+```
+</ComponentDemo>
+
+## Other Variants
+
+Kore provides three other Badge variants that follow the exact same anatomy as the `PrimaryBadge`, differing mostly in their default emphasis and colors.
+
+
+### Secondary Badge
+Used for medium-emphasis tags that need to be visible but shouldn't overpower the screen's primary elements. Ideal for general statuses.
+
+<ComponentDemo sample="badge-secondary" title="SecondaryBadge.kt" height="180px">
+```kotlin
+@Composable
+fun SecondaryBadgeSample() {
+    SecondaryBadge(
+        content = { Text("Processing") }
+    )
+}
+```
+</ComponentDemo>
+
+### Outlined Badge
+Features a transparent background with a customizable `border`. Useful for subtle tags or alternative categories that need a clean, less heavy appearance.
+
+
+<ComponentDemo sample="badge-outlined" title="OutlinedBadge.kt" height="180px">
+```kotlin
+@Composable
+fun OutlinedBadgeSample() {
+    OutlinedBadge(
+        content = { Text("Archived") }
+    )
+}
+```
+</ComponentDemo>
+
+### Success Badge
+A semantically colored badge (typically green) used to indicate a positive outcome, completion, or an active state.
+
+
+<ComponentDemo sample="badge-success" title="SuccessBadge.kt" height="180px">
+```kotlin
+@Composable
+fun SuccessBadgeSample() {
+    SuccessBadge(
+        leadingIcon = {
+            Icon(imageVector = PhIcons.Regular.Check, contentDescription = null)
+        },
+        content = { Text("Approved") }
+    )
+}
+```
+</ComponentDemo>
+
+### Error Badge
+A semantically colored badge (typically red) used to draw attention to failures, required actions, destructive states, or critical alerts.
+
+
+<ComponentDemo sample="badge-error" title="ErrorBadge.kt" height="180px">
+```kotlin
+@Composable
+fun ErrorBadgeSample() {
+    ErrorBadge(
+        leadingIcon = {
+            Icon(imageVector = PhIcons.Regular.Warning, contentDescription = null)
+        },
+        content = { Text("Action Required") }
+    )
+}
+```
+</ComponentDemo>
