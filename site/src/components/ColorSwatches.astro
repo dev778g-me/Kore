@@ -1,0 +1,188 @@
+---
+import { tailwindFamilies, radixScales } from '../data/kore-colors';
+
+interface Props {
+    mode: 'tailwind' | 'radix';
+}
+
+const { mode } = Astro.props;
+
+const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
+---
+
+{mode === 'tailwind' ? (
+    <div class="swatches" data-swatches="tailwind">
+        {Object.entries(tailwindFamilies).map(([name, shades]) => (
+            <div class="swatch-row">
+                <p class="swatch-label">{name}</p>
+                <div class="swatch-strip">
+                    {shades.map((hex) => (
+                        <button
+                            type="button"
+                            class="swatch"
+                            data-hex={toHexString(hex)}
+                            data-bg={hex}
+                            style={`background-color: ${hex};`}
+                            title={`${name} — ${toHexString(hex)}`}
+                            aria-label={`Copy ${name} ${toHexString(hex)}`}
+                        />
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+) : (
+    <div class="swatches" data-swatches="radix">
+        {Object.entries(radixScales).map(([name, scale]) => (
+            <div class="swatch-row">
+                <p class="swatch-label">{name}</p>
+                <div class="swatch-strip">
+                    {scale.dark.map((darkHex, k) => (
+                        <button
+                            type="button"
+                            class="swatch"
+                            data-light={toHexString(scale.light[k])}
+                            data-dark={toHexString(darkHex)}
+                            data-bg-light={scale.light[k]}
+                            data-bg-dark={darkHex}
+                            style={`background-color: ${darkHex};`}
+                            title={`${name} step ${k + 1}`}
+                            aria-label={`Copy ${name} step ${k + 1}`}
+                        />
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+)}
+
+<script>
+    const luminance = (hex8: string) => {
+        const r = parseInt(hex8.slice(2, 4), 16) / 255;
+        const g = parseInt(hex8.slice(4, 6), 16) / 255;
+        const b = parseInt(hex8.slice(6, 8), 16) / 255;
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+
+    const paintRadix = () => {
+        const dark = document.documentElement.dataset.theme !== 'light';
+        document
+            .querySelectorAll<HTMLButtonElement>('[data-swatches="radix"] .swatch')
+            .forEach((box) => {
+                box.dataset.hex = dark ? box.dataset.dark! : box.dataset.light!;
+                box.style.backgroundColor = dark ? box.dataset.bgDark! : box.dataset.bgLight!;
+                box.title = box.title.replace(/0x[0-9A-F]+/, box.dataset.hex);
+            });
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('.swatches .swatch').forEach((box) => {
+        if (!box.dataset.hex) {
+            box.dataset.hex = box.title.match(/0x[0-9A-F]+/)?.[0] ?? '';
+        }
+        box.addEventListener('click', async () => {
+            const hex = box.dataset.hex ?? '';
+            if (!hex) return;
+            const snippet = `Color(${hex})`;
+            try {
+                await navigator.clipboard.writeText(snippet);
+            } catch {
+                const ta = document.createElement('textarea');
+                ta.value = snippet;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+            }
+            if (box.querySelector('[data-copied]')) return;
+            const label = document.createElement('span');
+            label.dataset.copied = 'true';
+            label.textContent = 'Copied!';
+            label.style.color = luminance(hex) > 0.5 ? '#000' : '#fff';
+            box.appendChild(label);
+            setTimeout(() => label.remove(), 1000);
+        });
+    });
+
+    paintRadix();
+    new MutationObserver(paintRadix).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme'],
+    });
+</script>
+
+<style>
+    .swatches {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin: 1rem 0;
+    }
+    .sl-markdown-content .swatches * {
+        margin-top: 0;
+    }
+    .swatch-row {
+        padding: 0.25rem 0;
+    }
+    .swatch-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin: 0 0 0.375rem;
+    }
+    .swatch-strip {
+        display: grid;
+        grid-template-columns: repeat(11, 1fr);
+        gap: 0.25rem;
+    }
+    [data-swatches="radix"] .swatch-strip {
+        grid-template-columns: repeat(12, 1fr);
+    }
+    .swatch {
+        appearance: none;
+        border: 0;
+        padding: 0;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        height: auto;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.12s ease;
+    }
+    .swatch:active {
+        transform: scale(0.92);
+    }
+    .swatch [data-copied] {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.4rem;
+        font-weight: 700;
+        line-height: 1.1;
+        text-align: center;
+        padding: 0 1px;
+        animation: copied-pop 1s ease forwards;
+    }
+    @keyframes copied-pop {
+        0% {
+            opacity: 0;
+            transform: scale(0.6);
+        }
+        15% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        30% {
+            transform: scale(1);
+        }
+        80% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    }
+</style>

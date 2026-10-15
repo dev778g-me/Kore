@@ -1,0 +1,343 @@
+---
+
+title: Typography
+description: Fluent TextStyle extensions for weights, sizes, and decoration.
+---
+
+import ComponentDemo from '../../../components/ComponentDemo.astro';
+
+A set of extension functions on `TextStyle` to fluently apply typography properties like font weight, size, decoration, alignment, and color.
+
+---
+
+## Font Weight
+
+### TextStyle.bold()
+
+Sets the font weight to `FontWeight.Bold`.
+
+<ComponentDemo sample="textstyleext-bold" title="Bold.kt" height="180px" eager>
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Bold Text",
+        textStyle = KoreTheme.typography.body1.bold()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.extraBold()
+
+Sets the font weight to `FontWeight.ExtraBold`.
+
+<ComponentDemo sample="textstyleext-extra-bold" title="ExtraBold.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Extra Bold Text",
+        textStyle = KoreTheme.typography.body1.extraBold()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.semiBold()
+
+Sets the font weight to `FontWeight.SemiBold`.
+
+<ComponentDemo sample="textstyleext-semi-bold" title="SemiBold.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Semi Bold Text",
+        textStyle = KoreTheme.typography.body1.semiBold()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.medium()
+
+Sets the font weight to `FontWeight.Medium`.
+
+<ComponentDemo sample="textstyleext-medium" title="Medium.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Medium Weight Text",
+        textStyle = KoreTheme.typography.body1.medium()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.light()
+
+Sets the font weight to `FontWeight.Light`.
+
+<ComponentDemo sample="textstyleext-light" title="Light.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Light Weight Text",
+        textStyle = KoreTheme.typography.body1.light()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.extraLight()
+
+Sets the font weight to `FontWeight.ExtraLight`.
+
+<ComponentDemo sample="textstyleext-extra-light" title="ExtraLight.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Extra Light Text",
+        textStyle = KoreTheme.typography.body1.extraLight()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.normal()
+
+Sets the font weight to `FontWeight.Normal`.
+
+<ComponentDemo sample="textstyleext-normal" title="Normal.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Normal Weight Text",
+        textStyle = KoreTheme.typography.body1.normal()
+    )
+}
+```
+</ComponentDemo>
+
+---
+
+## Typography
+
+### TextStyle.size()
+
+Sets the `fontSize` of the text style.
+
+<ComponentDemo sample="textstyleext-size" title="Size.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Custom Sized Text",
+        textStyle = KoreTheme.typography.body1.size(24.sp)
+    )
+}
+```
+</ComponentDemo>
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `size` | `TextUnit` | — | The target font size to apply to the text style. |
+
+### TextStyle.letterSpacing()
+
+Sets the `letterSpacing` of the text style.
+
+<ComponentDemo sample="textstyleext-letter-spacing" title="LetterSpacing.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Letter Spaced Text",
+        textStyle = KoreTheme.typography.body1.letterSpacing(2.sp)
+    )
+}
+```
+</ComponentDemo>
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `spacing` | `TextUnit` | — | The amount of space to add between each letter. |
+
+### TextStyle.lineHeight()
+
+Sets the `lineHeight` of the text style.
+
+<ComponentDemo sample="textstyleext-line-height" title="LineHeight.kt" height="200px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Text with\ncustom line\nheight",
+        textStyle = KoreTheme.typography.body1.lineHeight(32.sp)
+    )
+}
+```
+</ComponentDemo>
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `height` | `TextUnit` | — | The height of each line of text. |
+
+---
+
+## Decoration
+
+### TextStyle.strikethrough()
+
+Applies a strikethrough line through the text.
+
+<ComponentDemo sample="textstyleext-strikethrough" title="Strikethrough.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Strikethrough Text",
+        textStyle = KoreTheme.typography.body1.strikethrough()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.underline()
+
+Applies an underline below the text.
+
+<ComponentDemo sample="textstyleext-underline" title="Underline.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Underlined Text",
+        textStyle = KoreTheme.typography.body1.underline()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.italic()
+
+Sets the font style to `FontStyle.Italic`.
+
+<ComponentDemo sample="textstyleext-italic" title="Italic.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Italic Text",
+        textStyle = KoreTheme.typography.body1.italic()
+    )
+}
+```
+</ComponentDemo>
+
+---
+
+## Color
+
+### TextStyle.color()
+
+Sets the `color` of the text style.
+
+<ComponentDemo sample="textstyleext-color" title="Color.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Colored Text",
+        textStyle = KoreTheme.typography.body1.color(KoreTheme.colorScheme.primary)
+    )
+}
+```
+</ComponentDemo>
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `color` | `Color` | — | The color to apply to the text. |
+
+---
+
+## Alignment
+
+### TextStyle.alignCenter()
+
+Sets the text alignment to `TextAlign.Center`.
+
+<ComponentDemo sample="textstyleext-align-center" title="AlignCenter.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "Centered Text",
+        textStyle = KoreTheme.typography.body1.alignCenter(),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+```
+</ComponentDemo>
+
+### TextStyle.alignEnd()
+
+Sets the text alignment to `TextAlign.End`.
+
+<ComponentDemo sample="textstyleext-align-end" title="AlignEnd.kt" height="180px">
+```kotlin
+Card(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Text(
+        text = "End Aligned Text",
+        textStyle = KoreTheme.typography.body1.alignEnd(),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+```
+</ComponentDemo>

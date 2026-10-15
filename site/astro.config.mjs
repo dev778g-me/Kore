@@ -67,6 +67,14 @@ export default defineConfig({
 								{ label: 'Stack', slug: 'components/stack' },
 							],
 						},
+						{
+							label: 'Extensions',
+							items: [
+								{ label: 'Colors', slug: 'components/colors' },
+								{ label: 'Modifiers', slug: 'components/modifiers' },
+								{ label: 'Typography', slug: 'components/typography' },
+							],
+						},
 					],
 				},
 				{

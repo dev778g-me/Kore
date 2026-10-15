@@ -1,0 +1,99 @@
+---
+
+title: Colors
+description: Color systems and utilities in Kore — Tailwind, Radix, and extensions.
+---
+
+import ComponentDemo from '../../../components/ComponentDemo.astro';
+import ColorSwatches from '../../../components/ColorSwatches.astro';
+
+Kore provides multiple color systems: utility extensions on `Color`, Tailwind CSS color palette, and Radix UI color scales.
+
+---
+
+## Color Extensions
+
+### Color.blend()
+
+Blends this color toward a target [blendColor] using linear interpolation.
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `blendColor` | `Color` | — | The target color to blend into. |
+| `blendValue` | `Float` | `0.85f` | Blend amount in the range `0f..1f`. `0f` returns this color, `1f` returns `blendColor`. |
+
+<ComponentDemo sample="colorext-blend" title="Blend.kt" height="240px" eager>
+```kotlin
+@Composable
+fun BlendSample() {
+    Box(
+        modifier = Modifier
+            .size(200.dp)
+            .background(
+                KoreTheme.colorScheme.primary.blend(
+                    blendColor = Color.White,
+                    blendValue = 0.85f
+                )
+            )
+    )
+}
+```
+</ComponentDemo>
+
+### Color.toHexString()
+
+Converts the color to an ARGB hex string prefixed with `0x`.
+
+```kotlin
+val hex = Color.Red.toHexString() // "0xFFFF0000"
+```
+
+---
+
+## Tailwind Colors
+
+The `TailwindColors` object provides the complete Tailwind CSS color palette with 22 color families and 11 shades each (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950).
+
+```kotlin
+Card(
+    containerColor = TailwindColors.Blue.swatch500
+) {
+    Text("Tailwind Blue 500")
+}
+```
+
+You can also access Tailwind colors via `Color.Tailwind`.
+
+<ColorSwatches mode="tailwind" />
+
+### Semantic Colors
+
+| Color | Value |
+|-------|-------|
+| `TailwindColors.Black` | `Color(0xFF000000)` |
+| `TailwindColors.White` | `Color(0xFFFFFFFF)` |
+| `TailwindColors.Transparent` | `Color(0x00000000)` |
+
+---
+
+## Radix Colors
+
+The `RadixColors` object provides the Radix UI color system with both light and dark variants for each color scale. Each scale has 12 steps with consistent semantic meaning:
+
+| Steps | Usage |
+|-------|-------|
+| 1–2 | App / page backgrounds |
+| 3–5 | Component backgrounds (default, hover, active) |
+| 6–8 | Borders (subtle, normal, strong) |
+| 9–10 | Solid fills (buttons, badges, tags) |
+| 11–12 | Text & icons (low contrast, high contrast) |
+
+```kotlin
+// Light mode
+val surface = RadixColors.Gray.light.step1
+
+// Dark mode
+val background = RadixColors.Gray.dark.step1
+```
+
+<ColorSwatches mode="radix" />
