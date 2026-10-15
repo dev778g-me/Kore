@@ -44,6 +44,15 @@ export default defineConfig({
 								{ label: 'Progress Indicator', slug: 'components/progress-indicator' },
 							],
 						},
+						{
+							label: 'Data Display',
+							items: [
+								{ label: 'Accordion', slug: 'components/accordion' },
+								{ label: 'Card', slug: 'components/card' },
+								{ label: 'ListTile', slug: 'components/list-tile' },
+								{ label: 'Stepper', slug: 'components/stepper' },
+							],
+						},
 					],
 				},
 				{
