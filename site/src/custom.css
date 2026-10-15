@@ -1,0 +1,151 @@
+:root{
+--sl-font: 'Google Sans Flex Variable', sans-serif;
+
+--kore-background: #111111;
+--kore-on-background: #eeeeee;
+--kore-background-variant: #313131;
+--kore-on-background-variant: #b4b4b4;
+--kore-surface: #191919;
+--kore-on-surface: #b4b4b4;
+--kore-surface-bright: #222222;
+--kore-on-surface-bright: #eeeeee;
+--kore-disabled: #222222;
+--kore-on-disabled: #606060;
+--kore-primary: #2563eb;
+--kore-on-primary: #eff6ff;
+--kore-primary-container: #172554;
+--kore-on-primary-container: #bfdbfe;
+--kore-complementary: #f97316;
+--kore-on-complementary: #fff7ed;
+--kore-complementary-container: #431407;
+--kore-on-complementary-container: #fed7aa;
+--kore-success: #16a34a;
+--kore-on-success: #f0fdf4;
+--kore-error: #dc2626;
+--kore-on-error: #fef2f2;
+--kore-transparent: transparent;
+
+--sl-color-accent: var(--kore-primary);
+--sl-color-accent-high: var(--kore-on-primary-container);
+--sl-color-text-accent: var(--kore-primary);
+--sl-color-white: var(--kore-on-background);
+--sl-color-gray-1: var(--kore-on-background);
+--sl-color-gray-2: var(--kore-on-background);
+--sl-color-gray-3: var(--kore-on-background-variant);
+--sl-color-gray-4: var(--kore-background-variant);
+--sl-color-gray-5: var(--kore-background-variant);
+--sl-color-gray-6: var(--kore-surface-bright);
+--sl-color-black: var(--kore-background);
+--sl-color-bg: var(--kore-surface);
+--sl-color-bg-nav: var(--kore-surface);
+--sl-color-bg-sidebar: var(--kore-background);
+--sl-color-text: var(--kore-on-background);
+--sl-color-text-invert: var(--kore-on-primary);
+--sl-color-hairline: var(--kore-background-variant);
+--sl-color-hairline-shade: var(--kore-background-variant);
+
+--sl-color-bg-inline-code: var(--sl-color-gray-6);
+}
+
+[data-theme='light'] {
+--kore-background: #e8e8e8;
+--kore-on-background: #202020;
+--kore-background-variant: #cecece;
+--kore-on-background-variant: #838383;
+--kore-surface: #f0f0f0;
+--kore-on-surface: #646464;
+--kore-surface-bright: #fcfcfc;
+--kore-on-surface-bright: #202020;
+--kore-disabled: #e0e0e0;
+--kore-on-disabled: #bbbbbb;
+--kore-primary: #2563eb;
+--kore-on-primary: #eff6ff;
+--kore-primary-container: #93c5fd;
+--kore-on-primary-container: #1e3a8a;
+--kore-complementary: #f97316;
+--kore-on-complementary: #fff7ed;
+--kore-complementary-container: #fdba74;
+--kore-on-complementary-container: #7c2d12;
+--kore-success: #16a34a;
+--kore-on-success: #f0fdf4;
+--kore-error: #dc2626;
+--kore-on-error: #fef2f2;
+--kore-transparent: transparent;
+
+--sl-color-accent: var(--kore-primary);
+--sl-color-accent-high: var(--kore-on-primary-container);
+--sl-color-text-accent: var(--kore-primary);
+--sl-color-white: var(--kore-on-background);
+--sl-color-gray-1: var(--kore-on-background);
+--sl-color-gray-2: var(--kore-on-background);
+--sl-color-gray-3: var(--kore-on-background-variant);
+--sl-color-gray-4: var(--kore-background-variant);
+--sl-color-gray-5: var(--kore-background-variant);
+--sl-color-gray-6: var(--kore-surface-bright);
+--sl-color-black: var(--kore-surface-bright);
+--sl-color-bg: var(--kore-surface);
+--sl-color-bg-nav: var(--kore-surface);
+--sl-color-bg-sidebar: var(--kore-background);
+--sl-color-text: var(--kore-on-background);
+--sl-color-text-invert: var(--kore-surface-bright);
+--sl-color-hairline-shade: var(--kore-background-variant);
+--sl-color-hairline: var(--kore-background-variant);
+}
+
+.sl-markdown-content code:not(:where(.not-content *)) {
+    color: var(--sl-color-white);
+    background-color: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-4);
+    border-radius: 0.375rem;
+}
+
+.sl-markdown-content hr:not(:where(.not-content *)) {
+    border-color: var(--sl-color-gray-5);
+}
+
+.sl-sidebar .group-label span {
+    color: var(--sl-color-text);
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.75rem 0.5rem;
+    display: block;
+}
+
+.sl-sidebar details > summary .group-label span {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.9;
+    padding: 0.75rem 0.5rem 0.25rem;
+}
+
+.sl-sidebar {
+    padding-inline: 0.5rem;
+}
+
+.sl-sidebar a {
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    margin: 0.25rem 0;
+    color: var(--kore-on-surface);
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.sl-sidebar ul ul a {
+    margin-left: 0rem;
+}
+
+.sl-sidebar ul {
+    gap: 0.8rem;
+}
+
+.sl-sidebar a[aria-current='page'] {
+    background-color: var(--kore-primary-container);
+    color: var(--kore-on-primary-container);
+    font-weight: 600;
+}
+
+.sl-sidebar a:hover {
+    background-color: var(--sl-color-gray-6);
+    color: var(--sl-color-text);
+}

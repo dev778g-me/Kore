@@ -1,0 +1,145 @@
+---
+---
+
+<button
+    type="button"
+    class="theme-toggle"
+    data-theme-toggle
+    aria-label="Switch to light theme"
+    aria-pressed="true"
+    title="Toggle color scheme"
+>
+    <span class="theme-toggle-track">
+        <svg
+            class="theme-icon icon-sun"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+        >
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+        <svg
+            class="theme-icon icon-moon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+        >
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+        </svg>
+        <span class="theme-knob" data-theme-knob></span>
+    </span>
+</button>
+
+<script>
+    const root = document.documentElement;
+
+    // Single source of truth: the data-theme attribute Starlight already manages.
+    const isDark = () => root.dataset.theme !== "light";
+
+    function paint() {
+        const dark = isDark();
+        document
+            .querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")
+            .forEach((btn) => {
+                btn.toggleAttribute("data-is-dark", dark);
+                btn.setAttribute("aria-pressed", String(dark));
+                btn.setAttribute(
+                    "aria-label",
+                    dark ? "Switch to light theme" : "Switch to dark theme",
+                );
+            });
+    }
+
+    function bind() {
+        document
+            .querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")
+            .forEach((btn) => {
+                if (btn.dataset.bound) return; // avoid double-binding persisted buttons
+                btn.dataset.bound = "true";
+                btn.addEventListener("click", () => {
+                    const next = isDark() ? "light" : "dark";
+                    try {
+                        localStorage.setItem("starlight-theme", next);
+                    } catch {
+                        // storage blocked (private mode etc.); theme still applies for this page
+                    }
+                    root.dataset.theme = next;
+                    paint();
+                });
+            });
+        paint();
+    }
+
+    bind();
+    document.addEventListener("astro:after-swap", bind);
+    new MutationObserver(paint).observe(root, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+    });
+</script>
+
+<style>
+    .theme-toggle {
+        appearance: none;
+        margin: 0;
+        border: 1px solid var(--sl-color-gray-5);
+        background: var(--kore-surface-bright, var(--sl-color-bg-nav));
+        border-radius: 999px;
+        padding: 0.2rem;
+        cursor: pointer;
+        line-height: 0;
+    }
+    .theme-toggle:focus-visible {
+        outline: 2px solid var(--sl-color-accent, currentColor);
+        outline-offset: 2px;
+    }
+    .theme-toggle-track {
+        position: relative;
+        display: inline-grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+    }
+    .theme-icon {
+        width: 1.1rem;
+        height: 1.1rem;
+        margin: 0.3rem 0.5rem;
+        z-index: 1;
+        color: var(--sl-color-gray-3);
+        transition: color 0.2s ease;
+    }
+    .theme-knob {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+        border-radius: 999px;
+        background: var(--kore-primary-container, var(--sl-color-accent-low));
+        box-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
+        transition: transform 0.22s ease;
+    }
+    .theme-toggle[data-is-dark] .theme-knob {
+        transform: translateX(100%);
+    }
+    .theme-toggle:not([data-is-dark]) .icon-sun {
+        color: var(--kore-on-primary-container, var(--sl-color-white));
+    }
+    .theme-toggle[data-is-dark] .icon-moon {
+        color: var(--kore-on-primary-container, var(--sl-color-white));
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .theme-knob,
+        .theme-icon {
+            transition: none;
+        }
+    }
+</style>
