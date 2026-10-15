@@ -53,6 +53,20 @@ export default defineConfig({
 								{ label: 'Stepper', slug: 'components/stepper' },
 							],
 						},
+						{
+							label: 'Navigation',
+							items: [
+								{ label: 'Appbar', slug: 'components/appbar' },
+								{ label: 'Navigation Bar', slug: 'components/navigation-bar' },
+							],
+						},
+						{
+							label: 'Foundation',
+							items: [
+								{ label: 'Separators', slug: 'components/separator' },
+								{ label: 'Stack', slug: 'components/stack' },
+							],
+						},
 					],
 				},
 				{
