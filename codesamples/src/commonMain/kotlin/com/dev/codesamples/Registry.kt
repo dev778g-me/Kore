@@ -8,6 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.dev.codesamples.samples.badge.ErrorBadgeSample
+import com.dev.codesamples.samples.badge.OutlinedBadgeSample
+import com.dev.codesamples.samples.badge.PrimaryBadgeCustomSample
+import com.dev.codesamples.samples.badge.PrimaryBadgeSample
+import com.dev.codesamples.samples.badge.PrimaryBadgeWithIconSample
+import com.dev.codesamples.samples.badge.SecondaryBadgeSample
+import com.dev.codesamples.samples.badge.SuccessBadgeSample
 import com.dev.codesamples.samples.buttons.CounterButtonSample
 import com.dev.codesamples.samples.buttons.GhostButtonSample
 import com.dev.codesamples.samples.buttons.OutlinedButtonSample
@@ -18,6 +25,8 @@ import com.dev.codesamples.samples.buttons.SecondaryButtonSample
 import com.dev.codesamples.samples.checkbox.CheckBoxBasicSample
 import com.dev.codesamples.samples.checkbox.CheckBoxCustomShapeSample
 import com.dev.codesamples.samples.checkbox.CheckBoxWithLabelSample
+import com.dev.codesamples.samples.dialog.BasicDialogSample
+import com.dev.codesamples.samples.dialog.CustomDialogSample
 import com.dev.codesamples.samples.dropdown.DropdownBasicSample
 import com.dev.codesamples.samples.dropdown.DropdownDestructiveSample
 import com.dev.codesamples.samples.dropdown.DropdownWithIconsSample
@@ -26,6 +35,14 @@ import com.dev.codesamples.samples.iconbuttons.OutlinedIconButtonSample
 import com.dev.codesamples.samples.iconbuttons.PrimaryIconButtonSample
 import com.dev.codesamples.samples.iconbuttons.PrimaryIconButtonWithCustomShapeAndColors
 import com.dev.codesamples.samples.iconbuttons.SecondaryIconButtonSample
+import com.dev.codesamples.samples.loadingindicator.CircularLoadingBasicSample
+import com.dev.codesamples.samples.loadingindicator.CircularLoadingCustomSample
+import com.dev.codesamples.samples.loadingindicator.LinearLoadingBasicSample
+import com.dev.codesamples.samples.loadingindicator.LinearLoadingCustomSample
+import com.dev.codesamples.samples.progressindicator.CircularProgressBasicSample
+import com.dev.codesamples.samples.progressindicator.CircularProgressCustomSample
+import com.dev.codesamples.samples.progressindicator.LinearProgressBasicSample
+import com.dev.codesamples.samples.progressindicator.LinearProgressValueRangeSample
 import com.dev.codesamples.samples.radiobutton.RadioButtonBasicSample
 import com.dev.codesamples.samples.radiobutton.RadioButtonCustomSample
 import com.dev.codesamples.samples.slider.SliderBasicSample
@@ -40,6 +57,16 @@ import com.dev.codesamples.samples.textfield.TextFieldPasswordSample
 import com.dev.kore.themes.KoreDefaults.defaultDarkColorScheme
 import com.dev.kore.themes.KoreDefaults.defaultLightColorScheme
 import com.dev.kore.themes.KoreTheme
+
+val badgeSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "badge-error" to { ErrorBadgeSample() },
+    "badge-outlined" to { OutlinedBadgeSample() },
+    "badge-primary" to { PrimaryBadgeSample() },
+    "badge-primary-custom" to { PrimaryBadgeCustomSample() },
+    "badge-primary-with-icon" to { PrimaryBadgeWithIconSample() },
+    "badge-secondary" to { SecondaryBadgeSample() },
+    "badge-success" to { SuccessBadgeSample() },
+)
 
 val buttonSamples: Map<String, @Composable () -> Unit> = mapOf(
     "counter" to { CounterButtonSample() },
@@ -57,6 +84,11 @@ val checkboxSamples: Map<String, @Composable () -> Unit> = mapOf(
     "checkbox-with-label" to { CheckBoxWithLabelSample() },
 )
 
+val dialogSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "dialog-basic" to { BasicDialogSample() },
+    "dialog-custom" to { CustomDialogSample() },
+)
+
 val dropdownSamples: Map<String, @Composable () -> Unit> = mapOf(
     "dropdown-basic" to { DropdownBasicSample() },
     "dropdown-destructive" to { DropdownDestructiveSample() },
@@ -69,6 +101,20 @@ val iconButtonSamples: Map<String, @Composable () -> Unit> = mapOf(
     "iconbutton-outlined" to { OutlinedIconButtonSample() },
     "iconbutton-primary" to { PrimaryIconButtonSample() },
     "iconbutton-secondary" to { SecondaryIconButtonSample() },
+)
+
+val loadingindicatorSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "loading-circular-basic" to { CircularLoadingBasicSample() },
+    "loading-circular-custom" to { CircularLoadingCustomSample() },
+    "loading-linear-basic" to { LinearLoadingBasicSample() },
+    "loading-linear-custom" to { LinearLoadingCustomSample() },
+)
+
+val progressindicatorSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "progress-circular-basic" to { CircularProgressBasicSample() },
+    "progress-circular-custom" to { CircularProgressCustomSample() },
+    "progress-linear-basic" to { LinearProgressBasicSample() },
+    "progress-linear-value-range" to { LinearProgressValueRangeSample() },
 )
 
 val radiobuttonSamples: Map<String, @Composable () -> Unit> = mapOf(
@@ -95,10 +141,14 @@ val textfieldSamples: Map<String, @Composable () -> Unit> = mapOf(
 )
 
 val allSamples: Map<String, @Composable () -> Unit> =
+    badgeSamples +
     buttonSamples +
     checkboxSamples +
+    dialogSamples +
     dropdownSamples +
     iconButtonSamples +
+    loadingindicatorSamples +
+    progressindicatorSamples +
     radiobuttonSamples +
     sliderSamples +
     switchSamples +
