@@ -11,6 +11,9 @@ import androidx.compose.ui.unit.dp
 import com.dev.codesamples.samples.accordion.BasicAccordionSample
 import com.dev.codesamples.samples.accordion.CustomPaddingAccordionSample
 import com.dev.codesamples.samples.accordion.CustomTransitionsAccordionSample
+import com.dev.codesamples.samples.appbar.AppbarBasicSample
+import com.dev.codesamples.samples.appbar.AppbarCustomDimensionsSample
+import com.dev.codesamples.samples.appbar.AppbarMultipleActionsSample
 import com.dev.codesamples.samples.badge.ErrorBadgeSample
 import com.dev.codesamples.samples.badge.OutlinedBadgeSample
 import com.dev.codesamples.samples.badge.PrimaryBadgeCustomSample
@@ -48,15 +51,29 @@ import com.dev.codesamples.samples.loadingindicator.CircularLoadingBasicSample
 import com.dev.codesamples.samples.loadingindicator.CircularLoadingCustomSample
 import com.dev.codesamples.samples.loadingindicator.LinearLoadingBasicSample
 import com.dev.codesamples.samples.loadingindicator.LinearLoadingCustomSample
+import com.dev.codesamples.samples.navbar.NavbarBasicSample
+import com.dev.codesamples.samples.navbar.NavbarCustomSample
 import com.dev.codesamples.samples.progressindicator.CircularProgressBasicSample
 import com.dev.codesamples.samples.progressindicator.CircularProgressCustomSample
 import com.dev.codesamples.samples.progressindicator.LinearProgressBasicSample
 import com.dev.codesamples.samples.progressindicator.LinearProgressValueRangeSample
 import com.dev.codesamples.samples.radiobutton.RadioButtonBasicSample
 import com.dev.codesamples.samples.radiobutton.RadioButtonCustomSample
+import com.dev.codesamples.samples.separator.HorizontalDashedSeparatorSample
+import com.dev.codesamples.samples.separator.HorizontalDottedSeparatorSample
+import com.dev.codesamples.samples.separator.HorizontalSeparatorSample
+import com.dev.codesamples.samples.separator.SeparatorGradientDashedSample
+import com.dev.codesamples.samples.separator.SeparatorGradientDottedSample
+import com.dev.codesamples.samples.separator.SeparatorThickSample
+import com.dev.codesamples.samples.separator.VerticalDashedSeparatorSample
+import com.dev.codesamples.samples.separator.VerticalDottedSeparatorSample
+import com.dev.codesamples.samples.separator.VerticalSeparatorSample
 import com.dev.codesamples.samples.slider.SliderBasicSample
 import com.dev.codesamples.samples.slider.SliderCustomRangeSample
 import com.dev.codesamples.samples.slider.SliderCustomStyleSample
+import com.dev.codesamples.samples.stack.StackCenteredFormSample
+import com.dev.codesamples.samples.stack.StackHorizontalSample
+import com.dev.codesamples.samples.stack.StackVerticalSample
 import com.dev.codesamples.samples.stepper.BasicStepperSample
 import com.dev.codesamples.samples.stepper.BorderedStepperSample
 import com.dev.codesamples.samples.stepper.LargeNumbersStepperSample
@@ -74,6 +91,12 @@ val accordionSamples: Map<String, @Composable () -> Unit> = mapOf(
     "accordion-basic" to { BasicAccordionSample() },
     "accordion-custom-padding" to { CustomPaddingAccordionSample() },
     "accordion-custom-transitions" to { CustomTransitionsAccordionSample() },
+)
+
+val appbarSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "appbar-basic" to { AppbarBasicSample() },
+    "appbar-custom-dimensions" to { AppbarCustomDimensionsSample() },
+    "appbar-multiple-actions" to { AppbarMultipleActionsSample() },
 )
 
 val badgeSamples: Map<String, @Composable () -> Unit> = mapOf(
@@ -140,6 +163,11 @@ val loadingindicatorSamples: Map<String, @Composable () -> Unit> = mapOf(
     "loading-linear-custom" to { LinearLoadingCustomSample() },
 )
 
+val navbarSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "navbar-basic" to { NavbarBasicSample() },
+    "navbar-custom" to { NavbarCustomSample() },
+)
+
 val progressindicatorSamples: Map<String, @Composable () -> Unit> = mapOf(
     "progress-circular-basic" to { CircularProgressBasicSample() },
     "progress-circular-custom" to { CircularProgressCustomSample() },
@@ -152,10 +180,28 @@ val radiobuttonSamples: Map<String, @Composable () -> Unit> = mapOf(
     "radiobutton-custom" to { RadioButtonCustomSample() },
 )
 
+val separatorSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "separator-gradient-dashed" to { SeparatorGradientDashedSample() },
+    "separator-gradient-dotted" to { SeparatorGradientDottedSample() },
+    "separator-horizontal" to { HorizontalSeparatorSample() },
+    "separator-horizontal-dashed" to { HorizontalDashedSeparatorSample() },
+    "separator-horizontal-dotted" to { HorizontalDottedSeparatorSample() },
+    "separator-thick" to { SeparatorThickSample() },
+    "separator-vertical" to { VerticalSeparatorSample() },
+    "separator-vertical-dashed" to { VerticalDashedSeparatorSample() },
+    "separator-vertical-dotted" to { VerticalDottedSeparatorSample() },
+)
+
 val sliderSamples: Map<String, @Composable () -> Unit> = mapOf(
     "slider-basic" to { SliderBasicSample() },
     "slider-custom-range" to { SliderCustomRangeSample() },
     "slider-custom-style" to { SliderCustomStyleSample() },
+)
+
+val stackSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "stack-centered-form" to { StackCenteredFormSample() },
+    "stack-horizontal" to { StackHorizontalSample() },
+    "stack-vertical" to { StackVerticalSample() },
 )
 
 val stepperSamples: Map<String, @Composable () -> Unit> = mapOf(
@@ -178,6 +224,7 @@ val textfieldSamples: Map<String, @Composable () -> Unit> = mapOf(
 
 val allSamples: Map<String, @Composable () -> Unit> =
     accordionSamples +
+    appbarSamples +
     badgeSamples +
     buttonSamples +
     cardSamples +
@@ -187,9 +234,12 @@ val allSamples: Map<String, @Composable () -> Unit> =
     iconButtonSamples +
     listtileSamples +
     loadingindicatorSamples +
+    navbarSamples +
     progressindicatorSamples +
     radiobuttonSamples +
+    separatorSamples +
     sliderSamples +
+    stackSamples +
     stepperSamples +
     switchSamples +
     textfieldSamples
