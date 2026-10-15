@@ -1,0 +1,77 @@
+---
+// Lazy Compose/Wasm preview island.
+//
+// The :codesamples wasm binary is a standalone page at /preview/index.html
+// (copied from the wasmJsBrowserDistribution output). It is embedded via
+// <iframe> so ALL of its relative URLs (.wasm, composeResources/fonts)
+// resolve against /preview/ instead of the docs page URL.
+//
+// Do NOT switch this to import() or <script src>: Vite rewrites those and
+// breaks the bundle's relative asset paths.
+interface Props {
+    height?: string;
+    sample?: string;
+    /** Set for the above-the-fold preview so it boots immediately. */
+    eager?: boolean;
+}
+const { height = "200px", sample, eager = false } = Astro.props;
+const src = sample
+    ? `/preview/index.html?sample=${sample}`
+    : "/preview/index.html";
+---
+
+<div
+    data-compose-preview
+    style={`position: relative; width: 100%; height: ${height}; border-radius: 12px; overflow: hidden;`}
+>
+    <div
+        data-spinner
+        style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none;"
+    >
+        <p color="Blue">Loading live preview…</p>
+    </div>
+    <iframe
+        data-preview-frame
+        src={src}
+        title="Live component preview"
+        style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;background-color: transparent; border-radius: 8px;"
+        loading={eager ? "eager" : "lazy"}
+        scrolling="false"
+    ></iframe>
+</div>
+
+<script>
+    const applyTheme = () => {
+        const theme =
+            document.documentElement.dataset.theme === "dark"
+                ? "dark"
+                : "light";
+        document
+            .querySelectorAll<HTMLIFrameElement>("[data-preview-frame]")
+            .forEach((frame) => {
+                const url = new URL(
+                    frame.src || frame.dataset.src || "/preview/index.html",
+                    location.origin,
+                );
+                if (url.searchParams.get("theme") !== theme) {
+                    url.searchParams.set("theme", theme);
+                    frame.src = url.toString();
+                }
+            });
+    };
+    document.querySelectorAll("[data-compose-preview]").forEach((root) => {
+        const frame = root.querySelector<HTMLIFrameElement>(
+            "[data-preview-frame]",
+        );
+        frame?.addEventListener(
+            "load",
+            () => root.querySelector("[data-spinner]")?.remove(),
+            { once: true },
+        );
+    });
+    applyTheme();
+    new MutationObserver(applyTheme).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+    });
+</script>

@@ -1,0 +1,23 @@
+---
+import ComposePreview from "./composePreview.astro";
+
+interface Props {
+    title?: string;
+    sample: string;
+    height: string;
+}
+
+const { title = "Components", sample, height } = Astro.props;
+---
+
+<details class="code&PreviewBlock">
+    <summary class="previewComponent">{title}</summary>
+    <div class="preview">
+        <slot />
+    </div>
+</details>
+
+<div>
+    hello
+    <ComposePreview sample={sample} height={height} />
+</div>

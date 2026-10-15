@@ -1,0 +1,55 @@
+---
+// Collapsible code sample wrapper. Usage in MDX:
+// <CodeToggle title="PrimaryButtonSample.kt">
+// ```kotlin
+// ...
+// ```
+// </CodeToggle>
+interface Props {
+    title?: string;
+}
+const { title = "Show code" } = Astro.props;
+---
+
+<details class="code-toggle">
+    <summary class="code-toggle-summary">{title}</summary>
+    <div class="code-toggle-body">
+        <slot />
+    </div>
+</details>
+
+<style>
+    .code-toggle {
+        margin: 0.75rem 0;
+    }
+    .code-toggle-summary {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        padding: 0.4rem 0.8rem;
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 0.5rem;
+        list-style: none;
+        user-select: none;
+    }
+    .code-toggle-summary::-webkit-details-marker {
+        display: none;
+    }
+    .code-toggle-summary::before {
+        content: "›";
+        display: inline-block;
+        transition: transform 0.15s ease;
+    }
+    .code-toggle[open] .code-toggle-summary::before {
+        transform: rotate(90deg);
+    }
+    .code-toggle-body {
+        margin-top: 0.5rem;
+    }
+    .code-toggle-body pre {
+        margin-top: 0;
+    }
+</style>
