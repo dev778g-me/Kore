@@ -8,6 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.dev.codesamples.samples.accordion.BasicAccordionSample
+import com.dev.codesamples.samples.accordion.CustomPaddingAccordionSample
+import com.dev.codesamples.samples.accordion.CustomTransitionsAccordionSample
 import com.dev.codesamples.samples.badge.ErrorBadgeSample
 import com.dev.codesamples.samples.badge.OutlinedBadgeSample
 import com.dev.codesamples.samples.badge.PrimaryBadgeCustomSample
@@ -22,6 +25,9 @@ import com.dev.codesamples.samples.buttons.PrimaryButtonSample
 import com.dev.codesamples.samples.buttons.PrimaryButtonWithCustomPaddingAndColors
 import com.dev.codesamples.samples.buttons.PrimaryButtonWithIcon
 import com.dev.codesamples.samples.buttons.SecondaryButtonSample
+import com.dev.codesamples.samples.card.BasicCardSample
+import com.dev.codesamples.samples.card.CustomBorderCardSample
+import com.dev.codesamples.samples.card.OutlinedCardSample
 import com.dev.codesamples.samples.checkbox.CheckBoxBasicSample
 import com.dev.codesamples.samples.checkbox.CheckBoxCustomShapeSample
 import com.dev.codesamples.samples.checkbox.CheckBoxWithLabelSample
@@ -35,6 +41,9 @@ import com.dev.codesamples.samples.iconbuttons.OutlinedIconButtonSample
 import com.dev.codesamples.samples.iconbuttons.PrimaryIconButtonSample
 import com.dev.codesamples.samples.iconbuttons.PrimaryIconButtonWithCustomShapeAndColors
 import com.dev.codesamples.samples.iconbuttons.SecondaryIconButtonSample
+import com.dev.codesamples.samples.listtile.BasicListTileSample
+import com.dev.codesamples.samples.listtile.ComplexListTileSample
+import com.dev.codesamples.samples.listtile.WithSwitchListTileSample
 import com.dev.codesamples.samples.loadingindicator.CircularLoadingBasicSample
 import com.dev.codesamples.samples.loadingindicator.CircularLoadingCustomSample
 import com.dev.codesamples.samples.loadingindicator.LinearLoadingBasicSample
@@ -48,6 +57,9 @@ import com.dev.codesamples.samples.radiobutton.RadioButtonCustomSample
 import com.dev.codesamples.samples.slider.SliderBasicSample
 import com.dev.codesamples.samples.slider.SliderCustomRangeSample
 import com.dev.codesamples.samples.slider.SliderCustomStyleSample
+import com.dev.codesamples.samples.stepper.BasicStepperSample
+import com.dev.codesamples.samples.stepper.BorderedStepperSample
+import com.dev.codesamples.samples.stepper.LargeNumbersStepperSample
 import com.dev.codesamples.samples.switch.SwitchBasicSample
 import com.dev.codesamples.samples.switch.SwitchCustomShapeSample
 import com.dev.codesamples.samples.switch.SwitchThumbContentSample
@@ -57,6 +69,12 @@ import com.dev.codesamples.samples.textfield.TextFieldPasswordSample
 import com.dev.kore.themes.KoreDefaults.defaultDarkColorScheme
 import com.dev.kore.themes.KoreDefaults.defaultLightColorScheme
 import com.dev.kore.themes.KoreTheme
+
+val accordionSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "accordion-basic" to { BasicAccordionSample() },
+    "accordion-custom-padding" to { CustomPaddingAccordionSample() },
+    "accordion-custom-transitions" to { CustomTransitionsAccordionSample() },
+)
 
 val badgeSamples: Map<String, @Composable () -> Unit> = mapOf(
     "badge-error" to { ErrorBadgeSample() },
@@ -76,6 +94,12 @@ val buttonSamples: Map<String, @Composable () -> Unit> = mapOf(
     "secondary" to { SecondaryButtonSample() },
     "custom" to { PrimaryButtonWithCustomPaddingAndColors() },
     "icon" to { PrimaryButtonWithIcon() },
+)
+
+val cardSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "card-basic" to { BasicCardSample() },
+    "card-custom-border" to { CustomBorderCardSample() },
+    "card-outlined" to { OutlinedCardSample() },
 )
 
 val checkboxSamples: Map<String, @Composable () -> Unit> = mapOf(
@@ -103,6 +127,12 @@ val iconButtonSamples: Map<String, @Composable () -> Unit> = mapOf(
     "iconbutton-secondary" to { SecondaryIconButtonSample() },
 )
 
+val listtileSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "listtile-basic" to { BasicListTileSample() },
+    "listtile-complex" to { ComplexListTileSample() },
+    "listtile-with-switch" to { WithSwitchListTileSample() },
+)
+
 val loadingindicatorSamples: Map<String, @Composable () -> Unit> = mapOf(
     "loading-circular-basic" to { CircularLoadingBasicSample() },
     "loading-circular-custom" to { CircularLoadingCustomSample() },
@@ -128,6 +158,12 @@ val sliderSamples: Map<String, @Composable () -> Unit> = mapOf(
     "slider-custom-style" to { SliderCustomStyleSample() },
 )
 
+val stepperSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "stepper-basic" to { BasicStepperSample() },
+    "stepper-bordered" to { BorderedStepperSample() },
+    "stepper-large-numbers" to { LargeNumbersStepperSample() },
+)
+
 val switchSamples: Map<String, @Composable () -> Unit> = mapOf(
     "switch-basic" to { SwitchBasicSample() },
     "switch-custom-shape" to { SwitchCustomShapeSample() },
@@ -141,16 +177,20 @@ val textfieldSamples: Map<String, @Composable () -> Unit> = mapOf(
 )
 
 val allSamples: Map<String, @Composable () -> Unit> =
+    accordionSamples +
     badgeSamples +
     buttonSamples +
+    cardSamples +
     checkboxSamples +
     dialogSamples +
     dropdownSamples +
     iconButtonSamples +
+    listtileSamples +
     loadingindicatorSamples +
     progressindicatorSamples +
     radiobuttonSamples +
     sliderSamples +
+    stepperSamples +
     switchSamples +
     textfieldSamples
 
