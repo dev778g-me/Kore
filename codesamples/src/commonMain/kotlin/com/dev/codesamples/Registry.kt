@@ -34,6 +34,7 @@ import com.dev.codesamples.samples.card.OutlinedCardSample
 import com.dev.codesamples.samples.checkbox.CheckBoxBasicSample
 import com.dev.codesamples.samples.checkbox.CheckBoxCustomShapeSample
 import com.dev.codesamples.samples.checkbox.CheckBoxWithLabelSample
+import com.dev.codesamples.samples.colorext.BlendSample
 import com.dev.codesamples.samples.dialog.BasicDialogSample
 import com.dev.codesamples.samples.dialog.CustomDialogSample
 import com.dev.codesamples.samples.dropdown.DropdownBasicSample
@@ -51,6 +52,18 @@ import com.dev.codesamples.samples.loadingindicator.CircularLoadingBasicSample
 import com.dev.codesamples.samples.loadingindicator.CircularLoadingCustomSample
 import com.dev.codesamples.samples.loadingindicator.LinearLoadingBasicSample
 import com.dev.codesamples.samples.loadingindicator.LinearLoadingCustomSample
+import com.dev.codesamples.samples.modifierext.BlueprintGridSample
+import com.dev.codesamples.samples.modifierext.ClearFocusOnTapSample
+import com.dev.codesamples.samples.modifierext.DashedBorderBrushSample
+import com.dev.codesamples.samples.modifierext.DashedBorderSample
+import com.dev.codesamples.samples.modifierext.DotBorderBrushSample
+import com.dev.codesamples.samples.modifierext.DotBorderSample
+import com.dev.codesamples.samples.modifierext.HorizontalFadingEdgesSample
+import com.dev.codesamples.samples.modifierext.MagneticPullSample
+import com.dev.codesamples.samples.modifierext.NoRippleClickableSample
+import com.dev.codesamples.samples.modifierext.ScaleClickableSample
+import com.dev.codesamples.samples.modifierext.ShimmerSample
+import com.dev.codesamples.samples.modifierext.VerticalFadingEdgesSample
 import com.dev.codesamples.samples.navbar.NavbarBasicSample
 import com.dev.codesamples.samples.navbar.NavbarCustomSample
 import com.dev.codesamples.samples.progressindicator.CircularProgressBasicSample
@@ -83,6 +96,22 @@ import com.dev.codesamples.samples.switch.SwitchThumbContentSample
 import com.dev.codesamples.samples.textfield.TextFieldBasicSample
 import com.dev.codesamples.samples.textfield.TextFieldMultilineSample
 import com.dev.codesamples.samples.textfield.TextFieldPasswordSample
+import com.dev.codesamples.samples.textstyleext.AlignCenterSample
+import com.dev.codesamples.samples.textstyleext.AlignEndSample
+import com.dev.codesamples.samples.textstyleext.BoldSample
+import com.dev.codesamples.samples.textstyleext.ExtraBoldSample
+import com.dev.codesamples.samples.textstyleext.ExtraLightSample
+import com.dev.codesamples.samples.textstyleext.ItalicSample
+import com.dev.codesamples.samples.textstyleext.LetterSpacingSample
+import com.dev.codesamples.samples.textstyleext.LightSample
+import com.dev.codesamples.samples.textstyleext.LineHeightSample
+import com.dev.codesamples.samples.textstyleext.MediumSample
+import com.dev.codesamples.samples.textstyleext.NormalSample
+import com.dev.codesamples.samples.textstyleext.SemiBoldSample
+import com.dev.codesamples.samples.textstyleext.SizeSample
+import com.dev.codesamples.samples.textstyleext.StrikethroughSample
+import com.dev.codesamples.samples.textstyleext.TextStyleColorSample
+import com.dev.codesamples.samples.textstyleext.UnderlineSample
 import com.dev.kore.themes.KoreDefaults.defaultDarkColorScheme
 import com.dev.kore.themes.KoreDefaults.defaultLightColorScheme
 import com.dev.kore.themes.KoreTheme
@@ -131,6 +160,10 @@ val checkboxSamples: Map<String, @Composable () -> Unit> = mapOf(
     "checkbox-with-label" to { CheckBoxWithLabelSample() },
 )
 
+val colorextSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "colorext-blend" to { BlendSample() },
+)
+
 val dialogSamples: Map<String, @Composable () -> Unit> = mapOf(
     "dialog-basic" to { BasicDialogSample() },
     "dialog-custom" to { CustomDialogSample() },
@@ -161,6 +194,21 @@ val loadingindicatorSamples: Map<String, @Composable () -> Unit> = mapOf(
     "loading-circular-custom" to { CircularLoadingCustomSample() },
     "loading-linear-basic" to { LinearLoadingBasicSample() },
     "loading-linear-custom" to { LinearLoadingCustomSample() },
+)
+
+val modifierextSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "modifierext-blueprint-grid" to { BlueprintGridSample() },
+    "modifierext-clear-focus-on-tap" to { ClearFocusOnTapSample() },
+    "modifierext-dashed-border" to { DashedBorderSample() },
+    "modifierext-dashed-border-brush" to { DashedBorderBrushSample() },
+    "modifierext-dot-border" to { DotBorderSample() },
+    "modifierext-dot-border-brush" to { DotBorderBrushSample() },
+    "modifierext-horizontal-fading-edges" to { HorizontalFadingEdgesSample() },
+    "modifierext-magnetic-pull" to { MagneticPullSample() },
+    "modifierext-no-ripple-clickable" to { NoRippleClickableSample() },
+    "modifierext-scale-clickable" to { ScaleClickableSample() },
+    "modifierext-shimmer" to { ShimmerSample() },
+    "modifierext-vertical-fading-edges" to { VerticalFadingEdgesSample() },
 )
 
 val navbarSamples: Map<String, @Composable () -> Unit> = mapOf(
@@ -222,6 +270,25 @@ val textfieldSamples: Map<String, @Composable () -> Unit> = mapOf(
     "textfield-password" to { TextFieldPasswordSample() },
 )
 
+val textstyleextSamples: Map<String, @Composable () -> Unit> = mapOf(
+    "textstyleext-align-center" to { AlignCenterSample() },
+    "textstyleext-align-end" to { AlignEndSample() },
+    "textstyleext-bold" to { BoldSample() },
+    "textstyleext-color" to { TextStyleColorSample() },
+    "textstyleext-extra-bold" to { ExtraBoldSample() },
+    "textstyleext-extra-light" to { ExtraLightSample() },
+    "textstyleext-italic" to { ItalicSample() },
+    "textstyleext-letter-spacing" to { LetterSpacingSample() },
+    "textstyleext-light" to { LightSample() },
+    "textstyleext-line-height" to { LineHeightSample() },
+    "textstyleext-medium" to { MediumSample() },
+    "textstyleext-normal" to { NormalSample() },
+    "textstyleext-semi-bold" to { SemiBoldSample() },
+    "textstyleext-size" to { SizeSample() },
+    "textstyleext-strikethrough" to { StrikethroughSample() },
+    "textstyleext-underline" to { UnderlineSample() },
+)
+
 val allSamples: Map<String, @Composable () -> Unit> =
     accordionSamples +
     appbarSamples +
@@ -229,11 +296,13 @@ val allSamples: Map<String, @Composable () -> Unit> =
     buttonSamples +
     cardSamples +
     checkboxSamples +
+    colorextSamples +
     dialogSamples +
     dropdownSamples +
     iconButtonSamples +
     listtileSamples +
     loadingindicatorSamples +
+    modifierextSamples +
     navbarSamples +
     progressindicatorSamples +
     radiobuttonSamples +
@@ -242,7 +311,8 @@ val allSamples: Map<String, @Composable () -> Unit> =
     stackSamples +
     stepperSamples +
     switchSamples +
-    textfieldSamples
+    textfieldSamples +
+    textstyleextSamples
 
 @Composable
 fun SingleSampleApp(id: String, isDark: Boolean = false) {
