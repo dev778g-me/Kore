@@ -20,6 +20,24 @@ export default defineConfig({
       },
       sidebar: [
 				{
+					label: 'Components',
+					items: [
+						{
+							label: 'Inputs & Controls',
+							items: [
+								{ label: 'Buttons', slug: 'components/buttons' },
+								{ label: 'Icon Buttons', slug: 'components/icon-buttons' },
+								{ label: 'Checkbox', slug: 'components/checkbox' },
+								{ label: 'Dropdown', slug: 'components/dropdown' },
+								{ label: 'Radio Button', slug: 'components/radio-button' },
+								{ label: 'Switch', slug: 'components/switch' },
+								{ label: 'Slider', slug: 'components/slider' },
+								{ label: 'Text Field', slug: 'components/text-field' },
+							],
+						},
+					],
+				},
+				{
 					label: 'Guides',
 					items: [
 						// Each item here is one entry in the navigation menu.

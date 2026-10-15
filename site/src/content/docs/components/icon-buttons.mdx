@@ -1,0 +1,139 @@
+---
+
+title: Icon Buttons
+description: Compact icon-only buttons in Kore — Primary, Secondary, Outlined, and Ghost.
+---
+
+import ComponentDemo from '../../../components/ComponentDemo.astro';
+
+An IconButton is a compact, interactive element that uses an icon instead of a text label to convey its action. They are ideal for app bars, toolbars, and inline actions where space is limited but the action is easily understood universally.
+
+There are several types of icon buttons in Kore based on action importance: Primary, Secondary, Outlined, and Ghost. Each variant features a minimum touch target size of `48.dp` by default to ensure accessibility.
+
+## Primary Icon Button
+
+The `PrimaryIconButton` is a highly prominent component used for the primary or most important tasks on a screen.
+
+### Basic Example
+
+| Slot      | Description                                                                  |
+|-----------|------------------------------------------------------------------------------|
+| `content` | The internal element of the button. Typically contains an `Icon` composable. |
+
+<ComponentDemo sample="iconbutton-primary" title="PrimaryIconButtonSample.kt" height="180px" eager>
+```kotlin
+@Composable
+fun PrimaryIconButtonSample() {
+    PrimaryIconButton(
+        onClick = { /* Handle click */ }
+    ) {
+        Icon(
+            imageVector = PhIcons.Regular.Plus,
+            contentDescription = "Add Item"
+        )
+    }
+}
+```
+</ComponentDemo>
+
+## Styling
+
+IconButtons expose several parameters to customize their appearance, shape, and interactions.
+
+### Parameters
+
+| Parameter                 | Type                        | Default                                        | Description                                                                                                         |
+|---------------------------|-----------------------------|------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| `onClick`                 | `() -> Unit`                | —                                              | Called when the user clicks the icon button.                                                                        |
+| `modifier`                | `Modifier`                  | `Modifier`                                     | Applied to the root container of the button.                |
+| `enabled`                 | `Boolean`                   | `true`                                         | Controls the interactive and visual enabled state of the button.                                                    |
+| `shape`                   | `Shape`                     | `CircleShape`                                  | Defines the button's clipping shape (defaults to perfectly round).                                                 |
+| `interactionSource`       | `MutableInteractionSource?` | `null`                                         | Represents the stream of interactions (e.g., pressed, focused).                                                     |
+| `primaryIconButtonColors` | `IconButtonColors`          | `IconButtonDefaults.primaryIconButtonColors()` | The resolved colors used for the background and content in different states. *(Note: Name varies per button type).* |
+| `content`                 | `@Composable () -> Unit`    | —                                              | The main content to display inside the button.                                                                      |
+
+### Custom Shape and Colors
+
+By default, IconButtons use a `CircleShape`, but you can easily override this to create rounded rectangles or squares.
+
+<ComponentDemo sample="iconbutton-custom" title="PrimaryIconButtonCustom.kt" height="180px">
+```kotlin
+@Composable
+fun PrimaryIconButtonWithCustomShapeAndColors() {
+    PrimaryIconButton(
+        shape = KoreTheme.shapes.sm,
+        onClick = {},
+        primaryIconButtonColors = IconButtonDefaults.primaryIconButtonColors(
+            iconButtonContainerColor = RadixColors.Orange.dark.step9,
+            iconButtonContentColor = RadixColors.Orange.dark.step12
+        )
+    ) {
+        Icon(imageVector = PhIcons.Regular.Asterisk, contentDescription = "")
+    }
+}
+```
+</ComponentDemo>
+
+## Other Variants
+
+Kore provides three other IconButton variants that follow the exact same anatomy as the `PrimaryIconButton`, differing mostly in their default emphasis and colors.
+
+### Secondary Icon Button
+
+Used for medium-emphasis actions that shouldn't draw as much attention as the primary action.
+
+<ComponentDemo sample="iconbutton-secondary" title="SecondaryIconButtonSample.kt" height="180px">
+```kotlin
+@Composable
+fun SecondaryIconButtonSample() {
+    SecondaryIconButton(
+        onClick = { /* Edit item */ }
+    ) {
+        Icon(
+            imageVector = PhIcons.Regular.Asterisk,
+            contentDescription = "Edit"
+        )
+    }
+}
+```
+</ComponentDemo>
+
+### Outlined Icon Button
+
+Also, a medium-emphasis action, but features a customizable `border` parameter. Useful for alternate or secondary actions.
+
+<ComponentDemo sample="iconbutton-outlined" title="OutlinedIconButtonSample.kt" height="180px">
+```kotlin
+@Composable
+fun OutlinedIconButtonSample() {
+    OutlinedIconButton(
+        onClick = { /* Delete item */ },
+    ) {
+        Icon(
+            imageVector = PhIcons.Regular.Asterisk,
+            contentDescription = "Delete"
+        )
+    }
+}
+```
+</ComponentDemo>
+
+### Ghost Icon Button
+
+A low-emphasis, transparent button used for very low priority or optional actions. It blends into the background until interacted with.
+
+<ComponentDemo sample="iconbutton-ghost" title="GhostIconButtonSample.kt" height="180px">
+```kotlin
+@Composable
+fun GhostIconButtonSample() {
+    GhostIconButton(
+        onClick = { /* Open menu */ }
+    ) {
+        Icon(
+            imageVector = PhIcons.Regular.Asterisk,
+            contentDescription = "More Options"
+        )
+    }
+}
+```
+</ComponentDemo>
