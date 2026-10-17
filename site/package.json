@@ -7,7 +7,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sync:create": "rm -rf public/create && mkdir -p public/create && cp -R ../themebuilder/build/dist/wasmJs/productionExecutable/. public/create/ && rm -f public/create/index.html",
+    "sync:preview": "rm -rf public/preview && mkdir -p public/preview && cp -R ../codesamples/build/dist/wasmJs/productionExecutable/. public/preview/",
+    "sync:wasm": "npm run sync:create && npm run sync:preview"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.42.6",
