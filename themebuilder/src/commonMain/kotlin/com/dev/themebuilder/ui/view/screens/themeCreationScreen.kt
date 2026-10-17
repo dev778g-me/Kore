@@ -24,9 +24,7 @@ import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 @Composable
 fun ThemeCreationScreen(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
     viewModel: ThemeViewModel,
-    isDark: Boolean,
 ) {
     val currentWindowSizeClass =
         currentWindowAdaptiveInfo(supportLargeAndXLargeWidth = true).windowSizeClass

@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +35,6 @@ import com.dev.kore.components.tabRow.TabRow
 import com.dev.kore.components.text.Text
 import com.dev.kore.components.textFields.OutlinedTextField
 import com.dev.kore.themes.KoreTheme
-import com.dev.themebuilder.ui.view.navigation.BuilderTabItem
 import com.phosphor.icons.PhIcons
 import com.phosphor.icons.filled.GithubLogoFill
 import com.phosphor.icons.filled.UsersFill
@@ -49,13 +49,13 @@ fun GithubUIShowcase(
     modifier: Modifier = Modifier
 ) {
     val tabNavItems = listOf(
-        BuilderTabItem(
+        NavTab(
             onClick = {},
             name = "Team",
             selectedIcon = PhIcons.Filled.UsersFill,
             unSelectedIcon = PhIcons.Regular.Users,
         ),
-        BuilderTabItem(
+        NavTab(
             name = "Github",
             selectedIcon = PhIcons.Filled.GithubLogoFill,
             unSelectedIcon = PhIcons.Regular.GithubLogo,
@@ -231,5 +231,12 @@ fun GithubUIShowcase(
 
     }
 }
+
+private data class NavTab(
+    val name: String,
+    val selectedIcon: ImageVector,
+    val unSelectedIcon: ImageVector,
+    val onClick: () -> Unit,
+)
 
 

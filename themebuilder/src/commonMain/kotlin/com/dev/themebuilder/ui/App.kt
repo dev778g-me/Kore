@@ -8,35 +8,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.dev.themebuilder.ui.theme.BuilderTheme
-import com.dev.themebuilder.ui.view.navigation.AppRoute
-import com.dev.themebuilder.ui.view.navigation.BuilderNavHost
+import com.dev.themebuilder.ui.view.BuilderScaffold
 import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 
 @Preview
 @Composable
-fun ThemeApp(
-    onNavHostReady: suspend (NavController) -> Unit = {},
-    onOpenUrl: (String) -> Unit = {},
-    startDestination: AppRoute = AppRoute.Home,
-    embedded: Boolean = false
-) {
-
-    val isDarkValue = isSystemInDarkTheme()
-    var isDark by remember { mutableStateOf(isDarkValue) }
+fun ThemeApp(initialDark: Boolean? = null) {
+    val systemDark = isSystemInDarkTheme()
+    var isDark by remember { mutableStateOf(initialDark ?: systemDark) }
     val viewModel: ThemeViewModel = viewModel { ThemeViewModel() }
 
     BuilderTheme(isDark = isDark, viewModel = viewModel) {
-        BuilderNavHost(
-            viewModel = viewModel, onNavHostReady,
-            onThemeChange = {
-                isDark = !isDark
-            },
+        BuilderScaffold(
+            viewModel = viewModel,
             isDark = isDark,
-            onOpenUrl = onOpenUrl,
-            startDestination = startDestination,
-            embedded = embedded
+            onThemeChange = { isDark = !isDark },
         )
     }
 }

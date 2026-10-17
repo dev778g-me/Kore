@@ -8,8 +8,6 @@ import com.dev.themebuilder.ui.ThemeApp
 import koreproject.themebuilder.generated.resources.Res
 import koreproject.themebuilder.generated.resources.icon_desktop
 import org.jetbrains.compose.resources.painterResource
-import java.awt.Desktop
-import java.net.URI
 
 fun main() = application {
     val appIcon = painterResource(resource = Res.drawable.icon_desktop)
@@ -22,14 +20,6 @@ fun main() = application {
         title = "Kore",
     ) {
 
-        ThemeApp(
-            onOpenUrl = { url ->
-                try {
-                    Desktop.getDesktop().browse(URI(url))
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        )
+        ThemeApp()
     }
 }
