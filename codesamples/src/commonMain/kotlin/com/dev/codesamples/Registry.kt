@@ -319,7 +319,7 @@ fun SingleSampleApp(id: String, isDark: Boolean = false) {
     val colorScheme = if (isDark) defaultDarkColorScheme else defaultLightColorScheme
     KoreTheme(colorScheme = colorScheme) {
         Box(
-            modifier = Modifier.fillMaxSize().background(colorScheme.surface).padding(16.dp),
+            modifier = Modifier.fillMaxSize().background(colorScheme.surfaceBright).padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
             allSamples[id]?.invoke()
