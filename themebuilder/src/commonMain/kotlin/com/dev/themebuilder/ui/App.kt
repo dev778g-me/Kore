@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dev.themebuilder.ui.theme.BuilderTheme
+import com.dev.themebuilder.ui.view.navigation.AppRoute
 import com.dev.themebuilder.ui.view.navigation.BuilderNavHost
 import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 
@@ -17,7 +18,9 @@ import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 @Composable
 fun ThemeApp(
     onNavHostReady: suspend (NavController) -> Unit = {},
-    onOpenUrl: (String) -> Unit = {}
+    onOpenUrl: (String) -> Unit = {},
+    startDestination: AppRoute = AppRoute.Home,
+    embedded: Boolean = false
 ) {
 
     val isDarkValue = isSystemInDarkTheme()
@@ -31,7 +34,9 @@ fun ThemeApp(
                 isDark = !isDark
             },
             isDark = isDark,
-            onOpenUrl = onOpenUrl
+            onOpenUrl = onOpenUrl,
+            startDestination = startDestination,
+            embedded = embedded
         )
     }
 }

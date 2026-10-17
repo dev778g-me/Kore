@@ -71,7 +71,9 @@ fun BuilderNavHost(
     onNavHostReady: suspend (NavController) -> Unit = {},
     onThemeChange : () -> Unit,
     isDark : Boolean,
-    onOpenUrl: (String) -> Unit = {}
+    onOpenUrl: (String) -> Unit = {},
+    startDestination: AppRoute = AppRoute.Home,
+    embedded: Boolean = false
 ) {
 
     val navController = rememberNavController()
@@ -123,6 +125,9 @@ fun BuilderNavHost(
             Appbar(
                 elevation = 0.dp,
                 title = {
+                    if (embedded) {
+                        Text("Create", textStyle = KoreTheme.typography.title3)
+                    } else {
                     HorizontalStack {
                         ScrollableTabRow(selectedIndex = selectedTabIndex, tabs = {
                             tabBarEntries.forEachIndexed { index, item ->
@@ -147,6 +152,7 @@ fun BuilderNavHost(
                                 )
                             }
                         })
+                    }
                     }
                 },
                 appBarAction = {
@@ -202,7 +208,7 @@ fun BuilderNavHost(
         NavHost(
             modifier = Modifier.padding(paddingValues),
             navController = navController,
-            startDestination = AppRoute.Home
+            startDestination = startDestination
         ) {
 
 

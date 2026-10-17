@@ -11,15 +11,25 @@ import com.dev.themebuilder.ui.theme.BuilderTheme
 import com.dev.themebuilder.ui.view.navigation.AppRoute
 import com.dev.themebuilder.ui.viewmodel.ThemeViewModel
 import kotlinx.browser.document
+import kotlinx.browser.window
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalBrowserHistoryApi::class)
 fun main() {
     val body = document.body ?: return
 
+    // Embedded under /create on the Astro site: boot straight into the builder.
+    // Standalone deployments keep the previous Home start.
+    val embedded = window.location.pathname.startsWith("/create")
+    val startDestination =
+        if (embedded) AppRoute.Create
+        else AppRoute.Home
+
     ComposeViewport(body) {
         val viewModel: ThemeViewModel = viewModel { ThemeViewModel() }
         BuilderTheme(isDark = false, viewModel = viewModel) {
             ThemeApp(
+                startDestination = startDestination,
+                embedded = embedded,
                 onNavHostReady = { navController ->
                     navController.bindToBrowserNavigation() { entry ->
                         val route = entry.destination.route.orEmpty()
