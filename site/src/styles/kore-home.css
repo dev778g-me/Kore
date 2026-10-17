@@ -19,6 +19,10 @@
   border-top: 0;
 }
 
+body:has(.kh) header > div.header {
+  padding-inline-start: calc(max(0px, (100% - 70rem) / 2));
+}
+
 main:has(.kh) .sl-container:has(> h1#_top) {
   position: absolute;
   width: 1px;
