@@ -1,0 +1,82 @@
+---
+const title = 'Kore';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <script is:inline>
+      // Same resolution Starlight uses, so the app opens in the site's theme.
+      const stored = localStorage.getItem('starlight-theme');
+      const theme =
+        stored ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+    </script>
+    <link rel="stylesheet" href="/create/style.css" />
+    <style is:global>
+      :root {
+        color-scheme: dark;
+        background-color: #111111;
+      }
+      :root[data-theme='light'] {
+        color-scheme: light;
+        background-color: #e8e8e8;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #loadingSpinner circle:first-of-type {
+        stroke: #313131;
+      }
+      #loadingSpinner circle:last-of-type {
+        stroke: #2563eb;
+      }
+      :root[data-theme='light'] #loadingSpinner circle:first-of-type {
+        stroke: #cecece;
+      }
+    </style>
+  </head>
+  <body>
+    <svg
+      id="loadingSpinner"
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 50 50"
+      role="presentation"
+    >
+      <circle cx="25" cy="25" r="20" stroke="#ccc" stroke-width="4" fill="none"></circle>
+      <circle
+        cx="25"
+        cy="25"
+        r="20"
+        stroke="#333"
+        stroke-width="4"
+        fill="none"
+        stroke-linecap="round"
+        stroke-dasharray="90 125"
+      >
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 25 25"
+          to="360 25 25"
+          dur="1s"
+          repeatCount="indefinite"></animateTransform>
+      </circle>
+    </svg>
+
+    <canvas id="ComposeTarget"></canvas>
+
+    <script is:inline type="module" src="/create/themebuilder.js"></script>
+  </body>
+</html>
