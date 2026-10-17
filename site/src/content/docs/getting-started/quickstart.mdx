@@ -1,0 +1,40 @@
+---
+
+title: Quickstart
+description: From dependency to custom theme in four steps.
+---
+
+import { Image } from 'astro:assets';
+import homeDark from '../../../assets/home_dark.png';
+import createPage from '../../../assets/createPage.png';
+import exportDark from '../../../assets/export_dark.png';
+
+
+
+Get up and running with Kore in a few simple steps.
+
+First, add the Kore dependency to your project:
+
+```kotlin
+implementation("io.github.dev778g-me:kore:1.0.0-alpha03")
+```
+
+While Kore works perfectly out of the box using KoreDefaults, configuring your own design system is highly recommended.
+
+1. Visit the [Kore Playground](/create/) to prototype your design system visually.
+
+<Image src={homeDark} alt="Kore Playground Home" />
+
+2. Customize your design system: tweak colors (neutrals, primary, and complementary accents), shapes, and spacing.
+
+<Image src={createPage} alt="Customize Theme" />
+
+3. Generate and export the Theme.kt file, then drop it into your project.
+
+<Image src={exportDark} alt="Export Theme" />
+
+4. Wrap your root composable with AppTheme (feel free to rename this inside the file).
+
+That's it. All Kore components will now automatically adapt to your custom theme.
+
+Happy building 😻
