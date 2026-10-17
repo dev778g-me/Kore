@@ -1,8 +1,8 @@
 ---
-import { tailwindFamilies, radixScales } from '../data/kore-colors';
+import { tailwindFamilies, radixScales } from "../data/kore-colors";
 
 interface Props {
-    mode: 'tailwind' | 'radix';
+    mode: "tailwind" | "radix";
 }
 
 const { mode } = Astro.props;
@@ -10,8 +10,8 @@ const { mode } = Astro.props;
 const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
 ---
 
-{mode === 'tailwind' ? (
-    <div class="swatches" data-swatches="tailwind">
+{mode === "tailwind" ? (
+    <div class="swatches not-content" data-swatches="tailwind">
         {Object.entries(tailwindFamilies).map(([name, shades]) => (
             <div class="swatch-row">
                 <p class="swatch-label">{name}</p>
@@ -21,7 +21,7 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
                             type="button"
                             class="swatch"
                             data-hex={toHexString(hex)}
-                            data-bg={hex}
+                            data-label={name}
                             style={`background-color: ${hex};`}
                             title={`${name} — ${toHexString(hex)}`}
                             aria-label={`Copy ${name} ${toHexString(hex)}`}
@@ -32,7 +32,7 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
         ))}
     </div>
 ) : (
-    <div class="swatches" data-swatches="radix">
+    <div class="swatches not-content" data-swatches="radix">
         {Object.entries(radixScales).map(([name, scale]) => (
             <div class="swatch-row">
                 <p class="swatch-label">{name}</p>
@@ -45,6 +45,7 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
                             data-dark={toHexString(darkHex)}
                             data-bg-light={scale.light[k]}
                             data-bg-dark={darkHex}
+                            data-label={`${name} step ${k + 1}`}
                             style={`background-color: ${darkHex};`}
                             title={`${name} step ${k + 1}`}
                             aria-label={`Copy ${name} step ${k + 1}`}
@@ -57,56 +58,78 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
 )}
 
 <script>
+    // hex8 is "0xFFRRGGBB"
     const luminance = (hex8: string) => {
-        const r = parseInt(hex8.slice(2, 4), 16) / 255;
-        const g = parseInt(hex8.slice(4, 6), 16) / 255;
-        const b = parseInt(hex8.slice(6, 8), 16) / 255;
+        const r = parseInt(hex8.slice(4, 6), 16) / 255;
+        const g = parseInt(hex8.slice(6, 8), 16) / 255;
+        const b = parseInt(hex8.slice(8, 10), 16) / 255;
         return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     };
 
+    const CHECK_SVG =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
     const paintRadix = () => {
-        const dark = document.documentElement.dataset.theme !== 'light';
+        const dark = document.documentElement.dataset.theme !== "light";
         document
-            .querySelectorAll<HTMLButtonElement>('[data-swatches="radix"] .swatch')
+            .querySelectorAll<HTMLButtonElement>(
+                '[data-swatches="radix"] .swatch',
+            )
             .forEach((box) => {
                 box.dataset.hex = dark ? box.dataset.dark! : box.dataset.light!;
-                box.style.backgroundColor = dark ? box.dataset.bgDark! : box.dataset.bgLight!;
-                box.title = box.title.replace(/0x[0-9A-F]+/, box.dataset.hex);
+                box.style.backgroundColor = dark
+                    ? box.dataset.bgDark!
+                    : box.dataset.bgLight!;
+                box.title = `${box.dataset.label} — ${box.dataset.hex}`;
             });
     };
 
-    document.querySelectorAll<HTMLButtonElement>('.swatches .swatch').forEach((box) => {
-        if (!box.dataset.hex) {
-            box.dataset.hex = box.title.match(/0x[0-9A-F]+/)?.[0] ?? '';
-        }
-        box.addEventListener('click', async () => {
-            const hex = box.dataset.hex ?? '';
-            if (!hex) return;
-            const snippet = `Color(${hex})`;
-            try {
-                await navigator.clipboard.writeText(snippet);
-            } catch {
-                const ta = document.createElement('textarea');
-                ta.value = snippet;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                ta.remove();
-            }
-            if (box.querySelector('[data-copied]')) return;
-            const label = document.createElement('span');
-            label.dataset.copied = 'true';
-            label.textContent = 'Copied!';
-            label.style.color = luminance(hex) > 0.5 ? '#000' : '#fff';
-            box.appendChild(label);
-            setTimeout(() => label.remove(), 1000);
+    const timers = new WeakMap<HTMLElement, number>();
+
+    const flashCopied = (box: HTMLButtonElement, hex: string) => {
+        clearTimeout(timers.get(box));
+        box.querySelector("[data-copied]")?.remove();
+
+        const mark = document.createElement("span");
+        mark.dataset.copied = "true";
+        mark.setAttribute("aria-hidden", "true");
+        mark.style.color = luminance(hex) > 0.5 ? "#000" : "#fff";
+        mark.innerHTML = CHECK_SVG;
+        box.appendChild(mark);
+
+        timers.set(
+            box,
+            window.setTimeout(() => mark.remove(), 800),
+        );
+    };
+
+    document
+        .querySelectorAll<HTMLButtonElement>(".swatches .swatch")
+        .forEach((box) => {
+            box.addEventListener("click", async () => {
+                const hex = box.dataset.hex ?? "";
+                if (!hex) return;
+                const snippet = `Color(${hex})`;
+                try {
+                    await navigator.clipboard.writeText(snippet);
+                } catch {
+                    const ta = document.createElement("textarea");
+                    ta.value = snippet;
+                    ta.style.position = "fixed";
+                    ta.style.opacity = "0";
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand("copy");
+                    ta.remove();
+                }
+                flashCopied(box, hex);
+            });
         });
-    });
 
     paintRadix();
     new MutationObserver(paintRadix).observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ['data-theme'],
+        attributeFilter: ["data-theme"],
     });
 </script>
 
@@ -117,13 +140,16 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
         gap: 0.25rem;
         margin: 1rem 0;
     }
-    .sl-markdown-content .swatches * {
+    /* Beat Starlight's `* + *` margin-top rule (also covered by .not-content) */
+    .swatches .swatch-row,
+    .swatches .swatch-strip,
+    .swatches .swatch {
         margin-top: 0;
     }
     .swatch-row {
         padding: 0.25rem 0;
     }
-    .swatch-label {
+    .swatches .swatch-label {
         font-size: 0.75rem;
         font-weight: 600;
         margin: 0 0 0.375rem;
@@ -136,10 +162,11 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
     [data-swatches="radix"] .swatch-strip {
         grid-template-columns: repeat(12, 1fr);
     }
-    .swatch {
+    .swatches .swatch {
         appearance: none;
         border: 0;
         padding: 0;
+        margin: 0;
         width: 100%;
         aspect-ratio: 1 / 1;
         height: auto;
@@ -147,42 +174,45 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
         cursor: pointer;
         position: relative;
         overflow: hidden;
-        transition: transform 0.12s ease;
+        transition:
+            transform 0.12s ease,
+            filter 0.12s ease;
+    }
+    .swatch:hover {
+        filter: brightness(1.08);
     }
     .swatch:active {
-        transform: scale(0.92);
+        transform: scale(0.95);
     }
-    .swatch [data-copied] {
+    .swatch:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+    }
+
+    /* The check mark is created in JS, so it needs :global() */
+    .swatch :global([data-copied]) {
         position: absolute;
         inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.4rem;
-        font-weight: 700;
-        line-height: 1.1;
-        text-align: center;
-        padding: 0 1px;
-        animation: copied-pop 1s ease forwards;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        animation: copied-fade 0.8s ease forwards;
     }
-    @keyframes copied-pop {
+    .swatch :global([data-copied] svg) {
+        width: 50%;
+        height: 50%;
+    }
+
+    @keyframes copied-fade {
         0% {
             opacity: 0;
-            transform: scale(0.6);
         }
-        15% {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-        30% {
-            transform: scale(1);
-        }
-        80% {
+        15%,
+        70% {
             opacity: 1;
         }
         100% {
             opacity: 0;
-            transform: scale(0.95);
         }
     }
 </style>
