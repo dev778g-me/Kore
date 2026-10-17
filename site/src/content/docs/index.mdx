@@ -1,40 +1,83 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
-hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
-  actions:
-    - text: Example Guide
-      link: /guides/example/
-      icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
-      variant: minimal
+title: Kore
+description: Kore is a Compose Multiplatform design foundation — pre-styled components for scalable, consistent design systems.
+template: splash
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import '../../styles/kore-home.css';
 
-## Next steps
+<div class="kh not-content">
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
-</CardGrid>
+<header class="kh-hero">
+<h2>
+  <span class="kh-line"><span>Build</span> <span>your</span> <span>own</span></span>
+  <span class="kh-line"><span>Compose</span></span>
+  <span class="kh-line"><span>Multiplatform</span></span>
+  <span class="kh-line"><span>design</span> <span>system</span></span>
+</h2>
+<div class="kh-hero-foot">
+<p class="kh-lede">Beautifully pre-styled components you can customize, extend, and own. Stop looking like Material.</p>
+<div class="kh-actions">
+<a class="kh-btn" href="/create/">Create a theme</a>
+<a class="kh-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+</div>
+<dl class="kh-facts">
+<div><dt>Platforms</dt><dd>Android, iOS, desktop, web</dd><dd class="kh-sub">JVM, Kotlin/JS, Kotlin/Wasm</dd></div>
+<div><dt>Install</dt><dd>One dependency</dd><dd class="kh-sub">Maven Central</dd></div>
+<div><dt>License</dt><dd>MIT</dd><dd class="kh-sub">Free, forever</dd></div>
+<div><dt>Status</dt><dd class="kh-status"><span class="kh-chip">Alpha</span></dd><dd class="kh-sub">APIs may still shift</dd></div>
+</dl>
+</header>
+
+<section class="kh-statement">
+<h3>Material doesn’t fit every product</h3>
+<div class="kh-copy">
+<p>Not every app should look or feel like Material. Building your own design system from scratch takes time, design sense, and a lot of iteration.</p>
+<p><strong>Kore gives you pre-styled Compose Multiplatform components out of the box.</strong> Customize as much as you want: colors (light and dark), shapes, typography, sizes, everything.</p>
+</div>
+</section>
+
+<section class="kh-split">
+<h3>From install to your own theme in 4 steps</h3>
+<ol class="kh-steps">
+<li><b>Install</b><span>One Maven Central dependency. Android, iOS, desktop, web.</span></li>
+<li><b>Open <a href="/create/">Create</a></b><span>Prototype with live components, not mockups.</span></li>
+<li><b>Export Theme.kt</b><span>Drop the generated file into your project.</span></li>
+<li><b>Wrap your root</b><span>Every component adapts automatically.</span></li>
+</ol>
+</section>
+
+<section class="kh-split">
+<h3>Why Kore</h3>
+<dl class="kh-why">
+<div><dt>One theme, fully yours</dt><dd>Colors for light and dark, shapes, type, and sizes live in tokens you own. Build them in Create and export <code>Theme.kt</code>, or write them by hand.</dd></div>
+<div><dt>Styled from the first build</dt><dd>Components ship with finished defaults, so your first build already looks right. Restyle what you want later.</dd></div>
+<div><dt>Parameters first, source second</dt><dd>Almost every visual detail is a parameter. When that isn’t enough, each component is a single file you can copy into your project and edit.</dd></div>
+<div><dt>Accessible by default</dt><dd>Components are accessible out of the box, so restyling doesn’t mean redoing that part.</dd></div>
+</dl>
+</section>
+
+<section class="kh-split">
+<h3>Questions</h3>
+<div class="kh-faq">
+<details name="faq"><summary>Is Kore production-ready?</summary><p>No, it’s alpha. APIs may shift. Great for new projects and prototyping, not yet for frozen design systems.</p></details>
+<details name="faq"><summary>Which platforms are supported?</summary><p>Android, iOS (arm64/x64), JVM desktop, Kotlin/JS and Kotlin/Wasm web targets.</p></details>
+<details name="faq"><summary>How is this different from Material?</summary><p>Material is one opinionated system. Kore is a starting point you reshape. Every token and almost every parameter is yours to change.</p></details>
+<details name="faq"><summary>Does it work with my existing theme?</summary><p>Yes. Wrap your root, export Theme.kt from Create, and components follow your colors, shapes, and type.</p></details>
+<details name="faq"><summary>How much does it cost?</summary><p>Free and MIT licensed, forever.</p></details>
+</div>
+</section>
+
+<section class="kh-end">
+<h3>
+  <span class="kh-line"><span>Stop</span> <span>looking</span></span>
+  <span class="kh-line"><span>like</span> <span>Material</span></span>
+</h3>
+<div class="kh-actions">
+<a class="kh-btn" href="/create/">Create a theme</a>
+<a class="kh-link" href="/components/buttons/">Browse components</a>
+</div>
+</section>
+
+</div>
