@@ -1,0 +1,17 @@
+/preview/*.wasm
+  Content-Type: application/wasm
+
+/preview/*.js
+  Content-Type: application/javascript
+
+/preview/*.mjs
+  Content-Type: application/javascript
+
+/create/*.wasm
+  Content-Type: application/wasm
+
+/create/*.js
+  Content-Type: application/javascript
+
+/create/*.mjs
+  Content-Type: application/javascript
