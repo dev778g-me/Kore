@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import '@fontsource-variable/google-sans-flex';
 
 
 // https://astro.build/config
@@ -12,13 +11,45 @@ export default defineConfig({
 			defaultLocale :'en',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/dev778g-me/Kore' }],
       customCss: [
-       './src/custom.css'
+       './src/custom.css',
+      ],
+      head: [
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preload',
+            href: '/fonts/google-sans-flex-latin.woff2',
+            as: 'font',
+            type: 'font/woff2',
+            crossorigin: 'anonymous',
+          },
+        },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preload',
+            href: '/fonts/google-sans-flex-latin-ext.woff2',
+            as: 'font',
+            type: 'font/woff2',
+            crossorigin: 'anonymous',
+          },
+        },
       ],
       components: {
         Sidebar: './src/components/DocsSidebar.astro',
         ThemeSelect: './src/components/ThemeToggle.astro',
+        SocialIcons: './src/components/SocialIcons.astro',
       },
       sidebar: [
+				{ label: 'Create', link: '/create/' },
+				{
+					label: 'Getting Started',
+					items: [
+						{ label: 'Overview', slug: 'getting-started/overview' },
+						{ label: 'Installation', slug: 'getting-started/installation' },
+						{ label: 'Quickstart', slug: 'getting-started/quickstart' },
+					],
+				},
 				{
 					label: 'Components',
 					items: [
@@ -77,17 +108,7 @@ export default defineConfig({
 						},
 					],
 				},
-				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
-				},
-				{
-					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
-				},
+
 			],
 		}),
 	],
