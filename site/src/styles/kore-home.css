@@ -474,6 +474,12 @@ main:has(.kh) .sl-container:has(> h1#_top) {
     font-variation-settings: 'wdth' 120, 'ROND' 0;
   }
 }
+@media (hover: none) {
+  .kh-hero h2 .kh-line > span:hover,
+  .kh-end h3 .kh-line > span:hover {
+    font-variation-settings: 'wdth' 120, 'ROND' 0;
+  }
+}
 .kh-end .kh-actions {
   display: flex;
   flex-wrap: wrap;
