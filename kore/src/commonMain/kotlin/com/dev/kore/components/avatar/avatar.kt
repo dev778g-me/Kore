@@ -129,7 +129,7 @@ fun Avatar(
     badge: (@Composable BoxScope.() -> Unit)? = null,
     showFallback: Boolean = false,
     fallback: (@Composable BoxScope.() -> Unit)? = null,
-    content: @Composable BoxScope.() -> Unit,
+    content: @Composable () -> Unit,
 ) {
     val a11y: Modifier = when {
         contentDescription != null -> Modifier.semantics {
