@@ -3,7 +3,6 @@ package com.dev.kore.components.accordion
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -14,17 +13,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.collapse
 import androidx.compose.ui.semantics.expand
@@ -71,9 +66,8 @@ fun Accordion(
     expandedContentPaddingValues: PaddingValues = AccordionDefaults.defaultExpandedContentPadding
 ) {
 
-    val bottomPadding by animateDpAsState(
-        targetValue = if (expanded) 8.dp else 4.dp
-    )
+
+
     Box(
         modifier = modifier.defaultMinSize(
             minWidth = AccordionDefaults.defaultAccordionWidth
@@ -85,10 +79,14 @@ fun Accordion(
         ) {
 
             // always showing Content
+
+            CompositionLocalProvider(
+                LocalContentColor provides KoreTheme.colorScheme.onBackGround
+            ){
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(KoreTheme.shapes.xs)
+                    //.clip(KoreTheme.shapes.xs)
                     .clickable(
                         onClick = {
                             onExpand.invoke()
@@ -116,29 +114,30 @@ fun Accordion(
                 leadingIcon?.let {
                     Box(
                         modifier = modifier
-                            .padding(end = 4.dp)
+                            .padding(end = 8.dp)
                             .align(leadingIconAlignment)
                     ) {
                         leadingIcon()
                     }
                 }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .semantics { heading() }
-                ) {
-                    header()
-                }
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .semantics { heading() }
+                    ) {
+                        header()
+                    }
+
 
                 trailingIcon()
-            }
+            }}
 
 
             // animated Expanded content
+
             AnimatedVisibility(
-                modifier = modifier.padding(
-                    expandedContentPaddingValues
-                ), visible = expanded, enter = enterTransition, exit = exitTransition
+                 visible = expanded, enter = enterTransition, exit = exitTransition
             ) {
                 CompositionLocalProvider(
                     values = arrayOf(
@@ -146,16 +145,16 @@ fun Accordion(
                         LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant
                     )
                 ) {
-                    expandedContent()
+                    Box(Modifier.padding(expandedContentPaddingValues)) {
+                        expandedContent()
+                    }
                 }
             }
 
-            Spacer(
-                modifier = modifier.height(bottomPadding)
-            )
+
 
            if (separator){
-               HorizontalSeparator()
+            HorizontalSeparator()
            }
         }
     }
@@ -176,20 +175,30 @@ fun Accordion(
 object AccordionDefaults{
     val defaultAccordionWidth = 300.dp
 
+
+
     val defaultExpandedContentPadding = PaddingValues(
-        horizontal = 8.dp
+        horizontal = 8.dp,
+        vertical = 8.dp
     )
 
     val defaultHeaderContentPadding = PaddingValues(
-        vertical = 4.dp,
-        horizontal = 4.dp
+        vertical = 12.dp,
+        horizontal = 8.dp
     )
 
     val defaultLeadingIconAlignment  = Alignment.CenterVertically
 
-    val defaultExpandedContentEnterTransition : EnterTransition = fadeIn() + expandVertically()
+    val defaultExpandedContentEnterTransition : EnterTransition
+        @Composable get() = fadeIn(
+            animationSpec = KoreTheme.motion.calm .spec()
+        ) + expandVertically(
+            animationSpec = KoreTheme.motion.calm .spec()
+        )
 
-    val defaultExpandedContentExitTransition : ExitTransition = fadeOut() + shrinkVertically()
+
+
+    val defaultExpandedContentExitTransition : ExitTransition  @Composable get() = fadeOut(animationSpec = KoreTheme.motion.calm .spec()) + shrinkVertically(animationSpec = KoreTheme.motion.calm .spec())
 
 
 }
