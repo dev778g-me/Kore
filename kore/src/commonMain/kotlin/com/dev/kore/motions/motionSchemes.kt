@@ -1,67 +1,83 @@
 package com.dev.kore.motions
 
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import kotlin.math.abs
 
+/**
+ * Kore easing curves.
+ *
+ * Built-in Compose easings (FastOutSlowIn etc.) start slowly, which makes UI
+ * feel sluggish. These start fast and settle softly, so the response feels
+ * instant while the ending still feels smooth.
+ */
+internal object KoreEasing {
+    /** Strong ease-out. The workhorse for most UI motion. */
+    val Strong: Easing = CubicBezierEasing(0.23f, 1f, 0.32f, 1f)
 
+    /** Softer, longer tail. For large surfaces that travel further. */
+    val Soft: Easing = CubicBezierEasing(0.22f, 1f, 0.36f, 1f)
+}
 
 /**
  * The fundamental unit of motion in Kore.
  *
- * [MotionCurve] encapsulates the physics and feel of an animation
- * without exposing the underlying implementation to components.
- * Components call [spec] to obtain a ready-to-use Compose
- * [FiniteAnimationSpec] without knowing whether the motion is
- * tween-based, spring-based, or instantaneous.
+ * [MotionCurve] hides the physics (tween, spring, or instant) behind one call.
+ * Components just ask for [spec] and never need to know which kind it is.
  *
- * Create instances using [curve], [bounce], or [instant].
+ * Create instances with [curve], [bounce], or [instant].
  *
  * ```
- * // Component usage — physics are hidden:
  * val alpha by animateFloatAsState(
  *     targetValue = if (visible) 1f else 0f,
- *     animationSpec = KoreTheme.motion.standard.spec()
+ *     animationSpec = KoreTheme.motion.smooth.spec()
  * )
  * ```
+ *
+ * Interruption: Compose animation APIs always retarget from the current
+ * on-screen value. Springs also carry the current velocity through the
+ * retarget, tweens do not. So anything the user can grab or reverse
+ * mid-flight should use a spring tier ([MotionConfig.fluid]).
  */
 @Immutable
 class MotionCurve internal constructor(
-    private val type: Type,
+    private val type: AnimationType,
     private val durationMillis: Int = 0,
-    private val easing: Easing = FastOutSlowInEasing,
+    private val easing: Easing = KoreEasing.Strong,
     private val dampingRatio: Float = Spring.DampingRatioNoBouncy,
     private val stiffness: Float = Spring.StiffnessMedium,
 ) {
-    internal enum class Type { TWEEN, SPRING, SNAP }
+    internal enum class AnimationType { TWEEN, SPRING, SNAP }
 
     /**
-     * Produces a [FiniteAnimationSpec] for use with any Compose animation API
-     * such as `animateFloatAsState`, `animateColorAsState`, `AnimatedVisibility`,
-     * `updateTransition`, etc.
+     * Produces a [FiniteAnimationSpec] for any Compose animation API
+     * (`animateFloatAsState`, `AnimatedVisibility`, `updateTransition`, ...).
+     *
+     * For gesture release, pass the pointer velocity to
+     * `Animatable.animateTo(target, animationSpec = spec(), initialVelocity = v)`
+     * so the animation continues at the finger's speed with no visible seam.
      */
     fun <T> spec(): FiniteAnimationSpec<T> = when (type) {
-        Type.TWEEN -> tween(durationMillis = durationMillis, easing = easing)
-        Type.SPRING -> spring(dampingRatio = dampingRatio, stiffness = stiffness)
-        Type.SNAP -> snap()
+        AnimationType.TWEEN -> tween(durationMillis = durationMillis, easing = easing)
+        AnimationType.SPRING -> spring(dampingRatio = dampingRatio, stiffness = stiffness)
+        AnimationType.SNAP -> snap()
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is MotionCurve) return false
         return type == other.type &&
-            durationMillis == other.durationMillis &&
-            easing == other.easing &&
-            dampingRatio == other.dampingRatio &&
-            stiffness == other.stiffness
+                durationMillis == other.durationMillis &&
+                easing == other.easing &&
+                dampingRatio == other.dampingRatio &&
+                stiffness == other.stiffness
     }
 
     override fun hashCode(): Int {
@@ -74,225 +90,206 @@ class MotionCurve internal constructor(
     }
 
     override fun toString(): String = when (type) {
-        Type.TWEEN -> "MotionCurve.Tween(${durationMillis}ms)"
-        Type.SPRING -> "MotionCurve.Spring(damping=$dampingRatio, stiffness=$stiffness)"
-        Type.SNAP -> "MotionCurve.Snap"
+        AnimationType.TWEEN -> "MotionCurve.Tween(${durationMillis}ms)"
+        AnimationType.SPRING -> "MotionCurve.Spring(damping=$dampingRatio, stiffness=$stiffness)"
+        AnimationType.SNAP -> "MotionCurve.Snap"
     }
 }
 
-
-
 /**
- * Creates a tween-based [MotionCurve] with the given duration and easing.
+ * Tween-based [MotionCurve]: fixed duration, predictable.
+ * Good for fades, color changes and state changes.
  *
- * Use for predictable, duration-based motion like fades, slides, and state changes.
- *
- * @param durationMillis duration of the animation in milliseconds
- * @param easing the easing curve to apply
+ * @param durationMillis how long the animation takes
+ * @param easing the shape of the motion over time
  */
 fun curve(
     durationMillis: Int,
-    easing: Easing = FastOutSlowInEasing,
+    easing: Easing = KoreEasing.Strong,
 ): MotionCurve = MotionCurve(
-    type = MotionCurve.Type.TWEEN,
+    type = MotionCurve.AnimationType.TWEEN,
     durationMillis = durationMillis,
     easing = easing,
 )
 
 /**
- * Creates a spring-based [MotionCurve] with the given physical properties.
+ * Spring-based [MotionCurve]: physics, no fixed duration.
+ * Good for anything the user touches, because springs can be interrupted
+ * mid-motion and continue smoothly from the current value and velocity.
  *
- * Use for natural, physics-based motion like gestures, bounces, and snapping.
+ * Default is critically damped (no bounce). Add bounce only when the
+ * gesture itself carried momentum (a flick, a throw, a drag release).
+ * Overshoot on something that just faded in feels wrong, overshoot on a
+ * card you flicked feels right.
  *
- * @param dampingRatio controls how quickly the spring settles. Lower values = more bounce.
- * @param stiffness controls the spring's responsiveness. Higher values = faster.
+ * Rough stiffness to "response" guide (time to reach the target):
+ * High ~0.06s, Medium ~0.16s, MediumLow ~0.31s, Low ~0.44s.
  *
- * @see Spring.DampingRatioNoBouncy
- * @see Spring.DampingRatioLowBouncy
- * @see Spring.DampingRatioMediumBouncy
- * @see Spring.StiffnessLow
- * @see Spring.StiffnessMedium
- * @see Spring.StiffnessHigh
+ * @param dampingRatio 1.0 = settles with no bounce. Lower = more bounce.
+ * @param stiffness higher = faster and snappier.
  */
 fun bounce(
     dampingRatio: Float = Spring.DampingRatioNoBouncy,
     stiffness: Float = Spring.StiffnessMedium,
 ): MotionCurve = MotionCurve(
-    type = MotionCurve.Type.SPRING,
+    type = MotionCurve.AnimationType.SPRING,
     dampingRatio = dampingRatio,
     stiffness = stiffness,
 )
 
-/**
- * Creates an instantaneous [MotionCurve] with no visible animation.
- *
- * Used internally for [MotionConfig.Still] accessibility preset. Can also be used
- * when a component should skip animation entirely.
- */
-fun instant(): MotionCurve = MotionCurve(
-    type = MotionCurve.Type.SNAP,
-)
-
-
+/** No animation. The value jumps straight to the target. */
+fun instant(): MotionCurve = MotionCurve(type = MotionCurve.AnimationType.SNAP)
 
 /**
  * The motion configuration for the Kore design system.
  *
- * [MotionConfig] provides four speed tiers. Components simply pick how
- * fast the animation should feel - the active preset decides the character
- * (smooth, bouncy, minimal, or none).
+ * Components pick a tier by *what they are*. The active preset decides how
+ * that tier feels (crisp, playful, minimal, or none).
  *
- * ```
- * // Toggle thumb sliding:
- * val thumbSpec = KoreTheme.motion.quick.spec<Dp>()
+ * | Tier       | Use it for                                                    |
+ * |------------|---------------------------------------------------------------|
+ * | [snappy]   | Press, toggle, checkbox, icon swap, exits, hover/row feedback |
+ * | [smooth]   | Default. Fades, color changes, small movements, enters        |
+ * | [calm]     | Sheets, dialogs, page transitions, big surfaces               |
+ * | [fluid]    | Drag, fling, swipe-to-dismiss, spring-back (gesture-driven)   |
  *
- * // Page transition:
- * val pageSpec = KoreTheme.motion.gentle.spec<IntOffset>()
+ * Guidance:
+ * - High-frequency actions (typing, list rows, tab switches) use [snappy]
+ *   or no animation at all. Reserve [calm] for infrequent moments.
+ * - Exits should be shorter than enters: enter with [smooth], exit with [snappy].
+ * - Every animated state change also needs a static cue (color, icon, label).
+ *   Motion is never the only feedback channel.
+ * - Enter and exit along the same path, and scale or slide from the trigger
+ *   (set the transform origin to where the interaction started).
  *
- * // Most things — just use standard:
- * val colorSpec = KoreTheme.motion.standard.spec<Color>()
- * ```
- *
- * ## Speed tiers
- *
- * | Tier         | When to use                                                  |
- * |--------------|--------------------------------------------------------------|
- * | [quick]      | Micro-interactions  -button press, toggle, icon swap.        |
- * | [standard]   | General-purpose - most component animations land here.       |
- * | [gentle]     | Large or cinematic - page transitions, hero moments.         |
- * | [expressive] | Gesture-driven or playfu- drag, fling, spring-back.        |
- *
- * ## Built-in presets
- *
- * | Preset       | Personality                                               |
- * |--------------|-----------------------------------------------------------|
- * | [Balanced]   | Responsive and polished. Tween-based. The sensible default.|
- * | [Lively]     | Playful, spring-based with bounce for consumer/creative.  |
- * | [Reduced]    | Shorter, damped curves for motion-sensitive users.        |
- * | [Still]      | Instant - all slots produce `snap()`.                     |
- *
- * @see MotionCurve
+ * | Preset     | Personality                                                   |
+ * |------------|---------------------------------------------------------------|
+ * | [Balanced] | Crisp and polished. The default.                              |
+ * | [Lively]   | Playful, springy. Consumer and creative apps.                 |
+ * | [Reduced]  | Very short fades, no bounce. For motion-sensitive users.      |
+ * | [Still]    | No animation at all.                                          |
  */
 @Immutable
 class MotionConfig internal constructor(
+    /** Micro-interactions: press, toggle, icon swap. */
+    val snappy: MotionCurve,
 
-    /** Snappy motion for micro-interactions - toggles, button presses, icon swaps. */
-    val quick: MotionCurve,
+    /** The default for most component animations. */
+    val smooth: MotionCurve,
 
-    /** Standard motion for general component animations  */
-    val standard: MotionCurve,
+    /** Large surfaces and page-level transitions. */
+    val calm: MotionCurve,
 
-    /** Slow, cinematic motion for page transitions and hero moments. */
-    val gentle: MotionCurve,
-
-    /** Physics-driven motion for gestures, drag, fling, and spring-back. */
-    val expressive: MotionCurve,
+    /** Gesture-driven motion. Interruptible and carries momentum. */
+    val fluid: MotionCurve,
 ) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is MotionConfig) return false
-        return quick == other.quick &&
-            standard == other.standard &&
-            gentle == other.gentle &&
-            expressive == other.expressive
+        return snappy == other.snappy &&
+                smooth == other.smooth &&
+                calm == other.calm &&
+                fluid == other.fluid
     }
 
     override fun hashCode(): Int {
-        var result = quick.hashCode()
-        result = 31 * result + standard.hashCode()
-        result = 31 * result + gentle.hashCode()
-        result = 31 * result + expressive.hashCode()
+        var result = snappy.hashCode()
+        result = 31 * result + smooth.hashCode()
+        result = 31 * result + calm.hashCode()
+        result = 31 * result + fluid.hashCode()
         return result
     }
 
     override fun toString(): String =
-        "MotionConfig(" +
-            "quick=$quick, " +
-            "standard=$standard, " +
-            "gentle=$gentle, " +
-            "expressive=$expressive)"
+        "MotionConfig(snappy=$snappy, smooth=$smooth, calm=$calm, fluid=$fluid)"
 
     companion object {
 
         /**
-         * Responsive and polished motion. The sensible default.
+         * Crisp and polished. The sensible default.
          *
-         * Tween-based with moderate durations and standard easings.
-         * Works well for most apps without drawing attention to itself.
+         * Short tweens with a strong ease-out, so everything reacts immediately
+         * and settles softly. Only [fluid] uses a spring, with a slight bounce
+         * because gestures carry momentum (damping 0.8, response ~0.3s, the
+         * same feel as a native drawer or sheet).
          */
         val Balanced: MotionConfig = MotionConfig(
-            quick      = curve(durationMillis = 100, easing = FastOutSlowInEasing),
-            standard   = curve(durationMillis = 300, easing = FastOutSlowInEasing),
-            gentle     = curve(durationMillis = 500, easing = LinearOutSlowInEasing),
-            expressive = bounce(
-                dampingRatio = Spring.DampingRatioNoBouncy,
-                stiffness    = Spring.StiffnessMedium,
-            ),
-        )
-
-        /**
-         * Playful and dynamic motion.
-         *
-         * Spring-based across the board with varying bounce.
-         * Best for consumer-facing, creative, or entertainment apps.
-         */
-        val Lively: MotionConfig = MotionConfig(
-            quick = bounce(
-                dampingRatio = 0.7f,
-                stiffness = Spring.StiffnessHigh,
-            ),
-            standard = bounce(
-                dampingRatio = Spring.DampingRatioLowBouncy,
-                stiffness = Spring.StiffnessMedium,
-            ),
-            gentle = bounce(
-                dampingRatio = Spring.DampingRatioLowBouncy,
+            snappy = curve(durationMillis = 120, easing = KoreEasing.Strong),
+            smooth = curve(durationMillis = 220, easing = KoreEasing.Strong),
+            calm = curve(durationMillis = 360, easing = KoreEasing.Soft),
+            fluid = bounce(
+                dampingRatio = 0.8f,
                 stiffness = Spring.StiffnessMediumLow,
             ),
-            expressive = bounce(
-                dampingRatio = Spring.DampingRatioMediumBouncy,
+        )
+
+        /**
+         * Playful and springy. Best for consumer, creative or entertainment apps.
+         *
+         * Bounce grows with the physicality of the tier: [snappy] never
+         * bounces (press feedback should feel exact), [smooth] barely does,
+         * [calm] and [fluid] carry visible momentum.
+         * Note: avoid bouncy tiers on alpha or color, since overshoot can push
+         * values past their valid range. Use them for size, offset and scale,
+         * and fade with a tween (e.g. `Balanced.smooth`) instead.
+         */
+        val Lively: MotionConfig = MotionConfig(
+            snappy = bounce(
+                dampingRatio = Spring.DampingRatioNoBouncy,
+                stiffness = Spring.StiffnessHigh,
+            ),
+            smooth = bounce(
+                dampingRatio = 0.85f,
                 stiffness = Spring.StiffnessMedium,
+            ),
+            calm = bounce(
+                dampingRatio = 0.8f,
+                stiffness = Spring.StiffnessMediumLow,
+            ),
+            fluid = bounce(
+                dampingRatio = 0.65f,
+                stiffness = Spring.StiffnessLow,
             ),
         )
 
-
         /**
-         * Minimal, shortened motion for users with reduced-motion preferences.
+         * For users who prefer reduced motion.
          *
-         * Very short tweens, no bounce. Animations still exist — they just
-         * finish quickly and don't overshoot, reducing potential discomfort.
+         * Very short fades, no bounce, no overshoot. Motion still gives
+         * feedback, it just finishes quickly and doesn't travel. Components
+         * should swap slide, scale and blur for an opacity cross-fade when
+         * this preset is active, instead of removing the element instantly.
          */
         val Reduced: MotionConfig = MotionConfig(
-            quick = curve(durationMillis = 50, easing = FastOutLinearInEasing),
-            standard = curve(durationMillis = 100, easing = FastOutLinearInEasing),
-            gentle = curve(durationMillis = 150, easing = FastOutLinearInEasing),
-            expressive = curve(durationMillis = 100, easing = FastOutLinearInEasing),
+            snappy = curve(durationMillis = 60, easing = KoreEasing.Strong),
+            smooth = curve(durationMillis = 100, easing = KoreEasing.Strong),
+            calm = curve(durationMillis = 160, easing = KoreEasing.Strong),
+            fluid = curve(durationMillis = 100, easing = KoreEasing.Strong),
         )
 
         /**
-         * No animation -z every slot produces an instantaneous [snap].
+         * No animation. Every tier is instant.
          *
-         * Use for accessibility when the user has fully disabled animations,
-         * or for testing/snapshot purposes.
+         * Use when the user has fully disabled animations, or for
+         * tests and screenshot tests.
          */
         val Still: MotionConfig = run {
-            val snap = instant()
+            val none = instant()
             MotionConfig(
-                quick = snap,
-                standard = snap,
-                gentle = snap,
-                expressive = snap,
+                snappy = none,
+                smooth = none,
+                calm = none,
+                fluid = none,
             )
         }
     }
 }
 
 
-
 /**
- * CompositionLocal for the current [MotionConfig] in the composition tree.
+ * CompositionLocal for the current [MotionConfig].
  *
- * Prefer using `KoreTheme.motion` over accessing this directly.
+ * Prefer `KoreTheme.motion` over reading this directly.
  */
 val LocalMotionConfig = staticCompositionLocalOf { MotionConfig.Balanced }
