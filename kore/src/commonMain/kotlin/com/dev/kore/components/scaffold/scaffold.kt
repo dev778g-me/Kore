@@ -1,3 +1,9 @@
+/*
+ * Portions adapted from Scaffold.kt in AndroidX Compose Material:
+ * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Scaffold.kt
+ * Copyright The Android Open Source Project, licensed under the Apache License 2.0
+ */
+
 package com.dev.kore.components.scaffold
 
 import androidx.compose.foundation.background
@@ -14,13 +20,17 @@ import androidx.compose.foundation.layout.onConsumedWindowInsetsChanged
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.SubcomposeLayout
-import androidx.compose.ui.util.fastForEach
-import androidx.compose.ui.util.fastMap
-import androidx.compose.ui.util.fastMaxBy
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.LocalContentColor
 import com.dev.kore.themes.LocalKoreColorScheme
 
@@ -34,6 +44,8 @@ fun Scaffold(
     modifier: Modifier = Modifier,
     appBar: @Composable () -> Unit = {},
     navigationBar: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButtonAlignment: Alignment.Horizontal = Alignment.End,
     windowInsets: WindowInsets = WindowInsets.systemBarsForVisualComponents,
     containerColor: Color = LocalKoreColorScheme.current.background,
     contentColor: Color = LocalKoreColorScheme.current.onBackGround,
@@ -42,116 +54,159 @@ fun Scaffold(
     val safeInsets = remember(windowInsets) { MutableWindowInsets(windowInsets) }
     CompositionLocalProvider(
         LocalContentColor provides contentColor
-    ){
+    ) {
         Box(
-            modifier = modifier.onConsumedWindowInsetsChanged{
-                safeInsets.insets =  windowInsets.exclude(it)
+            modifier = modifier.onConsumedWindowInsetsChanged {
+                safeInsets.insets = windowInsets.exclude(it)
             }.background(
                 color = containerColor
             )
         ) {
-            SubcomposeLayout(
-                modifier = modifier
-            ) { constraints ->
+            ScaffoldImpl(
+                appBar = appBar,
+                navigationBar = navigationBar,
+                floatingActionButton = floatingActionButton,
+                floatingActionButtonAlignment = floatingActionButtonAlignment,
+                windowInsets = windowInsets,
+                content = content
+            )
+        }
 
-                val maxLayOutWidth = constraints.maxWidth
+    }
+}
 
-                val maxLayOUtHeight = constraints.maxHeight
+@Composable
+internal fun ScaffoldImpl(
+    appBar: @Composable () -> Unit = {},
+    navigationBar: @Composable () -> Unit = {},
+    floatingActionButton : @Composable () -> Unit = {},
+    floatingActionButtonAlignment: Alignment.Horizontal= Alignment.End,
+    windowInsets: WindowInsets = WindowInsets.systemBarsForVisualComponents,
+    content: @Composable (PaddingValues) -> Unit
+) {
 
+    val paddingValues = remember {
+        object  : PaddingValues{
+            var holder by mutableStateOf(PaddingValues(0.dp))
 
-                val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+            override fun calculateLeftPadding(layoutDirection: LayoutDirection): Dp {
+               return holder.calculateStartPadding(layoutDirection)
+            }
 
-                // variable for appbar placeable
-                val appBarPlaceable =
-                    subcompose(slotId = ScaffoldLayoutContent.APPBAR, content = appBar).fastMap {
-                        it.measure(looseConstraints)
-                    }
-
-                // getting the maximum height of the app bar
-                val appBarHeight = appBarPlaceable.fastMaxBy { it.height }?.height ?: 0
-
-
-                //variable for navigation bar placeables
-                val navigationBarPlaceable = subcompose(slotId = ScaffoldLayoutContent.NAVIGATIONBAR, content = navigationBar).fastMap {
-                    it.measure(looseConstraints)
-                }
-
-
-                // getting maximum height of the navigation bar
-                val navigationBarHeight = navigationBarPlaceable.fastMaxBy { it.height }?.height ?: 0
-
-
-
-                val bodyContentPlaceable = subcompose(slotId = ScaffoldLayoutContent.BODYCONTENT,){
-                    val insets = windowInsets.asPaddingValues(this@SubcomposeLayout)
-                    val contentPadding  = PaddingValues(
-                        top = if (appBarPlaceable.isEmpty()){
-                            insets.calculateTopPadding()
-                        }else {
-                            appBarHeight.toDp()
-                        },
-                        bottom = if (navigationBarPlaceable.isEmpty()){
-                            insets.calculateBottomPadding()
-                        }else{
-                            navigationBarHeight.toDp()
-                        },
-                        start = insets.calculateStartPadding(this@SubcomposeLayout.layoutDirection),
-                        end = insets.calculateEndPadding(this@SubcomposeLayout.layoutDirection)
-                    )
-                    content(contentPadding)
-                }.fastMap {
-                    it.measure(looseConstraints)
-                }
-
-                layout(
-                    width = maxLayOutWidth,
-                    height = maxLayOUtHeight
-                ){
-                    bodyContentPlaceable.fastForEach {
-                        it.place(
-                            x = 0,
-                            y = 0
-                        )
-                    }
+            override fun calculateRightPadding(layoutDirection: LayoutDirection): Dp {
+                return holder.calculateRightPadding(layoutDirection)
+            }
 
 
-                    appBarPlaceable.fastForEach {
-                        it.place(
-                            x = 0,
-                            y = 0
-                        )
-                    }
+            override fun calculateTopPadding(): Dp {
+                return holder.calculateTopPadding()
+            }
 
-                    navigationBarPlaceable.fastForEach {
-                        it.place(
-                            x = 0,
-                            y = maxLayOUtHeight - navigationBarHeight
-                        )
-                    }
-                }
-
-
-
-
+            override fun calculateBottomPadding(): Dp {
+                return  holder.calculateBottomPadding()
             }
         }
     }
+
+    val appBarContent : @Composable () -> Unit = remember (appBar){ {Box(){appBar()} } }
+    val navigationBar : @Composable () -> Unit = remember (appBar){ {Box(){navigationBar()} } }
+    val floatingActionButtonContent : @Composable () -> Unit = remember (appBar){ {Box(){floatingActionButton()} } }
+
+    val bodyContent : @Composable () -> Unit = remember(content,paddingValues){{Box(){content(paddingValues)} }}
+
+
+    SubcomposeLayout { constraints ->
+
+        val maxLayoutWidth = constraints.maxWidth
+
+        val maxLayoutHeight = constraints.maxHeight
+
+        val looseConstraints = constraints.copy(minHeight = 0, minWidth =  0)
+
+
+        val appBarPlaceable = subcompose(slotId = ScaffoldLayoutContent.Appbar, content = appBarContent).first().measure(looseConstraints)
+
+
+        val navigationBarPlaceable = subcompose(slotId = ScaffoldLayoutContent.NavigationBar, content = navigationBar).first().measure(looseConstraints)
+
+
+        val fabPlaceable  = subcompose(slotId = ScaffoldLayoutContent.FloatingActionButton, content = floatingActionButtonContent).first().measure(looseConstraints)
+
+
+        val bodyContent = subcompose(slotId = ScaffoldLayoutContent.BodyContent , content = bodyContent).first().measure(looseConstraints)
+
+
+
+        val isNoNavigationBar = navigationBarPlaceable.width == 0 && navigationBarPlaceable.height == 0
+
+
+
+        // y of fab
+        val fabY = if (isNoNavigationBar){
+            fabPlaceable.height + FabSpacing.roundToPx() + windowInsets.getBottom(this)
+        }else {navigationBarPlaceable.height + fabPlaceable.height + FabSpacing.roundToPx()}
+
+
+        val insets = windowInsets.asPaddingValues(this)
+
+        paddingValues.holder = PaddingValues(
+            top = if(appBarPlaceable.height == 0 && appBarPlaceable.width == 0){
+                  insets.calculateTopPadding()
+            }else appBarPlaceable.height.toDp(),
+
+            bottom = if (navigationBarPlaceable.width == 0 && navigationBarPlaceable.height == 0){insets.calculateBottomPadding()} else navigationBarPlaceable.height.toDp(),
+
+            start = insets.calculateStartPadding(layoutDirection),
+
+            end = insets.calculateEndPadding(layoutDirection)
+        )
+
+        layout(height = maxLayoutHeight, width = maxLayoutWidth){
+
+            appBarPlaceable.place(x = 0, y = 0)
+
+            bodyContent.place(x =  0, y =  0)
+
+
+
+            fabPlaceable.place(
+                x = FabSpacing.roundToPx().plus(
+                    floatingActionButtonAlignment.align(
+                        size = fabPlaceable.width,
+                        space = maxLayoutWidth.minus(FabSpacing.roundToPx()+ 0),
+                        layoutDirection = layoutDirection
+                    )
+                ),
+                y = maxLayoutHeight - fabY
+            )
+
+            navigationBarPlaceable.place(
+                x = 0, y = maxLayoutHeight - navigationBarPlaceable.height
+            )
+
+
+
+        }
+
     }
 
 
 
+}
 
 
 
 
 
-
+private val FabSpacing = 16.dp
 
 
 
 
 private enum class ScaffoldLayoutContent{
-    APPBAR,
-    BODYCONTENT,
-    NAVIGATIONBAR,
+    Appbar,
+    BodyContent,
+    NavigationBar,
+
+    FloatingActionButton,
 }
