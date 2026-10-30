@@ -170,16 +170,14 @@ internal fun ScaffoldImpl(
 
             bodyContent.place(x =  0, y =  0)
 
-
+            val fabX = fabSpacingPx + floatingActionButtonAlignment.align(
+                size = fabPlaceable.width,
+                space = maxLayoutWidth - 2 * fabSpacingPx,
+                layoutDirection = layoutDirection
+            )
 
             fabPlaceable.place(
-                x = fabSpacingPx.plus(
-                    floatingActionButtonAlignment.align(
-                        size = fabPlaceable.width,
-                        space = maxLayoutWidth.minus( fabPlaceable.width - fabSpacingPx),
-                        layoutDirection = layoutDirection
-                    )
-                ),
+                x = fabX,
                 y = maxLayoutHeight - fabY
             )
 
