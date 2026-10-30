@@ -149,6 +149,8 @@ internal fun ScaffoldImpl(
 
         val insets = windowInsets.asPaddingValues(this)
 
+        val fabSpacingPx = FabSpacing.roundToPx()
+
         paddingValues.holder = PaddingValues(
             top = if(appBarPlaceable.height == 0 && appBarPlaceable.width == 0){
                   insets.calculateTopPadding()
@@ -161,6 +163,7 @@ internal fun ScaffoldImpl(
             end = insets.calculateEndPadding(layoutDirection)
         )
 
+
         layout(height = maxLayoutHeight, width = maxLayoutWidth){
 
             appBarPlaceable.place(x = 0, y = 0)
@@ -170,10 +173,10 @@ internal fun ScaffoldImpl(
 
 
             fabPlaceable.place(
-                x = FabSpacing.roundToPx().plus(
+                x = fabSpacingPx.plus(
                     floatingActionButtonAlignment.align(
                         size = fabPlaceable.width,
-                        space = maxLayoutWidth.minus(FabSpacing.roundToPx()+ 0),
+                        space = maxLayoutWidth.minus( fabPlaceable.width - fabSpacingPx),
                         layoutDirection = layoutDirection
                     )
                 ),
