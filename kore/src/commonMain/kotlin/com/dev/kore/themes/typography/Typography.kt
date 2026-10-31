@@ -4,31 +4,47 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import koreproject.kore.generated.resources.Res
-import koreproject.kore.generated.resources.google_sans_flex
-import koreproject.kore.generated.resources.google_sans_flex_black
-import koreproject.kore.generated.resources.google_sans_flex_bold
-import koreproject.kore.generated.resources.google_sans_flex_extra_bold
-import koreproject.kore.generated.resources.google_sans_flex_extra_light
-import koreproject.kore.generated.resources.google_sans_flex_light
-import koreproject.kore.generated.resources.google_sans_flex_medium
-import koreproject.kore.generated.resources.google_sans_flex_semibold
-import koreproject.kore.generated.resources.google_sans_flex_thin
+import koreproject.kore.generated.resources.jetbrains_mono
+import koreproject.kore.generated.resources.outfit
 import org.jetbrains.compose.resources.Font
 
+/**
+ * The default font family of Kore.
+ * contains all weight.
+ */
 @Composable
-fun  googleSansFlex() = FontFamily(
+fun outfitFontFamily() = FontFamily(
     fonts = listOf(
-        Font(resource = Res.font.google_sans_flex_thin, FontWeight.Thin),
-        Font(resource = Res.font. google_sans_flex_extra_light, FontWeight.ExtraLight),
-        Font(resource = Res.font.google_sans_flex_light, FontWeight.Light),
-        Font(resource = Res.font.google_sans_flex, FontWeight.Normal),
-        Font(resource = Res.font.google_sans_flex_medium, FontWeight.Medium),
-        Font(resource = Res.font.google_sans_flex_semibold, FontWeight.SemiBold),
-        Font(resource = Res.font.google_sans_flex_bold, FontWeight.Bold),
-        Font(resource = Res.font.google_sans_flex_extra_bold, FontWeight.ExtraBold),
-        Font(Res.font.google_sans_flex_black, FontWeight.Black),
+        Font(resource = Res.font.outfit, FontWeight.Thin),
+        Font(resource = Res.font.outfit, FontWeight.ExtraLight),
+        Font(resource = Res.font.outfit, FontWeight.Light),
+        Font(resource = Res.font.outfit, FontWeight.Normal),
+        Font(resource = Res.font.outfit, FontWeight.Medium),
+        Font(resource = Res.font.outfit, FontWeight.SemiBold),
+        Font(resource = Res.font.outfit, FontWeight.Bold),
+        Font(resource = Res.font.outfit, FontWeight.ExtraBold),
+        Font(resource = Res.font.outfit, FontWeight.Black),
     )
 )
 
+
+/**
+ * The recommended monospace font for kore
+ * contains all weights
+ */
+@Composable
+fun monospace() = FontFamily(
+    fonts = listOf(
+        Font(resource = Res.font.jetbrains_mono, FontWeight.Thin),
+        Font(resource = Res.font.jetbrains_mono, FontWeight.ExtraLight),
+        Font(resource = Res.font.jetbrains_mono, FontWeight.Light),
+        Font(resource = Res.font.jetbrains_mono, FontWeight.Normal),
+        Font(resource = Res.font.jetbrains_mono, FontWeight.Medium),
+        Font(resource = Res.font.jetbrains_mono, FontWeight.SemiBold),
+        Font(resource = Res.font.jetbrains_mono, FontWeight.Bold),
+        Font(resource = Res.font.jetbrains_mono, FontWeight.ExtraBold),
+        Font(resource = Res.font.jetbrains_mono, FontWeight.Black),
+    )
+)
 
 
