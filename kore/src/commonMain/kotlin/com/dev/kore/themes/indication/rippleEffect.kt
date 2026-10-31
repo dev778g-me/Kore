@@ -1,10 +1,11 @@
-package com.dev.kore.themes.ripple
+package com.dev.kore.themes.indication
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.IndicationNodeFactory
+import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -25,24 +26,26 @@ import kotlinx.coroutines.launch
 import kotlin.math.hypot
 
 
-// ok do trying to implement a ripple effect only using the foundation of jetpack compose
-
-//
-/*
-the engine it does all the work
->implements draw modifier node  to get the draw function
-uses on attach and coroutine to launch the animations
-this is the class which decides the ripple behaviour
-*/
-
+/**
+ * Default constants used when drawing ripple effects in response to [Interaction] events.
+ */
 private const val PressedAlpha = 0.12f
 private const val HoverAlpha = 0.08f
 
-private const val PressFadeInMs = 50
-private const val RippleExpandMs = 450
-private const val RippleFadeOutMs = 120
-private const val HoverFadeMs = 150
+private const val PressFadeInDuration = 50
+private const val RippleExpandDuration = 450
+private const val RippleFadeOutDuration = 120
+private const val HoverFadeDuration = 150
 
+
+/**
+ * Class that draws the ripple effects on [Interaction].
+ * @param interactionSource the source of interactions used to trigger ripple effects.
+ * @param color the color of the ripple drawn over the content.
+ * @param bounded whether the ripple is clipped to the bounds of the content.
+ * @param radius the radius of the ripple which decides how much bigger circle we need to draw to show the ripple effect on the content.
+ *
+ */
 private class FoundationRippleNode(
     private val interactionSource: InteractionSource,
     private val color: Color,
@@ -102,7 +105,7 @@ private class FoundationRippleNode(
                         fadeInJob = scope.launch {
                             rippleAlpha.animateTo(
                                 targetValue = PressedAlpha,
-                                animationSpec = tween(PressFadeInMs, easing = LinearEasing)
+                                animationSpec = tween(PressFadeInDuration, easing = LinearEasing)
                             )
                         }
 
@@ -110,7 +113,7 @@ private class FoundationRippleNode(
                         expandJob = scope.launch {
                             progress.animateTo(
                                 targetValue = 1f,
-                                animationSpec = tween(RippleExpandMs, easing = FastOutSlowInEasing)
+                                animationSpec = tween(RippleExpandDuration, easing = FastOutSlowInEasing)
                             )
                         }
                     }
@@ -121,21 +124,21 @@ private class FoundationRippleNode(
                         fadeOutJob = scope.launch {
                             fadeInJob?.join()
                             expandJob?.join()
-                            rippleAlpha.animateTo(0f, tween(RippleFadeOutMs, easing = LinearEasing))
+                            rippleAlpha.animateTo(0f, tween(RippleFadeOutDuration, easing = LinearEasing))
                         }
                     }
 
                     is HoverInteraction.Enter -> {
                         hoverJob?.cancel()
                         hoverJob = scope.launch {
-                            hoverAlpha.animateTo(HoverAlpha, tween(HoverFadeMs, easing = LinearEasing))
+                            hoverAlpha.animateTo(HoverAlpha, tween(HoverFadeDuration, easing = LinearEasing))
                         }
                     }
 
                     is HoverInteraction.Exit -> {
                         hoverJob?.cancel()
                         hoverJob = scope.launch {
-                            hoverAlpha.animateTo(0f, tween(HoverFadeMs, easing = LinearEasing))
+                            hoverAlpha.animateTo(0f, tween(HoverFadeDuration, easing = LinearEasing))
                         }
                     }
                 }
@@ -184,13 +187,11 @@ private class FoundationRippleNode(
 
 
 /**
- * factory
- * job -> create the foundational ripple
- * implements equals / hashcode for the perf
- *
+ * The factory class that creates [FoundationRippleNode] to draw ripple effects on [Interaction].
+ * @param color the color of the ripple drawn over the content.
+ * @param bounded whether the ripple is clipped to the bounds of the content.
+ * @param radius the radius of the ripple which decides how much bigger circle we need to draw to show the ripple effect on the content.
  */
-
-
 private class FoundationRippleNodeFactory(
     private val color: Color,
     private val bounded: Boolean,
@@ -219,7 +220,6 @@ private class FoundationRippleNodeFactory(
         return true
     }
 
-    // FIXED: Use primitive hashCode
     override fun hashCode(): Int {
         var result = color.value.hashCode()
         result = 31 * result + bounded.hashCode()
@@ -227,7 +227,15 @@ private class FoundationRippleNodeFactory(
         return result
     }
 }
-
+/**
+ * Creates an [IndicationNodeFactory] that draws ripple effects in response to press interactions.
+ *
+ * @param color the color of the ripple effect drawn over the content.
+ * @param bounded whether the ripple is clipped to the bounds of the content.
+ * @param radius the radius of the ripple effect. Defaults to [Dp.Unspecified], allowing the radius to be determined automatically.
+ *
+ * @return an [IndicationNodeFactory] that provides the ripple effect.
+ */
 
 @Stable
 fun koreRipple(

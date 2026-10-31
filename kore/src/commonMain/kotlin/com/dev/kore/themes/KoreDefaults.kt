@@ -1,6 +1,5 @@
 package com.dev.kore.themes
 
-import com.dev.kore.motions.MotionConfig
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -8,16 +7,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dev.kore.themes.KoreDefaults.defaultDarkColorScheme
-import com.dev.kore.themes.KoreDefaults.defaultLightColorScheme
-import com.dev.kore.themes.KoreDefaults.defaultShapes
-import com.dev.kore.themes.KoreDefaults.defaultSizes
-import com.dev.kore.themes.KoreDefaults.defaultSmoothCornerShapes
-import com.dev.kore.themes.KoreDefaults.defaultTypography
+import com.dev.kore.motions.MotionConfig
 import com.dev.kore.themes.colors.RadixColors
 import com.dev.kore.themes.colors.blend
 import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape
-import com.dev.kore.themes.typography.googleSansFlex
+import com.dev.kore.themes.typography.outfitFontFamily
 
 /**
  * this defines all the default values for kore design system
@@ -32,8 +26,18 @@ import com.dev.kore.themes.typography.googleSansFlex
  */
 object KoreDefaults{
 
-    /** The default motion configuration — uses [MotionConfig.balanced]. */
-    val defaultMotion: MotionConfig = MotionConfig.Still
+    /** The default motion configuration — uses [MotionConfig.Balanced]. */
+    val defaultMotion: MotionConfig = MotionConfig.Balanced
+
+
+    val defaultIndicationType : IndicationType = IndicationType.Ripple
+
+
+
+
+    val defaultPressScale : Float = 0.95f
+
+
 
     val defaultLightColorScheme = KoreColorScheme(
         //[neutrals]
@@ -105,7 +109,7 @@ object KoreDefaults{
 
     val defaultTypography : KoreTypography
         @Composable get() {
-         val fontFamily = googleSansFlex()
+         val fontFamily = outfitFontFamily()
 
        return KoreTypography(
            display1 = TextStyle(
