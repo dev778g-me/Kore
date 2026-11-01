@@ -126,6 +126,15 @@ fun Select(
             minWidth = SelectDefaults.defaultSelectMinWidth
         ) .width(IntrinsicSize.Max)
             .clip(shape)
+            .clickable(
+                onClick = {
+                    focusRequester.requestFocus()
+                    onExpandedChange()
+                },
+                enabled = enabled,
+                interactionSource = resolvedInteractionSource,
+                indication = LocalIndication.current
+            )
             .background(color = containerColor, shape = shape)
             .border(width = borderWidth, shape = shape, color = borderColor)
             .semantics {
@@ -151,15 +160,6 @@ fun Select(
             .focusRequester(focusRequester)
             .focusable(
                 interactionSource = resolvedInteractionSource
-            )
-            .clickable(
-                onClick = {
-                    focusRequester.requestFocus()
-                    onExpandedChange()
-                },
-                enabled = enabled,
-                interactionSource = resolvedInteractionSource,
-                indication = LocalIndication.current
             ),
         contentAlignment = Alignment.CenterStart
 
@@ -340,8 +340,8 @@ fun SelectGroupItem(
             )
             .fillMaxWidth()
             .clip(shape = shape)
-            .background(color = containerColor, shape = shape)
             .then(selectableModifier)
+            .background(color = containerColor, shape = shape)
             .semantics {
                 stateDescription = if (!enabled) "Disabled"
                 else if (selected) "Selected" else "Not selected"

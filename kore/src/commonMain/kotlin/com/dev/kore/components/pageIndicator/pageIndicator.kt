@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.CollectionInfo
@@ -101,7 +102,7 @@ private fun HorizontalDotPageIndicator(
 
             Box(
                 modifier = Modifier.size(indicatorSize)
-                    .background(shape = indicatorShape, color = indicatorColor)
+                    .clip(indicatorShape)
                     .semantics {
                         this.selected = selected
                         contentDescription = "Page ${currentPage + 1}${if (selected) ", selected" else ""}"
@@ -117,6 +118,7 @@ private fun HorizontalDotPageIndicator(
                             ) { onPageSelected(currentPage) }
                         } else Modifier
                     )
+                    .background(shape = indicatorShape, color = indicatorColor)
             )
         }
     }
@@ -153,7 +155,7 @@ private fun VerticalDotPageIndicator(
 
                 Box(
                     modifier = Modifier.size(indicatorSize)
-                        .background(shape = indicatorShape, color = indicatorColor)
+                        .clip(indicatorShape)
                         .semantics {
                             this.selected = selected
                             contentDescription = "Page ${currentPage + 1}${if (selected) ", selected" else ""}"
@@ -169,6 +171,7 @@ private fun VerticalDotPageIndicator(
                                 ) { onPageSelected(currentPage) }
                             } else Modifier
                         )
+                        .background(shape = indicatorShape, color = indicatorColor)
                 )
             }
 

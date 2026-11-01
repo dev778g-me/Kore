@@ -152,13 +152,14 @@ fun DropDownItem(
     Row(
         modifier = modifier.fillMaxWidth()
             .clip(shape)
-            .background(color = containerColor, shape = shape)
             .clickable(
                 enabled = enabled,
                 onClick = onClick,
                 indication = LocalIndication.current,
                 interactionSource = resolvedInteractionSource
-            ).padding(paddingValues.containerPadding),
+            )
+            .background(color = containerColor, shape = shape)
+            .padding(paddingValues.containerPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
         leading?.let { leadingContent ->

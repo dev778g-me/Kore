@@ -115,8 +115,8 @@ fun ButtonGroupRowScope.ClickableButtonItem(
     Row(
         modifier = modifier
             .defaultMinSize(minHeight = ButtonGroupDefaults.defaultButtonGroupMinHeight)
-            .background(color = containerColor)
             .clickable (enabled = enabled, onClick = onClick, role = Role.Button, interactionSource = resolvedInteractionSource )
+            .background(color = containerColor)
             .padding(paddingValues),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally)
@@ -197,8 +197,8 @@ fun ButtonGroupRowScope.ToggleButtonItem(
     Row(
         modifier = modifier
             .defaultMinSize(minHeight = ButtonGroupDefaults.defaultButtonGroupMinHeight)
-            .background(color = containerColor)
             .then(toggleableModifier)
+            .background(color = containerColor)
             .semantics {
                 stateDescription = if (!enabled) "Disabled"
                 else if (selected) "Selected" else "Not selected"

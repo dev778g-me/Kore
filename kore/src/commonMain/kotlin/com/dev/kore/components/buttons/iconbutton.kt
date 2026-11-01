@@ -56,6 +56,14 @@ internal fun BaseIconButton(
                     minHeight = IconButtonDefaults.defaultIconButtonHeight
                 )
                 .clip(shape)
+                .clickable(
+                    interactionSource = resolvedInteractionSource,
+                    role = Role.Button,
+                    enabled = enabled,
+                    onClick = {
+                        onClick.invoke()
+                    }
+                )
                 .background(
                     shape = shape,
                     color = iconButtonColors.containerColor(enabled = enabled)
@@ -65,14 +73,6 @@ internal fun BaseIconButton(
                         border = border,
                         shape = shape
                     ) else Modifier
-                )
-                .clickable(
-                    interactionSource = resolvedInteractionSource,
-                    role = Role.Button,
-                    enabled = enabled,
-                    onClick = {
-                        onClick.invoke()
-                    }
                 ),
             contentAlignment = Alignment.Center
         ){

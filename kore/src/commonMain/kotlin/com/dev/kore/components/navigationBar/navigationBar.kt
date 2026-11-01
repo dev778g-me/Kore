@@ -141,8 +141,9 @@ fun RowScope.NavigationBarItem(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .clip(shape = indicatorShape)
+                    .indication(interactionSource, indication = LocalIndication.current)
                     .background(color = indicatorColor, shape = indicatorShape)
-                    .indication(interactionSource, indication = LocalIndication.current) .padding(horizontal = 12.dp, vertical = 2.dp)
+                    .padding(horizontal = 12.dp, vertical = 2.dp)
             ){
                 icon()
             }

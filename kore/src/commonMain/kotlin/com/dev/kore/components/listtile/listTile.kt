@@ -72,10 +72,11 @@ fun ListTile(
     Layout(
         modifier = modifier
             .clip(shape)
+            .then(if (onClick != null) Modifier.clickable(onClick = onClick, role = Role.Button) else Modifier)
             .background(
                 color = colors.containerColor,
                 shape = shape
-            ).then(if (onClick != null) Modifier.clickable(onClick = onClick, role = Role.Button) else Modifier)
+            )
             .semantics {
                 if (onClick != null) {
                     role = Role.Button

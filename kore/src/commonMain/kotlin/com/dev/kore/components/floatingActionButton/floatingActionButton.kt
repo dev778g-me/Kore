@@ -130,8 +130,8 @@ fun SplitFloatingActionButtonScope.Item(
     Row(
         modifier = modifier
             .defaultMinSize(minHeight = FloatingActionButtonDefaults.defaultMinFabHeight)
-            .background(containerColor)
             .clickable(onClick = onClick, interactionSource = interactionSource, enabled = enabled, role = Role.Button)
+            .background(containerColor)
             .padding(contentPaddingValues),
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -134,8 +134,8 @@ fun Switch(
             }
             .size(switchTrackWidth, switchTrackHeight)
             .clip(trackShape)
-            .background(trackColor, trackShape)
-            .then(toggle),
+            .then(toggle)
+            .background(trackColor, trackShape),
         contentAlignment = Alignment.Center
     ){
 

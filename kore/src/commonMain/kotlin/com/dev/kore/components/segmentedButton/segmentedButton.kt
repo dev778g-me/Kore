@@ -130,8 +130,9 @@ fun SingleChoiceSegmentedButtonScope.SegmentedButtonItem(
             .weight(weight)
             .defaultMinSize(minHeight = 40.dp)
             .clip(resolvedShape)
+            .then(selectableModifier)
             .background(color = containerColor, shape = resolvedShape)
-            .then(selectableModifier).padding(
+            .padding(
                 horizontal = 12.dp
             ),
         contentAlignment = Alignment.Center
@@ -223,8 +224,9 @@ fun MultiChoiceSegmentedButtonScope.SegmentedButtonItem(
             .weight(weight)
             .defaultMinSize(minHeight = 40.dp)
             .clip(resolvedShape)
+            .then(toggleableModifier)
             .background(color = containerColor, shape = resolvedShape)
-            .then(toggleableModifier).padding(
+            .padding(
                 horizontal = 12.dp
             ),
         contentAlignment = Alignment.Center

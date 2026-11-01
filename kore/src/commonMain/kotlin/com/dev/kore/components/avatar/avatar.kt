@@ -77,11 +77,11 @@ fun Avatar(
             modifier = Modifier
                 .matchParentSize()
                 .clip(shape)
-                .background(color = containerColor, shape = shape)
                 .then(
                     if (onClick != null) Modifier.clickable(onClick = onClick, role = Role.Button)
                     else Modifier
                 )
+                .background(color = containerColor, shape = shape)
                 .then(a11y),
             contentAlignment = contentAlignment,
         ) {
@@ -145,11 +145,11 @@ fun Avatar(
             modifier = Modifier
                 .matchParentSize()
                 .clip(shape)
-                .background(color = containerColor, shape = shape)
                 .then(
                     if (onClick != null) Modifier.clickable(onClick = onClick, role = Role.Button)
                     else Modifier
                 )
+                .background(color = containerColor, shape = shape)
                 .then(a11y),
             contentAlignment = contentAlignment,
         ) {
