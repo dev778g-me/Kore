@@ -223,7 +223,7 @@ object ChipDefaults{
 
 
 
-    val defaultChipElevation : Dp = 90.dp
+    val defaultChipElevation : Dp = 2.dp
 
     val defaultLeadingTrailingIconSize : Dp = 18.dp
 
