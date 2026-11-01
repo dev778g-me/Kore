@@ -22,11 +22,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -387,24 +389,65 @@ object SegmentedButtonDefaults{
 
 
 @Immutable
-data class SegmentedButtonColors(
-    val unselectedContainerColor : Color ,
-    val selectedContainerColor : Color,
-    val unselectedContentColor : Color,
-    val selectedContentColor : Color,
-    val disabledContainerColor : Color,
-    val disabledContentColor : Color,
-)
+class SegmentedButtonColors(
+    val unselectedContainerColor: Color,
+    val selectedContainerColor: Color,
+    val unselectedContentColor: Color,
+    val selectedContentColor: Color,
+    val disabledContainerColor: Color,
+    val disabledContentColor: Color,
+) {
 
+    /**
+     * Returns a copy of this [SegmentedButtonColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        unselectedContainerColor: Color = this.unselectedContainerColor,
+        selectedContainerColor: Color = this.selectedContainerColor,
+        unselectedContentColor: Color = this.unselectedContentColor,
+        selectedContentColor: Color = this.selectedContentColor,
+        disabledContainerColor: Color = this.disabledContainerColor,
+        disabledContentColor: Color = this.disabledContentColor,
+    ) = SegmentedButtonColors(
+        unselectedContainerColor.takeOrElse { this.unselectedContainerColor },
+        selectedContainerColor.takeOrElse { this.selectedContainerColor },
+        unselectedContentColor.takeOrElse { this.unselectedContentColor },
+        selectedContentColor.takeOrElse { this.selectedContentColor },
+        disabledContainerColor.takeOrElse { this.disabledContainerColor },
+        disabledContentColor.takeOrElse { this.disabledContentColor },
+    )
 
-fun SegmentedButtonColors.containerColor(selected: Boolean, enabled: Boolean) : Color {
-  return  if (!enabled) disabledContainerColor else {
-        if (selected) selectedContainerColor else unselectedContainerColor
+    /** The container color for the current [selected] and [enabled] state. */
+    @Stable
+    fun containerColor(selected: Boolean, enabled: Boolean): Color =
+        if (!enabled) disabledContainerColor
+        else if (selected) selectedContainerColor else unselectedContainerColor
+
+    /** The content color for the current [selected] and [enabled] state. */
+    @Stable
+    fun contentColor(selected: Boolean, enabled: Boolean): Color =
+        if (!enabled) disabledContentColor
+        else if (selected) selectedContentColor else unselectedContentColor
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SegmentedButtonColors) return false
+        return unselectedContainerColor == other.unselectedContainerColor &&
+            selectedContainerColor == other.selectedContainerColor &&
+            unselectedContentColor == other.unselectedContentColor &&
+            selectedContentColor == other.selectedContentColor &&
+            disabledContainerColor == other.disabledContainerColor &&
+            disabledContentColor == other.disabledContentColor
     }
-}
 
-fun SegmentedButtonColors.contentColor(selected: Boolean, enabled: Boolean) : Color{
-    return if (!enabled) disabledContentColor else {
-        if (selected) selectedContentColor else unselectedContentColor
+    override fun hashCode(): Int {
+        var result = unselectedContainerColor.hashCode()
+        result = 31 * result + selectedContainerColor.hashCode()
+        result = 31 * result + unselectedContentColor.hashCode()
+        result = 31 * result + selectedContentColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + disabledContentColor.hashCode()
+        return result
     }
 }

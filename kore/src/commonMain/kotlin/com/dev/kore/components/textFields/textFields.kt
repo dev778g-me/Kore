@@ -42,6 +42,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
@@ -1081,7 +1082,145 @@ class TextFieldColors(
             focused -> focusedTrailingIconColor
             else -> unFocusedTrailingIconColor
         }
-    }}
+    }
+
+    /**
+     * Returns a copy of this [TextFieldColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        focusedTextColor: Color = this.focusedTextColor,
+        unFocusedTextColor: Color = this.unFocusedTextColor,
+        errorTextColor: Color = this.errorTextColor,
+        disabledTextColor: Color = this.disabledTextColor,
+        focusedContainerColor: Color = this.focusedContainerColor,
+        unFocusedContainerColor: Color = this.unFocusedContainerColor,
+        errorContainerColor: Color = this.errorContainerColor,
+        disabledContainerColor: Color = this.disabledContainerColor,
+        focusedBorderColor: Color = this.focusedBorderColor,
+        unFocusedBorderColor: Color = this.unFocusedBorderColor,
+        errorBorderColor: Color = this.errorBorderColor,
+        disabledBorderColor: Color = this.disabledBorderColor,
+        focusedIndicatorColor: Color = this.focusedIndicatorColor,
+        unFocusedIndicatorColor: Color = this.unFocusedIndicatorColor,
+        errorIndicatorColor: Color = this.errorIndicatorColor,
+        disabledIndicatorColor: Color = this.disabledIndicatorColor,
+        labelColor: Color = this.labelColor,
+        errorLabelColor: Color = this.errorLabelColor,
+        disabledLabelColor: Color = this.disabledLabelColor,
+        descriptionColor: Color = this.descriptionColor,
+        errorDescriptionColor: Color = this.errorDescriptionColor,
+        disabledDescriptionColor: Color = this.disabledDescriptionColor,
+        focusedLeadingIconColor: Color = this.focusedLeadingIconColor,
+        unFocusedLeadingIconColor: Color = this.unFocusedLeadingIconColor,
+        errorLeadingIconColor: Color = this.errorLeadingIconColor,
+        disabledLeadingIconColor: Color = this.disabledLeadingIconColor,
+        focusedTrailingIconColor: Color = this.focusedTrailingIconColor,
+        unFocusedTrailingIconColor: Color = this.unFocusedTrailingIconColor,
+        errorTrailingIconColor: Color = this.errorTrailingIconColor,
+        disabledTrailingIconColor: Color = this.disabledTrailingIconColor,
+    ) = TextFieldColors(
+        focusedTextColor.takeOrElse { this.focusedTextColor },
+        unFocusedTextColor.takeOrElse { this.unFocusedTextColor },
+        errorTextColor.takeOrElse { this.errorTextColor },
+        disabledTextColor.takeOrElse { this.disabledTextColor },
+        focusedContainerColor.takeOrElse { this.focusedContainerColor },
+        unFocusedContainerColor.takeOrElse { this.unFocusedContainerColor },
+        errorContainerColor.takeOrElse { this.errorContainerColor },
+        disabledContainerColor.takeOrElse { this.disabledContainerColor },
+        focusedBorderColor.takeOrElse { this.focusedBorderColor },
+        unFocusedBorderColor.takeOrElse { this.unFocusedBorderColor },
+        errorBorderColor.takeOrElse { this.errorBorderColor },
+        disabledBorderColor.takeOrElse { this.disabledBorderColor },
+        focusedIndicatorColor.takeOrElse { this.focusedIndicatorColor },
+        unFocusedIndicatorColor.takeOrElse { this.unFocusedIndicatorColor },
+        errorIndicatorColor.takeOrElse { this.errorIndicatorColor },
+        disabledIndicatorColor.takeOrElse { this.disabledIndicatorColor },
+        labelColor.takeOrElse { this.labelColor },
+        errorLabelColor.takeOrElse { this.errorLabelColor },
+        disabledLabelColor.takeOrElse { this.disabledLabelColor },
+        descriptionColor.takeOrElse { this.descriptionColor },
+        errorDescriptionColor.takeOrElse { this.errorDescriptionColor },
+        disabledDescriptionColor.takeOrElse { this.disabledDescriptionColor },
+        focusedLeadingIconColor.takeOrElse { this.focusedLeadingIconColor },
+        unFocusedLeadingIconColor.takeOrElse { this.unFocusedLeadingIconColor },
+        errorLeadingIconColor.takeOrElse { this.errorLeadingIconColor },
+        disabledLeadingIconColor.takeOrElse { this.disabledLeadingIconColor },
+        focusedTrailingIconColor.takeOrElse { this.focusedTrailingIconColor },
+        unFocusedTrailingIconColor.takeOrElse { this.unFocusedTrailingIconColor },
+        errorTrailingIconColor.takeOrElse { this.errorTrailingIconColor },
+        disabledTrailingIconColor.takeOrElse { this.disabledTrailingIconColor },
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is TextFieldColors) return false
+        return focusedTextColor == other.focusedTextColor &&
+            unFocusedTextColor == other.unFocusedTextColor &&
+            errorTextColor == other.errorTextColor &&
+            disabledTextColor == other.disabledTextColor &&
+            focusedContainerColor == other.focusedContainerColor &&
+            unFocusedContainerColor == other.unFocusedContainerColor &&
+            errorContainerColor == other.errorContainerColor &&
+            disabledContainerColor == other.disabledContainerColor &&
+            focusedBorderColor == other.focusedBorderColor &&
+            unFocusedBorderColor == other.unFocusedBorderColor &&
+            errorBorderColor == other.errorBorderColor &&
+            disabledBorderColor == other.disabledBorderColor &&
+            focusedIndicatorColor == other.focusedIndicatorColor &&
+            unFocusedIndicatorColor == other.unFocusedIndicatorColor &&
+            errorIndicatorColor == other.errorIndicatorColor &&
+            disabledIndicatorColor == other.disabledIndicatorColor &&
+            labelColor == other.labelColor &&
+            errorLabelColor == other.errorLabelColor &&
+            disabledLabelColor == other.disabledLabelColor &&
+            descriptionColor == other.descriptionColor &&
+            errorDescriptionColor == other.errorDescriptionColor &&
+            disabledDescriptionColor == other.disabledDescriptionColor &&
+            focusedLeadingIconColor == other.focusedLeadingIconColor &&
+            unFocusedLeadingIconColor == other.unFocusedLeadingIconColor &&
+            errorLeadingIconColor == other.errorLeadingIconColor &&
+            disabledLeadingIconColor == other.disabledLeadingIconColor &&
+            focusedTrailingIconColor == other.focusedTrailingIconColor &&
+            unFocusedTrailingIconColor == other.unFocusedTrailingIconColor &&
+            errorTrailingIconColor == other.errorTrailingIconColor &&
+            disabledTrailingIconColor == other.disabledTrailingIconColor
+    }
+
+    override fun hashCode(): Int {
+        var result = focusedTextColor.hashCode()
+        result = 31 * result + unFocusedTextColor.hashCode()
+        result = 31 * result + errorTextColor.hashCode()
+        result = 31 * result + disabledTextColor.hashCode()
+        result = 31 * result + focusedContainerColor.hashCode()
+        result = 31 * result + unFocusedContainerColor.hashCode()
+        result = 31 * result + errorContainerColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + focusedBorderColor.hashCode()
+        result = 31 * result + unFocusedBorderColor.hashCode()
+        result = 31 * result + errorBorderColor.hashCode()
+        result = 31 * result + disabledBorderColor.hashCode()
+        result = 31 * result + focusedIndicatorColor.hashCode()
+        result = 31 * result + unFocusedIndicatorColor.hashCode()
+        result = 31 * result + errorIndicatorColor.hashCode()
+        result = 31 * result + disabledIndicatorColor.hashCode()
+        result = 31 * result + labelColor.hashCode()
+        result = 31 * result + errorLabelColor.hashCode()
+        result = 31 * result + disabledLabelColor.hashCode()
+        result = 31 * result + descriptionColor.hashCode()
+        result = 31 * result + errorDescriptionColor.hashCode()
+        result = 31 * result + disabledDescriptionColor.hashCode()
+        result = 31 * result + focusedLeadingIconColor.hashCode()
+        result = 31 * result + unFocusedLeadingIconColor.hashCode()
+        result = 31 * result + errorLeadingIconColor.hashCode()
+        result = 31 * result + disabledLeadingIconColor.hashCode()
+        result = 31 * result + focusedTrailingIconColor.hashCode()
+        result = 31 * result + unFocusedTrailingIconColor.hashCode()
+        result = 31 * result + errorTrailingIconColor.hashCode()
+        result = 31 * result + disabledTrailingIconColor.hashCode()
+        return result
+    }
+}
 
 @Immutable
 data class OutlinedBorderWidth(

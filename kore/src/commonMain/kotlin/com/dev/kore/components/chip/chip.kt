@@ -18,12 +18,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.semantics
@@ -259,37 +261,103 @@ object ChipDefaults{
 
 
 @Immutable
-data class ActionChipColors(
-    val containerColor : Color,
-    val contentColor : Color,
+class ActionChipColors(
+    val containerColor: Color,
+    val contentColor: Color,
     val borderColor: Color,
-)
+) {
+
+    /**
+     * Returns a copy of this [ActionChipColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        containerColor: Color = this.containerColor,
+        contentColor: Color = this.contentColor,
+        borderColor: Color = this.borderColor,
+    ) = ActionChipColors(
+        containerColor.takeOrElse { this.containerColor },
+        contentColor.takeOrElse { this.contentColor },
+        borderColor.takeOrElse { this.borderColor },
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ActionChipColors) return false
+        return containerColor == other.containerColor &&
+            contentColor == other.contentColor &&
+            borderColor == other.borderColor
+    }
+
+    override fun hashCode(): Int {
+        var result = containerColor.hashCode()
+        result = 31 * result + contentColor.hashCode()
+        result = 31 * result + borderColor.hashCode()
+        return result
+    }
+}
 
 
 @Immutable
-data class FilterChipColors(
-    val unSelectedContainerColor : Color,
-    val selectedContainerColor  : Color,
-    val disabledContainerColor : Color,
-    val unSelectedContentColor : Color,
-    val selectedContentColor : Color,
-    val disabledContentColor : Color,
+class FilterChipColors(
+    val unSelectedContainerColor: Color,
+    val selectedContainerColor: Color,
+    val disabledContainerColor: Color,
+    val unSelectedContentColor: Color,
+    val selectedContentColor: Color,
+    val disabledContentColor: Color,
+) {
 
+    /**
+     * Returns a copy of this [FilterChipColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        unSelectedContainerColor: Color = this.unSelectedContainerColor,
+        selectedContainerColor: Color = this.selectedContainerColor,
+        disabledContainerColor: Color = this.disabledContainerColor,
+        unSelectedContentColor: Color = this.unSelectedContentColor,
+        selectedContentColor: Color = this.selectedContentColor,
+        disabledContentColor: Color = this.disabledContentColor,
+    ) = FilterChipColors(
+        unSelectedContainerColor.takeOrElse { this.unSelectedContainerColor },
+        selectedContainerColor.takeOrElse { this.selectedContainerColor },
+        disabledContainerColor.takeOrElse { this.disabledContainerColor },
+        unSelectedContentColor.takeOrElse { this.unSelectedContentColor },
+        selectedContentColor.takeOrElse { this.selectedContentColor },
+        disabledContentColor.takeOrElse { this.disabledContentColor },
     )
 
-private fun FilterChipColors.contentColor(
-    selected: Boolean,
-    enabled : Boolean
-): Color{
-    return  if (enabled){
-        if (selected) selectedContentColor else unSelectedContentColor
-    }else disabledContentColor
-}
+    /** The content color for the current [selected] and [enabled] state. */
+    @Stable
+    fun contentColor(selected: Boolean, enabled: Boolean): Color =
+        if (enabled) if (selected) selectedContentColor else unSelectedContentColor
+        else disabledContentColor
 
-private fun FilterChipColors.containerColor(
-    selected: Boolean,
-    enabled : Boolean
-) : Color{
-    return  if (enabled){
-        if (selected) selectedContainerColor else unSelectedContainerColor
-    }else disabledContainerColor}
+    /** The container color for the current [selected] and [enabled] state. */
+    @Stable
+    fun containerColor(selected: Boolean, enabled: Boolean): Color =
+        if (enabled) if (selected) selectedContainerColor else unSelectedContainerColor
+        else disabledContainerColor
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FilterChipColors) return false
+        return unSelectedContainerColor == other.unSelectedContainerColor &&
+            selectedContainerColor == other.selectedContainerColor &&
+            disabledContainerColor == other.disabledContainerColor &&
+            unSelectedContentColor == other.unSelectedContentColor &&
+            selectedContentColor == other.selectedContentColor &&
+            disabledContentColor == other.disabledContentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = unSelectedContainerColor.hashCode()
+        result = 31 * result + selectedContainerColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + unSelectedContentColor.hashCode()
+        result = 31 * result + selectedContentColor.hashCode()
+        result = 31 * result + disabledContentColor.hashCode()
+        return result
+    }
+}

@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
@@ -445,27 +447,75 @@ object BadgeDefaults {
  * defines the colors of the badge
  */
 @Immutable
-data class BadgeColors(
+class BadgeColors(
     val containerColor: Color,
     val contentColor: Color,
-    val disabledContainerColor : Color,
-    val disabledContentColor : Color,
-    val leadingContentColor : Color,
-    val disabledLeadingContentColor : Color,
-    val trailingContentColor : Color,
-    val disabledTrailingContentColor : Color
-)
-internal fun BadgeColors.contentColor(
-    enabled: Boolean
-): Color {
-    return if (enabled) contentColor else disabledContentColor
-}
+    val disabledContainerColor: Color,
+    val disabledContentColor: Color,
+    val leadingContentColor: Color,
+    val disabledLeadingContentColor: Color,
+    val trailingContentColor: Color,
+    val disabledTrailingContentColor: Color,
+) {
 
+    /**
+     * Returns a copy of this [BadgeColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        containerColor: Color = this.containerColor,
+        contentColor: Color = this.contentColor,
+        disabledContainerColor: Color = this.disabledContainerColor,
+        disabledContentColor: Color = this.disabledContentColor,
+        leadingContentColor: Color = this.leadingContentColor,
+        disabledLeadingContentColor: Color = this.disabledLeadingContentColor,
+        trailingContentColor: Color = this.trailingContentColor,
+        disabledTrailingContentColor: Color = this.disabledTrailingContentColor,
+    ) = BadgeColors(
+        containerColor.takeOrElse { this.containerColor },
+        contentColor.takeOrElse { this.contentColor },
+        disabledContainerColor.takeOrElse { this.disabledContainerColor },
+        disabledContentColor.takeOrElse { this.disabledContentColor },
+        leadingContentColor.takeOrElse { this.leadingContentColor },
+        disabledLeadingContentColor.takeOrElse { this.disabledLeadingContentColor },
+        trailingContentColor.takeOrElse { this.trailingContentColor },
+        disabledTrailingContentColor.takeOrElse { this.disabledTrailingContentColor },
+    )
 
-internal fun BadgeColors.containerColor(
-    enabled: Boolean
-): Color {
-    return if (enabled) containerColor else disabledContainerColor
+    /** The content color for the current [enabled] state. */
+    @Stable
+    fun contentColor(enabled: Boolean): Color =
+        if (enabled) contentColor else disabledContentColor
+
+    /** The container color for the current [enabled] state. */
+    @Stable
+    fun containerColor(enabled: Boolean): Color =
+        if (enabled) containerColor else disabledContainerColor
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BadgeColors) return false
+        return containerColor == other.containerColor &&
+            contentColor == other.contentColor &&
+            disabledContainerColor == other.disabledContainerColor &&
+            disabledContentColor == other.disabledContentColor &&
+            leadingContentColor == other.leadingContentColor &&
+            disabledLeadingContentColor == other.disabledLeadingContentColor &&
+            trailingContentColor == other.trailingContentColor &&
+            disabledTrailingContentColor == other.disabledTrailingContentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = containerColor.hashCode()
+        result = 31 * result + contentColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + disabledContentColor.hashCode()
+        result = 31 * result + leadingContentColor.hashCode()
+        result = 31 * result + disabledLeadingContentColor.hashCode()
+        result = 31 * result + trailingContentColor.hashCode()
+        result = 31 * result + disabledTrailingContentColor.hashCode()
+        return result
+    }
 }
 
 /**

@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
@@ -520,32 +522,68 @@ object SliderDefaults{
  * Defines all slider colors
  */
 @Immutable
-data class SliderColors(
+class SliderColors(
     val enabledTrackColor: Color,
     val disabledTrackColor: Color,
     val enabledProgressColor: Color,
     val disabledProgressColor: Color,
     val enabledThumbColor: Color,
     val disabledThumbColor: Color,
-)
+) {
 
+    /**
+     * Returns a copy of this [SliderColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        enabledTrackColor: Color = this.enabledTrackColor,
+        disabledTrackColor: Color = this.disabledTrackColor,
+        enabledProgressColor: Color = this.enabledProgressColor,
+        disabledProgressColor: Color = this.disabledProgressColor,
+        enabledThumbColor: Color = this.enabledThumbColor,
+        disabledThumbColor: Color = this.disabledThumbColor,
+    ) = SliderColors(
+        enabledTrackColor.takeOrElse { this.enabledTrackColor },
+        disabledTrackColor.takeOrElse { this.disabledTrackColor },
+        enabledProgressColor.takeOrElse { this.enabledProgressColor },
+        disabledProgressColor.takeOrElse { this.disabledProgressColor },
+        enabledThumbColor.takeOrElse { this.enabledThumbColor },
+        disabledThumbColor.takeOrElse { this.disabledThumbColor },
+    )
 
+    /** The track color for the current [enabled] state. */
+    @Stable
+    fun trackColor(enabled: Boolean): Color =
+        if (enabled) enabledTrackColor else disabledTrackColor
 
+    /** The progress color for the current [enabled] state. */
+    @Stable
+    fun progressColor(enabled: Boolean): Color =
+        if (enabled) enabledProgressColor else disabledProgressColor
 
-private fun SliderColors.trackColor(
-    enabled : Boolean
-) : Color{
-    return  if (enabled) this.enabledTrackColor else this.disabledTrackColor
-}
+    /** The thumb color for the current [enabled] state. */
+    @Stable
+    fun thumbColor(enabled: Boolean): Color =
+        if (enabled) enabledThumbColor else disabledThumbColor
 
-private fun SliderColors.progressColor(
-    enabled: Boolean
-) : Color {
-    return  if (enabled) this.enabledProgressColor else this.disabledProgressColor
-}
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SliderColors) return false
+        return enabledTrackColor == other.enabledTrackColor &&
+            disabledTrackColor == other.disabledTrackColor &&
+            enabledProgressColor == other.enabledProgressColor &&
+            disabledProgressColor == other.disabledProgressColor &&
+            enabledThumbColor == other.enabledThumbColor &&
+            disabledThumbColor == other.disabledThumbColor
+    }
 
-private fun SliderColors.thumbColor(
-    enabled: Boolean
-) : Color{
-   return if (enabled) this.enabledThumbColor else this.disabledThumbColor
+    override fun hashCode(): Int {
+        var result = enabledTrackColor.hashCode()
+        result = 31 * result + disabledTrackColor.hashCode()
+        result = 31 * result + enabledProgressColor.hashCode()
+        result = 31 * result + disabledProgressColor.hashCode()
+        result = 31 * result + enabledThumbColor.hashCode()
+        result = 31 * result + disabledThumbColor.hashCode()
+        return result
+    }
 }

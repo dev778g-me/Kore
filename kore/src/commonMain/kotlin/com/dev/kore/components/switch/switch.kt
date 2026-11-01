@@ -26,12 +26,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
@@ -243,50 +245,115 @@ object SwitchDefaults{
 
 
 }
-private fun SwitchColors.trackColor(
-    enabled: Boolean,
-    checked: Boolean
-) : Color{
-    return    if (enabled) if (checked) this.checkedTrackColor else this.unCheckedTrackColor
-    else if (checked) this.disabledCheckedTrackColor else this.disabledUncheckedTrackColor
-
-}
-
-
-private fun SwitchColors.thumbColor(
-    checked: Boolean,
-    enabled: Boolean
-): Color {
-    return if (enabled) if (checked) this.checkedThumbColor else this.unCheckedThumbColor
-    else if (checked) this.disabledCheckedThumbColor else this.disabledUncheckedThumbColor
-}
-
-
-private fun SwitchColors.contentColor(
-    checked: Boolean,
-    enabled: Boolean
-): Color{
-    return  if (enabled) if (checked) checkedContentColor else uncheckedContentColor
-    else if (checked) disabledCheckedContentColor else disabledUncheckedContentColor
-}
-
 /**
  * Defines all the colors of the Switch
  */
 @Immutable
-data class SwitchColors(
-    val checkedTrackColor : Color,
+class SwitchColors(
+    val checkedTrackColor: Color,
     val unCheckedTrackColor: Color,
-    val disabledCheckedTrackColor : Color,
-    val disabledUncheckedTrackColor : Color,
-    val checkedThumbColor : Color,
-    val unCheckedThumbColor : Color,
-    val disabledCheckedThumbColor : Color,
-    val disabledUncheckedThumbColor : Color,
-    val uncheckedBorderColor : Color,
-    val checkedBorderColor : Color,
-    val checkedContentColor : Color,
-    val uncheckedContentColor : Color ,
-    val disabledCheckedContentColor : Color,
-    val disabledUncheckedContentColor : Color,
-)
+    val disabledCheckedTrackColor: Color,
+    val disabledUncheckedTrackColor: Color,
+    val checkedThumbColor: Color,
+    val unCheckedThumbColor: Color,
+    val disabledCheckedThumbColor: Color,
+    val disabledUncheckedThumbColor: Color,
+    val uncheckedBorderColor: Color,
+    val checkedBorderColor: Color,
+    val checkedContentColor: Color,
+    val uncheckedContentColor: Color,
+    val disabledCheckedContentColor: Color,
+    val disabledUncheckedContentColor: Color,
+) {
+
+    /**
+     * Returns a copy of this [SwitchColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        checkedTrackColor: Color = this.checkedTrackColor,
+        unCheckedTrackColor: Color = this.unCheckedTrackColor,
+        disabledCheckedTrackColor: Color = this.disabledCheckedTrackColor,
+        disabledUncheckedTrackColor: Color = this.disabledUncheckedTrackColor,
+        checkedThumbColor: Color = this.checkedThumbColor,
+        unCheckedThumbColor: Color = this.unCheckedThumbColor,
+        disabledCheckedThumbColor: Color = this.disabledCheckedThumbColor,
+        disabledUncheckedThumbColor: Color = this.disabledUncheckedThumbColor,
+        uncheckedBorderColor: Color = this.uncheckedBorderColor,
+        checkedBorderColor: Color = this.checkedBorderColor,
+        checkedContentColor: Color = this.checkedContentColor,
+        uncheckedContentColor: Color = this.uncheckedContentColor,
+        disabledCheckedContentColor: Color = this.disabledCheckedContentColor,
+        disabledUncheckedContentColor: Color = this.disabledUncheckedContentColor,
+    ) = SwitchColors(
+        checkedTrackColor.takeOrElse { this.checkedTrackColor },
+        unCheckedTrackColor.takeOrElse { this.unCheckedTrackColor },
+        disabledCheckedTrackColor.takeOrElse { this.disabledCheckedTrackColor },
+        disabledUncheckedTrackColor.takeOrElse { this.disabledUncheckedTrackColor },
+        checkedThumbColor.takeOrElse { this.checkedThumbColor },
+        unCheckedThumbColor.takeOrElse { this.unCheckedThumbColor },
+        disabledCheckedThumbColor.takeOrElse { this.disabledCheckedThumbColor },
+        disabledUncheckedThumbColor.takeOrElse { this.disabledUncheckedThumbColor },
+        uncheckedBorderColor.takeOrElse { this.uncheckedBorderColor },
+        checkedBorderColor.takeOrElse { this.checkedBorderColor },
+        checkedContentColor.takeOrElse { this.checkedContentColor },
+        uncheckedContentColor.takeOrElse { this.uncheckedContentColor },
+        disabledCheckedContentColor.takeOrElse { this.disabledCheckedContentColor },
+        disabledUncheckedContentColor.takeOrElse { this.disabledUncheckedContentColor },
+    )
+
+    /** The track color for the current [checked] and [enabled] state. */
+    @Stable
+    fun trackColor(enabled: Boolean, checked: Boolean): Color =
+        if (enabled) if (checked) checkedTrackColor else unCheckedTrackColor
+        else if (checked) disabledCheckedTrackColor else disabledUncheckedTrackColor
+
+    /** The thumb color for the current [checked] and [enabled] state. */
+    @Stable
+    fun thumbColor(checked: Boolean, enabled: Boolean): Color =
+        if (enabled) if (checked) checkedThumbColor else unCheckedThumbColor
+        else if (checked) disabledCheckedThumbColor else disabledUncheckedThumbColor
+
+    /** The content color for the current [checked] and [enabled] state. */
+    @Stable
+    fun contentColor(checked: Boolean, enabled: Boolean): Color =
+        if (enabled) if (checked) checkedContentColor else uncheckedContentColor
+        else if (checked) disabledCheckedContentColor else disabledUncheckedContentColor
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SwitchColors) return false
+        return checkedTrackColor == other.checkedTrackColor &&
+            unCheckedTrackColor == other.unCheckedTrackColor &&
+            disabledCheckedTrackColor == other.disabledCheckedTrackColor &&
+            disabledUncheckedTrackColor == other.disabledUncheckedTrackColor &&
+            checkedThumbColor == other.checkedThumbColor &&
+            unCheckedThumbColor == other.unCheckedThumbColor &&
+            disabledCheckedThumbColor == other.disabledCheckedThumbColor &&
+            disabledUncheckedThumbColor == other.disabledUncheckedThumbColor &&
+            uncheckedBorderColor == other.uncheckedBorderColor &&
+            checkedBorderColor == other.checkedBorderColor &&
+            checkedContentColor == other.checkedContentColor &&
+            uncheckedContentColor == other.uncheckedContentColor &&
+            disabledCheckedContentColor == other.disabledCheckedContentColor &&
+            disabledUncheckedContentColor == other.disabledUncheckedContentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = checkedTrackColor.hashCode()
+        result = 31 * result + unCheckedTrackColor.hashCode()
+        result = 31 * result + disabledCheckedTrackColor.hashCode()
+        result = 31 * result + disabledUncheckedTrackColor.hashCode()
+        result = 31 * result + checkedThumbColor.hashCode()
+        result = 31 * result + unCheckedThumbColor.hashCode()
+        result = 31 * result + disabledCheckedThumbColor.hashCode()
+        result = 31 * result + disabledUncheckedThumbColor.hashCode()
+        result = 31 * result + uncheckedBorderColor.hashCode()
+        result = 31 * result + checkedBorderColor.hashCode()
+        result = 31 * result + checkedContentColor.hashCode()
+        result = 31 * result + uncheckedContentColor.hashCode()
+        result = 31 * result + disabledCheckedContentColor.hashCode()
+        result = 31 * result + disabledUncheckedContentColor.hashCode()
+        return result
+    }
+}

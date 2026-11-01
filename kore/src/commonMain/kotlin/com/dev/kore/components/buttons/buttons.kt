@@ -18,11 +18,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -67,6 +69,15 @@ internal fun BaseButton (
                     role = Role.Button
                 }
                 .clip(shape = shape)
+                .clickable(
+                    enabled = enabled,
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = LocalIndication.current,
+                    role = Role.Button,
+                    onClick = {
+                        onClick.invoke()
+                    }
+                )
                 .background(
                     color = containerColor,
                     shape = shape
@@ -77,15 +88,7 @@ internal fun BaseButton (
                         shape = shape
                     ) else Modifier
                 )
-                .clickable(
-                    enabled = enabled,
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = LocalIndication.current,
-                    role = Role.Button,
-                    onClick = {
-                        onClick.invoke()
-                    }
-                )
+
                 .padding(contentPadding
                 ),
             verticalAlignment = Alignment.CenterVertically,
@@ -332,23 +335,53 @@ object ButtonDefaults{
  * defines all colors for the button
  */
 @Immutable
-data class ButtonColors(
-    val buttonContainerColor : Color,
-    val buttonContentColor : Color,
-    val disabledButtonContainerColor : Color,
-    val disabledButtonContentColor: Color
-)
+class ButtonColors(
+    val buttonContainerColor: Color,
+    val buttonContentColor: Color,
+    val disabledButtonContainerColor: Color,
+    val disabledButtonContentColor: Color,
+) {
 
+    /**
+     * Returns a copy of this [ButtonColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        buttonContainerColor: Color = this.buttonContainerColor,
+        buttonContentColor: Color = this.buttonContentColor,
+        disabledButtonContainerColor: Color = this.disabledButtonContainerColor,
+        disabledButtonContentColor: Color = this.disabledButtonContentColor,
+    ) = ButtonColors(
+        buttonContainerColor.takeOrElse { this.buttonContainerColor },
+        buttonContentColor.takeOrElse { this.buttonContentColor },
+        disabledButtonContainerColor.takeOrElse { this.disabledButtonContainerColor },
+        disabledButtonContentColor.takeOrElse { this.disabledButtonContentColor },
+    )
 
-private fun ButtonColors.containerColor(
-    enabled: Boolean
-) : Color{
-    return if (enabled) buttonContainerColor else disabledButtonContainerColor
-}
+    /** The container color for the current [enabled] state. */
+    @Stable
+    fun containerColor(enabled: Boolean): Color =
+        if (enabled) buttonContainerColor else disabledButtonContainerColor
 
+    /** The content color for the current [enabled] state. */
+    @Stable
+    fun contentColor(enabled: Boolean): Color =
+        if (enabled) buttonContentColor else disabledButtonContentColor
 
-private fun ButtonColors.contentColor(
-    enabled: Boolean
-)  : Color{
-    return if (enabled) buttonContentColor else disabledButtonContentColor
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ButtonColors) return false
+        return buttonContainerColor == other.buttonContainerColor &&
+            buttonContentColor == other.buttonContentColor &&
+            disabledButtonContainerColor == other.disabledButtonContainerColor &&
+            disabledButtonContentColor == other.disabledButtonContentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = buttonContainerColor.hashCode()
+        result = 31 * result + buttonContentColor.hashCode()
+        result = 31 * result + disabledButtonContainerColor.hashCode()
+        result = 31 * result + disabledButtonContentColor.hashCode()
+        return result
+    }
 }
