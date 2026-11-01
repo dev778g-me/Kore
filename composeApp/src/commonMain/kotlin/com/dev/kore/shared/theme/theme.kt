@@ -2,11 +2,8 @@ package com.dev.kore.shared.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.dp
 import com.dev.kore.themes.KoreColorScheme
-import com.dev.kore.themes.KoreDefaults
 import com.dev.kore.themes.KoreShapes
 import com.dev.kore.themes.shapes.AbsoluteSmoothCornerShape
 import com.dev.kore.themes.KoreSizes
@@ -14,13 +11,11 @@ import com.dev.kore.themes.KoreTheme
 import com.dev.kore.themes.colors.TailwindColors
 import com.dev.kore.themes.colors.RadixColors
 import androidx.compose.ui.graphics.Color
-import com.dev.kore.motions.MotionConfig
-import com.dev.kore.themes.IndicationType
 
 val lightColorScheme = KoreColorScheme(
     background = RadixColors.Gray.light.step4,
     onBackGround = RadixColors.Gray.light.step12,
-    backGroundVariant = RadixColors.Gray.light.step6,
+    backGroundVariant = RadixColors.Gray.light.step7,
     onBackGroundVariant = RadixColors.Gray.light.step10,
     surface = RadixColors.Gray.light.step3,
     onSurface = RadixColors.Gray.light.step11,
@@ -47,10 +42,10 @@ val darkColorScheme = KoreColorScheme(
     background = RadixColors.Gray.dark.step1,
     onBackGround = RadixColors.Gray.dark.step12,
     backGroundVariant = RadixColors.Gray.dark.step5,
-    onBackGroundVariant = RadixColors.Gray.dark.step10,
-    surface = RadixColors.Gray.dark.step3,
+    onBackGroundVariant = RadixColors.Gray.dark.step11,
+    surface = RadixColors.Gray.dark.step2,
     onSurface = RadixColors.Gray.dark.step11,
-    surfaceBright = RadixColors.Gray.dark.step2,
+    surfaceBright = RadixColors.Gray.dark.step3,
     onSurfaceBright = RadixColors.Gray.dark.step12,
     primary = TailwindColors.Blue.swatch600,
     onPrimary = TailwindColors.Blue.swatch50,
@@ -64,7 +59,7 @@ val darkColorScheme = KoreColorScheme(
     onSuccess = TailwindColors.Green.swatch50,
     error = TailwindColors.Red.swatch600,
     onError = TailwindColors.Red.swatch50,
-    disabled = RadixColors.Gray.dark.step4,
+    disabled = RadixColors.Gray.dark.step3,
     onDisabled = RadixColors.Gray.dark.step8,
     transparent = Color.Transparent
 )
@@ -91,9 +86,6 @@ fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     shape: KoreShapes = shapes,
     size: KoreSizes = sizes,
-    motion: MotionConfig = MotionConfig.Balanced,
-    indicationType: IndicationType = IndicationType.Scale,
-    pressScale: Float = KoreDefaults.defaultPressScale,
     content: @Composable () -> Unit
 ) {
     val colorScheme = if(darkTheme) darkColorScheme else lightColorScheme
@@ -102,33 +94,7 @@ fun AppTheme(
         shapes = shape,
         sizes = size,
         colorScheme = colorScheme,
-        motion = motion,
-        indicationType = indicationType,
-        pressScale = pressScale
     ) {
         content()
     }
-}
-
-/**
- * The app level settings the showcase screens can read and change.
- *
- * Kept in a [staticCompositionLocalOf] so the foundation screens (colors,
- * motion, indication, ...) can drive the whole theme without threading
- * callbacks through the navigation graph.
- */
-@Stable
-class AppSettings(
-    val isDark: Boolean,
-    val indicationType: IndicationType,
-    val pressScale: Float,
-    val motion: MotionConfig,
-    val onToggleDark: () -> Unit,
-    val onIndicationChange: (IndicationType) -> Unit,
-    val onPressScaleChange: (Float) -> Unit,
-    val onMotionChange: (MotionConfig) -> Unit,
-)
-
-val LocalAppSettings = staticCompositionLocalOf<AppSettings> {
-    error("No AppSettings provided. Wrap the content in App().")
 }
