@@ -41,11 +41,11 @@ object KoreDefaults{
 
     val defaultLightColorScheme = KoreColorScheme(
         //[neutrals]
-        background = RadixColors.Gray.light.step4,
+        background = RadixColors.Gray.light.step3,
         onBackGround = RadixColors.Gray.light.step12,
         backGroundVariant = RadixColors.Gray.light.step7,
         onBackGroundVariant = RadixColors.Gray.light.step10,
-        surface = RadixColors.Gray.light.step3,
+        surface = RadixColors.Gray.light.step2,
         onSurface = RadixColors.Gray.light.step11,
         surfaceBright = RadixColors.Gray.light.step1,
         onSurfaceBright = RadixColors.Gray.light.step12,
@@ -78,13 +78,13 @@ object KoreDefaults{
         background = RadixColors.Gray.dark.step1,
         onBackGround = RadixColors.Gray.dark.step12,
         backGroundVariant = RadixColors.Gray.dark.step5,
-        onBackGroundVariant = RadixColors.Gray.dark.step11,
-        surface = RadixColors.Gray.dark.step2,
+        onBackGroundVariant = RadixColors.Gray.dark.step10,
+        surface = RadixColors.Gray.dark.step3,
         onSurface = RadixColors.Gray.dark.step11,
-        surfaceBright = RadixColors.Gray.dark.step3,
+        surfaceBright = RadixColors.Gray.dark.step2,
         onSurfaceBright = RadixColors.Gray.dark.step12,
         // disabled colors
-        disabled = RadixColors.Gray.dark.step3,
+        disabled = RadixColors.Gray.dark.step4,
         onDisabled = RadixColors.Gray.dark.step8,
         //[neutrals]
 
