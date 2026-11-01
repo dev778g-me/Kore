@@ -49,6 +49,7 @@ import com.dev.kore.themes.LocalTextStyle
  * @param headerContentPaddingValues the paddingValues of the header [PaddingValues]
  * @param expandedContentPaddingValues the paddingValues of the expandedContent [PaddingValues]
  */
+
 @Composable
 fun Accordion(
     expanded: Boolean,
@@ -63,57 +64,38 @@ fun Accordion(
     exitTransition: ExitTransition = AccordionDefaults.defaultExpandedContentExitTransition,
     leadingIconAlignment: Alignment.Vertical = AccordionDefaults.defaultLeadingIconAlignment,
     headerContentPaddingValues: PaddingValues = AccordionDefaults.defaultHeaderContentPadding,
-    expandedContentPaddingValues: PaddingValues = AccordionDefaults.defaultExpandedContentPadding
+    expandedContentPaddingValues: PaddingValues = AccordionDefaults.defaultExpandedContentPadding,
 ) {
-
-
-
-    Box(
-        modifier = modifier.defaultMinSize(
-            minWidth = AccordionDefaults.defaultAccordionWidth
-        )
-    ){
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
+    Column(
+        modifier = modifier
+            .defaultMinSize(minWidth = AccordionDefaults.defaultAccordionWidth)
+            .fillMaxWidth()
+    ) {
+        CompositionLocalProvider(
+            LocalContentColor provides KoreTheme.colorScheme.onBackGround
         ) {
-
-            // always showing Content
-
-            CompositionLocalProvider(
-                LocalContentColor provides KoreTheme.colorScheme.onBackGround
-            ){
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    //.clip(KoreTheme.shapes.xs)
                     .clickable(
-                        onClick = {
-                            onExpand.invoke()
-                        },
                         role = Role.Button,
-                        onClickLabel = if (expanded) "Collapse" else "Expand"
+                        onClickLabel = if (expanded) "Collapse" else "Expand",
+                        onClick = onExpand,
                     )
                     .semantics {
-                        role = Role.Button
                         stateDescription = if (expanded) "Expanded" else "Collapsed"
                         if (expanded) {
-                            collapse(action = { onExpand.invoke(); true })
+                            collapse { onExpand(); true }
                         } else {
-                            expand(action = { onExpand.invoke(); true })
+                            expand { onExpand(); true }
                         }
                     }
-                    .padding(
-                        headerContentPaddingValues
-                    ),
+                    .padding(headerContentPaddingValues),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-
             ) {
-                // leading icon
-                leadingIcon?.let {
+                if (leadingIcon != null) {
                     Box(
-                        modifier = modifier
+                        modifier = Modifier
                             .padding(end = 8.dp)
                             .align(leadingIconAlignment)
                     ) {
@@ -121,41 +103,35 @@ fun Accordion(
                     }
                 }
 
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .semantics { heading() }
-                    ) {
-                        header()
-                    }
-
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .semantics { heading() }
+                ) {
+                    header()
+                }
 
                 trailingIcon()
-            }}
+            }
+        }
 
-
-            // animated Expanded content
-
-            AnimatedVisibility(
-                 visible = expanded, enter = enterTransition, exit = exitTransition
+        AnimatedVisibility(
+            visible = expanded,
+            enter = enterTransition,
+            exit = exitTransition,
+        ) {
+            CompositionLocalProvider(
+                LocalTextStyle provides KoreTheme.typography.body3,
+                LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant,
             ) {
-                CompositionLocalProvider(
-                    values = arrayOf(
-                        LocalTextStyle provides KoreTheme.typography.body3,
-                        LocalContentColor provides KoreTheme.colorScheme.onBackGroundVariant
-                    )
-                ) {
-                    Box(Modifier.padding(expandedContentPaddingValues)) {
-                        expandedContent()
-                    }
+                Box(Modifier.padding(expandedContentPaddingValues)) {
+                    expandedContent()
                 }
             }
+        }
 
-
-
-           if (separator){
+        if (separator) {
             HorizontalSeparator()
-           }
         }
     }
 }
