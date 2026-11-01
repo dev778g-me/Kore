@@ -1,0 +1,217 @@
+package com.dev.kore.shared.components
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.dev.kore.components.text.Text
+import com.dev.kore.shared.components.actions.actionsSection
+import com.dev.kore.shared.components.display.displaySection
+import com.dev.kore.shared.components.feedback.feedbackSection
+import com.dev.kore.shared.components.inputs.inputsSection
+import com.dev.kore.shared.components.navigation.navigationSection
+import com.dev.kore.shared.components.overlays.overlaysSection
+import com.dev.kore.shared.components.selection.selectionSection
+import com.dev.kore.shared.components.utilities.BlueprintGridDemo
+import com.dev.kore.shared.components.utilities.DashedBorderDemo
+import com.dev.kore.shared.components.utilities.DotBorderDemo
+import com.dev.kore.shared.components.utilities.HorizontalFadingEdgesDemo
+import com.dev.kore.shared.components.utilities.MagneticPullDemo
+import com.dev.kore.shared.components.utilities.NoRippleClickableDemo
+import com.dev.kore.shared.components.utilities.ScaleClickableDemo
+import com.dev.kore.shared.components.utilities.ShimmerDemo
+import com.dev.kore.shared.components.utilities.VerticalFadingEdgesDemo
+import com.dev.kore.shared.screens.foundations.ColorPaletteDemo
+import com.dev.kore.shared.screens.foundations.ColorsDemo
+import com.dev.kore.shared.screens.foundations.IndicationDemo
+import com.dev.kore.shared.screens.foundations.MotionDemo
+import com.dev.kore.shared.screens.foundations.ShapesDemo
+import com.dev.kore.shared.screens.foundations.SizesDemo
+import com.dev.kore.shared.screens.foundations.TypographyDemo
+import com.dev.kore.shared.components.utilities.utilitiesSection
+import com.phosphor.icons.PhIcons
+import com.phosphor.icons.regular.AlignCenterHorizontal
+import com.phosphor.icons.regular.AlignCenterVertical
+import com.phosphor.icons.regular.DotsThreeCircle
+import com.phosphor.icons.regular.HandTap
+import com.phosphor.icons.regular.Magnet
+import com.phosphor.icons.regular.Sparkle
+import com.phosphor.icons.regular.Palette
+import com.phosphor.icons.regular.Ruler
+import com.phosphor.icons.regular.Shapes
+import com.phosphor.icons.regular.Swatches
+import com.phosphor.icons.regular.SquaresFour
+import com.phosphor.icons.regular.TextAa
+import com.phosphor.icons.regular.Warning
+import com.phosphor.icons.regular.Waveform
+
+/**
+ * One entry of the home screen list.
+ *
+ * @param id stable identifier used by the type safe navigation route.
+ * @param title the name shown in the list and in the app bar of the screen.
+ * @param description a sentence explaining what the component is for.
+ * @param icon the leading icon of the list tile.
+ * @param comingSoon entries that exist in Kore but are not implemented yet.
+ * They are shown but cannot be opened.
+ * @param demo the actual implementations of the component.
+ */
+data class ComponentEntry(
+    val id: String,
+    val title: String,
+    val description: String,
+    val icon: ImageVector,
+    val comingSoon: Boolean = false,
+    val demo: @Composable () -> Unit,
+)
+
+/**
+ * A titled group of entries ("Actions", "Selection", ...).
+ */
+data class ComponentSection(
+    val title: String,
+    val entries: List<ComponentEntry>,
+)
+
+/**
+ * The single source of truth of every component shipped by Kore.
+ */
+object ComponentCatalog {
+
+    private val foundations = ComponentSection(
+        title = "Foundations",
+        entries = listOf(
+            ComponentEntry(
+                id = "colors",
+                title = "Colors",
+                description = "The semantic color roles of the active light or dark scheme.",
+                icon = PhIcons.Regular.Palette,
+            ) { ColorsDemo() },
+            ComponentEntry(
+                id = "color-palette",
+                title = "Color palette",
+                description = "All Radix and Tailwind color scales shipped with Kore.",
+                icon = PhIcons.Regular.Swatches,
+            ) { ColorPaletteDemo() },
+            ComponentEntry(
+                id = "typography",
+                title = "Typography",
+                description = "The fifteen type styles, from display to label.",
+                icon = PhIcons.Regular.TextAa,
+            ) { TypographyDemo() },
+            ComponentEntry(
+                id = "shapes",
+                title = "Shapes",
+                description = "The five corner shapes used across every component.",
+                icon = PhIcons.Regular.Shapes,
+            ) { ShapesDemo() },
+            ComponentEntry(
+                id = "sizes",
+                title = "Sizes",
+                description = "The spacing scale of the design system.",
+                icon = PhIcons.Regular.Ruler,
+            ) { SizesDemo() },
+            ComponentEntry(
+                id = "motion",
+                title = "Motion",
+                description = "The snappy, smooth, calm and fluid motion tiers.",
+                icon = PhIcons.Regular.Waveform,
+            ) { MotionDemo() },
+            ComponentEntry(
+                id = "indication",
+                title = "Indication",
+                description = "Ripple and scale press feedback, side by side.",
+                icon = PhIcons.Regular.HandTap,
+            ) { IndicationDemo() },
+        ),
+    )
+
+    /**
+     * The modifier entries, shown on the dedicated Modifiers list screen.
+     */
+    val modifiers: List<ComponentEntry> = listOf(
+        ComponentEntry(
+            id = "scale-clickable",
+            title = "scaleClickable",
+            description = "Press feedback that scales the surface down while pressed.",
+            icon = PhIcons.Regular.HandTap,
+        ) { ScaleClickableDemo() },
+        ComponentEntry(
+            id = "no-ripple-clickable",
+            title = "noRippleClickable",
+            description = "A clickable surface with no ripple indication.",
+            icon = PhIcons.Regular.HandTap,
+        ) { NoRippleClickableDemo() },
+        ComponentEntry(
+            id = "dashed-border",
+            title = "dashedBorder",
+            description = "Draws a dashed border around the content.",
+            icon = PhIcons.Regular.DotsThreeCircle,
+        ) { DashedBorderDemo() },
+        ComponentEntry(
+            id = "dot-border",
+            title = "dotBorder",
+            description = "Draws a dotted border around the content.",
+            icon = PhIcons.Regular.DotsThreeCircle,
+        ) { DotBorderDemo() },
+        ComponentEntry(
+            id = "blueprint-grid",
+            title = "blueprintGrid",
+            description = "Overlays a dotted grid on the surface.",
+            icon = PhIcons.Regular.SquaresFour,
+        ) { BlueprintGridDemo() },
+        ComponentEntry(
+            id = "vertical-fading-edges",
+            title = "verticalFadingEdges",
+            description = "Fades the top and bottom edges of a scrolling list.",
+            icon = PhIcons.Regular.AlignCenterVertical,
+        ) { VerticalFadingEdgesDemo() },
+        ComponentEntry(
+            id = "horizontal-fading-edges",
+            title = "horizontalFadingEdges",
+            description = "Fades the left and right edges of a scrolling row.",
+            icon = PhIcons.Regular.AlignCenterHorizontal,
+        ) { HorizontalFadingEdgesDemo() },
+        ComponentEntry(
+            id = "magnetic-pull",
+            title = "magneticPull",
+            description = "Pulls the surface toward the pointer while dragging.",
+            icon = PhIcons.Regular.Magnet,
+        ) { MagneticPullDemo() },
+        ComponentEntry(
+            id = "shimmer",
+            title = "shimmer",
+            description = "Animated shimmer placeholder for loading states.",
+            icon = PhIcons.Regular.Sparkle,
+        ) { ShimmerDemo() },
+    )
+
+    /**
+     * Every section, in the order they are shown on the home screen.
+     */
+    val sections: List<ComponentSection> = listOf(
+        foundations,
+        actionsSection,
+        selectionSection,
+        inputsSection,
+        feedbackSection,
+        displaySection,
+        navigationSection,
+        overlaysSection,
+        utilitiesSection,
+    )
+
+    private val byId: Map<String, ComponentEntry> =
+        (sections.flatMap { it.entries } + modifiers).associateBy { it.id }
+
+    /**
+     * Resolves a route id, falling back to a "not found" screen so an old
+     * deep link can never crash the app.
+     */
+    fun find(id: String): ComponentEntry = byId[id] ?: ComponentEntry(
+        id = id,
+        title = "Not found",
+        description = "There is no component with the id \"$id\".",
+        icon = PhIcons.Regular.Warning,
+    ) {
+        Text("Nothing to show here.")
+    }
+}
