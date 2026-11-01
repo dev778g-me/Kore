@@ -21,11 +21,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.semantics
@@ -316,46 +319,137 @@ object ButtonGroupDefaults {
     )
 }
 
-data class ToggleButtonColors(
-    val unSelectedContainerColor : Color,
-    val selectedContainerColor : Color,
-    val unselectedContentColor : Color,
-    val selectedContentColor : Color,
-    val disabledContainerColor : Color,
-    val disabledContentColor : Color,
-    val separatorColor: Color
-){
-    @Composable
-    fun containerColor(selected: Boolean, enabled: Boolean) = when {
+@Immutable
+class ToggleButtonColors(
+    val unSelectedContainerColor: Color,
+    val selectedContainerColor: Color,
+    val unselectedContentColor: Color,
+    val selectedContentColor: Color,
+    val disabledContainerColor: Color,
+    val disabledContentColor: Color,
+    val separatorColor: Color,
+) {
+
+    /**
+     * Returns a copy of this [ToggleButtonColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        unSelectedContainerColor: Color = this.unSelectedContainerColor,
+        selectedContainerColor: Color = this.selectedContainerColor,
+        unselectedContentColor: Color = this.unselectedContentColor,
+        selectedContentColor: Color = this.selectedContentColor,
+        disabledContainerColor: Color = this.disabledContainerColor,
+        disabledContentColor: Color = this.disabledContentColor,
+        separatorColor: Color = this.separatorColor,
+    ) = ToggleButtonColors(
+        unSelectedContainerColor.takeOrElse { this.unSelectedContainerColor },
+        selectedContainerColor.takeOrElse { this.selectedContainerColor },
+        unselectedContentColor.takeOrElse { this.unselectedContentColor },
+        selectedContentColor.takeOrElse { this.selectedContentColor },
+        disabledContainerColor.takeOrElse { this.disabledContainerColor },
+        disabledContentColor.takeOrElse { this.disabledContentColor },
+        separatorColor.takeOrElse { this.separatorColor },
+    )
+
+    /** The container color for the current [selected] and [enabled] state. */
+    @Stable
+    fun containerColor(selected: Boolean, enabled: Boolean): Color = when {
         !enabled -> disabledContainerColor
         selected -> selectedContainerColor
         else -> unSelectedContainerColor
     }
 
-    @Composable
-    fun contentColor(selected : Boolean, enabled: Boolean)= when{
+    /** The content color for the current [selected] and [enabled] state. */
+    @Stable
+    fun contentColor(selected: Boolean, enabled: Boolean): Color = when {
         !enabled -> disabledContentColor
         selected -> selectedContentColor
         else -> unselectedContentColor
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ToggleButtonColors) return false
+        return unSelectedContainerColor == other.unSelectedContainerColor &&
+            selectedContainerColor == other.selectedContainerColor &&
+            unselectedContentColor == other.unselectedContentColor &&
+            selectedContentColor == other.selectedContentColor &&
+            disabledContainerColor == other.disabledContainerColor &&
+            disabledContentColor == other.disabledContentColor &&
+            separatorColor == other.separatorColor
+    }
+
+    override fun hashCode(): Int {
+        var result = unSelectedContainerColor.hashCode()
+        result = 31 * result + selectedContainerColor.hashCode()
+        result = 31 * result + unselectedContentColor.hashCode()
+        result = 31 * result + selectedContentColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + disabledContentColor.hashCode()
+        result = 31 * result + separatorColor.hashCode()
+        return result
+    }
 }
 
 
-data class ClickableButtonColors(
+@Immutable
+class ClickableButtonColors(
     val containerColor: Color,
     val contentColor: Color,
     val separatorColor: Color,
     val disabledContainerColor: Color,
     val disabledContentColor: Color,
-){
-    @Composable
-    fun containerColor(enabled: Boolean) = when {
+) {
+
+    /**
+     * Returns a copy of this [ClickableButtonColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        containerColor: Color = this.containerColor,
+        contentColor: Color = this.contentColor,
+        separatorColor: Color = this.separatorColor,
+        disabledContainerColor: Color = this.disabledContainerColor,
+        disabledContentColor: Color = this.disabledContentColor,
+    ) = ClickableButtonColors(
+        containerColor.takeOrElse { this.containerColor },
+        contentColor.takeOrElse { this.contentColor },
+        separatorColor.takeOrElse { this.separatorColor },
+        disabledContainerColor.takeOrElse { this.disabledContainerColor },
+        disabledContentColor.takeOrElse { this.disabledContentColor },
+    )
+
+    /** The container color for the current [enabled] state. */
+    @Stable
+    fun containerColor(enabled: Boolean): Color = when {
         !enabled -> disabledContainerColor
         else -> containerColor
     }
-    @Composable
-    fun contentColor(enabled: Boolean) = when {
+
+    /** The content color for the current [enabled] state. */
+    @Stable
+    fun contentColor(enabled: Boolean): Color = when {
         !enabled -> disabledContentColor
         else -> contentColor
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ClickableButtonColors) return false
+        return containerColor == other.containerColor &&
+            contentColor == other.contentColor &&
+            separatorColor == other.separatorColor &&
+            disabledContainerColor == other.disabledContainerColor &&
+            disabledContentColor == other.disabledContentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = containerColor.hashCode()
+        result = 31 * result + contentColor.hashCode()
+        result = 31 * result + separatorColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + disabledContentColor.hashCode()
+        return result
     }
 }

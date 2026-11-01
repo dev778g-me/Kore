@@ -12,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -303,21 +305,64 @@ object IconButtonDefaults{
 this defines all the colors for iconButtons
  */
 @Immutable
-data class IconButtonColors(
-    val iconButtonContainerColor : Color,
-    val iconButtonContentColor : Color,
-    val outlinedBorderColor : Color? = null,
+class IconButtonColors(
+    val iconButtonContainerColor: Color,
+    val iconButtonContentColor: Color,
+    val outlinedBorderColor: Color? = null,
     val disabledOutlinedBorderColor: Color? = null,
-    val disabledIconButtonContainerColor : Color,
-    val disabledIconContentColor : Color
-)
+    val disabledIconButtonContainerColor: Color,
+    val disabledIconContentColor: Color,
+) {
 
+    /**
+     * Returns a copy of this [IconButtonColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        iconButtonContainerColor: Color = this.iconButtonContainerColor,
+        iconButtonContentColor: Color = this.iconButtonContentColor,
+        outlinedBorderColor: Color? = this.outlinedBorderColor,
+        disabledOutlinedBorderColor: Color? = this.disabledOutlinedBorderColor,
+        disabledIconButtonContainerColor: Color = this.disabledIconButtonContainerColor,
+        disabledIconContentColor: Color = this.disabledIconContentColor,
+    ) = IconButtonColors(
+        iconButtonContainerColor.takeOrElse { this.iconButtonContainerColor },
+        iconButtonContentColor.takeOrElse { this.iconButtonContentColor },
+        outlinedBorderColor,
+        disabledOutlinedBorderColor,
+        disabledIconButtonContainerColor.takeOrElse { this.disabledIconButtonContainerColor },
+        disabledIconContentColor.takeOrElse { this.disabledIconContentColor },
+    )
 
-private fun IconButtonColors.containerColor(enabled: Boolean) : Color{
-    return if (enabled) iconButtonContainerColor else disabledIconButtonContainerColor
-}
+    /** The container color for the current [enabled] state. */
+    @Stable
+    fun containerColor(enabled: Boolean): Color =
+        if (enabled) iconButtonContainerColor else disabledIconButtonContainerColor
 
-private fun IconButtonColors.contentColor(enabled: Boolean) : Color{
-    return  if (enabled) iconButtonContentColor else disabledIconContentColor
+    /** The content color for the current [enabled] state. */
+    @Stable
+    fun contentColor(enabled: Boolean): Color =
+        if (enabled) iconButtonContentColor else disabledIconContentColor
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is IconButtonColors) return false
+        return iconButtonContainerColor == other.iconButtonContainerColor &&
+            iconButtonContentColor == other.iconButtonContentColor &&
+            outlinedBorderColor == other.outlinedBorderColor &&
+            disabledOutlinedBorderColor == other.disabledOutlinedBorderColor &&
+            disabledIconButtonContainerColor == other.disabledIconButtonContainerColor &&
+            disabledIconContentColor == other.disabledIconContentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = iconButtonContainerColor.hashCode()
+        result = 31 * result + iconButtonContentColor.hashCode()
+        result = 31 * result + (outlinedBorderColor?.hashCode() ?: 0)
+        result = 31 * result + (disabledOutlinedBorderColor?.hashCode() ?: 0)
+        result = 31 * result + disabledIconButtonContainerColor.hashCode()
+        result = 31 * result + disabledIconContentColor.hashCode()
+        return result
+    }
 }
 

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.semantics
@@ -225,56 +227,90 @@ object CheckBoxDefaults{
 
 
 
-private fun CheckBoxColors.containerColor(
-    checked : Boolean,
-    enabled : Boolean
-)  : Color{
-     return if (!enabled) {
-         disabledContainerColor
-     }else {
-         if (checked) checkedContainerColor else uncheckedContainerColor
-     }
-}
-
-
-private fun CheckBoxColors.borderColor(
-    checked : Boolean,
-    enabled: Boolean
-) : Color{
-    return if (!enabled){
-        disabledBorderColor
-    } else {
-        if (checked) checkedBorderColor else uncheckedBorderColor
-    }
-}
-
-
-
-private fun CheckBoxColors.checkColor(
-    checked : Boolean,
-    enabled: Boolean
-) : Color{
-    return if (!enabled){
-        disabledCheckColor
-    } else {
-        if (checked) checkedCheckColor else uncheckedCheckColor
-    }
-
-}
-
-
 /**
  * defines all the colors for the checkBox
  */
 @Immutable
-data class CheckBoxColors(
-    val checkedContainerColor : Color,
-    val uncheckedContainerColor : Color,
-    val checkedCheckColor : Color,
-    val uncheckedCheckColor : Color,
-    val checkedBorderColor : Color,
-    val uncheckedBorderColor : Color,
-    val disabledContainerColor : Color,
-    val disabledCheckColor : Color,
-   val  disabledBorderColor : Color
-)
+class CheckBoxColors(
+    val checkedContainerColor: Color,
+    val uncheckedContainerColor: Color,
+    val checkedCheckColor: Color,
+    val uncheckedCheckColor: Color,
+    val checkedBorderColor: Color,
+    val uncheckedBorderColor: Color,
+    val disabledContainerColor: Color,
+    val disabledCheckColor: Color,
+    val disabledBorderColor: Color,
+) {
+
+    /**
+     * Returns a copy of this [CheckBoxColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        checkedContainerColor: Color = this.checkedContainerColor,
+        uncheckedContainerColor: Color = this.uncheckedContainerColor,
+        checkedCheckColor: Color = this.checkedCheckColor,
+        uncheckedCheckColor: Color = this.uncheckedCheckColor,
+        checkedBorderColor: Color = this.checkedBorderColor,
+        uncheckedBorderColor: Color = this.uncheckedBorderColor,
+        disabledContainerColor: Color = this.disabledContainerColor,
+        disabledCheckColor: Color = this.disabledCheckColor,
+        disabledBorderColor: Color = this.disabledBorderColor,
+    ) = CheckBoxColors(
+        checkedContainerColor.takeOrElse { this.checkedContainerColor },
+        uncheckedContainerColor.takeOrElse { this.uncheckedContainerColor },
+        checkedCheckColor.takeOrElse { this.checkedCheckColor },
+        uncheckedCheckColor.takeOrElse { this.uncheckedCheckColor },
+        checkedBorderColor.takeOrElse { this.checkedBorderColor },
+        uncheckedBorderColor.takeOrElse { this.uncheckedBorderColor },
+        disabledContainerColor.takeOrElse { this.disabledContainerColor },
+        disabledCheckColor.takeOrElse { this.disabledCheckColor },
+        disabledBorderColor.takeOrElse { this.disabledBorderColor },
+    )
+
+    /** The container color for the current [checked] and [enabled] state. */
+    @Stable
+    fun containerColor(checked: Boolean, enabled: Boolean): Color =
+        if (!enabled) disabledContainerColor
+        else if (checked) checkedContainerColor else uncheckedContainerColor
+
+    /** The border color for the current [checked] and [enabled] state. */
+    @Stable
+    fun borderColor(checked: Boolean, enabled: Boolean): Color =
+        if (!enabled) disabledBorderColor
+        else if (checked) checkedBorderColor else uncheckedBorderColor
+
+    /** The check color for the current [checked] and [enabled] state. */
+    @Stable
+    fun checkColor(checked: Boolean, enabled: Boolean): Color =
+        if (!enabled) disabledCheckColor
+        else if (checked) checkedCheckColor else uncheckedCheckColor
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is CheckBoxColors) return false
+        return checkedContainerColor == other.checkedContainerColor &&
+            uncheckedContainerColor == other.uncheckedContainerColor &&
+            checkedCheckColor == other.checkedCheckColor &&
+            uncheckedCheckColor == other.uncheckedCheckColor &&
+            checkedBorderColor == other.checkedBorderColor &&
+            uncheckedBorderColor == other.uncheckedBorderColor &&
+            disabledContainerColor == other.disabledContainerColor &&
+            disabledCheckColor == other.disabledCheckColor &&
+            disabledBorderColor == other.disabledBorderColor
+    }
+
+    override fun hashCode(): Int {
+        var result = checkedContainerColor.hashCode()
+        result = 31 * result + uncheckedContainerColor.hashCode()
+        result = 31 * result + checkedCheckColor.hashCode()
+        result = 31 * result + uncheckedCheckColor.hashCode()
+        result = 31 * result + checkedBorderColor.hashCode()
+        result = 31 * result + uncheckedBorderColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + disabledCheckColor.hashCode()
+        result = 31 * result + disabledBorderColor.hashCode()
+        return result
+    }
+}

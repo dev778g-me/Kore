@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -326,15 +327,56 @@ internal enum class ListTileContents{
  * defines colors for list tile
  */
 @Immutable
-data class ListTileColors(
-    val containerColor : Color,
-    val titleContentColor : Color,
-    val subTitleContentColor : Color,
-    val overlineContentColor : Color,
-    val leadingContentColor : Color,
-    val trailingContentColor : Color,
+class ListTileColors(
+    val containerColor: Color,
+    val titleContentColor: Color,
+    val subTitleContentColor: Color,
+    val overlineContentColor: Color,
+    val leadingContentColor: Color,
+    val trailingContentColor: Color,
+) {
 
-)
+    /**
+     * Returns a copy of this [ListTileColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        containerColor: Color = this.containerColor,
+        titleContentColor: Color = this.titleContentColor,
+        subTitleContentColor: Color = this.subTitleContentColor,
+        overlineContentColor: Color = this.overlineContentColor,
+        leadingContentColor: Color = this.leadingContentColor,
+        trailingContentColor: Color = this.trailingContentColor,
+    ) = ListTileColors(
+        containerColor.takeOrElse { this.containerColor },
+        titleContentColor.takeOrElse { this.titleContentColor },
+        subTitleContentColor.takeOrElse { this.subTitleContentColor },
+        overlineContentColor.takeOrElse { this.overlineContentColor },
+        leadingContentColor.takeOrElse { this.leadingContentColor },
+        trailingContentColor.takeOrElse { this.trailingContentColor },
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ListTileColors) return false
+        return containerColor == other.containerColor &&
+            titleContentColor == other.titleContentColor &&
+            subTitleContentColor == other.subTitleContentColor &&
+            overlineContentColor == other.overlineContentColor &&
+            leadingContentColor == other.leadingContentColor &&
+            trailingContentColor == other.trailingContentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = containerColor.hashCode()
+        result = 31 * result + titleContentColor.hashCode()
+        result = 31 * result + subTitleContentColor.hashCode()
+        result = 31 * result + overlineContentColor.hashCode()
+        result = 31 * result + leadingContentColor.hashCode()
+        result = 31 * result + trailingContentColor.hashCode()
+        return result
+    }
+}
 
 
 

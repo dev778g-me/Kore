@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -66,12 +67,12 @@ fun FloatingActionButton(
                 .shadow(elevation = 8.dp, shape)
                 .defaultMinSize(minHeight = FloatingActionButtonDefaults.defaultMinFabHeight, minWidth = FloatingActionButtonDefaults.defaultMinFabHeight)
                 .clip(shape = shape)
-                .background(color = containerColor, shape = shape)
                 .clickable(
                     onClick = onClick,
                     role = Role.Button,
                     interactionSource = interactionSource
                 )
+                .background(color = containerColor, shape = shape)
                 .padding(paddingValues = contentPaddingValues)
                 ,
             verticalAlignment = Alignment.CenterVertically,
@@ -190,11 +191,12 @@ object FloatingActionButtonDefaults{
     val defaultSplitFloatingActionButtonItemPaddingValues : PaddingValues = PaddingValues(horizontal = 16.dp)
 }
 
+@Immutable
 class FloatingActionButtonColors(
     val containerColor: Color,
     val contentColor: Color,
-    val disabledContainerColor : Color,
-    val disabledContentColor : Color,
+    val disabledContainerColor: Color,
+    val disabledContentColor: Color,
 ){
     fun copy(
         containerColor: Color = this.containerColor,
@@ -242,8 +244,8 @@ class FloatingActionButtonColors(
     override fun hashCode(): Int {
         var result = containerColor.hashCode()
         result = 31 * result + contentColor.hashCode()
-        result = 31* result + disabledContainerColor.hashCode()
-        result = 32* result + disabledContentColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + disabledContentColor.hashCode()
         return  result
     }
 

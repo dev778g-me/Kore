@@ -13,6 +13,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
@@ -147,10 +148,36 @@ fun CircularProgressIndicator(
 }
 
 @Immutable
-data class ProgressIndicatorColors(
-    val trackColor : Color,
-    val progressColor : Color,
-)
+class ProgressIndicatorColors(
+    val trackColor: Color,
+    val progressColor: Color,
+) {
+
+    /**
+     * Returns a copy of this [ProgressIndicatorColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        trackColor: Color = this.trackColor,
+        progressColor: Color = this.progressColor,
+    ) = ProgressIndicatorColors(
+        trackColor.takeOrElse { this.trackColor },
+        progressColor.takeOrElse { this.progressColor },
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ProgressIndicatorColors) return false
+        return trackColor == other.trackColor &&
+            progressColor == other.progressColor
+    }
+
+    override fun hashCode(): Int {
+        var result = trackColor.hashCode()
+        result = 31 * result + progressColor.hashCode()
+        return result
+    }
+}
 
 
 

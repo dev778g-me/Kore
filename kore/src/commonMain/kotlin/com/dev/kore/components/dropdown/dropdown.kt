@@ -36,6 +36,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.Role
@@ -398,41 +400,85 @@ data class DropDownAnimationSpec(
 
 
 @Immutable
-data class DropDownItemColors(
-    val containerColor : Color,
-    val contentColor : Color,
-    val leadingContentColor : Color,
-    val trailingContentColor : Color,
-    val disabledContainerColor : Color,
-    val disabledContentColor : Color,
+class DropDownItemColors(
+    val containerColor: Color,
+    val contentColor: Color,
+    val leadingContentColor: Color,
+    val trailingContentColor: Color,
+    val disabledContainerColor: Color,
+    val disabledContentColor: Color,
     val disabledLeadingContentColor: Color,
-    val disabledTrailingContentColor : Color,
-)
+    val disabledTrailingContentColor: Color,
+) {
 
+    /**
+     * Returns a copy of this [DropDownItemColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        containerColor: Color = this.containerColor,
+        contentColor: Color = this.contentColor,
+        leadingContentColor: Color = this.leadingContentColor,
+        trailingContentColor: Color = this.trailingContentColor,
+        disabledContainerColor: Color = this.disabledContainerColor,
+        disabledContentColor: Color = this.disabledContentColor,
+        disabledLeadingContentColor: Color = this.disabledLeadingContentColor,
+        disabledTrailingContentColor: Color = this.disabledTrailingContentColor,
+    ) = DropDownItemColors(
+        containerColor.takeOrElse { this.containerColor },
+        contentColor.takeOrElse { this.contentColor },
+        leadingContentColor.takeOrElse { this.leadingContentColor },
+        trailingContentColor.takeOrElse { this.trailingContentColor },
+        disabledContainerColor.takeOrElse { this.disabledContainerColor },
+        disabledContentColor.takeOrElse { this.disabledContentColor },
+        disabledLeadingContentColor.takeOrElse { this.disabledLeadingContentColor },
+        disabledTrailingContentColor.takeOrElse { this.disabledTrailingContentColor },
+    )
 
+    /** The container color for the current [enabled] state. */
+    @Stable
+    fun containerColor(enabled: Boolean): Color =
+        if (enabled) containerColor else disabledContainerColor
 
-fun DropDownItemColors.containerColor(
-    enabled: Boolean
-) : Color {
-return    if (enabled) containerColor else disabledContainerColor
-}
+    /** The content color for the current [enabled] state. */
+    @Stable
+    fun contentColor(enabled: Boolean): Color =
+        if (enabled) contentColor else disabledContentColor
 
-fun DropDownItemColors.contentColor(
-    enabled: Boolean
-) : Color {
-   return if (enabled) contentColor else disabledContentColor
-}
+    /** The leading content color for the current [enabled] state. */
+    @Stable
+    fun leadingContentColor(enabled: Boolean): Color =
+        if (enabled) leadingContentColor else disabledLeadingContentColor
 
-fun DropDownItemColors.leadingContentColor(
-    enabled: Boolean
-) : Color {
-    return if (enabled) leadingContentColor else disabledLeadingContentColor
-}
+    /** The trailing content color for the current [enabled] state. */
+    @Stable
+    fun trailingContentColor(enabled: Boolean): Color =
+        if (enabled) trailingContentColor else disabledTrailingContentColor
 
-fun DropDownItemColors.trailingContentColor(
-    enabled: Boolean
-) : Color {
-    return if (enabled) trailingContentColor else disabledTrailingContentColor
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is DropDownItemColors) return false
+        return containerColor == other.containerColor &&
+            contentColor == other.contentColor &&
+            leadingContentColor == other.leadingContentColor &&
+            trailingContentColor == other.trailingContentColor &&
+            disabledContainerColor == other.disabledContainerColor &&
+            disabledContentColor == other.disabledContentColor &&
+            disabledLeadingContentColor == other.disabledLeadingContentColor &&
+            disabledTrailingContentColor == other.disabledTrailingContentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = containerColor.hashCode()
+        result = 31 * result + contentColor.hashCode()
+        result = 31 * result + leadingContentColor.hashCode()
+        result = 31 * result + trailingContentColor.hashCode()
+        result = 31 * result + disabledContainerColor.hashCode()
+        result = 31 * result + disabledContentColor.hashCode()
+        result = 31 * result + disabledLeadingContentColor.hashCode()
+        result = 31 * result + disabledTrailingContentColor.hashCode()
+        return result
+    }
 }
 
 

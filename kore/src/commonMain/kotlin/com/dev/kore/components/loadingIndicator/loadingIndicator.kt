@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
@@ -259,7 +260,33 @@ object LoadingIndicatorDefaults{
 
 
 @Immutable
-data class LoadingIndicatorColors(
-    val  trackColor : Color,
-    val indicatorColor : Color,
-)
+class LoadingIndicatorColors(
+    val trackColor: Color,
+    val indicatorColor: Color,
+) {
+
+    /**
+     * Returns a copy of this [LoadingIndicatorColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        trackColor: Color = this.trackColor,
+        indicatorColor: Color = this.indicatorColor,
+    ) = LoadingIndicatorColors(
+        trackColor.takeOrElse { this.trackColor },
+        indicatorColor.takeOrElse { this.indicatorColor },
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is LoadingIndicatorColors) return false
+        return trackColor == other.trackColor &&
+            indicatorColor == other.indicatorColor
+    }
+
+    override fun hashCode(): Int {
+        var result = trackColor.hashCode()
+        result = 31 * result + indicatorColor.hashCode()
+        return result
+    }
+}

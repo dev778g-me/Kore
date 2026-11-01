@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
@@ -187,7 +188,33 @@ object CardDefaults {
  * CardColors defines the colors of the Card
  */
 @Immutable
-data class CardColors(
+class CardColors(
     val containerColor: Color,
-    val contentColor: Color
-)
+    val contentColor: Color,
+) {
+
+    /**
+     * Returns a copy of this [CardColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        containerColor: Color = this.containerColor,
+        contentColor: Color = this.contentColor,
+    ) = CardColors(
+        containerColor.takeOrElse { this.containerColor },
+        contentColor.takeOrElse { this.contentColor },
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is CardColors) return false
+        return containerColor == other.containerColor &&
+            contentColor == other.contentColor
+    }
+
+    override fun hashCode(): Int {
+        var result = containerColor.hashCode()
+        result = 31 * result + contentColor.hashCode()
+        return result
+    }
+}

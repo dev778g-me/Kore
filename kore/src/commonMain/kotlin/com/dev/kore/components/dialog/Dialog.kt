@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
@@ -201,12 +202,46 @@ object DialogDefaults{
 
 
 @Immutable
-data class DialogColors(
-    val containerColor : Color,
-    val titleTextColor : Color,
-    val descriptionTextColor : Color,
-    val borderColor : Color
-)
+class DialogColors(
+    val containerColor: Color,
+    val titleTextColor: Color,
+    val descriptionTextColor: Color,
+    val borderColor: Color,
+) {
+
+    /**
+     * Returns a copy of this [DialogColors] with the given values overridden.
+     * Passing [Color.Unspecified] keeps the current value.
+     */
+    fun copy(
+        containerColor: Color = this.containerColor,
+        titleTextColor: Color = this.titleTextColor,
+        descriptionTextColor: Color = this.descriptionTextColor,
+        borderColor: Color = this.borderColor,
+    ) = DialogColors(
+        containerColor.takeOrElse { this.containerColor },
+        titleTextColor.takeOrElse { this.titleTextColor },
+        descriptionTextColor.takeOrElse { this.descriptionTextColor },
+        borderColor.takeOrElse { this.borderColor },
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is DialogColors) return false
+        return containerColor == other.containerColor &&
+            titleTextColor == other.titleTextColor &&
+            descriptionTextColor == other.descriptionTextColor &&
+            borderColor == other.borderColor
+    }
+
+    override fun hashCode(): Int {
+        var result = containerColor.hashCode()
+        result = 31 * result + titleTextColor.hashCode()
+        result = 31 * result + descriptionTextColor.hashCode()
+        result = 31 * result + borderColor.hashCode()
+        return result
+    }
+}
 
 @Immutable
 data class DialogSpacing(
