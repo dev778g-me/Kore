@@ -1,0 +1,15 @@
+---
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
+
+const logo = readFileSync(join(process.cwd(), 'public', 'full_icon.svg'), 'utf8')
+    .replace(/#16161a/gi, 'currentColor')
+    .replace('<svg ', '<svg class="site-logo" aria-hidden="true" focusable="false" ');
+---
+
+<a href={siteTitleHref} class="site-title sl-flex">
+    <Fragment set:html={logo} />
+    <span class="sr-only" translate="no">{siteTitle}</span>
+</a>

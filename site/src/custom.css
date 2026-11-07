@@ -134,6 +134,16 @@
     border-radius: 0.75rem;
 }
 
+.site-title {
+    color: var(--sl-color-text);
+}
+
+.site-logo {
+    display: block;
+    height: 1.45rem;
+    width: auto;
+}
+
 @media (min-width: 50rem) {
     .header button[data-open-modal] {
         margin-inline-start: auto;

@@ -36,6 +36,7 @@ export default defineConfig({
         },
       ],
       components: {
+        SiteTitle: './src/components/SiteTitle.astro',
         Sidebar: './src/components/DocsSidebar.astro',
         ThemeSelect: './src/components/ThemeToggle.astro',
         SocialIcons: './src/components/SocialIcons.astro',
