@@ -38,7 +38,6 @@ main:has(.kh) .sl-container:has(> h1#_top) {
   font-family: var(--sl-font);
   color: var(--kore-on-background);
   letter-spacing: -0.035em;
-  font-variation-settings: 'wdth' 100, 'ROND' 100;
 }
 
 .kh > section {
@@ -91,22 +90,27 @@ main:has(.kh) .sl-container:has(> h1#_top) {
   animation-delay: 0.24s;
 }
 .kh-hero h2 .kh-line > span {
-  font-variation-settings: 'wdth' 100, 'ROND' 100;
-  transition: font-variation-settings 0.7s var(--ease);
+  font-weight: 700;
+  transition: font-weight 0.7s var(--ease);
 }
 @media (hover: hover) {
   .kh-hero h2 .kh-line > span:hover {
-    font-variation-settings: 'wdth' 120, 'ROND' 0;
+    font-weight: 900;
+  }
+}
+@media (hover: none) {
+  .kh-hero h2 .kh-line > span:hover {
+    font-weight: 900;
   }
 }
 @keyframes kh-weight {
   from {
-    font-weight: 450;
+    font-weight: 400;
   }
 }
 @keyframes kh-word {
   from {
-    font-variation-settings: 'wdth' 65, 'ROND' 0;
+    font-weight: 300;
     opacity: 0;
   }
 }
@@ -470,18 +474,18 @@ main:has(.kh) .sl-container:has(> h1#_top) {
   white-space: nowrap;
 }
 .kh-end h3 .kh-line > span {
-  font-variation-settings: 'wdth' 100, 'ROND' 100;
-  transition: font-variation-settings 0.7s var(--ease);
+  font-weight: 700;
+  transition: font-weight 0.7s var(--ease);
 }
 @media (hover: hover) {
   .kh-end h3 .kh-line > span:hover {
-    font-variation-settings: 'wdth' 120, 'ROND' 0;
+    font-weight: 900;
   }
 }
 @media (hover: none) {
   .kh-hero h2 .kh-line > span:hover,
   .kh-end h3 .kh-line > span:hover {
-    font-variation-settings: 'wdth' 120, 'ROND' 0;
+    font-weight: 900;
   }
 }
 .kh-end .kh-actions {

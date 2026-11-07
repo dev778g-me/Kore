@@ -18,7 +18,7 @@ export default defineConfig({
           tag: 'link',
           attrs: {
             rel: 'preload',
-            href: '/fonts/google-sans-flex-latin.woff2',
+            href: '/fonts/outfit-latin.woff2',
             as: 'font',
             type: 'font/woff2',
             crossorigin: 'anonymous',
@@ -28,7 +28,7 @@ export default defineConfig({
           tag: 'link',
           attrs: {
             rel: 'preload',
-            href: '/fonts/google-sans-flex-latin-ext.woff2',
+            href: '/fonts/outfit-latin-ext.woff2',
             as: 'font',
             type: 'font/woff2',
             crossorigin: 'anonymous',
