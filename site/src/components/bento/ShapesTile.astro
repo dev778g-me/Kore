@@ -1,0 +1,507 @@
+<article
+    class="kh-tile kh-tile--shapes"
+    data-tile
+    data-shape
+    data-mode="squircle"
+>
+    <div class="ks-head">
+        <span class="kh-eyebrow">Shape</span>
+        <div class="ks-switch" role="radiogroup" aria-label="Corner style">
+            <label class="ks-switch-opt">
+                <input type="radio" name="smode" value="rounded" />
+                <span>Rounded</span>
+            </label>
+            <label class="ks-switch-opt">
+                <input type="radio" name="smode" value="squircle" checked />
+                <span>Squircle</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="ks-grid">
+        <div class="ks-stage">
+            <svg
+                id="sg"
+                viewBox="0 0 400 400"
+                role="img"
+                aria-label="Corner shape plotted on a unit square"
+            ></svg>
+        </div>
+
+        <div class="ks-side">
+            <div
+                class="ks-tokens"
+                id="stokens"
+                role="group"
+                aria-label="Shape token"
+            ></div>
+        </div>
+    </div>
+</article>
+
+<style is:global>
+    .kh-tile--shapes {
+        --ks-tint: color-mix(in srgb, var(--kore-primary) 14%, transparent);
+        display: grid;
+        gap: 0.85rem;
+        align-content: start;
+        container-type: inline-size;
+    }
+
+    .ks-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .ks-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 13rem;
+        gap: 1rem;
+        align-items: start;
+    }
+
+    /* Plot */
+    .ks-stage {
+        position: relative;
+        border-radius: 1.1rem;
+        border: 1px solid var(--sl-color-hairline);
+        background: var(--kore-surface);
+        padding: 0.9rem;
+        overflow: hidden;
+    }
+
+    #sg {
+        display: block;
+        width: 100%;
+        max-width: 30rem;
+        height: auto;
+        margin-inline: auto;
+        overflow: visible;
+    }
+
+    #sg .grid {
+        stroke: var(--kore-on-background-variant);
+        stroke-opacity: 0.16;
+        stroke-width: 1;
+    }
+    #sg .frame {
+        stroke: var(--kore-on-background-variant);
+        stroke-opacity: 0.3;
+        stroke-width: 1;
+        fill: var(--kore-surface);
+        fill-opacity: 0.7;
+    }
+    #sg .axis {
+        stroke: var(--kore-on-background-variant);
+        stroke-opacity: 0.6;
+        stroke-width: 1;
+    }
+    #sg .tick {
+        stroke: var(--kore-on-background-variant);
+        stroke-opacity: 0.6;
+        stroke-width: 1;
+    }
+    #sg text {
+        font-family: var(--sl-font);
+        font-size: 10px;
+        fill: var(--kore-on-background-variant);
+        fill-opacity: 0.8;
+    }
+    #sg .mark {
+        fill: var(--kore-surface-bright);
+        stroke: var(--kore-primary);
+        stroke-width: 2;
+        vector-effect: non-scaling-stroke;
+    }
+
+    #sg .shape {
+        fill: none;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+        transition:
+            stroke 0.25s,
+            fill 0.25s,
+            stroke-width 0.25s,
+            stroke-opacity 0.25s;
+    }
+
+    #sg .shape.is-ghost {
+        stroke: var(--kore-on-background-variant);
+        stroke-opacity: 0.7;
+        stroke-width: 2;
+        stroke-dasharray: 5 5;
+    }
+
+    #sg .shape.is-active {
+        stroke: var(--kore-primary);
+        stroke-width: 3.5;
+        fill: var(--ks-tint);
+    }
+
+    /* Switch */
+    .ks-side {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .ks-switch {
+        display: inline-flex;
+        gap: 0.15rem;
+        padding: 0.2rem;
+        background: var(--kore-surface);
+        border-radius: 999px;
+    }
+
+    .ks-switch-opt {
+        position: relative;
+        padding: 0.28rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.74rem;
+        font-weight: 500;
+        color: var(--kore-on-background-variant);
+        cursor: pointer;
+        transition:
+            background 0.2s,
+            color 0.2s;
+    }
+
+    .ks-switch-opt:hover {
+        color: var(--kore-on-background);
+    }
+    .ks-switch-opt:has(input:checked) {
+        background: var(--kore-surface-bright);
+        color: var(--kore-on-background);
+        font-weight: 600;
+    }
+    .ks-switch-opt:has(input:focus-visible) {
+        outline: 2px solid var(--kore-primary);
+        outline-offset: 2px;
+    }
+    .ks-switch-opt input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        margin: 0;
+    }
+
+    /* Tokens: each card wears its own corner radius */
+    .ks-tokens {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    .ks-tokens button {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-height: 3.6rem;
+        padding: 0.6rem 0.85rem;
+        border: 1px solid var(--sl-color-hairline);
+        border-radius: var(--r);
+        background: var(--kore-surface);
+        color: var(--kore-on-background);
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition:
+            background 0.2s,
+            border-color 0.2s,
+            box-shadow 0.2s,
+            border-radius 0.25s;
+    }
+
+    @supports (corner-shape: squircle) {
+        [data-shape][data-mode="squircle"] .ks-tokens button {
+            corner-shape: squircle;
+        }
+    }
+
+    .ks-tokens button:hover {
+        background: var(--kore-surface-bright);
+    }
+    .ks-tokens button:focus-visible {
+        outline: 2px solid var(--kore-primary);
+        outline-offset: 2px;
+    }
+
+    .ks-tokens button[aria-pressed="true"] {
+        background: var(--kore-surface-bright);
+        border-color: var(--kore-primary);
+        box-shadow: 0 0 0 1px var(--kore-primary);
+    }
+
+    .ks-tokens .t-name {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .ks-tokens small {
+        display: block;
+        margin-top: 0.05rem;
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: var(--kore-on-background-variant);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .t-glyph {
+        flex: none;
+        width: 1.75rem;
+        height: 1.75rem;
+        fill: none;
+        stroke: var(--kore-on-background-variant);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        overflow: visible;
+    }
+
+    .ks-tokens button[aria-pressed="true"] .t-glyph {
+        stroke: var(--kore-primary);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        #sg .shape,
+        .ks-tokens button,
+        .ks-switch-opt {
+            transition: none;
+        }
+    }
+
+    @container (max-width: 40rem) {
+        .ks-grid {
+            grid-template-columns: minmax(0, 1fr);
+        }
+        .ks-tokens {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .ks-tokens button:last-child {
+            grid-column: span 2;
+        }
+    }
+</style>
+
+<script>
+    (() => {
+        const tile = document.querySelector("[data-shape]");
+        if (!tile) return;
+
+        const $ = (s) => tile.querySelector(s);
+        const reduce = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        const sg = $("#sg"),
+            stokens = $("#stokens");
+
+        // Shape tokens in dp. The plot represents a square with a half-extent of HALF dp.
+        const HALF = 34;
+        const TOKENS = { xs: 8, sm: 12, md: 16, lg: 24, xl: 34 };
+
+        const N_ROUNDED = 2; // circular corner
+        const N_SQUIRCLE = 4; // superellipse exponent
+        const SMOOTH = 1.3; // squircle corner reaches further along each edge
+
+        // Plot geometry: unit square -> 300px, centred in a 400 viewBox.
+        const C = 200,
+            U = 150;
+        const X = (x) => C + U * x;
+        const Y = (y) => C - U * y;
+
+        let mode = "squircle";
+        let token = "md";
+        const norm = (k) => TOKENS[k] / HALF;
+        let rCur = norm(token),
+            rFrom = rCur,
+            rTo = rCur,
+            t0 = 0,
+            raf = 0;
+
+        // Closed outline of a rounded square (half-extent 1). Every corner is the arc
+        // |x/rho|^n + |y/rho|^n = 1 inside a rho x rho box: n = 2 is a circle, n = 4 a squircle.
+        function outline(n, rho, steps = 28) {
+            const p = 2 / n;
+            const pts = [];
+            const corners = [
+                (c, s) => [1 - rho + rho * c, 1 - rho + rho * s], // top right
+                (c, s) => [-(1 - rho) - rho * s, 1 - rho + rho * c], // top left
+                (c, s) => [-(1 - rho) - rho * c, -(1 - rho) - rho * s], // bottom left
+                (c, s) => [1 - rho + rho * s, -(1 - rho) - rho * c], // bottom right
+            ];
+            for (const f of corners) {
+                for (let i = 0; i <= steps; i++) {
+                    const phi = (i / steps) * (Math.PI / 2);
+                    const c = Math.pow(Math.cos(phi), p);
+                    const s = Math.pow(Math.sin(phi), p);
+                    const [x, y] = f(c, s);
+                    pts.push(`${X(x).toFixed(2)} ${Y(y).toFixed(2)}`);
+                }
+            }
+            return "M" + pts.join("L") + "Z";
+        }
+
+        // Static plot furniture
+        let furniture = `<rect class="frame" x="${X(-1)}" y="${Y(1)}" width="${2 * U}" height="${2 * U}"/>`;
+        for (const v of [-0.5, 0.5]) {
+            furniture += `<line class="grid" x1="${X(v)}" y1="${Y(1)}" x2="${X(v)}" y2="${Y(-1)}"/>`;
+            furniture += `<line class="grid" x1="${X(-1)}" y1="${Y(v)}" x2="${X(1)}" y2="${Y(v)}"/>`;
+        }
+        furniture += `<line class="axis" x1="${X(-1)}" y1="${Y(0)}" x2="${X(1)}" y2="${Y(0)}"/>`;
+        furniture += `<line class="axis" x1="${X(0)}" y1="${Y(1)}" x2="${X(0)}" y2="${Y(-1)}"/>`;
+        for (let i = -10; i <= 10; i++) {
+            const v = i / 10,
+                len = i % 5 === 0 ? 6 : 3;
+            furniture += `<line class="tick" x1="${X(v)}" y1="${Y(0) - len}" x2="${X(v)}" y2="${Y(0) + len}"/>`;
+            furniture += `<line class="tick" x1="${X(0) - len}" y1="${Y(v)}" x2="${X(0) + len}" y2="${Y(v)}"/>`;
+        }
+        for (const v of [-1, -0.5, 0.5, 1]) {
+            furniture += `<text x="${X(v)}" y="${Y(-1) + 18}" text-anchor="middle">${v}</text>`;
+            furniture += `<text x="${X(-1) - 8}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`;
+        }
+        furniture += `<text x="${X(1) + 8}" y="${Y(0) - 8}">x</text><text x="${X(0) + 8}" y="${Y(1) - 8}">y</text>`;
+
+        let marks = "";
+        for (let i = 0; i < 8; i++) marks += `<circle class="mark" r="4.5"/>`;
+        sg.innerHTML =
+            furniture +
+            `<path class="shape" id="p-rounded"/><path class="shape" id="p-squircle"/><g id="marks">${marks}</g>`;
+        const markEls = [...sg.querySelectorAll(".mark")];
+        const pRounded = $("#p-rounded"),
+            pSquircle = $("#p-squircle");
+
+        function draw() {
+            pRounded.setAttribute("d", outline(N_ROUNDED, Math.min(1, rCur)));
+            pSquircle.setAttribute(
+                "d",
+                outline(N_SQUIRCLE, Math.min(1, rCur * SMOOTH)),
+            );
+
+            // Hollow markers where each straight edge hands over to the corner curve.
+            const rho =
+                mode === "rounded"
+                    ? Math.min(1, rCur)
+                    : Math.min(1, rCur * SMOOTH);
+            const e = 1 - rho;
+            const spots = [
+                [e, 1],
+                [-e, 1],
+                [-1, e],
+                [-1, -e],
+                [-e, -1],
+                [e, -1],
+                [1, -e],
+                [1, e],
+            ];
+            spots.forEach(([x, y], i) => {
+                markEls[i].setAttribute("cx", X(x).toFixed(2));
+                markEls[i].setAttribute("cy", Y(y).toFixed(2));
+            });
+        }
+
+        function styleShapes() {
+            const roundedActive = mode === "rounded";
+            pRounded.setAttribute(
+                "class",
+                "shape " + (roundedActive ? "is-active" : "is-ghost"),
+            );
+            pSquircle.setAttribute(
+                "class",
+                "shape " + (roundedActive ? "is-ghost" : "is-active"),
+            );
+            // Active shape paints on top, the other one sits underneath as a guide.
+            if (roundedActive) sg.insertBefore(pSquircle, pRounded);
+            else sg.insertBefore(pRounded, pSquircle);
+            tile.dataset.mode = mode;
+            renderGlyphs();
+            draw();
+        }
+
+        // Small corner icon for each token, drawn with the active corner style.
+        function glyphPath(k) {
+            const S = 22,
+                o = 3;
+            const squircle = mode === "squircle";
+            const rho = Math.min(S, norm(k) * S * (squircle ? SMOOTH : 1));
+            const p = 2 / (squircle ? N_SQUIRCLE : N_ROUNDED);
+            let d = `M${o} ${o + S}L${o} ${o + rho}`;
+            for (let i = 1; i <= 16; i++) {
+                const phi = (i / 16) * (Math.PI / 2);
+                d += `L${(o + rho - rho * Math.pow(Math.cos(phi), p)).toFixed(2)} ${(o + rho - rho * Math.pow(Math.sin(phi), p)).toFixed(2)}`;
+            }
+            return d + `L${o + S} ${o}`;
+        }
+
+        function renderGlyphs() {
+            stokens
+                .querySelectorAll("button")
+                .forEach((b) =>
+                    b
+                        .querySelector(".t-glyph path")
+                        .setAttribute("d", glyphPath(b.dataset.token)),
+                );
+        }
+
+        function renderTokens() {
+            stokens.innerHTML = "";
+            Object.keys(TOKENS).forEach((k) => {
+                const b = document.createElement("button");
+                b.type = "button";
+                b.dataset.token = k;
+                b.style.setProperty("--r", TOKENS[k] + "px");
+                b.setAttribute("aria-pressed", String(k === token));
+                b.innerHTML = `<svg class="t-glyph" viewBox="0 0 28 28" aria-hidden="true"><path/></svg><span><span class="t-name">${k}</span><small>${TOKENS[k]} dp</small></span>`;
+                b.addEventListener("click", () => selectToken(k));
+                stokens.appendChild(b);
+            });
+        }
+
+        // Ease the corner toward the new token (same curve as the Motion tile's "smooth" tier).
+        const ease = (t) => 1 - Math.pow(1 - t, 4);
+        function step(now) {
+            const t = Math.min((now - t0) / 260, 1);
+            rCur = rFrom + (rTo - rFrom) * ease(t);
+            draw();
+            raf = t < 1 ? requestAnimationFrame(step) : 0;
+        }
+
+        function selectToken(k) {
+            token = k;
+            stokens
+                .querySelectorAll("button")
+                .forEach((b) =>
+                    b.setAttribute(
+                        "aria-pressed",
+                        String(b.dataset.token === k),
+                    ),
+                );
+            rFrom = rCur;
+            rTo = norm(k);
+            cancelAnimationFrame(raf);
+            if (reduce) {
+                rCur = rTo;
+                draw();
+                return;
+            }
+            t0 = performance.now();
+            raf = requestAnimationFrame(step);
+        }
+
+        tile.querySelectorAll('input[name="smode"]').forEach((input) => {
+            input.checked = input.value === mode;
+            input.addEventListener("change", () => {
+                if (input.checked) {
+                    mode = input.value;
+                    styleShapes();
+                }
+            });
+        });
+
+        renderTokens();
+        styleShapes();
+    })();
+</script>

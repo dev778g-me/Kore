@@ -1,0 +1,127 @@
+---
+const scale = [
+  { name: 'Display', size: 57, weight: 400 },
+  { name: 'Heading', size: 32, weight: 400 },
+  { name: 'Title', size: 22, weight: 400 },
+  { name: 'Body', size: 16, weight: 400 },
+  { name: 'Label', size: 11, weight: 500 },
+];
+
+const initial = scale[0];
+const initialGlyphSize = initial.size * 2.6;
+---
+
+<article class="kh-tile kh-tile--type" data-tile data-type>
+  <div class="kh-tile-top">
+    <span class="kh-eyebrow">Typography</span>
+  </div>
+  <div class="kh-glyph" data-glyph style={`--glyph-size:${initialGlyphSize}px;font-weight:${initial.weight}`}>Aa</div>
+  <div class="kh-scale" role="group" aria-label="Type scale">
+    {scale.map((item, i) => (
+      <button type="button" data-size={item.size} data-weight={item.weight} aria-pressed={i === 0 ? 'true' : 'false'}>
+        <span>{item.name}</span><b>{item.size}</b>
+      </button>
+    ))}
+  </div>
+</article>
+
+<style is:global>
+  .kh-glyph {
+    --glyph-max: 190px;
+    display: flex;
+    align-items: flex-end;
+    height: calc(var(--glyph-max) * 0.85);
+    font-size: var(--glyph-max);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--kore-primary);
+    transform-origin: left bottom;
+    transform: scale(0.78);
+    will-change: transform;
+    transition: transform 0.45s var(--ease), font-weight 0.45s var(--ease);
+  }
+
+  @media (max-width: 619.98px) {
+    .kh-glyph {
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 619.98px) {
+    .kh-glyph {
+      --glyph-max: 110px;
+    }
+  }
+
+  .kh-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: auto;
+  }
+
+  .kh-scale button {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.35rem 0.6rem;
+    border: 0;
+    border-radius: 0.4rem;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--kore-on-background-variant);
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+  }
+
+  .kh-scale button:hover,
+  .kh-scale button[aria-pressed='true'] {
+    background: var(--kore-surface);
+    color: var(--kore-on-background);
+  }
+
+  .kh-scale button:active {
+    transform: scale(0.98);
+  }
+
+  .kh-scale b {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+
+<script>
+  const tile = document.querySelector('[data-type]');
+
+  if (tile) {
+    const glyph = tile.querySelector('[data-glyph]');
+    const typeButtons = tile.querySelectorAll('.kh-scale [data-size]');
+
+    function setType(button) {
+      const size = Number(button.dataset.size);
+      const weight = Number(button.dataset.weight);
+      const max = window.innerWidth < 620 ? 110 : 190;
+      const glyphSize = Math.min(size * 2.6, max);
+      glyph.style.transform = `scale(${glyphSize / max})`;
+      glyph.style.fontWeight = weight;
+    }
+
+    typeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        typeButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        setType(button);
+      });
+    });
+
+    const initialType = tile.querySelector('.kh-scale [data-size][aria-pressed="true"]') || typeButtons[0];
+    if (initialType) setType(initialType);
+
+    window.addEventListener('resize', () => {
+      const selected = tile.querySelector('.kh-scale [data-size][aria-pressed="true"]');
+      if (selected) setType(selected);
+    });
+  }
+</script>

@@ -1,0 +1,777 @@
+<article class="kh-tile kh-tile--motion" data-tile data-motion>
+    <div class="kh-motion-head">
+        <span class="kh-eyebrow">Motion</span>
+        <div
+            class="kh-motion-configs"
+            role="radiogroup"
+            aria-label="Motion preset"
+        >
+            <label class="kh-motion-config-option">
+                <input type="radio" name="mconfig" value="balanced" checked />
+                <span>Balanced</span>
+            </label>
+            <label class="kh-motion-config-option">
+                <input type="radio" name="mconfig" value="lively" />
+                <span>Lively</span>
+            </label>
+            <label class="kh-motion-config-option">
+                <input type="radio" name="mconfig" value="reduced" />
+                <span>Reduced</span>
+            </label>
+            <label class="kh-motion-config-option">
+                <input type="radio" name="mconfig" value="still" />
+                <span>Still</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="kh-motion-stage">
+        <div class="kh-motion-read" aria-live="polite">
+            <span class="kh-motion-tag" id="mtag"></span>
+            <span class="kh-motion-big" id="mdur"></span>
+            <span class="kh-motion-sub" id="mez"></span>
+        </div>
+        <button
+            type="button"
+            class="kh-motion-copy"
+            id="mcopy"
+            aria-label="Copy motion value"
+        >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="2" />
+                <path d="M10.5 5.5V4a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4v5A1.5 1.5 0 0 0 4 10.5h1.5" />
+            </svg>
+            <span id="mcopy-label">Copy</span>
+        </button>
+        <div
+            class="kh-motion-graph"
+            id="graph"
+            title="Click to replay"
+            role="button"
+            tabindex="0"
+            aria-label="Replay motion animation"
+        >
+            <svg
+                id="mg"
+                viewBox="0 0 320 150"
+                role="img"
+                aria-label="Easing curve: progress over time"
+            ></svg>
+        </div>
+    </div>
+
+    <div
+        class="kh-motion-tiers"
+        id="tiers"
+        role="group"
+        aria-label="Motion tier"
+    ></div>
+</article>
+
+<style is:global>
+    .kh-tile--motion {
+        --mt-tint: color-mix(in srgb, var(--kore-primary) 14%, transparent);
+        --mt-tint-2: color-mix(in srgb, var(--kore-primary) 28%, transparent);
+        display: grid;
+        gap: 0.85rem;
+        align-content: start;
+    }
+
+    .kh-motion-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    /* Presets: compact segmented control in the header */
+    .kh-motion-configs {
+        display: inline-flex;
+        gap: 0.15rem;
+        padding: 0.2rem;
+        background: var(--kore-surface);
+        border-radius: 999px;
+    }
+
+    .kh-motion-config-option {
+        position: relative;
+        padding: 0.28rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.74rem;
+        font-weight: 500;
+        color: var(--kore-on-background-variant);
+        cursor: pointer;
+        transition:
+            background 0.2s,
+            color 0.2s;
+    }
+
+    .kh-motion-config-option:hover {
+        color: var(--kore-on-background);
+    }
+
+    .kh-motion-config-option:has(input:checked) {
+        background: var(--kore-surface-bright);
+        color: var(--kore-on-background);
+        font-weight: 600;
+    }
+
+    .kh-motion-config-option:has(input:focus-visible) {
+        outline: 2px solid var(--kore-primary);
+        outline-offset: 2px;
+    }
+
+    .kh-motion-config-option input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        margin: 0;
+    }
+
+    /* Stage */
+    .kh-motion-stage {
+        position: relative;
+        border-radius: 1.1rem;
+        border: 1px solid var(--sl-color-hairline);
+        background: var(--kore-surface);
+        overflow: hidden;
+    }
+
+    .kh-motion-read {
+        position: absolute;
+        z-index: 1;
+        top: 1rem;
+        left: 1.2rem;
+        display: grid;
+        gap: 0.2rem;
+        max-width: 52%;
+        pointer-events: none;
+    }
+
+    .kh-motion-tag {
+        justify-self: start;
+        padding: 0.12rem 0.5rem;
+        border-radius: 999px;
+        background: var(--mt-tint);
+        color: var(--kore-primary);
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+
+    .kh-motion-big {
+        font-size: clamp(2rem, 5vw, 2.9rem);
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.035em;
+        font-variant-numeric: tabular-nums;
+        color: var(--kore-on-background);
+    }
+
+    .kh-motion-big small {
+        margin-left: 0.25rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0;
+        color: var(--kore-on-background-variant);
+    }
+
+    .kh-motion-sub {
+        font-size: 0.72rem;
+        line-height: 1.4;
+        color: var(--kore-on-background-variant);
+        overflow-wrap: anywhere;
+    }
+
+    .kh-motion-copy {
+        position: absolute;
+        z-index: 2;
+        top: 0.8rem;
+        right: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.3rem 0.6rem;
+        border: 1px solid var(--sl-color-hairline);
+        border-radius: 999px;
+        background: var(--kore-surface-bright);
+        color: var(--kore-on-background-variant);
+        font: inherit;
+        font-size: 0.7rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition:
+            color 0.2s,
+            border-color 0.2s;
+    }
+
+    .kh-motion-copy:hover {
+        color: var(--kore-on-background);
+        border-color: var(--kore-primary);
+    }
+    .kh-motion-copy:focus-visible {
+        outline: 2px solid var(--kore-primary);
+        outline-offset: 2px;
+    }
+
+    .kh-motion-copy svg {
+        width: 0.8rem;
+        height: 0.8rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .kh-motion-graph {
+        display: grid;
+        place-items: end center;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 15rem;
+        padding: 5rem 0.8rem 0.3rem;
+        padding-top: 8rem;
+        cursor: pointer;
+    }
+
+    .kh-motion-graph:focus-visible {
+        outline: 2px solid var(--kore-primary);
+        outline-offset: -4px;
+        border-radius: 1.1rem;
+    }
+
+    .kh-motion-graph svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    .kh-motion-axis {
+        stroke: var(--sl-color-hairline);
+        stroke-width: 1.5;
+    }
+
+    .kh-motion-graph path {
+        fill: none;
+        stroke: var(--kore-on-background-variant);
+        opacity: 0.22;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+    }
+
+    .kh-motion-graph path.g-a {
+        fill: none;
+        stroke: none;
+        opacity: 0;
+    }
+
+    .kh-motion-graph path.g-d {
+        stroke: var(--kore-primary);
+        opacity: 1;
+        stroke-width: 4;
+    }
+
+    .kh-motion-graph .g-t {
+        font-family: var(--sl-font);
+        font-weight: 500;
+        font-size: var(--g-font, 10px);
+        fill: var(--kore-on-background-variant);
+    }
+
+    .kh-motion-graph .g-tg {
+        stroke: var(--kore-on-background-variant);
+        stroke-width: 1;
+        stroke-dasharray: 2 4;
+        opacity: 0.3;
+        vector-effect: non-scaling-stroke;
+    }
+
+    .kh-motion-halo {
+        fill: var(--mt-tint-2);
+    }
+
+    .kh-motion-dot {
+        fill: var(--kore-primary);
+        stroke: var(--kore-surface-bright);
+        stroke-width: 2;
+        vector-effect: non-scaling-stroke;
+    }
+
+    /* Tiers: four cards that all play at once */
+    .kh-motion-tiers {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+
+    .kh-motion-tiers button {
+        display: grid;
+        gap: 0.55rem;
+        padding: 0.7rem 0.75rem 0.8rem;
+        border-radius: 0.9rem;
+        background: var(--kore-surface);
+        border: 1px solid var(--sl-color-hairline);
+        text-align: left;
+        font: inherit;
+        color: var(--kore-on-background);
+        cursor: pointer;
+        transition:
+            background 0.2s,
+            border-color 0.2s,
+            box-shadow 0.2s;
+    }
+
+    .kh-motion-tiers button:hover {
+        background: var(--kore-surface-bright);
+    }
+    .kh-motion-tiers button:focus-visible {
+        outline: 2px solid var(--kore-primary);
+        outline-offset: 2px;
+    }
+
+    .kh-motion-tiers button[aria-pressed="true"] {
+        background: var(--kore-surface-bright);
+        border-color: var(--kore-primary);
+        box-shadow: 0 0 0 1px var(--kore-primary);
+    }
+
+    .kh-motion-tiers .t-name {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+
+    .kh-motion-tiers small {
+        display: block;
+        margin-top: 0.05rem;
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: var(--kore-on-background-variant);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .t-track {
+        --p: 0;
+        position: relative;
+        height: 0.9rem;
+        border-radius: 999px;
+        background: color-mix(
+            in srgb,
+            var(--kore-on-background-variant) 14%,
+            transparent
+        );
+    }
+
+    .t-dot {
+        position: absolute;
+        top: 0;
+        left: calc(var(--p) * (100% - 0.9rem));
+        width: 0.9rem;
+        height: 0.9rem;
+        border-radius: 50%;
+        background: var(--kore-on-background-variant);
+        will-change: left;
+    }
+
+    .kh-motion-tiers button[aria-pressed="true"] .t-dot {
+        background: var(--kore-primary);
+        box-shadow: 0 0 0 3px var(--mt-tint);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .kh-motion-tiers button,
+        .kh-motion-config-option,
+        .kh-motion-copy {
+            transition: none;
+        }
+    }
+
+    @media (max-width: 42rem) {
+        .kh-motion-tiers {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .kh-motion-graph {
+            min-height: 13rem;
+            padding-top: 5.2rem;
+        }
+    }
+</style>
+
+<script>
+    (() => {
+        const tile = document.querySelector("[data-motion]");
+        if (!tile) return;
+
+        const $ = (sel) => tile.querySelector(sel);
+        const reduce = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+        const HOLD_MS = 900;
+
+        const graph = $("#graph"),
+            mg = $("#mg"),
+            tiers = $("#tiers");
+        const mdur = $("#mdur"),
+            mez = $("#mez"),
+            mtag = $("#mtag");
+        const copyBtn = $("#mcopy"),
+            copyLabel = $("#mcopy-label");
+
+        const PLOT = {
+            left: 20,
+            right: 300,
+            top: 14,
+            bottom: 124,
+            width: 280,
+            height: 88,
+            center: 160,
+        };
+        const ONE_Y = PLOT.bottom - PLOT.height;
+        const STRONG = [0.23, 1, 0.32, 1];
+        const SOFT = [0.22, 1, 0.36, 1];
+        const TIERS = ["snappy", "smooth", "calm", "fluid"];
+
+        function cubicBezier(a, b, c, d) {
+            return (t) => {
+                if (t <= 0) return 0;
+                if (t >= 1) return 1;
+                let lo = 0,
+                    hi = 1,
+                    mid = t;
+                for (let i = 0; i < 20; i++) {
+                    mid = (lo + hi) / 2;
+                    const x =
+                        3 * a * mid * (1 - mid) * (1 - mid) +
+                        3 * c * mid * mid * (1 - mid) +
+                        mid * mid * mid;
+                    if (x < t) lo = mid;
+                    else hi = mid;
+                }
+                return (
+                    3 * b * mid * (1 - mid) * (1 - mid) +
+                    3 * d * mid * mid * (1 - mid) +
+                    mid * mid * mid
+                );
+            };
+        }
+
+        function springSolver(damping, stiffness, windowMs) {
+            const w = Math.sqrt(stiffness);
+            return (t) => {
+                if (t <= 0) return 0;
+                if (t >= 1) return 1;
+                const time = (t * windowMs) / 1000;
+                if (Math.abs(damping - 1) < 1e-4)
+                    return 1 - Math.exp(-w * time) * (1 + w * time);
+                if (damping < 1) {
+                    const wd = w * Math.sqrt(1 - damping * damping);
+                    return (
+                        1 -
+                        Math.exp(-damping * w * time) *
+                            (Math.cos(wd * time) +
+                                ((damping * w) / wd) * Math.sin(wd * time))
+                    );
+                }
+                const s = Math.sqrt(damping * damping - 1);
+                const r1 = -damping * w + w * s,
+                    r2 = -damping * w - w * s;
+                return (
+                    1 +
+                    (r2 * Math.exp(r1 * time) - r1 * Math.exp(r2 * time)) /
+                        (r1 - r2)
+                );
+            };
+        }
+
+        const tween = (d, b, easingName) => ({
+            d,
+            easingName,
+            text: `cubic-bezier(${b.join(", ")})`,
+            solve: cubicBezier(...b),
+        });
+        const spring = (damping, stiffness) => {
+            const settleMs = Math.round(
+                (6.9 / (damping * Math.sqrt(stiffness))) * 1000,
+            );
+            return {
+                d: settleMs,
+                spring: true,
+                damping,
+                stiffness,
+                settleMs,
+                solve: springSolver(damping, stiffness, settleMs),
+            };
+        };
+        const snap = () => ({
+            d: 1,
+            snap: true,
+            solve: (t) => (t > 0 ? 1 : 0),
+        });
+
+        // Mirrors com.dev.kore.motions.MotionConfig.
+        const configs = {
+            balanced: {
+                snappy: tween(120, STRONG, "Strong"),
+                smooth: tween(220, STRONG, "Strong"),
+                calm: tween(360, SOFT, "Soft"),
+                fluid: spring(0.8, 400),
+            },
+            lively: {
+                snappy: spring(1, 10000),
+                smooth: spring(0.85, 1500),
+                calm: spring(0.8, 400),
+                fluid: spring(0.65, 200),
+            },
+            reduced: {
+                snappy: tween(60, STRONG, "Strong"),
+                smooth: tween(100, STRONG, "Strong"),
+                calm: tween(160, STRONG, "Strong"),
+                fluid: tween(100, STRONG, "Strong"),
+            },
+            still: {
+                snappy: snap(),
+                smooth: snap(),
+                calm: snap(),
+                fluid: snap(),
+            },
+        };
+
+        let currentConfig = "balanced";
+        let currentTier = "smooth";
+        let start = performance.now();
+        let rafId = 0;
+        const dots = {};
+        const active = () => configs[currentConfig][currentTier];
+
+        function sampleCurve(solve, x0, y0, w, h, steps = 120) {
+            let path = "";
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                path += `${i === 0 ? "M" : "L"}${(x0 + t * w).toFixed(2)} ${(y0 - solve(t) * h).toFixed(2)}`;
+            }
+            return path;
+        }
+
+        const CLIP_ID = `kh-motion-clip-${Math.random().toString(36).slice(2, 8)}`;
+        mg.innerHTML = `
+            <defs>
+                <clipPath id="${CLIP_ID}" clipPathUnits="userSpaceOnUse"><rect id="mreveal" x="${PLOT.left}" y="0" width="0" height="150"/></clipPath>
+            </defs>
+            <line class="kh-motion-axis" x1="${PLOT.left}" y1="${PLOT.bottom}" x2="${PLOT.right}" y2="${PLOT.bottom}"/>
+            <line class="kh-motion-axis" x1="${PLOT.left}" y1="${PLOT.top}" x2="${PLOT.left}" y2="${PLOT.bottom}"/>
+            <line class="g-tg" x1="${PLOT.left}" y1="${ONE_Y}" x2="${PLOT.right}" y2="${ONE_Y}"/>
+            <text class="g-t" x="14" y="${PLOT.bottom + 3}" text-anchor="end">0</text>
+            <text class="g-t" x="14" y="${ONE_Y + 3}" text-anchor="end">1</text>
+            <text class="g-t" id="mtend" x="${PLOT.right}" y="143" text-anchor="end"></text>
+            <text class="g-t" x="${PLOT.center}" y="143" text-anchor="middle">time</text>
+            <path class="g-c" id="mc"/>
+            <path class="g-a" id="ma" clip-path="url(#${CLIP_ID})"/>
+            <path class="g-d" id="md" clip-path="url(#${CLIP_ID})"/>
+            <line class="g-tg" id="mcur" y1="${PLOT.top}" y2="${PLOT.bottom}"/>
+            <circle class="kh-motion-halo" id="mhalo" r="10"/>
+            <circle class="kh-motion-dot" id="mdot" r="5"/>`;
+
+        const mc = $("#mc"),
+            ma = $("#ma"),
+            md = $("#md"),
+            mdot = $("#mdot"),
+            mhalo = $("#mhalo");
+        const mcur = $("#mcur"),
+            mtend = $("#mtend"),
+            reveal = $("#mreveal");
+
+        function setPosition(t, progress) {
+            const safeT = Math.max(0, Math.min(t, 1));
+            const x = PLOT.left + safeT * PLOT.width;
+            const y = PLOT.bottom - progress * PLOT.height;
+            for (const el of [mdot, mhalo]) {
+                el.setAttribute("cx", x);
+                el.setAttribute("cy", y);
+            }
+            mcur.setAttribute("x1", x);
+            mcur.setAttribute("x2", x);
+            reveal.setAttribute("width", safeT * PLOT.width);
+        }
+
+        // Put every tier card at the same moment in the cycle.
+        function setCards(elapsed) {
+            const cfg = configs[currentConfig];
+            TIERS.forEach((k) => {
+                const p = cfg[k];
+                const t = p.snap ? 1 : Math.min(elapsed / Math.max(p.d, 1), 1);
+                dots[k].style.setProperty("--p", p.solve(t).toFixed(4));
+            });
+        }
+
+        function renderTiers() {
+            tiers.innerHTML = "";
+            TIERS.forEach((key) => {
+                const p = configs[currentConfig][key];
+                const detail = p.spring
+                    ? `spring ${p.damping}`
+                    : p.snap
+                      ? "instant"
+                      : `${p.d} ms`;
+                const b = document.createElement("button");
+                b.type = "button";
+                b.dataset.preset = key;
+                b.setAttribute("aria-pressed", String(key === currentTier));
+                b.innerHTML = `<span><span class="t-name">${key}</span><small>${detail}</small></span><span class="t-track"><span class="t-dot"></span></span>`;
+                dots[key] = b.querySelector(".t-track");
+                b.addEventListener("click", () => selectTier(key));
+                tiers.appendChild(b);
+            });
+        }
+
+        function restart() {
+            start = performance.now();
+            const p = active();
+            if (reduce || p.snap) {
+                setPosition(1, p.solve(1));
+                setCards(1e9);
+            } else {
+                setPosition(0, 0);
+                setCards(0);
+            }
+        }
+
+        function selectTier(name) {
+            currentTier = name;
+            const p = active();
+            const curve = sampleCurve(
+                p.solve,
+                PLOT.left,
+                PLOT.bottom,
+                PLOT.width,
+                PLOT.height,
+                180,
+            );
+            mc.setAttribute("d", curve);
+            md.setAttribute("d", curve);
+            ma.setAttribute(
+                "d",
+                `${curve}L${PLOT.right} ${PLOT.bottom}L${PLOT.left} ${PLOT.bottom}Z`,
+            );
+            mtend.textContent = p.snap ? "instant" : `${p.d} ms`;
+            mtag.textContent = name;
+
+            if (p.snap) {
+                mdur.textContent = "Instant";
+                mez.textContent = "No animation. Changes apply immediately.";
+            } else if (p.spring) {
+                mdur.innerHTML = `Spring<small>damping ${p.damping}</small>`;
+                mez.textContent = `Stiffness ${p.stiffness}, settles in about ${p.settleMs} ms`;
+            } else {
+                mdur.innerHTML = `${p.d}<small>ms</small>`;
+                mez.textContent = `${p.easingName} easing, ${p.text}`;
+            }
+
+            tiers
+                .querySelectorAll("[data-preset]")
+                .forEach((b) =>
+                    b.setAttribute(
+                        "aria-pressed",
+                        String(b.dataset.preset === name),
+                    ),
+                );
+            restart();
+        }
+
+        function selectConfig(key) {
+            currentConfig = key;
+            renderTiers();
+            selectTier(currentTier);
+        }
+
+        tile.querySelectorAll('input[name="mconfig"]').forEach((input) =>
+            input.addEventListener(
+                "change",
+                () => input.checked && selectConfig(input.value),
+            ),
+        );
+
+        graph.addEventListener("click", restart);
+        graph.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                restart();
+            }
+        });
+
+        const copyText = (p) =>
+            p.snap
+                ? "0ms"
+                : p.spring
+                  ? `spring(damping: ${p.damping}, stiffness: ${p.stiffness})`
+                  : `${p.d}ms ${p.text}`;
+
+        let copyTimer = 0;
+        copyBtn.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(copyText(active()));
+                copyLabel.textContent = "Copied";
+            } catch {
+                copyLabel.textContent = "Failed";
+            }
+            clearTimeout(copyTimer);
+            copyTimer = setTimeout(
+                () => (copyLabel.textContent = "Copy"),
+                1400,
+            );
+        });
+
+        function frame(now) {
+            const cfg = configs[currentConfig];
+            const cycle = Math.max(...TIERS.map((k) => cfg[k].d)) + HOLD_MS;
+            if (now - start > cycle) start = now;
+            const elapsed = now - start;
+
+            setCards(elapsed);
+            const p = active();
+            const t = p.snap ? 1 : Math.min(elapsed / Math.max(p.d, 1), 1);
+            setPosition(t, p.solve(t));
+            rafId = requestAnimationFrame(frame);
+        }
+
+        const play = () => {
+            if (!reduce && !rafId) {
+                start = performance.now();
+                rafId = requestAnimationFrame(frame);
+            }
+        };
+        const pause = () => {
+            cancelAnimationFrame(rafId);
+            rafId = 0;
+        };
+
+        new IntersectionObserver(
+            ([e]) => (e.isIntersecting ? play() : pause()),
+            { threshold: 0.1 },
+        ).observe(tile);
+        document.addEventListener("visibilitychange", () =>
+            document.hidden ? pause() : play(),
+        );
+
+        function updateScale() {
+            const ctm = mg.getScreenCTM();
+            if (!ctm) return;
+            const scale = ctm.a || 1;
+            const narrow = graph.clientWidth < 420;
+            mg.style.setProperty("--g-font", `${(narrow ? 9 : 10) / scale}px`);
+            mdot.setAttribute("r", ((narrow ? 4.5 : 5.5) / scale).toFixed(2));
+            mhalo.setAttribute("r", ((narrow ? 9 : 11) / scale).toFixed(2));
+        }
+        new ResizeObserver(updateScale).observe(graph);
+        requestAnimationFrame(updateScale);
+
+        renderTiers();
+        selectTier(currentTier);
+    })();
+</script>

@@ -1,0 +1,1021 @@
+<article class="kh-tile kh-tile--color" data-tile data-color>
+    <div class="kh-color-head">
+        <span class="kh-eyebrow">Color scales</span>
+        <div class="kh-seg" id="csrc" role="group" aria-label="Color source">
+            <button type="button" data-src="rx" aria-pressed="true">
+                Radix
+            </button>
+            <button type="button" data-src="tw" aria-pressed="false">
+                Tailwind
+            </button>
+        </div>
+    </div>
+    <p class="kh-color-lead">
+        Kore provides full Radix and Tailwind scales,{" "}
+        <span id="ccount">12 steps</span> per hue. Pick a hue for each role and
+        copy any step.
+    </p>
+    <div class="kh-color-roles" id="croles"></div>
+    <div class="kh-color-foot">
+        <span class="kh-color-read" id="cread">
+            Hover a step, click to copy its Kotlin Color().
+        </span>
+    </div>
+    <div class="kh-toast" id="ctoast" role="status"></div>
+</article>
+
+<style is:global>
+    .kh-color-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .kh-seg {
+        display: inline-flex;
+        gap: 0.15rem;
+        padding: 0.2rem;
+        border: 0;
+        border-radius: 999px;
+        background: var(--kore-surface);
+    }
+
+    .kh-seg button {
+        height: auto;
+        padding: 0.28rem 0.75rem;
+        border: 0;
+        border-radius: 999px;
+        appearance: none;
+        -webkit-appearance: none;
+        font: inherit;
+        font-size: 0.74rem;
+        font-weight: 500;
+        color: var(--kore-on-background-variant);
+        background: transparent;
+        cursor: pointer;
+        transition:
+            background 0.2s,
+            color 0.2s;
+    }
+
+    .kh-seg button:hover {
+        color: var(--kore-on-background);
+    }
+
+    .kh-seg button:focus-visible {
+        outline: 2px solid var(--kore-primary);
+        outline-offset: 2px;
+    }
+
+    .kh-seg button[aria-pressed="true"] {
+        background: var(--kore-surface-bright);
+        color: var(--kore-on-background);
+        font-weight: 600;
+    }
+
+    .kh-color-lead {
+        margin: 0;
+        font-size: 0.8rem;
+        line-height: 1.45;
+        color: var(--kore-on-background-variant);
+    }
+
+    .kh-color-roles {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem;
+        margin-top: auto;
+    }
+
+    .kh-color-role {
+        display: grid;
+        gap: 0.3rem;
+        min-width: 0;
+    }
+
+    .kh-color-role--wide {
+        grid-column: 1 / -1;
+    }
+
+    .kh-color-rh {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        min-width: 0;
+        font-size: 0.72rem;
+    }
+
+    .kh-color-rh b {
+        flex: none;
+        font-weight: 600;
+    }
+
+    .kh-color-rh .kh-color-hn {
+        min-width: 0;
+        overflow: hidden;
+        color: var(--kore-on-background-variant);
+        font-size: 0.68rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .kh-color-hues {
+        display: flex;
+        flex: none;
+        padding-bottom: 1rem;
+        gap: 0.4rem;
+        margin-left: auto;
+    }
+
+    .kh-color-hues button {
+        width: 0.9rem;
+        height: 0.9rem;
+        border: 0;
+        border-radius: 999px;
+        transition:
+            transform 0.2s var(--ease),
+            outline-color 0.2s var(--ease);
+    }
+
+    .kh-color-hues button:hover {
+        transform: scale(1.15);
+    }
+
+    .kh-color-hues button[aria-pressed="true"] {
+        outline: 2px solid var(--kore-on-background);
+        outline-offset: 0;
+    }
+
+    .kh-color-scale {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 4px;
+        min-width: 0;
+    }
+
+    .kh-color-scale button {
+        position: relative;
+        min-width: 0;
+        aspect-ratio: 1;
+        align-self: start;
+        padding: 0;
+        border: 0;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.58rem;
+        line-height: 1;
+        font-weight: 600;
+        color: inherit;
+        display: grid;
+        place-items: center;
+        animation: kh-step-in 0.4s var(--ease) both;
+        animation-delay: calc(var(--i) * 22ms);
+    }
+
+    @keyframes kh-step-in {
+        from {
+            opacity: 0;
+        }
+    }
+
+    .kh-color-scale button::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: var(--hover-fill, currentColor);
+        opacity: 0;
+        transition: opacity 0.18s var(--ease);
+    }
+
+    .kh-color-scale button::after {
+        content: attr(data-step);
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(3px);
+        transition:
+            opacity 0.18s var(--ease),
+            transform 0.18s var(--ease);
+    }
+
+    .kh-color-scale button:hover::before {
+        opacity: 0.14;
+    }
+
+    .kh-color-scale button:hover::after {
+        opacity: 1;
+        transform: none;
+    }
+
+    .kh-color-foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.6rem;
+        min-height: 1.25rem;
+        font-size: 0.72rem;
+        color: var(--kore-on-background-variant);
+    }
+
+    .kh-color-read {
+        min-width: 0;
+    }
+
+    .kh-color-read b {
+        color: var(--kore-on-background);
+        font-weight: 600;
+    }
+
+    .kh-toast {
+        position: fixed;
+        left: 50%;
+        bottom: 1.5rem;
+        z-index: 100;
+        transform: translate(-50%, 120px);
+        background: var(--kore-on-background);
+        color: var(--kore-background);
+        padding: 0.7rem 1.15rem;
+        border-radius: 99px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        pointer-events: none;
+        transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .kh-toast.on {
+        transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 36rem) {
+        .kh-color-roles {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .kh-color-scale button {
+            animation: none;
+        }
+        .kh-color-hues button,
+        .kh-color-scale button,
+        .kh-toast {
+            transition: none;
+        }
+    }
+</style>
+
+<script>
+    const tile = document.querySelector("[data-color]");
+
+    if (tile) {
+        const csrc = tile.querySelector("#csrc");
+        const croles = tile.querySelector("#croles");
+        const cread = tile.querySelector("#cread");
+        const ccount = tile.querySelector("#ccount");
+        const ctoast = tile.querySelector("#ctoast");
+
+        if (ctoast) document.body.appendChild(ctoast);
+
+        // Real color data from the reference: Radix Colors 3.0 (12 steps) and Tailwind 3.4 (11 steps).
+        const RX = {
+            gray: [
+                "fcfcfc",
+                "f9f9f9",
+                "f0f0f0",
+                "e8e8e8",
+                "e0e0e0",
+                "d9d9d9",
+                "cecece",
+                "bbbbbb",
+                "8d8d8d",
+                "838383",
+                "646464",
+                "202020",
+            ],
+            mauve: [
+                "fdfcfd",
+                "faf9fb",
+                "f2eff3",
+                "eae7ec",
+                "e3dfe6",
+                "dbd8e0",
+                "d0cdd7",
+                "bcbac7",
+                "8e8c99",
+                "84828e",
+                "65636d",
+                "211f26",
+            ],
+            slate: [
+                "fcfcfd",
+                "f9f9fb",
+                "f0f0f3",
+                "e8e8ec",
+                "e0e1e6",
+                "d9d9e0",
+                "cdced6",
+                "b9bbc6",
+                "8b8d98",
+                "80838d",
+                "60646c",
+                "1c2024",
+            ],
+            sage: [
+                "fbfdfc",
+                "f7f9f8",
+                "eef1f0",
+                "e6e9e8",
+                "dfe2e0",
+                "d7dad9",
+                "cbcfcd",
+                "b8bcba",
+                "868e8b",
+                "7c8481",
+                "5f6563",
+                "1a211e",
+            ],
+            olive: [
+                "fcfdfc",
+                "f8faf8",
+                "eff1ef",
+                "e7e9e7",
+                "dfe2df",
+                "d7dad7",
+                "cccfcc",
+                "b9bcb8",
+                "898e87",
+                "7f847d",
+                "60655f",
+                "1d211c",
+            ],
+            sand: [
+                "fdfdfc",
+                "f9f9f8",
+                "f1f0ef",
+                "e9e8e6",
+                "e2e1de",
+                "dad9d6",
+                "cfceca",
+                "bcbbb5",
+                "8d8d86",
+                "82827c",
+                "63635e",
+                "21201c",
+            ],
+            blue: [
+                "fbfdff",
+                "f4faff",
+                "e6f4fe",
+                "d5efff",
+                "c2e5ff",
+                "acd8fc",
+                "8ec8f6",
+                "5eb1ef",
+                "0090ff",
+                "0588f0",
+                "0d74ce",
+                "113264",
+            ],
+            indigo: [
+                "fdfdfe",
+                "f7f9ff",
+                "edf2fe",
+                "e1e9ff",
+                "d2deff",
+                "c1d0ff",
+                "abbdf9",
+                "8da4ef",
+                "3e63dd",
+                "3358d4",
+                "3a5bc7",
+                "1f2d5c",
+            ],
+            violet: [
+                "fdfcfe",
+                "faf8ff",
+                "f4f0fe",
+                "ebe4ff",
+                "e1d9ff",
+                "d4cafe",
+                "c2b5f5",
+                "aa99ec",
+                "6e56cf",
+                "654dc4",
+                "6550b9",
+                "2f265f",
+            ],
+            teal: [
+                "fafefd",
+                "f3fbf9",
+                "e0f8f3",
+                "ccf3ea",
+                "b8eae0",
+                "a1ded2",
+                "83cdc1",
+                "53b9ab",
+                "12a594",
+                "0d9b8a",
+                "008573",
+                "0d3d38",
+            ],
+            green: [
+                "fbfefc",
+                "f4fbf6",
+                "e6f6eb",
+                "d6f1df",
+                "c4e8d1",
+                "adddc0",
+                "8eceaa",
+                "5bb98b",
+                "30a46c",
+                "2b9a66",
+                "218358",
+                "193b2d",
+            ],
+            orange: [
+                "fefcfb",
+                "fff7ed",
+                "ffefd6",
+                "ffdfb5",
+                "ffd19a",
+                "ffc182",
+                "f5ae73",
+                "ec9455",
+                "f76b15",
+                "ef5f00",
+                "cc4e00",
+                "582d1d",
+            ],
+            amber: [
+                "fefdfb",
+                "fefbe9",
+                "fff7c2",
+                "ffee9c",
+                "fbe577",
+                "f3d673",
+                "e9c162",
+                "e2a336",
+                "ffc53d",
+                "ffba18",
+                "ab6400",
+                "4f3422",
+            ],
+            pink: [
+                "fffcfe",
+                "fef7fb",
+                "fee9f5",
+                "fbdcef",
+                "f6cee7",
+                "efbfdd",
+                "e7acd0",
+                "dd93c2",
+                "d6409f",
+                "cf3897",
+                "c2298a",
+                "651249",
+            ],
+            red: [
+                "fffcfc",
+                "fff7f7",
+                "feebec",
+                "ffdbdc",
+                "ffcdce",
+                "fdbdbe",
+                "f4a9aa",
+                "eb8e90",
+                "e5484d",
+                "dc3e42",
+                "ce2c31",
+                "641723",
+            ],
+            ruby: [
+                "fffcfd",
+                "fff7f8",
+                "feeaed",
+                "ffdce1",
+                "ffced6",
+                "f8bfc8",
+                "efacb8",
+                "e592a3",
+                "e54666",
+                "dc3b5d",
+                "ca244d",
+                "64172b",
+            ],
+            crimson: [
+                "fffcfd",
+                "fef7f9",
+                "ffe9f0",
+                "fedce7",
+                "facedd",
+                "f3bed1",
+                "eaacc3",
+                "e093b2",
+                "e93d82",
+                "df3478",
+                "cb1d63",
+                "621639",
+            ],
+            tomato: [
+                "fffcfc",
+                "fff8f7",
+                "feebe7",
+                "ffdcd3",
+                "ffcdc2",
+                "fdbdaf",
+                "f5a898",
+                "ec8e7b",
+                "e54d2e",
+                "dd4425",
+                "d13415",
+                "5c271f",
+            ],
+            grass: [
+                "fbfefb",
+                "f5fbf5",
+                "e9f6e9",
+                "daf1db",
+                "c9e8ca",
+                "b2ddb5",
+                "94ce9a",
+                "65ba74",
+                "46a758",
+                "3e9b4f",
+                "2a7e3b",
+                "203c25",
+            ],
+            jade: [
+                "fbfefd",
+                "f4fbf7",
+                "e6f7ed",
+                "d6f1e3",
+                "c3e9d7",
+                "acdec8",
+                "8bceb6",
+                "56ba9f",
+                "29a383",
+                "26997b",
+                "208368",
+                "1d3b31",
+            ],
+        };
+        const TW = {
+            slate: [
+                "f8fafc",
+                "f1f5f9",
+                "e2e8f0",
+                "cbd5e1",
+                "94a3b8",
+                "64748b",
+                "475569",
+                "334155",
+                "1e293b",
+                "0f172a",
+                "020617",
+            ],
+            gray: [
+                "f9fafb",
+                "f3f4f6",
+                "e5e7eb",
+                "d1d5db",
+                "9ca3af",
+                "6b7280",
+                "4b5563",
+                "374151",
+                "1f2937",
+                "111827",
+                "030712",
+            ],
+            zinc: [
+                "fafafa",
+                "f4f4f5",
+                "e4e4e7",
+                "d4d4d8",
+                "a1a1aa",
+                "71717a",
+                "52525b",
+                "3f3f46",
+                "27272a",
+                "18181b",
+                "09090b",
+            ],
+            neutral: [
+                "fafafa",
+                "f5f5f5",
+                "e5e5e5",
+                "d4d4d4",
+                "a3a3a3",
+                "737373",
+                "525252",
+                "404040",
+                "262626",
+                "171717",
+                "0a0a0a",
+            ],
+            stone: [
+                "fafaf9",
+                "f5f5f4",
+                "e7e5e4",
+                "d6d3d1",
+                "a8a29e",
+                "78716c",
+                "57534e",
+                "44403c",
+                "292524",
+                "1c1917",
+                "0c0a09",
+            ],
+            blue: [
+                "eff6ff",
+                "dbeafe",
+                "bfdbfe",
+                "93c5fd",
+                "60a5fa",
+                "3b82f6",
+                "2563eb",
+                "1d4ed8",
+                "1e40af",
+                "1e3a8a",
+                "172554",
+            ],
+            indigo: [
+                "eef2ff",
+                "e0e7ff",
+                "c7d2fe",
+                "a5b4fc",
+                "818cf8",
+                "6366f1",
+                "4f46e5",
+                "4338ca",
+                "3730a3",
+                "312e81",
+                "1e1b4b",
+            ],
+            violet: [
+                "f5f3ff",
+                "ede9fe",
+                "ddd6fe",
+                "c4b5fd",
+                "a78bfa",
+                "8b5cf6",
+                "7c3aed",
+                "6d28d9",
+                "5b21b6",
+                "4c1d95",
+                "2e1065",
+            ],
+            teal: [
+                "f0fdfa",
+                "ccfbf1",
+                "99f6e4",
+                "5eead4",
+                "2dd4bf",
+                "14b8a6",
+                "0d9488",
+                "0f766e",
+                "115e59",
+                "134e4a",
+                "042f2e",
+            ],
+            emerald: [
+                "ecfdf5",
+                "d1fae5",
+                "a7f3d0",
+                "6ee7b7",
+                "34d399",
+                "10b981",
+                "059669",
+                "047857",
+                "065f46",
+                "064e3b",
+                "022c22",
+            ],
+            orange: [
+                "fff7ed",
+                "ffedd5",
+                "fed7aa",
+                "fdba74",
+                "fb923c",
+                "f97316",
+                "ea580c",
+                "c2410c",
+                "9a3412",
+                "7c2d12",
+                "431407",
+            ],
+            amber: [
+                "fffbeb",
+                "fef3c7",
+                "fde68a",
+                "fcd34d",
+                "fbbf24",
+                "f59e0b",
+                "d97706",
+                "b45309",
+                "92400e",
+                "78350f",
+                "451a03",
+            ],
+            pink: [
+                "fdf2f8",
+                "fce7f3",
+                "fbcfe8",
+                "f9a8d4",
+                "f472b6",
+                "ec4899",
+                "db2777",
+                "be185d",
+                "9d174d",
+                "831843",
+                "500724",
+            ],
+            red: [
+                "fef2f2",
+                "fee2e2",
+                "fecaca",
+                "fca5a5",
+                "f87171",
+                "ef4444",
+                "dc2626",
+                "b91c1c",
+                "991b1b",
+                "7f1d1d",
+                "450a0a",
+            ],
+            rose: [
+                "fff1f2",
+                "ffe4e6",
+                "fecdd3",
+                "fda4af",
+                "fb7185",
+                "f43f5e",
+                "e11d48",
+                "be123c",
+                "9f1239",
+                "881337",
+                "4c0519",
+            ],
+            green: [
+                "f0fdf4",
+                "dcfce7",
+                "bbf7d0",
+                "86efac",
+                "4ade80",
+                "22c55e",
+                "16a34a",
+                "15803d",
+                "166534",
+                "14532d",
+                "052e16",
+            ],
+            lime: [
+                "f7fee7",
+                "ecfccb",
+                "d9f99d",
+                "bef264",
+                "a3e635",
+                "84cc16",
+                "65a30d",
+                "4d7c0f",
+                "3f6212",
+                "365314",
+                "1a2e05",
+            ],
+        };
+
+        const ROLES = [
+            "neutral",
+            "primary",
+            "complementary",
+            "error",
+            "success",
+        ];
+        const TWS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+        const HU = {
+            rx: {
+                neutral: ["gray", "mauve", "slate", "sage", "olive", "sand"],
+                primary: ["blue", "indigo", "violet", "teal", "green", "pink"],
+                complementary: ["orange", "amber", "pink", "violet", "teal"],
+                error: ["red", "ruby", "crimson", "tomato"],
+                success: ["green", "grass", "jade", "teal"],
+            },
+            tw: {
+                neutral: ["slate", "gray", "zinc", "neutral", "stone"],
+                primary: [
+                    "blue",
+                    "indigo",
+                    "violet",
+                    "teal",
+                    "emerald",
+                    "pink",
+                ],
+                complementary: ["orange", "amber", "pink", "violet", "teal"],
+                error: ["red", "rose", "pink"],
+                success: ["green", "emerald", "teal", "lime"],
+            },
+        };
+        const ST = {
+            rx: {
+                neutral: "gray",
+                primary: "blue",
+                complementary: "orange",
+                error: "red",
+                success: "green",
+            },
+            tw: {
+                neutral: "neutral",
+                primary: "blue",
+                complementary: "orange",
+                error: "red",
+                success: "green",
+            },
+        };
+
+        let src = "rx";
+
+        function sc(hue) {
+            return (src === "rx" ? RX : TW)[hue];
+        }
+
+        function lum(hex) {
+            const n = parseInt(hex, 16);
+            return (
+                (0.299 * ((n >> 16) & 255) +
+                    0.587 * ((n >> 8) & 255) +
+                    0.114 * (n & 255)) /
+                255
+            );
+        }
+
+        function stepName(i) {
+            return src === "rx" ? i + 1 : TWS[i];
+        }
+
+        function cap(s) {
+            return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+
+        function kotlinColor(hex) {
+            const raw = hex.replace("#", "").toUpperCase();
+            return "Color(0x" + (raw.length === 6 ? "FF" + raw : raw) + ")";
+        }
+
+        function toast(text) {
+            if (!ctoast) return;
+            ctoast.textContent = text;
+            ctoast.classList.add("on");
+            clearTimeout(toast.timer);
+            toast.timer = setTimeout(() => ctoast.classList.remove("on"), 1600);
+        }
+
+        function fillRole(role) {
+            const el = croles.querySelector("#crole-" + role);
+            if (!el) return;
+            const hue = ST[src][role];
+            const scale = sc(hue);
+            const hn = el.querySelector(".kh-color-hn");
+            if (hn) hn.textContent = hue;
+            const huesEl = el.querySelector(".kh-color-hues");
+            if (huesEl) {
+                huesEl.innerHTML = HU[src][role]
+                    .map((h) => {
+                        const sw = sc(h);
+                        const bg = sw ? "#" + sw[src === "rx" ? 8 : 5] : "#888";
+                        return (
+                            '<button type="button" style="background-color:' +
+                            bg +
+                            '" data-hue="' +
+                            h +
+                            '" aria-label="' +
+                            h +
+                            '" title="' +
+                            h +
+                            '" aria-pressed="' +
+                            (h === hue) +
+                            '"></button>'
+                        );
+                    })
+                    .join("");
+            }
+            const scaleEl = el.querySelector(".kh-color-scale");
+            if (scaleEl) {
+                scaleEl.innerHTML = scale
+                    .map((c, i) => {
+                        const fg = lum(c) > 0.6 ? "#000" : "#fff";
+                        const hoverFill = fg === "#000" ? "#fff" : "#000";
+                        return (
+                            '<button type="button" style="background:#' +
+                            c +
+                            ";color:" +
+                            fg +
+                            ";--hover-fill:" +
+                            hoverFill +
+                            ";--i:" +
+                            i +
+                            '" data-step="' +
+                            stepName(i) +
+                            '" data-hex="#' +
+                            c +
+                            '" aria-label="' +
+                            role +
+                            " " +
+                            hue +
+                            " " +
+                            stepName(i) +
+                            " #" +
+                            c +
+                            '"></button>'
+                        );
+                    })
+                    .join("");
+            }
+        }
+
+        function renderAll() {
+            croles.innerHTML = ROLES.map((role) => {
+                const pickable =
+                    role === "neutral" ||
+                    role === "primary" ||
+                    role === "complementary";
+                return (
+                    '<div class="kh-color-role' +
+                    (role === "neutral" ? " kh-color-role--wide" : "") +
+                    '" id="crole-' +
+                    role +
+                    '">' +
+                    '<div class="kh-color-rh"><b>' +
+                    cap(role) +
+                    '</b><span class="kh-color-hn"></span>' +
+                    (pickable ? '<div class="kh-color-hues"></div>' : "") +
+                    "</div>" +
+                    '<div class="kh-color-scale"></div>' +
+                    "</div>"
+                );
+            }).join("");
+            ROLES.forEach(fillRole);
+            if (ccount)
+                ccount.textContent = src === "rx" ? "12 steps" : "11 steps";
+            if (cread)
+                cread.textContent =
+                    "Hover a step, click to copy its Kotlin Color().";
+        }
+
+        croles.addEventListener("click", (e) => {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            const roleEl = btn.closest(".kh-color-role");
+            if (!roleEl) return;
+            const role = roleEl.id.replace("crole-", "");
+            if (btn.dataset.hue) {
+                ST[src][role] = btn.dataset.hue;
+                fillRole(role);
+            } else if (btn.dataset.hex) {
+                const value = kotlinColor(btn.dataset.hex);
+                try {
+                    navigator.clipboard.writeText(value);
+                } catch (x) {}
+                if (cread) cread.innerHTML = "Copied <b>" + value + "</b>";
+                toast("Copied " + value);
+            }
+        });
+
+        croles.addEventListener("pointerover", (e) => {
+            const btn = e.target.closest("button[data-hex]");
+            if (!btn) return;
+            const roleEl = btn.closest(".kh-color-role");
+            if (!roleEl) return;
+            const role = roleEl.id.replace("crole-", "");
+            if (cread)
+                cread.innerHTML =
+                    "<b>" +
+                    cap(role) +
+                    "</b> " +
+                    ST[src][role] +
+                    " " +
+                    btn.dataset.step +
+                    ", " +
+                    kotlinColor(btn.dataset.hex);
+        });
+
+        croles.addEventListener("pointerleave", () => {
+            if (cread)
+                cread.textContent =
+                    "Hover a step, click to copy its Kotlin Color().";
+        });
+
+        csrc.querySelectorAll("button").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                csrc.querySelectorAll("button").forEach((b) =>
+                    b.setAttribute("aria-pressed", String(b === btn)),
+                );
+                src = btn.dataset.src;
+                renderAll();
+            });
+        });
+
+        renderAll();
+    }
+</script>

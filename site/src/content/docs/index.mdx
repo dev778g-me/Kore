@@ -5,6 +5,7 @@ template: splash
 ---
 
 import '../../styles/kore-home.css';
+import Bento from '../../components/Bento.astro';
 
 <div class="kh not-content">
 
@@ -22,13 +23,10 @@ import '../../styles/kore-home.css';
 <a class="kh-link" href="/getting-started/quickstart/">Quickstart</a>
 </div>
 </div>
-<dl class="kh-facts">
-<div><dt>Platforms</dt><dd>Android, iOS, desktop, web</dd><dd class="kh-sub">JVM, Kotlin/JS, Kotlin/Wasm</dd></div>
-<div><dt>Install</dt><dd>One dependency</dd><dd class="kh-sub">Maven Central</dd></div>
-<div><dt>License</dt><dd>MIT</dd><dd class="kh-sub">Free, forever</dd></div>
-<div><dt>Status</dt><dd class="kh-status"><span class="kh-chip">Alpha</span></dd><dd class="kh-sub">APIs may still shift</dd></div>
-</dl>
 </header>
+
+{/* Bento: home page feature tiles */}
+<Bento />
 
 <section class="kh-statement">
 <h3>Material doesn’t fit every product</h3>
@@ -46,16 +44,6 @@ import '../../styles/kore-home.css';
 <li><b>Export Theme.kt</b><span>Drop the generated file into your project.</span></li>
 <li><b>Wrap your root</b><span>Every component adapts automatically.</span></li>
 </ol>
-</section>
-
-<section class="kh-split">
-<h3>Why Kore</h3>
-<dl class="kh-why">
-<div><dt>One theme, fully yours</dt><dd>Colors for light and dark, shapes, type, and sizes live in tokens you own. Build them in Create and export <code>Theme.kt</code>, or write them by hand.</dd></div>
-<div><dt>Styled from the first build</dt><dd>Components ship with finished defaults, so your first build already looks right. Restyle what you want later.</dd></div>
-<div><dt>Parameters first, source second</dt><dd>Almost every visual detail is a parameter. When that isn’t enough, each component is a single file you can copy into your project and edit.</dd></div>
-<div><dt>Accessible by default</dt><dd>Components are accessible out of the box, so restyling doesn’t mean redoing that part.</dd></div>
-</dl>
 </section>
 
 <section class="kh-split">

@@ -1,0 +1,115 @@
+<article class="kh-tile kh-tile--components" data-tile data-components>
+  <span class="kh-eyebrow">Components</span>
+  <div class="kh-comp-stage">
+    <button type="button" class="kh-demo-btn" data-demo-btn data-variant="filled" data-size="m">Button</button>
+  </div>
+  <div class="kh-variants" role="group" aria-label="Button variant">
+    <button type="button" data-variant="filled" aria-pressed="true">Filled</button>
+    <button type="button" data-variant="outlined" aria-pressed="false">Outlined</button>
+    <button type="button" data-variant="ghost" aria-pressed="false">Ghost</button>
+  </div>
+  <div class="kh-sizes" role="group" aria-label="Button size">
+    <button type="button" data-size="s" aria-pressed="false">S</button>
+    <button type="button" data-size="m" aria-pressed="true">M</button>
+    <button type="button" data-size="l" aria-pressed="false">L</button>
+  </div>
+</article>
+
+<style is:global>
+  .kh-comp-stage {
+    flex: 1;
+    display: grid;
+    place-items: center;
+  }
+
+  .kh-demo-btn {
+    padding: 0.55rem 1.2rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.15s;
+  }
+
+  .kh-demo-btn:active {
+    transform: scale(0.96);
+  }
+
+  .kh-demo-btn[data-variant='filled'] {
+    border: 1px solid var(--kore-primary);
+    background: var(--kore-primary);
+    color: var(--kore-on-primary);
+  }
+
+  .kh-demo-btn[data-variant='outlined'] {
+    border: 1px solid var(--kore-primary);
+    background: transparent;
+    color: var(--kore-primary);
+  }
+
+  .kh-demo-btn[data-variant='ghost'] {
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--kore-primary);
+  }
+
+  .kh-demo-btn[data-size='s'] { font-size: 0.75rem; padding: 0.4rem 0.9rem; }
+  .kh-demo-btn[data-size='m'] { font-size: 0.9rem; padding: 0.55rem 1.2rem; }
+  .kh-demo-btn[data-size='l'] { font-size: 1.05rem; padding: 0.7rem 1.5rem; }
+
+  .kh-variants,
+  .kh-sizes {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .kh-variants button,
+  .kh-sizes button {
+    padding: 0.28em 0.65em;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 999px;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--kore-on-background-variant);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+
+  .kh-variants button:hover,
+  .kh-variants button[aria-pressed='true'],
+  .kh-sizes button:hover,
+  .kh-sizes button[aria-pressed='true'] {
+    border-color: var(--kore-primary);
+    color: var(--kore-primary);
+    background: color-mix(in srgb, var(--kore-primary) 10%, transparent);
+  }
+</style>
+
+<script>
+  const tile = document.querySelector('[data-components]');
+
+  if (tile) {
+    const demo = tile.querySelector('[data-demo-btn]');
+    const variantButtons = tile.querySelectorAll('.kh-variants [data-variant]');
+
+    variantButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        variantButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        demo.dataset.variant = button.dataset.variant;
+      });
+    });
+
+    const sizeButtons = tile.querySelectorAll('.kh-sizes [data-size]');
+
+    sizeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        sizeButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        demo.dataset.size = button.dataset.size;
+      });
+    });
+  }
+</script>

@@ -5,6 +5,7 @@
   width: 100%;
   max-width: 70rem;
   margin-inline: auto;
+  padding-inline: 0.5rem;
   padding-block: clamp(2rem, 6vw, 5rem) 5rem;
   font-family: var(--sl-font);
   color: var(--kore-on-background-variant);
@@ -165,65 +166,29 @@ main:has(.kh) .sl-container:has(> h1#_top) {
   transition-duration: 0.08s;
 }
 .kh-link {
+  position: relative;
   font-weight: 600;
   font-size: 1rem;
   color: var(--kore-on-background);
   text-decoration: none;
   padding: 0.2rem 0;
-  background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
-  transition: background-size 0.35s var(--ease);
+  transition: color 0.35s var(--ease);
+}
+.kh-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: width 0.35s var(--ease);
 }
 .kh-link:hover {
-  background-size: 100% 2px;
   color: var(--kore-primary);
 }
-
-.kh-facts {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 2rem;
-  row-gap: 0;
-  margin: clamp(3rem, 7vw, 5rem) 0 0;
-  padding: 1.25rem 0 0;
-  border-top: 1px solid var(--sl-color-hairline);
-  animation: kh-fade 0.7s var(--ease) 0.75s both;
-}
-.kh-facts > div {
-  display: grid;
-  grid-row: span 3;
-  grid-template-rows: subgrid;
-  row-gap: 0;
-  padding-bottom: 1.5rem;
-}
-.kh-facts dt {
-  font-size: 0.85rem;
-  color: var(--kore-on-background-variant);
-}
-.kh-facts dd {
-  margin: 0.25rem 0 0;
-  font-weight: 600;
-  line-height: 1.4;
-  color: var(--kore-on-background);
-}
-.kh-facts dd.kh-sub {
-  margin-top: 0.2rem;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: var(--kore-on-background-variant);
-}
-.kh-status {
-  display: flex;
-  align-items: center;
-}
-.kh-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.2em 0.75em;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--kore-complementary);
-  background: color-mix(in srgb, var(--kore-complementary) 14%, transparent);
-  border-radius: 999px;
+.kh-link:hover::after {
+  width: 100%;
 }
 
 .kh-statement {
@@ -508,9 +473,6 @@ main:has(.kh) .sl-container:has(> h1#_top) {
   .kh-copy {
     grid-column: 1;
   }
-  .kh-facts {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .kh-steps li {
     grid-template-columns: 3.2rem minmax(0, 1fr);
   }
@@ -526,9 +488,6 @@ main:has(.kh) .sl-container:has(> h1#_top) {
     grid-column: 2;
   }
   .kh-why {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .kh-facts {
     grid-template-columns: minmax(0, 1fr);
   }
   .kh-end h3 .kh-line {

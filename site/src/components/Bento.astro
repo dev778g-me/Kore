@@ -1,0 +1,123 @@
+---
+import TypeTile from './bento/TypeTile.astro';
+import ColorTile from './bento/ColorTile.astro';
+import MotionTile from './bento/MotionTile.astro';
+import ShapesTile from './bento/ShapesTile.astro';
+
+---
+
+<!-- Bento: home page feature tiles. Each tile lives in ./bento/ and owns its markup, styles, and script. -->
+<section class="kh-bento" data-bento aria-label="What Kore provides">
+  <TypeTile />
+  <ColorTile />
+  <MotionTile />
+  <ShapesTile />
+</section>
+
+<style is:global>
+  .kh-bento {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(9rem, auto));
+    grid-template-areas:
+      'type color color'
+      'type color color'
+      'motion motion shapes';
+    gap: 0.75rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .kh-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    background: var(--kore-surface-bright);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: kh-tile-in 0.6s var(--ease) forwards;
+    transition: border-color 0.25s var(--ease), transform 0.3s var(--ease);
+  }
+
+  .kh-tile:hover {
+    transform: translateY(-2px);
+  }
+
+  .kh-tile:nth-of-type(1) { animation-delay: 0ms; }
+  .kh-tile:nth-of-type(2) { animation-delay: 90ms; }
+  .kh-tile:nth-of-type(3) { animation-delay: 180ms; }
+  .kh-tile:nth-of-type(4) { animation-delay: 270ms; }
+
+
+  @keyframes kh-tile-in {
+    to { opacity: 1; transform: none; }
+  }
+
+  .kh-tile--type { grid-area: type; }
+  .kh-tile--color { grid-area: color; }
+  .kh-tile--motion { grid-area: motion; }
+  .kh-tile--components { grid-area: comps; }
+  .kh-tile--shapes { grid-area: shapes; }
+  .kh-tile--ext { grid-area: ext; }
+
+  .kh-tile-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .kh-eyebrow {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--kore-on-background-variant);
+  }
+
+  .kh-scale button:focus-visible,
+  .kh-seg button:focus-visible,
+  .kh-color-roles button:focus-visible,
+  .kh-motion-tiers button:focus-visible,
+  .kh-variants button:focus-visible,
+  .kh-sizes button:focus-visible,
+  .kh-demo-btn:focus-visible {
+    outline: 3px solid var(--kore-primary);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 70rem) {
+    .kh-bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: auto;
+      grid-template-areas:
+        'type type'
+        'color color'
+        'motion motion'
+        'shapes shapes';
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .kh-bento {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'type'
+        'color'
+        'motion'
+        'shapes';
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kh-tile {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+</style>

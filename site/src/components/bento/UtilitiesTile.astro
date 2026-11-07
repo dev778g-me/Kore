@@ -1,0 +1,55 @@
+<article class="kh-tile kh-tile--ext" data-tile data-utilities>
+  <span class="kh-eyebrow">Utilities</span>
+  <div class="kh-shimmer" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <code class="kh-code-line">Modifier.shimmer() · dashedBorder()</code>
+</article>
+
+<style is:global>
+  .kh-shimmer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .kh-shimmer span {
+    position: relative;
+    display: block;
+    height: 0.65rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--kore-surface);
+  }
+
+  .kh-shimmer span::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -35%;
+    width: 35%;
+    background: var(--kore-surface-bright);
+    animation: kh-shimmer 1.6s linear infinite;
+  }
+
+  .kh-shimmer span:nth-child(2) { width: 80%; }
+  .kh-shimmer span:nth-child(3) { width: 60%; }
+
+  @keyframes kh-shimmer {
+    from { transform: translateX(0); }
+    to { transform: translateX(390%); }
+  }
+
+  .kh-code-line {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.72rem;
+    color: var(--kore-on-background-variant);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kh-shimmer span::after {
+      animation: none;
+    }
+  }
+</style>
