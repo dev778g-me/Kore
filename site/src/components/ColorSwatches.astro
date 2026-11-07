@@ -1,5 +1,9 @@
 ---
-import { tailwindFamilies, radixScales } from "../data/kore-colors";
+import {
+    tailwindFamilies,
+    tailwindShades,
+    radixScales,
+} from "../data/kore-colors";
 
 interface Props {
     mode: "tailwind" | "radix";
@@ -8,6 +12,18 @@ interface Props {
 const { mode } = Astro.props;
 
 const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
+
+const inkFor = (hex: string) => {
+    const n = parseInt(hex.slice(1), 16);
+    const r = (n >> 16) & 255;
+    const g = (n >> 8) & 255;
+    const b = n & 255;
+    return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6
+        ? "#000"
+        : "#fff";
+};
+
+const hoverFor = (hex: string) => (inkFor(hex) === "#000" ? "#fff" : "#000");
 ---
 
 {mode === "tailwind" ? (
@@ -16,20 +32,22 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
             <div class="swatch-row">
                 <p class="swatch-label">{name}</p>
                 <div class="swatch-strip">
-                    {shades.map((hex) => (
+                    {shades.map((hex, i) => (
                         <button
                             type="button"
                             class="swatch"
                             data-hex={toHexString(hex)}
                             data-label={name}
-                            style={`background-color: ${hex};`}
-                            title={`${name} — ${toHexString(hex)}`}
-                            aria-label={`Copy ${name} ${toHexString(hex)}`}
+                            data-step={tailwindShades[i]}
+                            style={`background-color: ${hex}; --swatch-ink: ${inkFor(hex)}; --swatch-hover: ${hoverFor(hex)};`}
+                            title={`${name} ${tailwindShades[i]} — ${toHexString(hex)}`}
+                            aria-label={`Copy ${name} ${tailwindShades[i]} ${toHexString(hex)}`}
                         />
                     ))}
                 </div>
             </div>
         ))}
+        <div class="swatch-toast" role="status"></div>
     </div>
 ) : (
     <div class="swatches not-content" data-swatches="radix">
@@ -45,15 +63,21 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
                             data-dark={toHexString(darkHex)}
                             data-bg-light={scale.light[k]}
                             data-bg-dark={darkHex}
+                            data-ink-light={inkFor(scale.light[k])}
+                            data-ink-dark={inkFor(darkHex)}
+                            data-hover-light={hoverFor(scale.light[k])}
+                            data-hover-dark={hoverFor(darkHex)}
                             data-label={`${name} step ${k + 1}`}
-                            style={`background-color: ${darkHex};`}
-                            title={`${name} step ${k + 1}`}
-                            aria-label={`Copy ${name} step ${k + 1}`}
+                            data-step={k + 1}
+                            style={`background-color: ${darkHex}; --swatch-ink: ${inkFor(darkHex)}; --swatch-hover: ${hoverFor(darkHex)};`}
+                            title={`${name} step ${k + 1} — ${toHexString(darkHex)}`}
+                            aria-label={`Copy ${name} step ${k + 1} ${toHexString(darkHex)}`}
                         />
                     ))}
                 </div>
             </div>
         ))}
+        <div class="swatch-toast" role="status"></div>
     </div>
 )}
 
@@ -80,11 +104,34 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
                 box.style.backgroundColor = dark
                     ? box.dataset.bgDark!
                     : box.dataset.bgLight!;
+                box.style.setProperty(
+                    "--swatch-ink",
+                    dark ? box.dataset.inkDark! : box.dataset.inkLight!,
+                );
+                box.style.setProperty(
+                    "--swatch-hover",
+                    dark ? box.dataset.hoverDark! : box.dataset.hoverLight!,
+                );
                 box.title = `${box.dataset.label} — ${box.dataset.hex}`;
             });
     };
 
     const timers = new WeakMap<HTMLElement, number>();
+    const toastTimers = new WeakMap<HTMLElement, number>();
+
+    const showToast = (box: HTMLButtonElement, snippet: string) => {
+        const toast = box
+            .closest(".swatches")
+            ?.querySelector<HTMLElement>(".swatch-toast");
+        if (!toast) return;
+        toast.textContent = `Copied ${snippet}`;
+        toast.classList.add("on");
+        clearTimeout(toastTimers.get(toast));
+        toastTimers.set(
+            toast,
+            window.setTimeout(() => toast.classList.remove("on"), 1600),
+        );
+    };
 
     const flashCopied = (box: HTMLButtonElement, hex: string) => {
         clearTimeout(timers.get(box));
@@ -123,6 +170,7 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
                     ta.remove();
                 }
                 flashCopied(box, hex);
+                showToast(box, snippet);
             });
         });
 
@@ -174,12 +222,45 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
         cursor: pointer;
         position: relative;
         overflow: hidden;
-        transition:
-            transform 0.12s ease,
-            filter 0.12s ease;
+        color: var(--swatch-ink, #fff);
+        transition: transform 0.12s ease;
     }
-    .swatch:hover {
-        filter: brightness(1.08);
+    .swatches .swatch::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--swatch-hover, #000);
+        opacity: 0;
+        transition: opacity 0.18s ease;
+    }
+    .swatches .swatch::after {
+        content: attr(data-step);
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+        color: var(--swatch-ink, #fff);
+        font-size: 0.58rem;
+        font-weight: 600;
+        line-height: 1;
+        opacity: 0;
+        transform: translateY(3px);
+        pointer-events: none;
+        transition:
+            opacity 0.18s ease,
+            transform 0.18s ease;
+    }
+    .swatch:hover::before {
+        opacity: 0.14;
+    }
+    .swatch:hover::after,
+    .swatch:focus-visible::after {
+        opacity: 1;
+        transform: none;
+    }
+    .swatch:has([data-copied])::after {
+        opacity: 0;
     }
     .swatch:active {
         transform: scale(0.95);
@@ -193,6 +274,7 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
     .swatch :global([data-copied]) {
         position: absolute;
         inset: 0;
+        z-index: 2;
         display: grid;
         place-items: center;
         pointer-events: none;
@@ -201,6 +283,25 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
     .swatch :global([data-copied] svg) {
         width: 50%;
         height: 50%;
+    }
+
+    .swatch-toast {
+        position: fixed;
+        left: 50%;
+        bottom: 1.5rem;
+        z-index: 100;
+        transform: translate(-50%, 120px);
+        padding: 0.7rem 1.15rem;
+        border-radius: 99px;
+        background: var(--kore-on-background);
+        color: var(--kore-background);
+        font-size: 0.85rem;
+        font-weight: 500;
+        pointer-events: none;
+        transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .swatch-toast.on {
+        transform: translate(-50%, 0);
     }
 
     @keyframes copied-fade {
@@ -213,6 +314,18 @@ const toHexString = (hex: string) => `0xFF${hex.slice(1).toUpperCase()}`;
         }
         100% {
             opacity: 0;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .swatches .swatch,
+        .swatches .swatch::before,
+        .swatches .swatch::after,
+        .swatch-toast {
+            transition: none;
+        }
+        .swatch :global([data-copied]) {
+            animation: none;
         }
     }
 </style>
