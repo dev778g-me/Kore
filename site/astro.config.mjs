@@ -42,7 +42,6 @@ export default defineConfig({
         SocialIcons: './src/components/SocialIcons.astro',
       },
       sidebar: [
-				{ label: 'Create', link: '/create/' },
 				{
 					label: 'Getting Started',
 					items: [

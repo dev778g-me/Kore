@@ -144,9 +144,55 @@
     width: auto;
 }
 
+/* Keep the appbar order identical on every path:
+   logo, text actions, GitHub, search, theme toggle. */
 @media (min-width: 50rem) {
-    .header button[data-open-modal] {
+    header > .header {
+        grid-template-columns: auto minmax(0, 1fr) minmax(12rem, 16rem) auto;
+    }
+
+    header > .header > .title-wrapper {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    header > .header > .right-group {
+        display: contents;
+    }
+
+    header > .header .social-icons {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    header > .header .social-icons::after {
+        display: none;
+    }
+
+    header > .header .social-icons .header-link {
+        order: 1;
+    }
+
+    header > .header .social-icons .header-icon {
+        order: 2;
         margin-inline-start: auto;
+    }
+
+    header > .header > div:not(.title-wrapper):not(.right-group) {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    header > .header .theme-toggle {
+        grid-column: 4;
+        grid-row: 1;
+    }
+
+    header > .header button[data-open-modal] {
+        margin-inline-start: auto;
+        margin-inline-end: 0;
+        border-radius: 999px;
+        padding-inline: 0.9rem 0.6rem;
     }
 }
 
@@ -221,4 +267,8 @@
 .sl-sidebar a:hover {
     background-color: var(--sl-color-gray-6);
     color: var(--sl-color-text);
+}
+
+.theme-toggle .theme-knob {
+    box-shadow: none;
 }
